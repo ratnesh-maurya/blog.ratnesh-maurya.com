@@ -98,37 +98,35 @@ body {
   }
 }
 
-/* PWA-specific styles */
-@media (display-mode: standalone) {
-  /* Hide browser UI elements when running as PWA */
-  body {
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: transparent;
-  }
 
-  /* Add safe area padding for devices with notches */
-  .safe-area-top {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  /* Prevent pull-to-refresh on PWA */
-  html, body {
-    overscroll-behavior-y: contain;
-  }
+/* Mobile responsiveness fixes */
+html, body {
+  overflow-x: hidden;
 }
 
-/* Orange-brown theme colors for PWA */
-:root {
-  --pwa-primary: #f97316;
-  --pwa-primary-dark: #ea580c;
-  --pwa-accent: #fbbf24;
-  --pwa-background: #ffffff;
-  --pwa-surface: #fef7ed;
+.prose {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.prose pre {
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
 }
 
 .prose h1,
@@ -140,6 +138,8 @@ body {
   font-weight: 700;
   color: #111827;
   scroll-margin-top: 5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .prose h1 {

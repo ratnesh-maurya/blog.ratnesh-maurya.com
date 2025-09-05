@@ -5,7 +5,7 @@ date: "2024-01-20"
 author: "Ratnesh Maurya"
 tags: ["Next.js", "Blog", "Markdown", "TypeScript", "Tailwind CSS"]
 category: "Web Development"
-featured: false
+featured: true
 image: "/images/blog/building-blog.jpg"
 ---
 

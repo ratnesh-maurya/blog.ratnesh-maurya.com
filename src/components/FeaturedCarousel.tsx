@@ -128,7 +128,7 @@ export function FeaturedCarousel({ posts }: FeaturedCarouselProps) {
                 {posts.map((_, index) => (
                   <button
                     key={index}
-                    className={`w-3 h-3 rounded-full transition-colors ${index === currentSlide
+                    className={`w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 rounded-full transition-colors ${index === currentSlide
                       ? 'bg-blue-600'
                       : 'bg-gray-300 hover:bg-gray-400'
                       }`}

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ClientNavigation } from '@/components/ClientNavigation';
 import { SearchPopup } from '@/components/SearchPopup';
-import { PWAInstaller } from '@/components/PWAInstaller';
 import { BlogPost, SillyQuestion } from '@/types/blog';
 
 interface AppWrapperProps {
@@ -208,7 +207,6 @@ export function AppWrapper({ children }: AppWrapperProps) {
         sillyQuestions={sillyQuestions}
       />
 
-      <PWAInstaller />
     </div>
   );
 }

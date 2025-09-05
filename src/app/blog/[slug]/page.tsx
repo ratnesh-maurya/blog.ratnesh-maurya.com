@@ -136,7 +136,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <>
       <BlogStructuredData post={post} />
       <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
           <div className="mb-8">
             <Link
               href="/blog"
@@ -149,7 +149,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="grid lg:grid-cols-4 gap-6 lg:gap-8">
             {/* Main Content */}
             <div className="lg:col-span-3">
-              <article className="prose prose-lg max-w-none">
+              <article className="prose prose-sm sm:prose-base lg:prose-lg max-w-none overflow-hidden">
                 <header className="mb-8">
                   <div className="flex items-center text-sm text-gray-500 mb-4">
                     <span>{format(new Date(post.date), 'MMMM dd, yyyy')}</span>
@@ -194,7 +194,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
 
                 <div
-                  className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-a:text-blue-600 prose-code:text-pink-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100"
+                  className="prose prose-sm sm:prose-base lg:prose-lg max-w-none prose-headings:text-gray-900 prose-a:text-blue-600 prose-code:text-pink-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:overflow-x-auto prose-pre:max-w-full prose-table:overflow-x-auto prose-table:max-w-full"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
 
