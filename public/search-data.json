@@ -1,0 +1,79 @@
+{
+  "blogPosts": [
+    {
+      "slug": "building-this-blog",
+      "title": "Building This Blog: A Modern Next.js Blog with Markdown",
+      "description": "How I built this blog using Next.js, TypeScript, Tailwind CSS, and markdown for content management. A complete guide to creating a fast, SEO-optimized blog.",
+      "tags": [
+        "Next.js",
+        "Blog",
+        "Markdown",
+        "TypeScript",
+        "Tailwind CSS"
+      ],
+      "category": "Web Development",
+      "date": "2024-01-20"
+    },
+    {
+      "slug": "getting-started-with-nextjs",
+      "title": "Getting Started with Next.js: A Complete Guide",
+      "description": "Learn how to build modern web applications with Next.js, from setup to deployment. Perfect for beginners and experienced developers alike.",
+      "tags": [
+        "Next.js",
+        "React",
+        "Web Development",
+        "JavaScript"
+      ],
+      "category": "Web Development",
+      "date": "2024-01-15"
+    },
+    {
+      "slug": "mastering-typescript",
+      "title": "Mastering TypeScript: From Beginner to Pro",
+      "description": "Dive deep into TypeScript and learn advanced patterns, best practices, and how to leverage its powerful type system for better code.",
+      "tags": [
+        "TypeScript",
+        "JavaScript",
+        "Programming",
+        "Types"
+      ],
+      "category": "Programming",
+      "date": "2024-01-10"
+    }
+  ],
+  "sillyQuestions": [
+    {
+      "slug": "forgot-to-save-file",
+      "question": "Why does my code work in my head but not on the computer?",
+      "answer": "\n**The Answer:** You probably forgot to save the file! 🤦‍♂️\n\nThis is probably the most common mistake every developer makes, especially when starting out. You spend 30 minutes debugging why your chan...",
+      "tags": [
+        "debugging",
+        "beginner-mistakes",
+        "coding-habits"
+      ],
+      "date": "2024-01-12"
+    },
+    {
+      "slug": "semicolon-missing",
+      "question": "Why is my JavaScript breaking with 'Unexpected token' errors?",
+      "answer": "\n**The Answer:** You're probably missing a semicolon somewhere! 😅\n\nJavaScript has something called \"Automatic Semicolon Insertion\" (ASI), but it doesn't always work the way you expect. Sometimes a mi...",
+      "tags": [
+        "javascript",
+        "syntax-errors",
+        "semicolons"
+      ],
+      "date": "2024-01-08"
+    },
+    {
+      "slug": "css-not-working",
+      "question": "Why isn't my CSS working? I've been staring at it for hours!",
+      "answer": "\n**The Answer:** You probably have a typo in your CSS selector or property name! 🤦‍♂️\n\nThis happens to everyone. You write what you think is perfect CSS, but there's a tiny typo that breaks everythin...",
+      "tags": [
+        "css",
+        "debugging",
+        "typos"
+      ],
+      "date": "2024-01-05"
+    }
+  ]
+}
