@@ -1,7 +1,60 @@
 import { getAllBlogPosts } from '@/lib/content';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { BlogCardImage } from '@/components/BlogImage';
+import { BlogCardImage, getDefaultSocialImage } from '@/components/BlogImage';
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const ogImageUrl = getDefaultSocialImage('og', 'blog');
+  const twitterImageUrl = getDefaultSocialImage('twitter', 'blog');
+  const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
+  const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
+
+  return {
+    title: "All Blog Posts | Blog's By Ratnesh",
+    description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
+    keywords: ["blog posts", "web development", "programming", "javascript", "typescript", "react", "nextjs", "technology"],
+    authors: [{ name: "Ratnesh Maurya" }],
+    alternates: {
+      canonical: "https://blog.ratnesh-maurya.com/blog",
+    },
+    openGraph: {
+      title: "All Blog Posts | Blog's By Ratnesh",
+      description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
+      url: "https://blog.ratnesh-maurya.com/blog",
+      siteName: "Blog's By Ratnesh",
+      type: "website",
+      images: [
+        {
+          url: fullOgImageUrl,
+          width: 1200,
+          height: 630,
+          alt: "All Blog Posts - Blog's By Ratnesh",
+        }
+      ],
+      locale: 'en_US',
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "All Blog Posts | Blog's By Ratnesh",
+      description: "Explore all my thoughts on web development, programming, and technology.",
+      images: [fullTwitterImageUrl],
+      creator: '@ratnesh_maurya',
+      site: '@ratnesh_maurya',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  };
+}
 
 export default async function BlogPage() {
   const blogPosts = await getAllBlogPosts();
@@ -9,14 +62,14 @@ export default async function BlogPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">All Blog Posts</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">All Blog Posts</h1>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
             Explore all my thoughts on web development, programming, and technology.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {blogPosts.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
               <article className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">

@@ -1,4 +1,4 @@
-# Ratnesh Maurya's Blog
+# Blog's By Ratnesh
 
 A modern, SEO-optimized blog built with Next.js, featuring markdown-based content management and a dedicated "Silly Questions" section for sharing coding mistakes and learnings.
 

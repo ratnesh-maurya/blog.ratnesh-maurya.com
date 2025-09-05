@@ -24,7 +24,7 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
-        <title>Ratnesh Maurya's Blog</title>
+        <title>Blog's By Ratnesh</title>
         <description>A blog about web development, programming, and the silly mistakes we all make along the way.</description>
         <link>${baseUrl}</link>
         <language>en-us</language>

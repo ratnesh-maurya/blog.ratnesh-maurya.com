@@ -135,7 +135,7 @@ export function WebsiteStructuredData() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: "Ratnesh Maurya's Blog",
+    name: "Blog's By Ratnesh",
     description: 'A blog about web development, programming, and the silly mistakes we all make along the way.',
     url: 'https://blog.ratnesh-maurya.com',
     author: {

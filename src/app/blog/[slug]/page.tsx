@@ -17,7 +17,7 @@ function TableOfContents({ toc }: { toc: TocItem[] }) {
   if (toc.length === 0) return null;
 
   return (
-    <div className="bg-gray-50 rounded-lg p-6 sticky top-8">
+    <div className="bg-gray-50 rounded-lg p-4 sm:p-6 lg:sticky lg:top-8">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Table of Contents</h3>
       <nav>
         <ul className="space-y-2">
@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     : twitterImageUrl;
 
   return {
-    title: `${post.title} | Ratnesh Maurya's Blog`,
+    title: `${post.title} | Blog's By Ratnesh`,
     description: post.description,
     keywords: post.tags,
     authors: [{ name: post.author }],
@@ -146,7 +146,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </Link>
           </div>
 
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="grid lg:grid-cols-4 gap-6 lg:gap-8">
             {/* Main Content */}
             <div className="lg:col-span-3">
               <article className="prose prose-lg max-w-none">
@@ -161,11 +161,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </span>
                   </div>
 
-                  <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                     {post.title}
                   </h1>
 
-                  <p className="text-xl text-gray-600 mb-6">
+                  <p className="text-lg sm:text-xl text-gray-600 mb-6">
                     {post.description}
                   </p>
 
@@ -210,8 +210,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </article>
             </div>
 
-            {/* Sidebar with Table of Contents */}
-            <div className="lg:col-span-1">
+            {/* Sidebar with Table of Contents - Hidden on mobile */}
+            <div className="hidden lg:block lg:col-span-1">
               <TableOfContents toc={toc} />
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { getSillyQuestion, getSillyQuestionSlugs } from '@/lib/content';
 import { SillyQuestionStructuredData } from '@/components/StructuredData';
 import { SocialShare } from '@/components/SocialShare';
+import { generateFallbackOGImage } from '@/components/BlogImage';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -28,20 +29,62 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
     };
   }
 
+  const ogImageUrl = generateFallbackOGImage(question.question, 'silly-question');
+  const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
+
   return {
-    title: `${question.question} | Ratnesh Maurya's Blog`,
-    description: `A silly mistake I made: ${question.question}`,
-    keywords: question.tags,
+    title: `${question.question} | Silly Questions`,
+    description: `A silly mistake I made: ${question.question}. Learn from my experience and avoid this common pitfall.`,
+    keywords: [...question.tags, 'coding mistakes', 'programming errors', 'debugging'],
+    authors: [{ name: "Ratnesh Maurya" }],
+    category: question.category,
+    alternates: {
+      canonical: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
+    },
     openGraph: {
       title: question.question,
-      description: `A silly mistake I made: ${question.question}`,
+      description: `A silly mistake I made: ${question.question}. Learn from my experience and avoid this common pitfall.`,
       type: 'article',
       publishedTime: question.date,
+      modifiedTime: question.date,
+      authors: ["Ratnesh Maurya"],
+      tags: question.tags,
+      images: [
+        {
+          url: fullOgImageUrl,
+          width: 1200,
+          height: 630,
+          alt: question.question,
+        }
+      ],
+      url: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
+      siteName: 'Ratnesh Maurya\'s Blog',
+      locale: 'en_US',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: question.question,
       description: `A silly mistake I made: ${question.question}`,
+      images: [fullOgImageUrl],
+      creator: '@ratnesh_maurya',
+      site: '@ratnesh_maurya',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    other: {
+      'article:author': 'Ratnesh Maurya',
+      'article:published_time': question.date,
+      'article:section': question.category,
+      'article:tag': question.tags.join(', '),
     },
   };
 }
@@ -68,17 +111,17 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
             </Link>
           </div>
 
-          <article className="bg-yellow-50 rounded-lg p-8 border border-yellow-200">
-            <header className="mb-8">
-              <div className="flex items-center text-sm text-gray-500 mb-4">
+          <article className="bg-yellow-50 rounded-lg p-4 sm:p-6 lg:p-8 border border-yellow-200">
+            <header className="mb-6 sm:mb-8">
+              <div className="flex flex-wrap items-center text-sm text-gray-500 mb-4 gap-2">
                 <span>{format(new Date(question.date), 'MMMM dd, yyyy')}</span>
-                <span className="mx-2">•</span>
+                <span className="hidden sm:inline">•</span>
                 <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs">
                   {question.category}
                 </span>
               </div>
 
-              <h1 className="text-3xl font-bold text-gray-900 mb-6">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
                 {question.question}
               </h1>
 

@@ -138,5 +138,3 @@ Building a modern blog doesn't have to be complicated. With Next.js and markdown
 The complete source code is available on GitHub, and you can deploy your own version in minutes!
 
 ---
-
-*Want to build something similar? Check out the [GitHub repository](https://github.com/your-username/blog) for the complete source code.*

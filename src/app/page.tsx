@@ -1,9 +1,62 @@
 import { getAllBlogPosts, getAllSillyQuestions } from '@/lib/content';
 import { WebsiteStructuredData } from '@/components/StructuredData';
-import { BlogCardImage } from '@/components/BlogImage';
+import { BlogCardImage, getDefaultSocialImage } from '@/components/BlogImage';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const ogImageUrl = getDefaultSocialImage('og', 'home');
+  const twitterImageUrl = getDefaultSocialImage('twitter', 'home');
+  const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
+  const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
+
+  return {
+    title: "Blog's By Ratnesh - Web Development & Programming",
+    description: "A blog about web development, programming, and the silly mistakes we all make along the way. Learn from my experiences and avoid common pitfalls.",
+    keywords: ["web development", "programming", "javascript", "typescript", "react", "nextjs", "coding mistakes", "developer blog"],
+    authors: [{ name: "Ratnesh Maurya" }],
+    alternates: {
+      canonical: "https://blog.ratnesh-maurya.com",
+    },
+    openGraph: {
+      title: "Blog's By Ratnesh - Web Development & Programming",
+      description: "A blog about web development, programming, and the silly mistakes we all make along the way. Learn from my experiences and avoid common pitfalls.",
+      url: "https://blog.ratnesh-maurya.com",
+      siteName: "Blog's By Ratnesh",
+      type: "website",
+      images: [
+        {
+          url: fullOgImageUrl,
+          width: 1200,
+          height: 630,
+          alt: "Blog's By Ratnesh - Web Development & Programming",
+        }
+      ],
+      locale: 'en_US',
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Blog's By Ratnesh - Web Development & Programming",
+      description: "A blog about web development, programming, and the silly mistakes we all make along the way.",
+      images: [fullTwitterImageUrl],
+      creator: '@ratnesh_maurya',
+      site: '@ratnesh_maurya',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  };
+}
 
 export default async function Home() {
   const [blogPosts, sillyQuestions] = await Promise.all([
@@ -25,13 +78,13 @@ export default async function Home() {
         {/* Recent Posts */}
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Recent Posts</h2>
-              <Link href="/blog" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Recent Posts</h2>
+              <Link href="/blog" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors text-sm sm:text-base">
                 View all posts →
               </Link>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {recentPosts.map((post) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
                   <article className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
@@ -64,13 +117,13 @@ export default async function Home() {
         {/* Silly Questions Section */}
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Silly Questions & Mistakes</h2>
-              <Link href="/silly-questions" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Silly Questions & Mistakes</h2>
+              <Link href="/silly-questions" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors text-sm sm:text-base">
                 View all questions →
               </Link>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {recentQuestions.map((question) => (
                 <Link key={question.slug} href={`/silly-questions/${question.slug}`} className="block">
                   <article className="bg-yellow-50 rounded-lg p-6 border border-yellow-200 hover:shadow-md transition-shadow cursor-pointer">

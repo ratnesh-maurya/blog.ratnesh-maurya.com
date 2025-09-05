@@ -39,6 +39,65 @@ body {
   color: #111827;
 }
 
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  .prose {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .prose h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .prose h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .prose h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .prose pre {
+    font-size: 14px;
+    padding: 0.75rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose table {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch targets on mobile */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better touch scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Remove hover effects on touch devices */
+  .hover\:shadow-lg:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+}
+
 .prose h1,
 .prose h2,
 .prose h3,

@@ -15,20 +15,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ratnesh Maurya's Blog",
+  title: "Blog's By Ratnesh",
   description: "A blog about web development, programming, and the silly mistakes we all make along the way.",
   keywords: ["web development", "programming", "javascript", "typescript", "react", "nextjs"],
   authors: [{ name: "Ratnesh Maurya" }],
   openGraph: {
-    title: "Ratnesh Maurya's Blog",
+    title: "Blog's By Ratnesh",
     description: "A blog about web development, programming, and the silly mistakes we all make along the way.",
     url: "https://blog.ratnesh-maurya.com",
-    siteName: "Ratnesh Maurya's Blog",
+    siteName: "Blog's By Ratnesh",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ratnesh Maurya's Blog",
+    title: "Blog's By Ratnesh",
     description: "A blog about web development, programming, and the silly mistakes we all make along the way.",
   },
 };
