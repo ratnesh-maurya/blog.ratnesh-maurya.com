@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ClientNavigation } from '@/components/ClientNavigation';
 import { SearchPopup } from '@/components/SearchPopup';
+import { PWAInstaller } from '@/components/PWAInstaller';
 import { BlogPost, SillyQuestion } from '@/types/blog';
 
 interface AppWrapperProps {
@@ -52,8 +53,9 @@ export function AppWrapper({ children }: AppWrapperProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link href="/" className="text-xl font-bold text-gray-900">
                 Ratnesh&apos;s Blog
+              <Link href="/" className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+                Blog&apos;s By Ratnesh
               </Link>
             </div>
             <div className="flex items-center space-x-4">
@@ -62,19 +64,19 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 <div className="flex items-baseline space-x-4">
                   <Link
                     href="/"
-                    className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                    className="text-gray-900 hover:text-orange-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   >
                     Home
                   </Link>
                   <Link
                     href="/blog"
-                    className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                    className="text-gray-900 hover:text-orange-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   >
                     Blog
                   </Link>
                   <Link
                     href="/silly-questions"
-                    className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                    className="text-gray-900 hover:text-orange-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   >
                     Silly Questions
                   </Link>
@@ -82,7 +84,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
                     href="https://ratnesh-maurya.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                    className="text-gray-900 hover:text-orange-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   >
                     Portfolio
                   </a>
@@ -120,21 +122,21 @@ export function AppWrapper({ children }: AppWrapperProps) {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
               <Link
                 href="/"
-                className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                className="text-gray-900 hover:text-orange-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/blog"
-                className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                className="text-gray-900 hover:text-orange-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Blog
               </Link>
               <Link
                 href="/silly-questions"
-                className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                className="text-gray-900 hover:text-orange-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Silly Questions
@@ -143,7 +145,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 href="https://ratnesh-maurya.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                className="text-gray-900 hover:text-orange-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Portfolio
@@ -153,7 +155,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
                   setIsSearchOpen(true);
                   setIsMobileMenuOpen(false);
                 }}
-                className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors w-full text-left"
+                className="text-gray-900 hover:text-orange-600 block px-3 py-2 rounded-md text-base font-medium transition-colors w-full text-left"
               >
                 Search
               </button>
@@ -168,7 +170,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="text-gray-600">
-              © 2024 Ratnesh Maurya. Built with Next.js and Tailwind CSS.
+              © 2025 Ratnesh Maurya. Built with Next.js and Tailwind CSS.
             </p>
             <div className="mt-4 flex justify-center space-x-6">
               <a
@@ -206,6 +208,8 @@ export function AppWrapper({ children }: AppWrapperProps) {
         blogPosts={blogPosts}
         sillyQuestions={sillyQuestions}
       />
+
+      <PWAInstaller />
     </div>
   );
 }

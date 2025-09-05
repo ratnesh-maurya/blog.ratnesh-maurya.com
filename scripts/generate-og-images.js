@@ -12,28 +12,28 @@ function createOGImage(title, subtitle, type = 'og', theme = 'default') {
   const width = type === 'twitter' ? 1200 : 1200;
   const height = type === 'twitter' ? 600 : 630;
 
-  // Theme configurations
+  // Theme configurations with orange-brown gradient
   const themes = {
     default: {
-      bgGradient: ['#667eea', '#764ba2'],
-      accent: '#f093fb',
+      bgGradient: ['#f97316', '#92400e'],
+      accent: '#fbbf24',
       textPrimary: '#ffffff',
-      textSecondary: '#e2e8f0',
-      textTertiary: '#cbd5e0'
+      textSecondary: '#fed7aa',
+      textTertiary: '#fdba74'
     },
     blog: {
-      bgGradient: ['#4facfe', '#00f2fe'],
-      accent: '#ff6b6b',
+      bgGradient: ['#ea580c', '#7c2d12'],
+      accent: '#f59e0b',
       textPrimary: '#ffffff',
-      textSecondary: '#f0f9ff',
-      textTertiary: '#bae6fd'
+      textSecondary: '#fef3c7',
+      textTertiary: '#fde68a'
     },
     silly: {
-      bgGradient: ['#ffecd2', '#fcb69f'],
-      accent: '#ff8a80',
-      textPrimary: '#2d3748',
-      textSecondary: '#4a5568',
-      textTertiary: '#718096'
+      bgGradient: ['#fb923c', '#9a3412'],
+      accent: '#f59e0b',
+      textPrimary: '#ffffff',
+      textSecondary: '#fed7aa',
+      textTertiary: '#fdba74'
     }
   };
 
