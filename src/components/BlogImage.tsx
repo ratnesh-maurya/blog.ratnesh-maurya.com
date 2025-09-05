@@ -113,7 +113,7 @@ export function getSocialImageUrl({ post, type = 'og' }: SocialImageProps): stri
 }
 
 export function getDefaultSocialImage(type: 'og' | 'twitter' = 'og', page: 'home' | 'blog' | 'silly-questions' = 'home'): string {
-  return `/images/social/default-${page}-${type}.svg`;
+  return `/images/social/default-${page}-${type}.png`;
 }
 
 // Generate a fallback OG image URL when no specific image exists
