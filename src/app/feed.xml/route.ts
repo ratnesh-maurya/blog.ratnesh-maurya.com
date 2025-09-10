@@ -7,7 +7,6 @@ export async function GET() {
   const baseUrl = 'https://blog.ratnesh-maurya.com';
 
   const rssItems = posts
-    .slice(0, 20) // Latest 20 posts
     .map((post) => `
       <item>
         <title><![CDATA[${post.title}]]></title>

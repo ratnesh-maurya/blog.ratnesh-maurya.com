@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Baloo_Bhai_2 } from "next/font/google";
 import "./globals.css";
 import { AppWrapper } from "@/components/AppWrapper";
 import { Analytics } from "@/components/Analytics";
@@ -14,10 +14,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const balooBhai2 = Baloo_Bhai_2({
+  variable: "--font-baloo-bhai-2",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  themeColor: "#3b82f6",
 };
 
 export const metadata: Metadata = {
@@ -54,7 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${balooBhai2.variable} antialiased bg-white text-gray-900`}>
         <AppWrapper>{children}</AppWrapper>
         <Analytics />
       </body>

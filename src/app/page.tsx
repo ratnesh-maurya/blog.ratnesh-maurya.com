@@ -86,25 +86,35 @@ export default async function Home() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {recentPosts.map((post) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
-                  <article className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                    <BlogCardImage post={post} className="h-40" />
-                    <div className="p-6">
+                <Link key={post.slug} href={`/blog/${post.slug}`} className="block h-full">
+                  <article className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full flex flex-col">
+                    <BlogCardImage post={post} className="h-48 flex-shrink-0" />
+                    <div className="p-6 flex flex-col flex-grow">
                       <div className="flex items-center text-sm text-gray-500 mb-2">
                         <span>{format(new Date(post.date), 'MMM dd, yyyy')}</span>
                         <span className="mx-2">•</span>
                         <span>{post.readingTime}</span>
+                        <span className="mx-2">•</span>
+                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                          {post.category}
+                        </span>
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                      <h2 className="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
                         {post.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4">{post.description}</p>
-                      <div className="flex flex-wrap gap-2">
+                      </h2>
+                      <p className="text-gray-600 mb-4 flex-grow line-clamp-3">{post.description}</p>
+                      <div className="flex flex-wrap gap-2 mb-4">
                         {post.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                          <span key={tag} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
                             {tag}
                           </span>
                         ))}
+                        {post.tags.length > 3 && (
+                          <span className="text-gray-500 text-xs">+{post.tags.length - 3} more</span>
+                        )}
+                      </div>
+                      <div className="text-blue-600 hover:text-blue-700 font-medium text-sm mt-auto">
+                        Read more →
                       </div>
                     </div>
                   </article>
@@ -125,15 +135,15 @@ export default async function Home() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {recentQuestions.map((question) => (
-                <Link key={question.slug} href={`/silly-questions/${question.slug}`} className="block">
-                  <article className="bg-yellow-50 rounded-lg p-6 border border-yellow-200 hover:shadow-md transition-shadow cursor-pointer">
+                <Link key={question.slug} href={`/silly-questions/${question.slug}`} className="block h-full">
+                  <article className="bg-yellow-50 rounded-lg p-6 border border-yellow-200 hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col">
                     <div className="text-sm text-gray-500 mb-2">
                       {format(new Date(question.date), 'MMM dd, yyyy')}
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-blue-600 transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-blue-600 transition-colors flex-grow">
                       {question.question}
                     </h3>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mt-auto">
                       {question.tags.slice(0, 2).map((tag) => (
                         <span key={tag} className="bg-yellow-200 text-yellow-800 text-xs px-2 py-1 rounded">
                           {tag}

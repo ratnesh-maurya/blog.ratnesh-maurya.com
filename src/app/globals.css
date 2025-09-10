@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Use Baloo Bhai 2 as the primary font */
+body {
+  font-family: var(--font-baloo-bhai-2), var(--font-geist-sans), system-ui, sans-serif;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -275,4 +280,28 @@ html, body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Line clamp utilities for consistent card heights */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Blue theme colors for PWA */
+:root {
+  --pwa-primary: #3b82f6;
+  --pwa-primary-dark: #2563eb;
+  --pwa-accent: #60a5fa;
+  --pwa-background: #ffffff;
+  --pwa-surface: #eff6ff;
 }
