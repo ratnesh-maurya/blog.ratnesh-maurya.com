@@ -1,7 +1,7 @@
 ---
 title: "Building This Blog: A Modern Next.js Blog with Markdown"
 description: "How I built this blog using Next.js, TypeScript, Tailwind CSS, and markdown for content management. A complete guide to creating a fast, SEO-optimized blog."
-date: "2024-01-20"
+date: "2025-09-08"
 author: "Ratnesh Maurya"
 tags: ["Next.js", "Blog", "Markdown", "TypeScript", "Tailwind CSS"]
 category: "Web Development"
