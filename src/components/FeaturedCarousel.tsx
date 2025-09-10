@@ -55,41 +55,41 @@ export function FeaturedCarousel({ posts }: FeaturedCarouselProps) {
               {posts.map((post) => (
                 <div key={post.slug} className="w-full flex-shrink-0">
                   <article className="bg-gradient-to-r from-blue-50 to-indigo-50 shadow-lg">
-                    <div className="grid md:grid-cols-2 gap-0">
-                      <div className="relative w-full overflow-hidden">
-                        <BlogCardImage post={post} className="h-full w-full" />
+                    <div className="flex flex-col md:grid md:grid-cols-2 gap-0">
+                      <div className="relative w-full overflow-hidden h-48 md:h-[400px]">
+                        <BlogCardImage post={post} className="h-full w-full object-cover" />
                       </div>
-                      <div className="p-8 flex flex-col justify-center">
-                        <div className="flex items-center text-sm text-gray-500 mb-4">
-                          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
+                      <div className="p-6 md:p-8 flex flex-col justify-center h-full min-h-[300px] md:min-h-[400px]">
+                        <div className="flex items-center text-sm text-gray-500 mb-3 md:mb-4">
+                          <span className="bg-blue-100 text-blue-800 px-2 md:px-3 py-1 rounded-full text-xs font-medium">
                             FEATURED
                           </span>
-                          <span className="mx-3">•</span>
-                          <span>{format(new Date(post.date), 'MMM dd, yyyy')}</span>
-                          <span className="mx-3">•</span>
-                          <span>{post.readingTime}</span>
+                          <span className="mx-2 md:mx-3">•</span>
+                          <span className="text-xs md:text-sm">{format(new Date(post.date), 'MMM dd, yyyy')}</span>
+                          <span className="mx-2 md:mx-3">•</span>
+                          <span className="text-xs md:text-sm">{post.readingTime}</span>
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight">
+                        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 md:mb-4 leading-tight line-clamp-2">
                           <Link href={`/blog/${post.slug}`} className="hover:text-blue-600 transition-colors">
                             {post.title}
                           </Link>
                         </h2>
-                        <p className="text-gray-600 mb-6 text-lg leading-relaxed">
+                        <p className="text-gray-600 mb-4 md:mb-6 text-base md:text-lg leading-relaxed line-clamp-3 flex-grow">
                           {post.description}
                         </p>
-                        <div className="flex flex-wrap gap-2 mb-6">
+                        <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                           {post.tags.slice(0, 4).map((tag) => (
-                            <span key={tag} className="bg-white text-gray-700 text-sm px-3 py-1 rounded-full shadow-sm">
+                            <span key={tag} className="bg-white text-gray-700 text-xs md:text-sm px-2 md:px-3 py-1 rounded-full shadow-sm">
                               {tag}
                             </span>
                           ))}
                         </div>
                         <Link
                           href={`/blog/${post.slug}`}
-                          className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-lg transition-colors"
+                          className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-base md:text-lg transition-colors mt-auto"
                         >
                           Read Article
-                          <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 md:w-5 md:h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                           </svg>
                         </Link>
