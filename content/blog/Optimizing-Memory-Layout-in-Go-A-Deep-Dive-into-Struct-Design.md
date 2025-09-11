@@ -3,9 +3,8 @@ title: "Optimizing Memory Layout in Go: A Deep Dive into Struct Design"
 description: In Go, struct design can play a significant role in optimizing memory usage, especially when dealing with applications that need to handle a large number of structs. Understanding memory layout and the concept of alignment is crucial for writing efficient code. Let's dive into how struct field ordering impacts memory and how we can improve its design for better performance.
 author: Ratnesh Maurya
 date: "2025-01-10"
-slug: Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design
 category: Golang
-image: "/images/blog/building-blog.jpg"
+image: "/images/blog/Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design.jpg"
 tags: [ "Golang", "Go Memory Layout"]
 
 ---

@@ -3,9 +3,8 @@ title: Easily Deploy Your Nanoc Website to S3 with GitHub Actions
 description: Learn how to deploy your Nanoc website to an AWS S3 bucket using GitHub Actions. This step-by-step guide provides detailed instructions for automating your deployment process.
 author: Ratnesh Maurya
 date: "2024-11-23"
-slug: Easily-Deploy-Your-Nanoc-Website-to-S3-with-GitHub-Actions
 category: AWS
-image: /images/blog/building-blog.jpg
+image: /images/blog/Easily-Deploy-Your-Nanoc-Website-to-S3-with-GitHub-Actions.jpg
 tags:  [AWS, Nanoc, GitHub Actions, GitHub Actions Workflow ]
 ---
 

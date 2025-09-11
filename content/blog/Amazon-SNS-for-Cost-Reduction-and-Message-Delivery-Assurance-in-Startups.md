@@ -5,8 +5,7 @@ author: Ratnesh Maurya
 date: "2023-12-10"
 slug: Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups
 category: AWS
-featured: true
-image: "/images/blog/building-blog.jpg"
+image: "/images/blog/Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups.jpg"
 tags: [AWS,  SNS, SQS]
 readTime: "6 min read"
 ---

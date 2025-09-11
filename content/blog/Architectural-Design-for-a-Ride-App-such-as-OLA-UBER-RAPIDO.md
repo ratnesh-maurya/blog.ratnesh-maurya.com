@@ -4,7 +4,7 @@ description: This blog post explores the design Pattern of a ride app such as OL
 author: Ratnesh Maurya
 date: "2024-07-30"
 category: "Software Architecture"
-image: "/images/blog/building-blog.jpg"
+image: "/images/blog/Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO.jpg"
 tags: ["microservices", "system-design", "architecture", "ride-sharing", "scalability"]
 readTime: "3 min read"
 ---

@@ -3,9 +3,8 @@ title: Understanding S3 and S3 Policies
 description: This blog post explores the fundamentals of Amazon S3, a powerful and versatile object storage service offered by AWS. We'll delve into the key features of S3, discuss S3 policies, and provide practical examples to illustrate how these policies work in real-world scenarios.
 author: Ratnesh Maurya
 date: "2023-11-23"
-slug: Understanding-S3-and-S3-Policies
 category: AWS
-image: /images/blog/building-blog.jpg
+image: /images/blog/Understanding-S3-and-S3-Policies.jpg
 tags: ["AWS", " Amazon S3", "S3", "S3 Policies" ]
 
 ---
