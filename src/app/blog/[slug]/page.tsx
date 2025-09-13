@@ -167,7 +167,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             {/* Sidebar with Table of Contents */}
-            <div className="lg:col-span-1">
+            <div className="hidden lg:block lg:col-span-1">
               <EnhancedTableOfContents toc={toc} />
             </div>
           </div>
