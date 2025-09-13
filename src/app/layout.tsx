@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppWrapper } from "@/components/AppWrapper";
 import { Analytics } from "@/components/Analytics";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -60,8 +61,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${balooBhai2.variable} antialiased bg-white text-gray-900`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${balooBhai2.variable} antialiased`}>
         <AppWrapper>{children}</AppWrapper>
         <Analytics />
       </body>

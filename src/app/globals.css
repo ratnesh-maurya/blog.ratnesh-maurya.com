@@ -1,47 +1,377 @@
 @import "tailwindcss";
 
-/* Use Baloo Bhai 2 as the primary font */
-body {
-  font-family: var(--font-baloo-bhai-2), var(--font-geist-sans), system-ui, sans-serif;
-}
-
+/* Modern Design System Variables */
 :root {
+  /* Colors - Enhanced Blue Theme */
+  --primary-50: #eff6ff;
+  --primary-100: #dbeafe;
+  --primary-200: #bfdbfe;
+  --primary-300: #93c5fd;
+  --primary-400: #60a5fa;
+  --primary-500: #3b82f6;
+  --primary-600: #2563eb;
+  --primary-700: #1d4ed8;
+  --primary-800: #1e40af;
+  --primary-900: #1e3a8a;
+  --primary-950: #172554;
+
+  /* Neutral Colors */
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-950: #0a0a0a;
+
+  /* Semantic Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: var(--primary-500);
+
+  /* Background & Surface */
   --background: #ffffff;
+  --surface: #fafafa;
+  --surface-elevated: #ffffff;
   --foreground: #171717;
+  --muted: #f5f5f5;
+  --border: #e5e5e5;
+
+  /* Typography - Enhanced for better readability */
+  --text-primary: #0a0a0a;
+  --text-secondary: #1e293b;
+  --text-muted: #475569;
+  --text-inverse: #ffffff;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Header and Navigation Styles */
+.header-nav {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s ease;
+  color: var(--text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.header-nav.scrolled {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: var(--shadow-sm);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.header-nav h1,
+.header-nav h2,
+.header-nav h3,
+.header-nav h4,
+.header-nav h5,
+.header-nav h6,
+.header-nav .nav-link,
+.header-nav .nav-title,
+.header-nav a,
+.header-nav span,
+.header-nav button {
+  color: #000000 !important;
 }
 
-/* Custom styles for better typography and code highlighting */
+/* Make all header text extra dark */
+header h1,
+header h2,
+header h3,
+header h4,
+header h5,
+header h6,
+header a,
+header span,
+header button,
+nav h1,
+nav h2,
+nav h3,
+nav h4,
+nav h5,
+nav h6,
+nav a,
+nav span,
+nav button {
+  color: #000000 !important;
+}
+
+
+
+/* Enhanced Typography System */
 html {
   scroll-behavior: smooth;
 }
 
 body {
+  font-family: var(--font-baloo-bhai-2), var(--font-geist-sans), system-ui, sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  line-height: 1.6;
   font-feature-settings: "rlig" 1, "calt" 1;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom prose styles for blog content */
+/* Global Styles */
+
+/* Modern Component Styles */
+
+/* Enhanced Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background-color: var(--primary-600);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-700);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background-color: var(--neutral-50);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-ghost {
+  color: var(--text-secondary);
+  background-color: transparent;
+}
+
+.btn-ghost:hover {
+  color: var(--text-primary);
+  background-color: var(--neutral-100);
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.btn-md {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* Enhanced Card Styles */
+.card {
+  background-color: var(--surface-elevated);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-elevated {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-elevated:hover {
+  box-shadow: var(--shadow-xl);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* Modern Input Styles */
+.input {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-elevated);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: 2px solid var(--primary-500);
+  border-color: transparent;
+}
+
+/* Enhanced Prose Styles for Blog Content */
 .prose {
-  color: #111827;
+  color: var(--text-primary);
+  max-width: none;
+  line-height: 1.7;
+}
+
+.prose h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .prose h1 {
+    font-size: 2.5rem;
+  }
+}
+
+.prose h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  .prose h2 {
+    font-size: 2.25rem;
+  }
+}
+
+.prose h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  margin-top: 1.5rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .prose h3 {
+    font-size: 1.875rem;
+  }
+}
+
+.prose p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.prose a {
+  color: var(--primary-600);
+  text-decoration: underline;
+  text-decoration-color: var(--primary-200);
+  transition: all 0.2s ease;
+}
+
+.prose a:hover {
+  color: var(--primary-700);
+  text-decoration-color: var(--primary-300);
+}
+
+.prose blockquote {
+  border-left: 4px solid var(--primary-200);
+  padding-left: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin: 1.5rem 0;
+  background-color: var(--primary-50);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  font-style: italic;
+}
+
+.prose code {
+  background-color: var(--neutral-100);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  color: var(--neutral-800);
+}
+
+.prose pre {
+  background-color: var(--neutral-900);
+  color: var(--neutral-100);
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  color: var(--neutral-100);
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose img {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin: 1.5rem 0;
+  width: 100%;
+  height: auto;
 }
 
 /* Mobile-specific improvements */
@@ -286,6 +616,7 @@ html, body {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -293,8 +624,52 @@ html, body {
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Modern Gradient Utilities */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+}
+
+.gradient-text-primary {
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-800) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Modern Animation Utilities */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Blue theme colors for PWA */
@@ -304,4 +679,287 @@ html, body {
   --pwa-accent: #60a5fa;
   --pwa-background: #ffffff;
   --pwa-surface: #eff6ff;
+}
+
+/* Dark mode variables */
+:root {
+  /* Light theme (default) */
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #3b82f6;
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Dark theme */
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --popover: #1e293b;
+  --popover-foreground: #f8fafc;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #1e293b;
+  --secondary-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #f8fafc;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #334155;
+  --input: #334155;
+  --ring: #3b82f6;
+}
+
+/* Base styles with theme support */
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Component dark mode styles */
+.card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+}
+
+.btn {
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary);
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary);
+  opacity: 0.8;
+}
+
+.btn-outline {
+  border: 1px solid var(--border);
+  background-color: transparent;
+  color: var(--foreground);
+}
+
+.btn-outline:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.input {
+  background-color: var(--background);
+  border: 1px solid var(--input);
+  color: var(--foreground);
+}
+
+.input:focus {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+/* Dark mode prose styles */
+.dark .prose {
+  color: var(--foreground);
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: var(--foreground);
+}
+
+.dark .prose p {
+  color: var(--muted-foreground);
+}
+
+.dark .prose a {
+  color: var(--primary);
+}
+
+.dark .prose a:hover {
+  color: var(--primary);
+  opacity: 0.8;
+}
+
+.dark .prose code {
+  background-color: var(--muted);
+  color: var(--primary);
+}
+
+.dark .prose pre {
+  background-color: #111827;
+  color: #f3f4f6;
+}
+
+.dark .prose blockquote {
+  border-left-color: var(--primary);
+  color: var(--muted-foreground);
+}
+
+.dark .prose th {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+.dark .prose td {
+  border-color: var(--border);
+}
+
+.dark .prose img {
+  opacity: 0.9;
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Focus styles */
+.focus-visible:focus-visible {
+  outline: 2px solid var(--primary-600);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #000000;
+    --background: #ffffff;
+    --border-color: #000000;
+  }
+
+  .btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-break-before {
+    page-break-before: always;
+  }
+
+  .print-break-after {
+    page-break-after: always;
+  }
+
+  /* Optimize for print */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: black;
+    background: white;
+  }
+
+  .prose {
+    max-width: none;
+  }
+
+  .prose h1, .prose h2, .prose h3 {
+    page-break-after: avoid;
+  }
+
+  .prose p, .prose li {
+    orphans: 3;
+    widows: 3;
+  }
 }
