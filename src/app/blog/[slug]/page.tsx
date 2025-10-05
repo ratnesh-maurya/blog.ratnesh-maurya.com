@@ -1,6 +1,6 @@
 import { getBlogPost, getBlogPostSlugs } from '@/lib/content';
 import { generateTableOfContents } from '@/lib/toc';
-import { BlogStructuredData } from '@/components/StructuredData';
+import { BlogStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getSocialImageUrl } from '@/components/BlogImage';
 import { SocialShare } from '@/components/SocialShare';
 import { ReadingProgress } from '@/components/ReadingProgress';
@@ -109,9 +109,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const toc = generateTableOfContents(post.content);
 
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
+    { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' },
+    { name: post.title, url: `https://blog.ratnesh-maurya.com/blog/${post.slug}` }
+  ];
+
   return (
     <>
       <BlogStructuredData post={post} />
+      <BreadcrumbStructuredData items={breadcrumbItems} />
       <ReadingProgress />
 
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">

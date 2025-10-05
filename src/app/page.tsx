@@ -1,5 +1,5 @@
 import { getAllBlogPosts, getAllSillyQuestions } from '@/lib/content';
-import { WebsiteStructuredData } from '@/components/StructuredData';
+import { WebsiteStructuredData, OrganizationStructuredData } from '@/components/StructuredData';
 import { BlogCardImage, getDefaultSocialImage } from '@/components/BlogImage';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import Link from 'next/link';
@@ -71,6 +71,7 @@ export default async function Home() {
   return (
     <>
       <WebsiteStructuredData />
+      <OrganizationStructuredData />
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-20 sm:py-24 lg:py-32 overflow-hidden">

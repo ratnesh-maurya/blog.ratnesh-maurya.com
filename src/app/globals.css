@@ -85,40 +85,28 @@
   box-shadow: var(--shadow-sm);
 }
 
-.header-nav h1,
-.header-nav h2,
-.header-nav h3,
-.header-nav h4,
-.header-nav h5,
-.header-nav h6,
-.header-nav .nav-link,
-.header-nav .nav-title,
+/* Navigation link styles with blue theme */
 .header-nav a,
-.header-nav span,
-.header-nav button {
-  color: #000000 !important;
+.header-nav button,
+nav a,
+nav button {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
 }
 
-/* Make all header text extra dark */
+.header-nav a:hover,
+.header-nav button:hover,
+nav a:hover,
+nav button:hover {
+  color: var(--primary-600);
+}
+
+/* Keep titles dark but not black */
+.header-nav h1,
+.header-nav .nav-title,
 header h1,
-header h2,
-header h3,
-header h4,
-header h5,
-header h6,
-header a,
-header span,
-header button,
-nav h1,
-nav h2,
-nav h3,
-nav h4,
-nav h5,
-nav h6,
-nav a,
-nav span,
-nav button {
-  color: #000000 !important;
+nav h1 {
+  color: var(--text-primary);
 }
 
 

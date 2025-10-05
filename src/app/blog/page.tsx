@@ -1,6 +1,7 @@
 import { getAllBlogPosts } from '@/lib/content';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { getDefaultSocialImage } from '@/components/BlogImage';
+import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -58,5 +59,16 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function BlogPage() {
   const blogPosts = await getAllBlogPosts();
 
-  return <BlogListingClient blogPosts={blogPosts} />;
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
+    { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' }
+  ];
+
+  return (
+    <>
+      <BlogListStructuredData posts={blogPosts} />
+      <BreadcrumbStructuredData items={breadcrumbItems} />
+      <BlogListingClient blogPosts={blogPosts} />
+    </>
+  );
 }
