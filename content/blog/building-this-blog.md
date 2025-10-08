@@ -135,6 +135,6 @@ Future improvements planned:
 
 Building a modern blog doesn't have to be complicated. With Next.js and markdown, you can create a fast, SEO-friendly blog that's easy to maintain and deploy.
 
-The complete source code is available on GitHub, and you can deploy your own version in minutes!
+The complete source code is available on [GitHub](https://github.com/ratnesh-maurya/blog.ratnesh-maurya.com), and you can deploy your own version in minutes!
 
 ---
