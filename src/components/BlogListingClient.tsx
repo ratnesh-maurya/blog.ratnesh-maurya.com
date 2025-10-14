@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { BlogCardImage } from '@/components/BlogImage';
 import { CustomDropdown } from '@/components/CustomDropdown';
 import { BlogPost } from '@/types/blog';
+import { trackBlogCardClick } from '@/lib/analytics';
 
 interface BlogListingClientProps {
   blogPosts: BlogPost[];
@@ -99,7 +100,12 @@ export function BlogListingClient({ blogPosts }: BlogListingClientProps) {
         {/* Blog Posts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {filteredAndSortedPosts.map((post, index) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className="block group">
+            <Link
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className="block group"
+              onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
+            >
               <article className="card card-interactive h-full flex flex-col animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
                 <div className="relative overflow-hidden rounded-t-xl">
                   <BlogCardImage

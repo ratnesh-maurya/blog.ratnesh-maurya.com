@@ -1,13 +1,15 @@
-// Google Analytics configuration and utilities
+// Google Analytics and Microsoft Clarity configuration and utilities
 
 declare global {
   interface Window {
     gtag: (...args: unknown[]) => void;
     dataLayer: unknown[];
+    clarity?: (action: string, ...args: unknown[]) => void;
   }
 }
 
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
+export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || '';
 
 // Initialize Google Analytics
 export const initGA = () => {
@@ -15,7 +17,7 @@ export const initGA = () => {
 
   // Create dataLayer if it doesn't exist
   window.dataLayer = window.dataLayer || [];
-  
+
   // Define gtag function
   window.gtag = function gtag(...args: unknown[]) {
     window.dataLayer.push(args);
@@ -26,7 +28,20 @@ export const initGA = () => {
   window.gtag('config', GA_MEASUREMENT_ID, {
     page_title: document.title,
     page_location: window.location.href,
+    send_page_view: true,
   });
+};
+
+// Initialize Microsoft Clarity
+export const initClarity = () => {
+  if (typeof window === 'undefined' || !CLARITY_PROJECT_ID) return;
+
+  // Clarity script is loaded via Script component in layout
+  // This function can be used for custom Clarity events
+  if (window.clarity) {
+    window.clarity('set', 'page_title', document.title);
+    window.clarity('set', 'page_path', window.location.pathname);
+  }
 };
 
 // Track page views
@@ -90,11 +105,51 @@ export const trackSearch = (query: string, resultsCount: number) => {
 // Track social shares
 export const trackSocialShare = (platform: string, url: string, title: string) => {
   trackEvent('share', 'Social', `${platform}: ${title}`, 1);
+
+  // Track in Clarity
+  if (window.clarity) {
+    window.clarity('event', 'social_share', { platform, url, title });
+  }
 };
 
 // Track external link clicks
 export const trackExternalLink = (url: string, text: string) => {
   trackEvent('click_external_link', 'Navigation', `${text}: ${url}`, 1);
+
+  // Track in Clarity
+  if (window.clarity) {
+    window.clarity('event', 'external_link_click', { url, text });
+  }
+};
+
+// Track navigation clicks
+export const trackNavigation = (destination: string, source: string) => {
+  trackEvent('navigation', 'Navigation', `${source} -> ${destination}`, 1);
+
+  // Track in Clarity
+  if (window.clarity) {
+    window.clarity('event', 'navigation_click', { destination, source });
+  }
+};
+
+// Track blog card clicks
+export const trackBlogCardClick = (slug: string, title: string, source: string) => {
+  trackEvent('blog_card_click', 'Blog', `${source}: ${title}`, 1);
+
+  // Track in Clarity
+  if (window.clarity) {
+    window.clarity('event', 'blog_card_click', { slug, title, source });
+  }
+};
+
+// Track silly question clicks
+export const trackSillyQuestionClick = (slug: string, title: string, source: string) => {
+  trackEvent('silly_question_click', 'Silly Questions', `${source}: ${title}`, 1);
+
+  // Track in Clarity
+  if (window.clarity) {
+    window.clarity('event', 'silly_question_click', { slug, title, source });
+  }
 };
 
 // Track carousel interactions

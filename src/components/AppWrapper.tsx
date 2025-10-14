@@ -7,6 +7,7 @@ import { ClientNavigation } from '@/components/ClientNavigation';
 import { SearchPopup } from '@/components/SearchPopup';
 import { SkipLink, FocusTrap, useKeyboardShortcut } from '@/components/AccessibilityUtils';
 import { BlogPost, SillyQuestion } from '@/types/blog';
+import { trackNavigation } from '@/lib/analytics';
 
 interface AppWrapperProps {
   children: React.ReactNode;
@@ -120,6 +121,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
               <div className="hidden md:flex items-center space-x-1">
                 <Link
                   href="/"
+                  onClick={() => trackNavigation('/', 'navbar')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/')
                     ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 shadow-sm'
                     : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
@@ -129,6 +131,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 </Link>
                 <Link
                   href="/blog"
+                  onClick={() => trackNavigation('/blog', 'navbar')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/blog')
                     ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 shadow-sm'
                     : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
@@ -138,6 +141,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 </Link>
                 <Link
                   href="/silly-questions"
+                  onClick={() => trackNavigation('/silly-questions', 'navbar')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/silly-questions')
                     ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 shadow-sm'
                     : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
@@ -147,6 +151,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 </Link>
                 <Link
                   href="/about"
+                  onClick={() => trackNavigation('/about', 'navbar')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/about')
                     ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 shadow-sm'
                     : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
@@ -158,6 +163,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
                   href="https://ratnesh-maurya.com"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackNavigation('https://ratnesh-maurya.com', 'navbar')}
                   className="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200"
                 >
                   Portfolio
@@ -215,7 +221,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 ? 'bg-blue-50 text-blue-700 shadow-sm'
                 : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                 }`}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                trackNavigation('/', 'mobile-menu');
+                setIsMobileMenuOpen(false);
+              }}
             >
               Home
             </Link>
@@ -225,7 +234,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 ? 'bg-blue-50 text-blue-700 shadow-sm'
                 : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                 }`}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                trackNavigation('/blog', 'mobile-menu');
+                setIsMobileMenuOpen(false);
+              }}
             >
               Blog
             </Link>
@@ -235,7 +247,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 ? 'bg-blue-50 text-blue-700 shadow-sm'
                 : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                 }`}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                trackNavigation('/silly-questions', 'mobile-menu');
+                setIsMobileMenuOpen(false);
+              }}
             >
               Silly Questions
             </Link>
@@ -245,7 +260,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 ? 'bg-blue-50 text-blue-700 shadow-sm'
                 : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                 }`}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                trackNavigation('/about', 'mobile-menu');
+                setIsMobileMenuOpen(false);
+              }}
             >
               About
             </Link>
@@ -254,7 +272,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="block px-4 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-200"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                trackNavigation('https://ratnesh-maurya.com', 'mobile-menu');
+                setIsMobileMenuOpen(false);
+              }}
             >
               Portfolio
             </a>
