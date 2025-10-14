@@ -2,6 +2,7 @@ import { getAllBlogPosts, getAllSillyQuestions } from '@/lib/content';
 import { WebsiteStructuredData, OrganizationStructuredData } from '@/components/StructuredData';
 import { BlogCardImage, getDefaultSocialImage } from '@/components/BlogImage';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
+import { TrackedLink } from '@/components/HomePageClient';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { Metadata } from 'next';
@@ -168,7 +169,14 @@ export default async function Home() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {recentPosts.map((post, index) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`} className="block h-full group">
+                <TrackedLink
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  slug={post.slug}
+                  title={post.title}
+                  type="blog"
+                  className="block h-full group"
+                >
                   <article className="card card-interactive h-full flex flex-col animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="relative overflow-hidden rounded-t-xl">
                       <BlogCardImage post={post} className="h-48 w-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -208,7 +216,7 @@ export default async function Home() {
                       </div>
                     </div>
                   </article>
-                </Link>
+                </TrackedLink>
               ))}
             </div>
           </div>
@@ -242,7 +250,14 @@ export default async function Home() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {recentQuestions.map((question, index) => (
-                <Link key={question.slug} href={`/silly-questions/${question.slug}`} className="block h-full group">
+                <TrackedLink
+                  key={question.slug}
+                  href={`/silly-questions/${question.slug}`}
+                  slug={question.slug}
+                  title={question.question}
+                  type="silly-question"
+                  className="block h-full group"
+                >
                   <article className="bg-white rounded-xl p-6 border border-amber-200 hover:border-amber-300 hover:shadow-lg transition-all duration-200 cursor-pointer h-full flex flex-col group-hover:scale-[1.02] animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="flex items-center justify-between mb-4">
                       <time className="text-sm text-gray-500" dateTime={question.date}>
@@ -268,7 +283,7 @@ export default async function Home() {
                       )}
                     </div>
                   </article>
-                </Link>
+                </TrackedLink>
               ))}
             </div>
           </div>
