@@ -32,23 +32,39 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
   const ogImageUrl = generateFallbackOGImage(question.question, 'silly-question');
   const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
 
+  // Extract a preview of the answer for better SEO description
+  const answerPreview = question.answer.replace(/<[^>]*>/g, '').substring(0, 150).trim();
+  const seoDescription = `${question.question} - Learn from this common ${question.category.toLowerCase()} mistake. ${answerPreview}${answerPreview.length === 150 ? '...' : ''}`;
+
   return {
-    title: `${question.question} | Silly Questions`,
-    description: `A silly mistake I made: ${question.question}. Learn from my experience and avoid this common pitfall.`,
-    keywords: [...question.tags, 'coding mistakes', 'programming errors', 'debugging'],
-    authors: [{ name: "Ratnesh Maurya" }],
+    title: `${question.question} | Silly Questions - Blog's By Ratnesh`,
+    description: seoDescription,
+    keywords: [
+      ...question.tags,
+      'coding mistakes',
+      'programming errors',
+      'debugging',
+      question.category.toLowerCase(),
+      'developer mistakes',
+      'common coding errors',
+      'troubleshooting',
+      'programming tips',
+      'learn from mistakes'
+    ],
+    authors: [{ name: "Ratnesh Maurya", url: "https://ratnesh-maurya.com" }],
     category: question.category,
     alternates: {
       canonical: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
     },
     openGraph: {
       title: question.question,
-      description: `A silly mistake I made: ${question.question}. Learn from my experience and avoid this common pitfall.`,
+      description: seoDescription,
       type: 'article',
       publishedTime: question.date,
       modifiedTime: question.date,
       authors: ["Ratnesh Maurya"],
       tags: question.tags,
+      section: question.category,
       images: [
         {
           url: fullOgImageUrl,
@@ -58,13 +74,13 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
         }
       ],
       url: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
-      siteName: 'Ratnesh Maurya\'s Blog',
+      siteName: 'Blog\'s By Ratnesh',
       locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
       title: question.question,
-      description: `A silly mistake I made: ${question.question}`,
+      description: seoDescription.substring(0, 200),
       images: [fullOgImageUrl],
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
@@ -83,8 +99,12 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
     other: {
       'article:author': 'Ratnesh Maurya',
       'article:published_time': question.date,
+      'article:modified_time': question.date,
       'article:section': question.category,
       'article:tag': question.tags.join(', '),
+      'article:expiration_time': undefined,
+      'og:locale': 'en_US',
+      'og:site_name': 'Blog\'s By Ratnesh',
     },
   };
 }

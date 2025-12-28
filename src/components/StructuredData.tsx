@@ -88,6 +88,7 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
   // Convert date to ISO 8601 format with timezone
   const dateWithTimezone = new Date(question.date).toISOString();
   const questionUrl = `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`;
+  const answerText = question.answer.replace(/<[^>]*>/g, '');
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -98,8 +99,10 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
       text: question.question,
       answerCount: 1,
       dateCreated: dateWithTimezone,
+      dateModified: dateWithTimezone,
       upvoteCount: 0,
       url: questionUrl,
+      keywords: question.tags.join(', '),
       author: {
         '@type': 'Person',
         name: 'Ratnesh Maurya',
@@ -112,8 +115,9 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
       },
       acceptedAnswer: {
         '@type': 'Answer',
-        text: question.answer.replace(/<[^>]*>/g, ''),
+        text: answerText,
         dateCreated: dateWithTimezone,
+        dateModified: dateWithTimezone,
         upvoteCount: 0,
         url: questionUrl,
         author: {
@@ -128,6 +132,12 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
         }
       }
     },
+    about: {
+      '@type': 'Thing',
+      name: question.category
+    },
+    keywords: question.tags.join(', '),
+    inLanguage: 'en-US',
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -147,7 +157,7 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
           '@type': 'ListItem',
           position: 3,
           name: question.question,
-          item: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`
+          item: questionUrl
         }
       ]
     }

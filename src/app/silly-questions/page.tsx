@@ -12,9 +12,23 @@ export async function generateMetadata(): Promise<Metadata> {
   const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
 
   return {
-    title: "Silly Questions & Mistakes | Blog's By Ratnesh",
-    description: "We all make silly mistakes while coding. Here are some of mine, along with the lessons learned. Hopefully, they'll save you some debugging time! 🤦‍♂️",
-    keywords: ["coding mistakes", "programming errors", "debugging", "silly questions", "developer mistakes", "learning from errors"],
+    title: "Silly Questions & Coding Mistakes | Blog's By Ratnesh",
+    description: "Common coding mistakes and silly questions every developer encounters. Learn from real debugging experiences, troubleshooting tips, and programming errors. Save time debugging with these practical lessons! 🤦‍♂️",
+    keywords: [
+      "coding mistakes",
+      "programming errors",
+      "debugging",
+      "silly questions",
+      "developer mistakes",
+      "learning from errors",
+      "troubleshooting",
+      "common coding errors",
+      "programming tips",
+      "debugging tips",
+      "javascript errors",
+      "css mistakes",
+      "code debugging"
+    ],
     authors: [{ name: "Ratnesh Maurya" }],
     alternates: {
       canonical: "https://blog.ratnesh-maurya.com/silly-questions",
