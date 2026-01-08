@@ -1,14 +1,20 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  // Removed 'output: export' to enable API routes for view tracking
+  // The site will still generate static pages where possible, but API routes will work
   trailingSlash: true,
   images: {
     unoptimized: true,
   },
-  // Disable server-side features for static export
-  experimental: {
-    // Enable static export
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/blog',
+        permanent: true,
+      },
+    ];
   },
 };
 

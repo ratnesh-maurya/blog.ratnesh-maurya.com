@@ -67,9 +67,10 @@ interface BlogCardImageProps {
     slug: string;
   };
   className?: string;
+  objectFit?: 'cover' | 'contain';
 }
 
-export function BlogCardImage({ post, className = "h-48" }: BlogCardImageProps) {
+export function BlogCardImage({ post, className = "h-48", objectFit = 'contain' }: BlogCardImageProps) {
   if (!post.image) {
     return (
       <div className={`${className} bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center`}>
@@ -77,6 +78,21 @@ export function BlogCardImage({ post, className = "h-48" }: BlogCardImageProps) 
           <h3 className="text-lg font-semibold mb-2 line-clamp-2">{post.title}</h3>
           <div className="w-12 h-1 bg-white/30 mx-auto"></div>
         </div>
+      </div>
+    );
+  }
+
+  // If objectFit is contain, use a different approach for full height
+  if (objectFit === 'contain') {
+    const imageSrc = post.image.startsWith('/') ? post.image : `/images/blog/${post.image}`;
+    return (
+      <div className={`${className} relative overflow-visible flex items-center justify-center`} style={{ width: 'auto', minWidth: 0, maxHeight: '100%' }}>
+        <img
+          src={imageSrc}
+          alt={post.title}
+          className="max-h-full w-auto object-contain group-hover:scale-105 transition-transform duration-500"
+          style={{ maxHeight: '100%', width: 'auto', height: 'auto' }}
+        />
       </div>
     );
   }

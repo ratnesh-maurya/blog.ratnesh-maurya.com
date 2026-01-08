@@ -1,13 +1,13 @@
 import { getBlogPost, getBlogPostSlugs } from '@/lib/content';
-import { generateTableOfContents } from '@/lib/toc';
 import { BlogStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getSocialImageUrl } from '@/components/BlogImage';
 import { SocialShare } from '@/components/SocialShare';
 import { ReadingProgress } from '@/components/ReadingProgress';
-import { EnhancedTableOfContents } from '@/components/EnhancedTableOfContents';
-import { ArticleHeader } from '@/components/ArticleHeader';
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { format } from 'date-fns';
 
 interface BlogPostPageProps {
   params: {
@@ -107,8 +107,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const toc = generateTableOfContents(post.content);
-
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
     { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' },
@@ -121,15 +119,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <ReadingProgress />
 
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <div className="min-h-screen bg-white">
         {/* Back Navigation */}
-        <div className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="border-b border-gray-200">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
             <Link
               href="/blog"
-              className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors group"
+              className="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition-colors group text-sm"
             >
-              <svg className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               Back to Blog
@@ -137,49 +135,104 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-8 lg:py-12">
-          <div className="grid lg:grid-cols-4 gap-8 lg:gap-12">
-            {/* Main Content */}
-            <div className="lg:col-span-3">
-              <article className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="p-4 sm:p-6 lg:p-12">
-                  <ArticleHeader post={post} />
-
-                  {/* Article Content */}
-                  <div className="prose prose-base sm:prose-lg max-w-none">
-                    <div
-                      className="prose-headings:scroll-mt-24 prose-headings:font-bold prose-h1:text-2xl sm:prose-h1:text-3xl prose-h2:text-xl sm:prose-h2:text-2xl prose-h3:text-lg sm:prose-h3:text-xl prose-p:leading-relaxed prose-p:text-gray-700 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-code:text-blue-600 prose-code:bg-blue-50 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-blockquote:border-l-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:text-gray-700 prose-img:rounded-xl prose-img:shadow-lg"
-                      dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
-                  </div>
+        <div className="max-w-6xl mx-auto px-4 sm:px-16 py-8 lg:py-16">
+          <article>
+            {/* Article Header */}
+            <header className="mb-12  ">
+              {/* Category */}
+              {post.category && (
+                <div className="mb-4">
+                  <span className="inline-block text-xs font-semibold uppercase tracking-wide text-blue-600">
+                    {post.category}
+                  </span>
                 </div>
+              )}
 
-                {/* Social Sharing */}
-                <div className="px-4 sm:px-6 lg:px-12 pb-4 sm:pb-6 lg:pb-12">
-                  <div className="pt-4 sm:pt-6 lg:pt-8 border-t border-gray-200">
-                    <div className="flex items-center mb-4 sm:mb-6">
-                      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mr-2 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                      </svg>
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900">Share this article</h3>
-                    </div>
-                    <SocialShare
-                      url={`/blog/${post.slug}`}
-                      title={post.title}
-                      description={post.description}
-                    />
-                  </div>
+              {/* Title */}
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight text-center">
+                {post.title}
+              </h1>
+
+              {/* Metadata */}
+              <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500 mb-8">
+                <time dateTime={post.date} className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {format(new Date(post.date), 'MMM dd, yyyy')}
+                </time>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {post.readingTime}
+                </span>
+              </div>
+
+              {/* Description */}
+              {post.description && (
+                <p className="text-lg text-center text-gray-600 mb-8 leading-relaxed">
+                  {post.description}
+                </p>
+              )}
+
+              {/* Tags */}
+              {post.tags.length > 0 && (
+                <div className="flex flex-wrap justify-center items-center gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-block text-xs font-medium px-3 py-1.5 rounded-full bg-gray-100 text-gray-700"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
                 </div>
-              </article>
+              )}
+            </header>
+
+            {/* Separator */}
+            <div className="border-t border-gray-200 mb-12"></div>
+
+            {/* Article Content */}
+            <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-headings:mt-12 prose-headings:mb-6 prose-h1:text-4xl prose-h2:text-3xl prose-h2:mt-10 prose-h3:text-2xl prose-h3:mt-8 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-strong:font-semibold prose-code:text-blue-600 prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:bg-gray-50 prose-blockquote:pl-6 prose-blockquote:py-2 prose-blockquote:my-6 prose-blockquote:italic prose-blockquote:text-gray-700 prose-img:rounded-lg prose-img:shadow-md prose-img:my-8 prose-ul:list-disc prose-ul:pl-6 prose-ul:my-6 prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-6 prose-li:text-gray-700 prose-li:mb-2 prose-hr:my-12 prose-hr:border-gray-200">
+              <div
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
             </div>
 
-            {/* Sidebar with Table of Contents */}
-            <div className="hidden lg:block lg:col-span-1">
-              <EnhancedTableOfContents toc={toc} />
+            {/* Tags Section */}
+            {post.tags.length > 0 && (
+              <div className="mt-12 pt-8 border-t border-gray-200">
+                <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Tags</h3>
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`/blog?tag=${tag}`}
+                      className="inline-block text-sm font-medium px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700 transition-colors"
+                    >
+                      #{tag}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Social Sharing */}
+            <div className="mt-12 pt-8 border-t border-gray-200">
+              <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Share</h3>
+              <SocialShare
+                url={`/blog/${post.slug}`}
+                title={post.title}
+                description={post.description}
+              />
             </div>
-          </div>
+          </article>
         </div>
       </div>
+      <ViewIncrementer slug={post.slug} />
+      <FloatingUpvoteButton slug={post.slug} />
     </>
   );
 }

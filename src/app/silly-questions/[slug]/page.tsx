@@ -1,6 +1,8 @@
 import { getSillyQuestion, getSillyQuestionSlugs } from '@/lib/content';
 import { SillyQuestionStructuredData } from '@/components/StructuredData';
 import { SocialShare } from '@/components/SocialShare';
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { generateFallbackOGImage } from '@/components/BlogImage';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -134,7 +136,12 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
           <article className="bg-yellow-50 rounded-lg p-3 sm:p-6 lg:p-8 border border-yellow-200">
             <header className="mb-4 sm:mb-6 lg:mb-8">
               <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 gap-2">
-                <span>{format(new Date(question.date), 'MMMM dd, yyyy')}</span>
+                <time dateTime={question.date} className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {format(new Date(question.date), 'MMMM dd, yyyy')}
+                </time>
                 <span className="hidden sm:inline">•</span>
                 <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs">
                   {question.category}
@@ -144,6 +151,10 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
                 {question.question}
               </h1>
+
+              {/* Metadata */}
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4 sm:mb-6">
+              </div>
 
               <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
                 {question.tags.map((tag) => (
@@ -183,6 +194,8 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
           </div>
         </div>
       </div>
+      <ViewIncrementer slug={`silly-questions/${question.slug}`} />
+      <FloatingUpvoteButton slug={`silly-questions/${question.slug}`} />
     </>
   );
 }

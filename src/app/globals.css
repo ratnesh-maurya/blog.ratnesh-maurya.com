@@ -197,7 +197,8 @@ body {
 
 /* Enhanced Card Styles */
 .card {
-  background-color: var(--surface-elevated);
+  background-color: var(--card);
+  color: var(--card-foreground);
   border-radius: var(--radius-xl);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
@@ -694,28 +695,6 @@ html, body {
   --radius: 0.5rem;
 }
 
-.dark {
-  /* Dark theme */
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
-  --popover: #1e293b;
-  --popover-foreground: #f8fafc;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #1e293b;
-  --secondary-foreground: #f8fafc;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #1e293b;
-  --accent-foreground: #f8fafc;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #334155;
-  --input: #334155;
-  --ring: #3b82f6;
-}
 
 /* Base styles with theme support */
 * {
@@ -781,60 +760,6 @@ body {
   box-shadow: 0 0 0 2px var(--ring);
 }
 
-/* Dark mode prose styles */
-.dark .prose {
-  color: var(--foreground);
-}
-
-.dark .prose h1,
-.dark .prose h2,
-.dark .prose h3,
-.dark .prose h4,
-.dark .prose h5,
-.dark .prose h6 {
-  color: var(--foreground);
-}
-
-.dark .prose p {
-  color: var(--muted-foreground);
-}
-
-.dark .prose a {
-  color: var(--primary);
-}
-
-.dark .prose a:hover {
-  color: var(--primary);
-  opacity: 0.8;
-}
-
-.dark .prose code {
-  background-color: var(--muted);
-  color: var(--primary);
-}
-
-.dark .prose pre {
-  background-color: #111827;
-  color: #f3f4f6;
-}
-
-.dark .prose blockquote {
-  border-left-color: var(--primary);
-  color: var(--muted-foreground);
-}
-
-.dark .prose th {
-  background-color: var(--muted);
-  color: var(--foreground);
-}
-
-.dark .prose td {
-  border-color: var(--border);
-}
-
-.dark .prose img {
-  opacity: 0.9;
-}
 
 /* Accessibility improvements */
 .sr-only {
