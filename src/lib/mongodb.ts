@@ -6,7 +6,13 @@ if (!uri) {
   throw new Error('MONGODB_URI environment variable is required. Please add it to .env.local');
 }
 
-const options = {};
+const options = {
+  maxPoolSize: 10, // Maintain up to 10 socket connections
+  minPoolSize: 2, // Maintain at least 2 socket connections
+  maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
+  serverSelectionTimeoutMS: 5000, // How long to try selecting a server
+  socketTimeoutMS: 45000, // How long to wait for a socket connection
+};
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
@@ -35,7 +41,67 @@ export default clientPromise;
 
 export async function getDatabase(): Promise<Db> {
   const client = await clientPromise;
-  // Use 'blog' as the database name, or you can change it to match your MongoDB setup
-  return client.db('blog');
+  const db = client.db('blog');
+  
+  // Ensure indexes exist for better query performance
+  const viewsCollection = db.collection('views');
+  const upvotesCollection = db.collection('upvotes');
+  
+  // Create indexes if they don't exist (idempotent operation)
+  // Using Promise.allSettled to ensure all indexes are created even if one fails
+  await Promise.allSettled([
+    // Unique index on slug for views - prevents duplicates and improves lookup performance
+    viewsCollection.createIndex(
+      { slug: 1 }, 
+      { 
+        unique: true, 
+        background: true,
+        name: 'slug_1_unique'
+      }
+    ),
+    // Index on views field for aggregation queries (sum operations)
+    viewsCollection.createIndex(
+      { views: 1 }, 
+      { 
+        background: true,
+        name: 'views_1'
+      }
+    ),
+    // Index on createdAt for potential date-based queries
+    viewsCollection.createIndex(
+      { createdAt: 1 }, 
+      { 
+        background: true,
+        name: 'createdAt_1'
+      }
+    ),
+    // Unique index on slug for upvotes - prevents duplicates and improves lookup performance
+    upvotesCollection.createIndex(
+      { slug: 1 }, 
+      { 
+        unique: true, 
+        background: true,
+        name: 'slug_1_unique'
+      }
+    ),
+    // Index on upvotes field for aggregation queries (sum operations)
+    upvotesCollection.createIndex(
+      { upvotes: 1 }, 
+      { 
+        background: true,
+        name: 'upvotes_1'
+      }
+    ),
+    // Index on createdAt for potential date-based queries
+    upvotesCollection.createIndex(
+      { createdAt: 1 }, 
+      { 
+        background: true,
+        name: 'createdAt_1'
+      }
+    ),
+  ]);
+  
+  return db;
 }
 

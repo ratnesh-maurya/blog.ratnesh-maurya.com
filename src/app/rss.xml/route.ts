@@ -1,6 +1,7 @@
 import { getAllBlogPosts } from '@/lib/content';
 
 export const dynamic = 'force-static';
+export const revalidate = 3600; // Revalidate every hour
 
 export async function GET() {
   const posts = await getAllBlogPosts();
@@ -30,14 +31,15 @@ export async function GET() {
         <managingEditor>ratnesh@ratnesh-maurya.com (Ratnesh Maurya)</managingEditor>
         <webMaster>ratnesh@ratnesh-maurya.com (Ratnesh Maurya)</webMaster>
         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-        <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
+        <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
         ${rssItems}
       </channel>
     </rss>`;
 
   return new Response(rss, {
     headers: {
-      'Content-Type': 'application/xml',
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
     },
   });
 }

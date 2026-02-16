@@ -7,6 +7,23 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  async headers() {
+    return [
+      {
+        source: '/images/social/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Content-Type',
+            value: 'image/jpeg',
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {

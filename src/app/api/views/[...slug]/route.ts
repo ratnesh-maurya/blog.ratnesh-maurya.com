@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/mongodb';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 30; // Revalidate every 30 seconds
 
 export async function GET(
   request: NextRequest,
@@ -14,12 +15,22 @@ export async function GET(
     const db = await getDatabase();
     const viewsCollection = db.collection('views');
 
-    const viewDoc = await viewsCollection.findOne({ slug: slugString });
+    const viewDoc = await viewsCollection.findOne(
+      { slug: slugString },
+      { projection: { views: 1 } }
+    );
 
-    return NextResponse.json({
-      slug: slugString,
-      views: viewDoc?.views || 0,
-    });
+    return NextResponse.json(
+      {
+        slug: slugString,
+        views: viewDoc?.views || 0,
+      },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error fetching views:', error);
     return NextResponse.json(

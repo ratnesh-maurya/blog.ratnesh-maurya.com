@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/mongodb';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Revalidate every 60 seconds
 
 export async function GET(request: NextRequest) {
   try {
@@ -9,30 +10,41 @@ export async function GET(request: NextRequest) {
     const viewsCollection = db.collection('views');
     const upvotesCollection = db.collection('upvotes');
 
-    // Get all views for silly questions (slug format: silly-questions/[slug])
-    const viewsDocs = await viewsCollection.find({}).toArray();
+    // Query only silly-questions slugs using regex index
+    const viewsDocs = await viewsCollection
+      .find({ slug: /^silly-questions\// })
+      .project({ slug: 1, views: 1 })
+      .toArray();
+    
     const viewsMap: Record<string, number> = {};
     viewsDocs.forEach(doc => {
-      if (doc.slug.startsWith('silly-questions/')) {
-        const slug = doc.slug.replace('silly-questions/', '');
-        viewsMap[slug] = doc.views || 0;
-      }
+      const slug = doc.slug.replace('silly-questions/', '');
+      viewsMap[slug] = doc.views || 0;
     });
 
-    // Get all upvotes for silly questions
-    const upvotesDocs = await upvotesCollection.find({}).toArray();
+    // Query only silly-questions slugs using regex index
+    const upvotesDocs = await upvotesCollection
+      .find({ slug: /^silly-questions\// })
+      .project({ slug: 1, upvotes: 1 })
+      .toArray();
+    
     const upvotesMap: Record<string, number> = {};
     upvotesDocs.forEach(doc => {
-      if (doc.slug.startsWith('silly-questions/')) {
-        const slug = doc.slug.replace('silly-questions/', '');
-        upvotesMap[slug] = doc.upvotes || 0;
-      }
+      const slug = doc.slug.replace('silly-questions/', '');
+      upvotesMap[slug] = doc.upvotes || 0;
     });
 
-    return NextResponse.json({
-      views: viewsMap,
-      upvotes: upvotesMap,
-    });
+    return NextResponse.json(
+      {
+        views: viewsMap,
+        upvotes: upvotesMap,
+      },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error fetching silly questions stats:', error);
     return NextResponse.json(
