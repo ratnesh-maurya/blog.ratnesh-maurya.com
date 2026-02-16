@@ -1,43 +1,56 @@
+import { Metadata } from 'next';
 import { getAllBlogPosts } from '@/lib/content';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { getDefaultSocialImage } from '@/components/BlogImage';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
-import { Metadata } from 'next';
 
-export async function generateMetadata(): Promise<Metadata> {
+interface TagPageProps {
+  params: {
+    tag: string;
+  };
+}
+
+const decodeTag = (rawTag: string) => {
+  const decoded = decodeURIComponent(rawTag);
+  return decoded.replace(/-/g, ' ').trim();
+};
+
+export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
+  const tagLabel = decodeTag(params.tag);
   const ogImageUrl = getDefaultSocialImage('og', 'blog');
   const twitterImageUrl = getDefaultSocialImage('twitter', 'blog');
   const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
   const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
+  const title = `Posts tagged "${tagLabel}" | Blog's By Ratnesh`;
+  const description = `Browse all blog posts tagged "${tagLabel}" from Blog's By Ratnesh.`;
+  const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${params.tag}`;
 
   return {
-    title: "All Blog Posts | Blog's By Ratnesh",
-    description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
-    keywords: ["blog posts", "web development", "programming", "javascript", "typescript", "react", "nextjs", "technology"],
-    authors: [{ name: "Ratnesh Maurya" }],
+    title,
+    description,
     alternates: {
-      canonical: "https://blog.ratnesh-maurya.com/blog",
+      canonical: canonicalUrl,
     },
     openGraph: {
-      title: "All Blog Posts | Blog's By Ratnesh",
-      description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
-      url: "https://blog.ratnesh-maurya.com/blog",
+      title,
+      description,
+      url: canonicalUrl,
       siteName: "Blog's By Ratnesh",
-      type: "website",
+      type: 'website',
       images: [
         {
           url: fullOgImageUrl,
           width: 1200,
           height: 630,
-          alt: "All Blog Posts - Blog's By Ratnesh",
+          alt: `Posts tagged "${tagLabel}" - Blog's By Ratnesh`,
         }
       ],
       locale: 'en_US',
     },
     twitter: {
-      card: "summary_large_image",
-      title: "All Blog Posts | Blog's By Ratnesh",
-      description: "Explore all my thoughts on web development, programming, and technology.",
+      card: 'summary_large_image',
+      title,
+      description,
       images: [fullTwitterImageUrl],
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
@@ -56,29 +69,15 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-interface BlogPageProps {
-  searchParams?: {
-    tag?: string;
-  };
-}
-
-export default async function BlogPage({ searchParams }: BlogPageProps) {
+export default async function BlogTagPage({ params }: TagPageProps) {
   const blogPosts = await getAllBlogPosts();
-
-  const rawTag = searchParams?.tag;
-  const selectedTag = rawTag ? decodeURIComponent(rawTag).trim() : null;
+  const tagLabel = decodeTag(params.tag);
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' }
+    { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' },
+    { name: `Tag: ${tagLabel}`, url: `https://blog.ratnesh-maurya.com/blog/tag/${params.tag}` },
   ];
-
-  const baseDescription = "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.";
-
-  const pageTitle = selectedTag ? `Posts tagged "${selectedTag}"` : "All Blog Posts";
-  const pageDescription = selectedTag
-    ? `Browse all blog posts tagged "${selectedTag}" from Blog's By Ratnesh.`
-    : baseDescription;
 
   return (
     <div className="relative overflow-hidden">
@@ -86,9 +85,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <BlogListingClient
         blogPosts={blogPosts}
-        initialTag={selectedTag}
-        pageTitle={pageTitle}
-        pageDescription={pageDescription}
+        initialTag={tagLabel}
+        pageTitle={`Posts tagged "${tagLabel}"`}
+        pageDescription={`Articles, deep dives, and write-ups related to "${tagLabel}".`}
       />
 
       {/* Moving bottom background text: blog blog blog ... */}
@@ -104,3 +103,4 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     </div>
   );
 }
+

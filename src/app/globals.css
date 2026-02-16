@@ -225,6 +225,15 @@ body {
   transform: translateY(-2px) scale(1.01);
 }
 
+/* Blog card glassmorphism effect */
+.blog-card-glass {
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.75));
+  border-color: rgba(148, 163, 184, 0.6); /* slate-400 */
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+}
+
 /* Modern Input Styles */
 .input {
   width: 100%;

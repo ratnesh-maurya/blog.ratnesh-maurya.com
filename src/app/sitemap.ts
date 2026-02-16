@@ -25,31 +25,57 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  // Tag index pages for blog posts: /blog/tag/{tag-slug}
+  const tagLatestDate = new Map<string, string>();
+
+  for (const post of blogPosts) {
+    if (!post.tags || post.tags.length === 0) continue;
+    for (const tag of post.tags) {
+      const existing = tagLatestDate.get(tag);
+      if (!existing || new Date(post.date) > new Date(existing)) {
+        tagLatestDate.set(tag, post.date);
+      }
+    }
+  }
+
+  const tagUrls = Array.from(tagLatestDate.entries()).map(([tag, latestDate]) => {
+    const slug = encodeURIComponent(tag.trim().toLowerCase().replace(/\s+/g, '-'));
+    return {
+      url: `${baseUrl}/blog/tag/${slug}`,
+      lastModified: new Date(latestDate),
+      changeFrequency: 'weekly' as const,
+      priority: 0.75,
+    };
+  });
+
+  const now = new Date();
+
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/silly-questions`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    ...tagUrls,
     ...blogUrls,
     ...questionUrls,
   ];

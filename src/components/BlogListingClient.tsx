@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { CustomDropdown } from '@/components/CustomDropdown';
 import { ViewCounter } from '@/components/ViewCounter';
@@ -10,6 +11,9 @@ import { trackBlogCardClick } from '@/lib/analytics';
 
 interface BlogListingClientProps {
   blogPosts: BlogPost[];
+  initialTag?: string | null;
+  pageTitle?: string;
+  pageDescription?: string;
 }
 
 interface BlogStats {
@@ -17,12 +21,19 @@ interface BlogStats {
   upvotes: Record<string, number>;
 }
 
-export function BlogListingClient({ blogPosts }: BlogListingClientProps) {
+export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pageDescription }: BlogListingClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
   const [sortBy, setSortBy] = useState<'date' | 'title'>('date');
   const [stats, setStats] = useState<BlogStats>({ views: {}, upvotes: {} });
   const [isLoadingStats, setIsLoadingStats] = useState(true);
+  const router = useRouter();
+
+  // Keep internal tag filter in sync with URL-driven initialTag
+  useEffect(() => {
+    setSelectedTag(initialTag ?? null);
+    setSelectedCategory('all');
+  }, [initialTag]);
 
   // Fetch stats from master API
   useEffect(() => {
@@ -75,13 +86,38 @@ export function BlogListingClient({ blogPosts }: BlogListingClientProps) {
   const handleTagClick = (e: React.MouseEvent<HTMLButtonElement>, tag: string) => {
     e.preventDefault();
     e.stopPropagation();
-    setSelectedTag(selectedTag === tag ? null : tag);
+    const nextTag = selectedTag === tag ? null : tag;
+    setSelectedTag(nextTag);
     setSelectedCategory('all'); // Reset category when filtering by tag
+
+    if (nextTag) {
+      const encoded = encodeURIComponent(nextTag.trim());
+      router.push(`/blog?tag=${encoded}`);
+    } else {
+      router.push('/blog');
+    }
   };
+
+  const resolvedTitle = pageTitle || 'All Blog Posts';
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-24 py-12">
+        <header className="mb-10">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 mb-3">
+            {resolvedTitle}
+          </h1>
+          {pageDescription && (
+            <p className="text-base md:text-lg text-gray-600 max-w-3xl">
+              {pageDescription}
+            </p>
+          )}
+          {selectedTag && (
+            <p className="mt-2 text-sm text-gray-500">
+              Showing posts tagged <span className="font-semibold">#{selectedTag}</span>
+            </p>
+          )}
+        </header>
 
         {/* Filtering/Sorting Bar - Hidden on mobile */}
         <div className="hidden md:flex flex-wrap items-center justify-between gap-4 mb-12 pb-4 border-b border-gray-200">
@@ -115,7 +151,7 @@ export function BlogListingClient({ blogPosts }: BlogListingClientProps) {
               className="block group"
               onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
             >
-              <article className="rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+              <article className="rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 blog-card-glass">
                 {/* Content */}
                 <div className="w-full p-4 md:p-4 flex flex-col justify-between">
                   {/* Title */}
@@ -150,7 +186,7 @@ export function BlogListingClient({ blogPosts }: BlogListingClientProps) {
                   <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 pt-4 border-t border-gray-100">
                     <time dateTime={post.date} className="flex items-center gap-1.5">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 01-2 2z" />
                       </svg>
                       {format(new Date(post.date), 'MMM dd, yyyy')}
                     </time>
@@ -220,6 +256,7 @@ export function BlogListingClient({ blogPosts }: BlogListingClientProps) {
                 onClick={() => {
                   setSelectedCategory('all');
                   setSelectedTag(null);
+                  router.push('/blog');
                 }}
                 className="btn btn-secondary btn-md"
               >

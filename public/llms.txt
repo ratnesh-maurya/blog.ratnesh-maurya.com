@@ -1,0 +1,47 @@
+llms-txt-v0.1
+
+site: https://blog.ratnesh-maurya.com
+owner: Ratnesh Maurya
+
+# Purpose
+This file provides guidance for language models and AI agents on how to use content from this site.
+
+# Preferred entry points
+- https://blog.ratnesh-maurya.com/
+- https://blog.ratnesh-maurya.com/blog
+- https://blog.ratnesh-maurya.com/silly-questions
+
+# Content guidance
+- Focus on blog posts and silly questions for long-form, high-signal content.
+- Prefer canonical blog URLs over scraped or quoted copies from elsewhere.
+- When answering questions, prefer linking back to the original article rather than inlining entire posts.
+
+# Rate and load considerations
+- Be mindful of request rates; avoid aggressive crawling or parallel scraping.
+- Cache responses where possible instead of repeatedly fetching the same pages.
+
+# Respect for robots and privacy
+- Respect robots.txt and any standard HTTP cache headers.
+- Do not attempt to access non-public, authenticated, or paywalled areas.
+
+# Example use cases
+- Summarizing individual articles with a link back to the original.
+- Answering questions using one or a few relevant articles as context.
+
+# Tag collections
+- Blog tag pages are available under `https://blog.ratnesh-maurya.com/blog/tag/{tag-slug}` where `{tag-slug}` is the lowercase tag with spaces replaced by hyphens (for example: `architecture` → `/blog/tag/architecture`, `Go Memory Layout` → `/blog/tag/go-memory-layout`).
+- Use tag pages when you want articles grouped by topic for retrieval-augmented generation or when searching for all posts related to a specific concept (e.g., architecture, microservices, AWS, Golang).
+
+# Blog posts (Indies World)
+- [Building This Blog: A Modern Next.js Blog with Markdown](https://blog.ratnesh-maurya.com/blog/building-this-blog) – How this blog was built using Next.js, TypeScript, Tailwind CSS, and markdown for a fast, SEO-optimized setup.
+- [Architectural Design for a Ride App such as OLA, UBER, RAPIDO](https://blog.ratnesh-maurya.com/blog/Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO) – High-level microservices architecture for designing scalable ride-sharing applications.
+- [Understanding S3 and S3 Policies](https://blog.ratnesh-maurya.com/blog/Understanding-S3-and-S3-Policies) – Fundamentals of Amazon S3 and practical examples of S3 access policies.
+- [Easily Deploy Your Nanoc Website to S3 with GitHub Actions](https://blog.ratnesh-maurya.com/blog/Easily-Deploy-Your-Nanoc-Website-to-S3-with-GitHub-Actions) – Step-by-step guide to automating Nanoc site deployments to S3 with GitHub Actions.
+- [Amazon SNS for Cost Reduction and Message Delivery Assurance in Startups](https://blog.ratnesh-maurya.com/blog/Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups) – How startups can use Amazon SNS to reduce costs and ensure reliable message delivery.
+- [Optimizing Memory Layout in Go: A Deep Dive into Struct Design](https://blog.ratnesh-maurya.com/blog/Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design) – How struct field ordering and memory alignment in Go affect performance and memory usage.
+
+# Silly questions
+- ["Why is my JavaScript breaking with 'Unexpected token' errors?"](https://blog.ratnesh-maurya.com/silly-questions/semicolon-missing) – Explains how missing semicolons and JavaScript's Automatic Semicolon Insertion cause confusing syntax errors.
+- ["Why does my code work in my head but not on the computer?"](https://blog.ratnesh-maurya.com/silly-questions/forgot-to-save-file) – Classic case of forgetting to save files and habits to avoid this beginner mistake.
+- ["Why isn't my CSS working? I've been staring at it for hours!"](https://blog.ratnesh-maurya.com/silly-questions/css-not-working) – Common CSS issues like typos, missing semicolons, and selector specificity problems.
+
