@@ -639,6 +639,20 @@ html, body {
   animation: scaleIn 0.3s ease-out;
 }
 
+/* Horizontal scrolling text for background marquee */
+.bg-text-marquee {
+  animation: bgTextMarquee 45s linear infinite;
+}
+
+@keyframes bgTextMarquee {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-20%);
+  }
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;

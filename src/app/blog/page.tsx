@@ -65,10 +65,21 @@ export default async function BlogPage() {
   ];
 
   return (
-    <>
+    <div className="relative overflow-hidden">
       <BlogListStructuredData posts={blogPosts} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <BlogListingClient blogPosts={blogPosts} />
-    </>
+
+      {/* Moving bottom background text: blog blog blog ... */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 select-none hidden sm:block">
+        <div className="h-20 sm:h-24 md:h-28 bg-gradient-to-t from-primary-50/70 to-transparent">
+          <div className="whitespace-nowrap bg-text-marquee h-full flex items-center opacity-20">
+            <span className="gradient-text-primary font-extrabold tracking-[0.4em] uppercase text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+              Blog&nbsp;Blog&nbsp;Blog&nbsp;Blog&nbsp;Blog&nbsp;Blog&nbsp;Blog&nbsp;Blog&nbsp;Blog&nbsp;Blog&nbsp;
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
