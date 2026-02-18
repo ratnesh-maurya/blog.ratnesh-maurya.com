@@ -10,6 +10,7 @@ export interface BlogPost {
   featured?: boolean;
   image?: string;
   socialImage?: string; // Custom social sharing image
+  questions?: string[]; // SEO questions for FAQ structured data (not displayed on page)
   content: string;
 }
 

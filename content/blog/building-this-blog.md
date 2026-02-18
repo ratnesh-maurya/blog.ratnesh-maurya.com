@@ -7,6 +7,16 @@ tags: ["Next.js", "Blog", "Markdown", "TypeScript", "Tailwind CSS"]
 category: "Web Development"
 featured: true
 image: "/images/blog/building-blog.jpg"
+questions: [
+  "How to build a blog with Next.js?",
+  "How to create a markdown-based blog?",
+  "How to optimize a blog for SEO?",
+  "How to build a fast blog with Next.js?",
+  "How to use markdown for blog content management?",
+  "What is the best tech stack for a blog?",
+  "How to deploy a Next.js blog?",
+  "How to add table of contents to blog posts?"
+]
 ---
 
 # Building This Blog: A Modern Next.js Blog with Markdown

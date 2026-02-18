@@ -56,26 +56,127 @@ npm run dev
 
 ## ✍️ Adding Content
 
-### Blog Posts
+### Writing a New Blog Post
 
-Create a new markdown file in `content/blog/` with frontmatter:
+To add a new blog post, simply create a new markdown file in the `content/blog/` directory. Follow these guidelines to ensure consistency and proper formatting.
+
+#### 1. File Naming Convention
+
+- **Location**: Create your file in `content/blog/`
+- **Extension**: Must be a `.md` file
+- **Filename Format**: Use **Title-Case-with-dashes** (no spaces)
+  - ✅ Good: `Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups.md`
+  - ✅ Good: `Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO.md`
+  - ❌ Bad: `amazon sns.md` or `Amazon_SNS.md`
+
+#### 2. Frontmatter Structure
+
+Every blog post **must start** with YAML frontmatter between `---` lines. Here's the complete template:
 
 ```markdown
 ---
 title: "Your Blog Post Title"
-description: "A brief description of your post"
+description: "A concise, SEO-friendly summary (1-2 sentences) that describes what readers will learn from this post."
 date: "2024-01-15"
 author: "Ratnesh Maurya"
-tags: ["Next.js", "React", "Web Development"]
 category: "Web Development"
-featured: true
-image: "/images/your-image.jpg"
+tags: ["Next.js", "React", "Web Development"]
+image: "/images/blog/your-image-file.jpg"
+featured: false
+questions: ["How to compress a 20GB file to 15GB?", "How compression works?", "What is the best compression algorithm?"]
 ---
-
-# Your Blog Post Content
-
-Write your blog post content here using markdown...
 ```
+
+**Frontmatter Fields Explained:**
+
+- **title** (required): The main title of your blog post. Should be descriptive and SEO-friendly.
+- **description** (required): A brief summary (1-2 sentences) used for meta descriptions and previews.
+- **date** (required): Publication date in `"YYYY-MM-DD"` format (as a string).
+- **author** (required): Usually `"Ratnesh Maurya"`. Keep consistent spelling.
+- **category** (required): A single high-level category. Examples: `"AWS"`, `"Web Development"`, `"System Design"`, `"Go"`, `"DevOps"`.
+- **tags** (required): Array of specific topics/tags. Examples: `["Amazon S3", "S3 Policies"]`, `["Next.js", "Markdown"]`. Use consistent casing.
+- **image** (required): Path to the featured image under `/public/images/blog/`. Example: `"/images/blog/Understanding-S3-and-S3-Policies.jpg"`.
+- **featured** (optional): Set to `true` only if you want this post to appear as featured on the homepage. Default: `false`.
+- **questions** (optional): Array of SEO-related questions that will appear in FAQ structured data for better search engine visibility. These questions are **not displayed** on the blog page itself, but help with SEO rich snippets. Examples:
+  - `["How to compress a 20GB file to 15GB?", "How compression works?"]`
+  - `["What is Amazon SNS?", "How does SNS reduce costs?"]`
+
+#### 3. Content Structure
+
+After the frontmatter, write your blog post content in markdown:
+
+```markdown
+# Your Blog Post Title
+
+Start with a brief introduction (1-3 paragraphs) explaining:
+- What the post is about
+- Who it's for
+- What readers will learn
+
+## Main Section Heading
+
+Use `##` for main sections. The blog automatically generates a Table of Contents from headings.
+
+### Subsection Heading
+
+Use `###` for subsections. Avoid going deeper than `####` unless necessary.
+
+### Code Examples
+
+Always specify the language for syntax highlighting:
+
+\`\`\`bash
+npm install
+\`\`\`
+
+\`\`\`json
+{
+  "key": "value"
+}
+\`\`\`
+
+Use inline code with backticks for commands: \`npm run dev\`
+
+### Images
+
+Store images in `/public/images/blog/` and reference them:
+
+![Alt text describing the image](/images/blog/your-image.jpg)
+
+### Lists
+
+- Use bullet lists for features, benefits, etc.
+- Keep items concise
+
+1. Use numbered lists for steps
+2. Follow a logical order
+3. Test your examples
+
+## Conclusion
+
+Wrap up with a summary or next steps.
+```
+
+#### 4. Best Practices
+
+- **Headings**: Use descriptive headings (`##`, `###`) - they appear in the auto-generated Table of Contents
+- **Code Blocks**: Always specify a language for proper syntax highlighting
+- **Images**: Place images in `/public/images/blog/` and use descriptive alt text
+- **Consistency**: Follow the style of existing posts like `building-this-blog.md` or `Understanding-S3-and-S3-Policies.md`
+- **Tags**: Reuse existing tags when possible to avoid duplicates (e.g., don't mix `"S3"` and `"Amazon S3"`)
+
+#### 5. Quick Checklist
+
+Before committing your new blog post, verify:
+
+- [ ] File saved in `content/blog/` with dash-separated filename
+- [ ] Frontmatter includes all required fields
+- [ ] `title` matches the H1 heading in content
+- [ ] `date` is in `"YYYY-MM-DD"` format
+- [ ] `image` path exists in `/public/images/blog/`
+- [ ] Content starts with H1 heading
+- [ ] Code blocks have language specified
+- [ ] All links and image paths are valid
 
 ### Silly Questions
 

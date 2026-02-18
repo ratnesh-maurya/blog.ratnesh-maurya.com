@@ -6,6 +6,16 @@ date: "2024-11-23"
 category: AWS
 image: /images/blog/Easily-Deploy-Your-Nanoc-Website-to-S3-with-GitHub-Actions.jpg
 tags:  [AWS, Nanoc, GitHub Actions, GitHub Actions Workflow ]
+questions: [
+  "How to deploy Nanoc website to S3?",
+  "How to automate website deployment with GitHub Actions?",
+  "How to deploy static website to AWS S3?",
+  "How to set up GitHub Actions workflow for deployment?",
+  "How to deploy Nanoc site automatically?",
+  "What is the best way to deploy static sites to S3?",
+  "How to configure GitHub Actions for S3 deployment?",
+  "How to automate Nanoc deployment?"
+]
 ---
 
 

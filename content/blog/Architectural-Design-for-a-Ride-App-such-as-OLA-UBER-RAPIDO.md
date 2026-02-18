@@ -7,6 +7,16 @@ category: "Software Architecture"
 image: "/images/blog/Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO.jpg"
 tags: ["microservices", "system-design", "architecture", "ride-sharing", "scalability"]
 readTime: "3 min read"
+questions: [
+  "How to design a ride-sharing app architecture?",
+  "What is the system design for Uber or Ola?",
+  "How does a ride app architecture work?",
+  "What are the components of a ride-sharing app?",
+  "How to design scalable ride app architecture?",
+  "What is microservices architecture for ride apps?",
+  "How does ride matching work in ride-sharing apps?",
+  "What is the architecture of Uber or Ola?"
+]
 ---
 
 

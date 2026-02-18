@@ -6,6 +6,16 @@ date: "2023-11-23"
 category: AWS
 image: /images/blog/Understanding-S3-and-S3-Policies.jpg
 tags: ["AWS", " Amazon S3", "S3", "S3 Policies" ]
+questions: [
+  "What is Amazon S3?",
+  "How do S3 policies work?",
+  "How to secure S3 buckets with policies?",
+  "What are S3 bucket policies?",
+  "How to grant read-only access to S3 bucket?",
+  "How to require encryption in S3?",
+  "What is the difference between S3 bucket policies and IAM policies?",
+  "How to configure S3 policies for public access?"
+]
 
 ---
 

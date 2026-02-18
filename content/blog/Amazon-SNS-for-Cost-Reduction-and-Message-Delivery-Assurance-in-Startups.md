@@ -8,6 +8,16 @@ category: AWS
 image: "/images/blog/Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups.jpg"
 tags: [AWS,  SNS, SQS]
 readTime: "6 min read"
+questions: [
+  "What is Amazon SNS?",
+  "How does Amazon SNS reduce costs for startups?",
+  "How does Amazon SNS ensure message delivery?",
+  "What are the benefits of using AWS SNS?",
+  "How does Amazon SNS handle message retries?",
+  "What is the difference between SNS and SQS?",
+  "How can startups use SNS for email notifications?",
+  "What are dead letter queues in Amazon SNS?"
+]
 ---
 
 Startups operate in a dynamic and often resource-constrained environment. Managing costs and ensuring effective communication with users and customers are essential priorities. Amazon Simple Notification Service (SNS) emerges as a powerful solution that not only reduces costs but also guarantees the delivery of critical messages. In this blog post, we explore how startups can benefit from Amazon SNS.

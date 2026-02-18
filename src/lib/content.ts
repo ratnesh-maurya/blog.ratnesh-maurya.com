@@ -3,7 +3,9 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkGfm from 'remark-gfm';
-import remarkHtml from 'remark-html';
+import remarkRehype from 'remark-rehype';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeStringify from 'rehype-stringify';
 import readingTime from 'reading-time';
 import { BlogPost, SillyQuestion } from '@/types/blog';
 import { addIdsToHeadings } from './toc';
@@ -43,7 +45,9 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     
     const processedContent = await remark()
       .use(remarkGfm)
-      .use(remarkHtml, { sanitize: false })
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
       .process(content);
 
     const contentHtml = addIdsToHeadings(processedContent.toString());
@@ -61,6 +65,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       featured: data.featured || false,
       image: data.image || '',
       socialImage: data.socialImage || data.image || '',
+      questions: data.questions || [],
       content: contentHtml,
     };
   } catch (error) {
@@ -92,7 +97,9 @@ export async function getSillyQuestion(slug: string): Promise<SillyQuestion | nu
     
     const processedContent = await remark()
       .use(remarkGfm)
-      .use(remarkHtml, { sanitize: false })
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
       .process(content);
     
     const answerHtml = processedContent.toString();

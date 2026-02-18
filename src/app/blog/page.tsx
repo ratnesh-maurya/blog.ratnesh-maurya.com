@@ -57,15 +57,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 interface BlogPageProps {
-  searchParams?: {
+  searchParams?: Promise<{
     tag?: string;
-  };
+  }>;
 }
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const blogPosts = await getAllBlogPosts();
 
-  const rawTag = searchParams?.tag;
+  const resolvedSearchParams = await searchParams;
+  const rawTag = resolvedSearchParams?.tag;
   const selectedTag = rawTag ? decodeURIComponent(rawTag).trim() : null;
 
   const breadcrumbItems = [

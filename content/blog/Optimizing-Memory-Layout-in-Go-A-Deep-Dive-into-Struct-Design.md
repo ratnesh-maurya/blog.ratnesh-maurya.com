@@ -6,7 +6,16 @@ date: "2025-01-10"
 category: Golang
 image: "/images/blog/Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design.jpg"
 tags: [ "Golang", "Go Memory Layout"]
-
+questions: [
+  "How to optimize memory layout in Go?",
+  "How does struct field ordering affect memory in Go?",
+  "What is memory alignment in Go?",
+  "How to reduce memory usage in Go structs?",
+  "What is the impact of struct field ordering on performance?",
+  "How does Go handle struct memory layout?",
+  "What is padding in Go structs?",
+  "How to design efficient Go structs?"
+]
 ---
 
 

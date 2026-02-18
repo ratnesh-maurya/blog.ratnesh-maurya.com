@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "highlight.js/styles/github-dark-dimmed.css";
 
 /* Modern Design System Variables */
 :root {
@@ -254,7 +255,7 @@ body {
 .prose {
   color: var(--text-primary);
   max-width: none;
-  line-height: 1.7;
+  line-height: 1.5;
 }
 
 .prose h1 {
@@ -303,8 +304,9 @@ body {
 }
 
 .prose p {
+  font-size: 1.25rem; /* 20px — comfortable reading size */
   margin-bottom: 1rem;
-  line-height: 1.7;
+  line-height: 1.5;
   color: var(--text-secondary);
 }
 
@@ -361,6 +363,7 @@ body {
 }
 
 .prose li {
+  font-size: 1.25rem; /* 20px — match paragraph size */
   margin-bottom: 0.5rem;
 }
 
@@ -375,8 +378,8 @@ body {
 /* Mobile-specific improvements */
 @media (max-width: 640px) {
   .prose {
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 20px;
+    line-height: 1.5;
   }
 
   .prose h1 {
@@ -502,8 +505,9 @@ html, body {
 }
 
 .prose p {
+  font-size: 1.25rem; /* 20px — comfortable reading size */
   margin-bottom: 1rem;
-  line-height: 1.75;
+  line-height: 1.5;
 }
 
 .prose ul,
@@ -513,6 +517,7 @@ html, body {
 }
 
 .prose li {
+  font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
 

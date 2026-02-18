@@ -119,13 +119,13 @@ interface SocialImageProps {
 }
 
 export function getSocialImageUrl({ post, type = 'og' }: SocialImageProps): string {
-  // If post has a custom social image, use it
+  // If post has an image, use it
   if (post.image) {
     return post.image.startsWith('/') ? post.image : `/images/blog/${post.image}`;
   }
 
-  // Otherwise, generate a default social image path
-  return `/images/social/${type}-${post.slug}.jpg`;
+  // Otherwise, fall back to the default blog social image
+  return getDefaultSocialImage(type, 'blog');
 }
 
 export function getDefaultSocialImage(type: 'og' | 'twitter' = 'og', page: 'home' | 'blog' | 'silly-questions' = 'home'): string {

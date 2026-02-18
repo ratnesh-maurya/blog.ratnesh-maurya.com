@@ -1,5 +1,5 @@
 import { getBlogPost, getBlogPostSlugs } from '@/lib/content';
-import { BlogStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
+import { BlogStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
 import { getSocialImageUrl } from '@/components/BlogImage';
 import { SocialShare } from '@/components/SocialShare';
 import { ReadingProgress } from '@/components/ReadingProgress';
@@ -74,7 +74,14 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
-      images: [fullTwitterImageUrl],
+      images: [
+        {
+          url: fullTwitterImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        }
+      ],
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
     },
@@ -113,10 +120,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     { name: post.title, url: `https://blog.ratnesh-maurya.com/blog/${post.slug}` }
   ];
 
+  // Prepare FAQ questions for structured data (if questions exist)
+  // These questions appear in metadata for SEO but are not displayed on the page
+  const faqQuestions = post.questions && post.questions.length > 0
+    ? post.questions.map((question) => {
+      // Create a comprehensive answer that references the blog post
+      const answer = `${post.description} This blog post covers ${post.title.toLowerCase()} in detail, providing insights and explanations on this topic.`;
+      return {
+        question,
+        answer,
+        slug: post.slug,
+      };
+    })
+    : [];
+
   return (
     <>
       <BlogStructuredData post={post} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
+      {faqQuestions.length > 0 && <FAQStructuredData questions={faqQuestions} />}
       <ReadingProgress />
 
       <div className="min-h-screen bg-white">
