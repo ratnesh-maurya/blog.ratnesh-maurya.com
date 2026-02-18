@@ -251,9 +251,10 @@ body {
   border-color: transparent;
 }
 
-/* Enhanced Prose Styles for Blog Content */
+/* Enhanced Prose Styles for Blog Content — Medium-like reading font */
 .prose {
   color: var(--text-primary);
+  font-family: Charter, "Bitstream Charter", Georgia, Cambria, "Times New Roman", Times, serif;
   max-width: none;
   line-height: 1.5;
 }

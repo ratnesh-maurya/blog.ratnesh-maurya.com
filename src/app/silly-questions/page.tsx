@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
 
   return {
-    title: "Silly Questions & Coding Mistakes | Blog's By Ratnesh",
+    title: "Silly Questions & Coding Mistakes",
     description: "Common coding mistakes and silly questions every developer encounters. Learn from real debugging experiences, troubleshooting tips, and programming errors. Save time debugging with these practical lessons! 🤦‍♂️",
     keywords: [
       "coding mistakes",

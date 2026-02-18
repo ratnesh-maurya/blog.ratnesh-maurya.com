@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
 
   return {
-    title: "All Blog Posts | Blog's By Ratnesh",
+    title: "All Blog Posts",
     description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
     keywords: ["blog posts", "web development", "programming", "javascript", "typescript", "react", "nextjs", "technology"],
     authors: [{ name: "Ratnesh Maurya" }],

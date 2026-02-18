@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     : twitterImageUrl;
 
   return {
-    title: `${post.title} | Blog's By Ratnesh`,
+    title: post.title,
     description: post.description,
     keywords: post.tags,
     authors: [{ name: post.author }],

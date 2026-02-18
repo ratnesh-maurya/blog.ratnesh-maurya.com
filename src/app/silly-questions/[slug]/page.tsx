@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
   const seoDescription = `${question.question} - Learn from this common ${question.category.toLowerCase()} mistake. ${answerPreview}${answerPreview.length === 150 ? '...' : ''}`;
 
   return {
-    title: `${question.question} | Silly Questions - Blog's By Ratnesh`,
+    title: `${question.question} | Silly Questions`,
     description: seoDescription,
     keywords: [
       ...question.tags,

@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
   const twitterImageUrl = getDefaultSocialImage('twitter', 'blog');
   const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
   const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
-  const title = `Posts tagged "${tagLabel}" | Blog's By Ratnesh`;
+  const title = `Posts tagged "${tagLabel}"`;
   const description = `Browse all blog posts tagged "${tagLabel}" from Blog's By Ratnesh.`;
   const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${params.tag}`;
 
