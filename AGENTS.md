@@ -1,0 +1,8 @@
+- Project: blog.ratnesh-maurya.com
+- Preserve existing code formatting and structure when editing files.
+- Follow the established coding style and patterns already used in the project.
+- Use ipApp common for shared application-level utilities and helpers.
+- Use IPCommons for common/shared functionality where appropriate.
+- Prefer small, focused changes that integrate cleanly with existing code.
+- Avoid adding redundant comments that only restate what the code already expresses.
+- When introducing new dependencies or patterns, align them with existing project conventions where possible.
