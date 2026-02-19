@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/mongodb';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60; // Revalidate every 60 seconds
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const db = await getDatabase();
     const viewsCollection = db.collection('views');

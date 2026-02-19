@@ -56,7 +56,7 @@ export function CustomDropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 text-left rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="w-full px-4 py-3 text-left rounded-lg border transition-all duration-200 focus:outline-none"
         style={{
           backgroundColor: 'var(--surface)',
           borderColor: 'var(--border)',
@@ -99,8 +99,8 @@ export function CustomDropdown({
                 option.value === value ? 'font-medium' : ''
               }`}
               style={{
-                backgroundColor: option.value === value ? 'var(--primary-50)' : 'transparent',
-                color: option.value === value ? 'var(--primary-700)' : 'var(--text-primary)'
+                backgroundColor: option.value === value ? 'var(--accent-50)' : 'transparent',
+                color: option.value === value ? 'var(--accent-500)' : 'var(--text-primary)'
               }}
               onMouseEnter={(e) => {
                 if (option.value !== value) {

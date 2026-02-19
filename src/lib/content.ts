@@ -7,12 +7,13 @@ import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
 import readingTime from 'reading-time';
-import { BlogPost, SillyQuestion } from '@/types/blog';
+import { BlogPost, SillyQuestion, TILEntry } from '@/types/blog';
 import { addIdsToHeadings } from './toc';
 
 const contentDirectory = path.join(process.cwd(), 'content');
 const blogDirectory = path.join(contentDirectory, 'blog');
 const sillyQuestionsDirectory = path.join(contentDirectory, 'silly-questions');
+const tilDirectory = path.join(contentDirectory, 'til');
 
 // Ensure directories exist
 if (!fs.existsSync(blogDirectory)) {
@@ -20,6 +21,9 @@ if (!fs.existsSync(blogDirectory)) {
 }
 if (!fs.existsSync(sillyQuestionsDirectory)) {
   fs.mkdirSync(sillyQuestionsDirectory, { recursive: true });
+}
+if (!fs.existsSync(tilDirectory)) {
+  fs.mkdirSync(tilDirectory, { recursive: true });
 }
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
@@ -116,6 +120,51 @@ export async function getSillyQuestion(slug: string): Promise<SillyQuestion | nu
     console.error(`Error reading silly question ${slug}:`, error);
     return null;
   }
+}
+
+export async function getAllTILEntries(): Promise<TILEntry[]> {
+  const fileNames = fs.readdirSync(tilDirectory).filter(name => name.endsWith('.md'));
+  const entries = await Promise.all(
+    fileNames.map(async (fileName) => {
+      const slug = fileName.replace(/\.md$/, '');
+      return await getTILEntry(slug);
+    })
+  );
+  return entries
+    .filter((e): e is TILEntry => e !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+export async function getTILEntry(slug: string): Promise<TILEntry | null> {
+  try {
+    const fullPath = path.join(tilDirectory, `${slug}.md`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
+
+    const processedContent = await remark()
+      .use(remarkGfm)
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
+      .process(content);
+
+    return {
+      slug,
+      title: data.title || '',
+      date: data.date || '',
+      category: data.category || 'General',
+      tags: data.tags || [],
+      content: processedContent.toString(),
+      rawContent: content,
+    };
+  } catch (error) {
+    console.error(`Error reading TIL entry ${slug}:`, error);
+    return null;
+  }
+}
+
+export function getTILSlugs(): string[] {
+  return fs.readdirSync(tilDirectory).filter(n => n.endsWith('.md')).map(n => n.replace(/\.md$/, ''));
 }
 
 export function getBlogPostSlugs(): string[] {

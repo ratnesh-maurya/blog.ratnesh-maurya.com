@@ -21,7 +21,7 @@ export async function requestIndexing(url: string): Promise<{ success: boolean; 
     }
 
     await jwtClient.authorize();
-    const res = await google.indexing('v3').urlNotifications.publish({
+    await google.indexing('v3').urlNotifications.publish({
       auth: jwtClient,
       requestBody: {
         url: url,

@@ -6,7 +6,7 @@ try {
   console.log('ℹ️  dotenv not found, using environment variables');
 }
 
-import { getAllBlogPosts, getAllSillyQuestions } from '../src/lib/content';
+import { getAllBlogPosts, getAllSillyQuestions, getAllTILEntries } from '../src/lib/content';
 import { requestIndexingBatch } from '../src/lib/googleIndexing';
 
 const baseUrl = 'https://blog.ratnesh-maurya.com';
@@ -22,37 +22,58 @@ async function indexAllPosts() {
   }
 
   try {
-    // Get all blog posts and silly questions
-    const [blogPosts, sillyQuestions] = await Promise.all([
+    // Get all dynamic content
+    const [blogPosts, sillyQuestions, tilEntries] = await Promise.all([
       getAllBlogPosts(),
-      getAllSillyQuestions()
+      getAllSillyQuestions(),
+      getAllTILEntries(),
     ]);
 
-    // Build list of URLs to index
-    const urls: string[] = [
+    // Static pages
+    const staticPages = [
       baseUrl,
       `${baseUrl}/blog`,
       `${baseUrl}/silly-questions`,
+      `${baseUrl}/til`,
       `${baseUrl}/about`,
+      `${baseUrl}/topics`,
+      `${baseUrl}/search`,
+      `${baseUrl}/uses`,
+      `${baseUrl}/newsletter`,
+      `${baseUrl}/privacy-policy`,
+      `${baseUrl}/series`,
+      `${baseUrl}/glossary`,
+      `${baseUrl}/resources`,
+      `${baseUrl}/now`,
+      `${baseUrl}/cheatsheets`,
+      `${baseUrl}/cheatsheets/go`,
+      `${baseUrl}/cheatsheets/docker`,
+      `${baseUrl}/cheatsheets/postgres`,
+      `${baseUrl}/cheatsheets/kubectl`,
     ];
 
-    // Add blog post URLs
+    const urls: string[] = [...staticPages];
+
+    // Blog post URLs
     blogPosts.forEach(post => {
       urls.push(`${baseUrl}/blog/${post.slug}`);
     });
 
-    // Add silly question URLs
+    // Silly question URLs
     sillyQuestions.forEach(question => {
       urls.push(`${baseUrl}/silly-questions/${question.slug}`);
     });
 
-    // Add tag pages
+    // TIL entry URLs
+    tilEntries.forEach(entry => {
+      urls.push(`${baseUrl}/til/${entry.slug}`);
+    });
+
+    // Tag pages (derived from blog posts)
     const tagSet = new Set<string>();
     blogPosts.forEach(post => {
       if (post.tags && post.tags.length > 0) {
-        post.tags.forEach(tag => {
-          tagSet.add(tag);
-        });
+        post.tags.forEach(tag => tagSet.add(tag));
       }
     });
 
@@ -62,10 +83,11 @@ async function indexAllPosts() {
     });
 
     console.log(`📝 Found ${urls.length} URLs to index:`);
+    console.log(`   - ${staticPages.length} static pages`);
     console.log(`   - ${blogPosts.length} blog posts`);
     console.log(`   - ${sillyQuestions.length} silly questions`);
-    console.log(`   - ${tagSet.size} tag pages`);
-    console.log(`   - 4 main pages\n`);
+    console.log(`   - ${tilEntries.length} TIL entries`);
+    console.log(`   - ${tagSet.size} tag pages\n`);
 
     // Index URLs in batches to respect rate limits (200 per day)
     const batchSize = 50; // Process in smaller batches to avoid overwhelming the API

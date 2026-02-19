@@ -1,4 +1,4 @@
-import { BlogPost, SillyQuestion } from '@/types/blog';
+import { BlogPost, SillyQuestion, TILEntry } from '@/types/blog';
 import { getSocialImageUrl } from './BlogImage';
 
 interface BlogStructuredDataProps {
@@ -69,7 +69,18 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
       '@type': 'InteractionCounter',
       interactionType: 'https://schema.org/ReadAction',
       userInteractionCount: 0
-    }
+    },
+    // speakable — highlights key passage for AI assistants and voice search
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '.speakable-intro'],
+    },
+    isPartOf: {
+      '@type': 'Blog',
+      '@id': 'https://blog.ratnesh-maurya.com/#blog',
+      name: 'Ratn Labs',
+      url: 'https://blog.ratnesh-maurya.com',
+    },
   };
 
   return (
@@ -189,14 +200,17 @@ export function WebsiteStructuredData() {
         'https://twitter.com/ratnesh_maurya'
       ]
     },
-    potentialAction: {
+    potentialAction: [{
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
         urlTemplate: 'https://blog.ratnesh-maurya.com/search?q={search_term_string}'
       },
       'query-input': 'required name=search_term_string',
-    },
+    }, {
+      '@type': 'ReadAction',
+      target: ['https://blog.ratnesh-maurya.com/blog'],
+    }],
   };
 
   return (
@@ -312,20 +326,34 @@ interface BlogListStructuredDataProps {
     slug: string;
     date: string;
     author: string;
+    category?: string;
+    tags?: string[];
   }>;
 }
 
 export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    itemListElement: posts.map((post, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      url: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
-      name: post.title,
-      description: post.description
-    }))
+    '@type': 'CollectionPage',
+    name: 'All Blog Posts — Ratn Labs',
+    description: 'Explore articles on web development, backend engineering, system design, and more.',
+    url: 'https://blog.ratnesh-maurya.com/blog',
+    inLanguage: 'en-US',
+    author: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: posts.map((post, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+        name: post.title,
+        description: post.description,
+      })),
+    },
   };
 
   return (
@@ -333,5 +361,207 @@ export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
     />
+  );
+}
+
+export function ProfilePageStructuredData() {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    dateCreated: '2023-01-01T00:00:00Z',
+    dateModified: new Date().toISOString(),
+    mainEntity: {
+      '@type': 'Person',
+      '@id': 'https://ratnesh-maurya.com/#person',
+      name: 'Ratnesh Maurya',
+      alternateName: 'Ratn',
+      description: 'Backend engineer specialising in system design, distributed systems, and web development. Building scalable backend systems and sharing insights through writing.',
+      image: {
+        '@type': 'ImageObject',
+        url: 'https://avatars.githubusercontent.com/u/85143283?v=4',
+        width: 400,
+        height: 400,
+      },
+      url: 'https://ratnesh-maurya.com',
+      sameAs: [
+        'https://github.com/ratnesh-maurya',
+        'https://linkedin.com/in/ratnesh-maurya',
+        'https://twitter.com/ratnesh_maurya',
+        'https://blog.ratnesh-maurya.com',
+      ],
+      jobTitle: 'Backend Engineer',
+      knowsAbout: [
+        'Backend Development',
+        'System Design',
+        'Distributed Systems',
+        'Web Development',
+        'JavaScript',
+        'TypeScript',
+        'Go',
+        'Node.js',
+        'React',
+        'Next.js',
+        'AWS',
+        'Database Design',
+        'API Development',
+      ],
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+// ─── Glossary: DefinedTermSet + DefinedTerm ───────────────────────────────────
+interface GlossaryTerm { term: string; def: string; }
+interface GlossaryCategory { category: string; items: GlossaryTerm[]; }
+interface GlossaryStructuredDataProps { terms: GlossaryCategory[]; }
+
+export function GlossaryStructuredData({ terms }: GlossaryStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTermSet',
+    '@id': 'https://blog.ratnesh-maurya.com/glossary#termset',
+    name: 'Backend Engineering Glossary',
+    description: 'Definitions for common backend, system design, Go, and distributed systems terms.',
+    url: 'https://blog.ratnesh-maurya.com/glossary',
+    publisher: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+    },
+    hasDefinedTerm: terms.flatMap(cat =>
+      cat.items.map(item => ({
+        '@type': 'DefinedTerm',
+        name: item.term,
+        description: item.def,
+        inDefinedTermSet: 'https://blog.ratnesh-maurya.com/glossary#termset',
+        url: `https://blog.ratnesh-maurya.com/glossary#${item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+      }))
+    ),
+  };
+  return (
+    <script type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+  );
+}
+
+// ─── Cheatsheet: TechArticle ──────────────────────────────────────────────────
+interface CheatsheetStructuredDataProps {
+  title: string;
+  description: string;
+  slug: string;
+  keywords: string[];
+}
+
+export function CheatsheetStructuredData({ title, description, slug, keywords }: CheatsheetStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: title,
+    description,
+    url: `https://blog.ratnesh-maurya.com/cheatsheets/${slug}`,
+    inLanguage: 'en-US',
+    isAccessibleForFree: true,
+    keywords: keywords.join(', '),
+    author: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+      sameAs: ['https://github.com/ratnesh-maurya', 'https://linkedin.com/in/ratnesh-maurya'],
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Ratn Labs',
+      url: 'https://blog.ratnesh-maurya.com',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://blog.ratnesh-maurya.com/cheatsheets/${slug}`,
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      '@id': 'https://blog.ratnesh-maurya.com/#website',
+    },
+  };
+  return (
+    <script type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+  );
+}
+
+// ─── TIL: TechArticle ────────────────────────────────────────────────────────
+interface TILStructuredDataProps { entry: TILEntry; }
+
+export function TILStructuredData({ entry }: TILStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: entry.title,
+    description: `Today I Learned: ${entry.title}. A short engineering note about ${entry.category}.`,
+    datePublished: new Date(entry.date).toISOString(),
+    dateModified: new Date(entry.date).toISOString(),
+    url: `https://blog.ratnesh-maurya.com/til/${entry.slug}`,
+    keywords: entry.tags.join(', '),
+    articleSection: entry.category,
+    inLanguage: 'en-US',
+    isAccessibleForFree: true,
+    author: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+      sameAs: ['https://github.com/ratnesh-maurya', 'https://linkedin.com/in/ratnesh-maurya'],
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Ratn Labs',
+      url: 'https://blog.ratnesh-maurya.com',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://blog.ratnesh-maurya.com/til/${entry.slug}`,
+    },
+    isPartOf: {
+      '@type': 'Blog',
+      '@id': 'https://blog.ratnesh-maurya.com/#blog',
+      name: 'Ratn Labs',
+    },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1'],
+    },
+  };
+  return (
+    <script type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+  );
+}
+
+// ─── TIL Listing: ItemList ────────────────────────────────────────────────────
+interface TILListStructuredDataProps { entries: TILEntry[]; }
+
+export function TILListStructuredData({ entries }: TILListStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Today I Learned — Ratn Labs',
+    description: 'Short practical learnings from real engineering work — Go, PostgreSQL, Kubernetes, AWS, Docker.',
+    url: 'https://blog.ratnesh-maurya.com/til',
+    numberOfItems: entries.length,
+    itemListElement: entries.map((entry, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: entry.title,
+      url: `https://blog.ratnesh-maurya.com/til/${entry.slug}`,
+      description: `TIL about ${entry.category}: ${entry.title}`,
+    })),
+  };
+  return (
+    <script type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
   );
 }

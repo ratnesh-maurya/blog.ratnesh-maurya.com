@@ -22,152 +22,65 @@ interface SearchPopupProps {
 type FilterType = 'all' | 'blog' | 'question';
 type SortType = 'relevance' | 'date' | 'title';
 
-// Enhanced search implementation with better matching
 function searchScore(query: string, text: string): { score: number; matched: boolean } {
-  const queryLower = query.toLowerCase().trim();
-  const textLower = text.toLowerCase();
-
-  if (!queryLower) return { score: 0, matched: false };
-
-  // Exact match gets highest score
-  if (textLower.includes(queryLower)) {
-    const exactIndex = textLower.indexOf(queryLower);
-    const isWordBoundary = exactIndex === 0 || /\s/.test(textLower[exactIndex - 1]);
-    return {
-      score: isWordBoundary ? 10 : 8,
-      matched: true
-    };
+  const q = query.toLowerCase().trim();
+  const t = text.toLowerCase();
+  if (!q) return { score: 0, matched: false };
+  if (t.includes(q)) {
+    const idx = t.indexOf(q);
+    return { score: /\s/.test(t[idx - 1] ?? ' ') ? 10 : 8, matched: true };
   }
-
-  // Word boundary matches
-  const words = queryLower.split(/\s+/);
+  const words = q.split(/\s+/);
   let wordMatches = 0;
-  for (const word of words) {
-    if (textLower.includes(word)) {
-      wordMatches++;
-    }
-  }
-
-  if (wordMatches > 0) {
-    return {
-      score: (wordMatches / words.length) * 5,
-      matched: true
-    };
-  }
-
-  // Fuzzy matching for partial matches
-  let score = 0;
-  let queryIndex = 0;
-  for (let i = 0; i < textLower.length && queryIndex < queryLower.length; i++) {
-    if (textLower[i] === queryLower[queryIndex]) {
-      score++;
-      queryIndex++;
-    }
-  }
-
-  const fuzzyScore = queryIndex === queryLower.length ? (score / textLower.length) * 2 : 0;
-  return {
-    score: fuzzyScore,
-    matched: fuzzyScore > 0.3
-  };
+  for (const w of words) if (t.includes(w)) wordMatches++;
+  if (wordMatches > 0) return { score: (wordMatches / words.length) * 5, matched: true };
+  let score = 0, qi = 0;
+  for (let i = 0; i < t.length && qi < q.length; i++) if (t[i] === q[qi]) { score++; qi++; }
+  const fuzzy = qi === q.length ? (score / t.length) * 2 : 0;
+  return { score: fuzzy, matched: fuzzy > 0.3 };
 }
 
-function searchContent(query: string, blogPosts: BlogPost[], sillyQuestions: SillyQuestion[], filterType: FilterType = 'all'): SearchResult[] {
+function searchContent(query: string, blogPosts: BlogPost[], sillyQuestions: SillyQuestion[], filterType: FilterType): SearchResult[] {
   if (!query.trim()) return [];
-
   const results: SearchResult[] = [];
 
-  // Search blog posts
   if (filterType === 'all' || filterType === 'blog') {
     blogPosts.forEach(post => {
       const matchedFields: string[] = [];
       let totalScore = 0;
-
-      const titleResult = searchScore(query, post.title);
-      if (titleResult.matched) {
-        totalScore += titleResult.score * 3;
-        matchedFields.push('title');
-      }
-
-      const descriptionResult = searchScore(query, post.description);
-      if (descriptionResult.matched) {
-        totalScore += descriptionResult.score * 2;
-        matchedFields.push('description');
-      }
-
-      const categoryResult = searchScore(query, post.category);
-      if (categoryResult.matched) {
-        totalScore += categoryResult.score * 1.5;
-        matchedFields.push('category');
-      }
-
-      let tagsScore = 0;
+      const t = searchScore(query, post.title);
+      if (t.matched) { totalScore += t.score * 3; matchedFields.push('title'); }
+      const d = searchScore(query, post.description);
+      if (d.matched) { totalScore += d.score * 2; matchedFields.push('description'); }
+      const c = searchScore(query, post.category);
+      if (c.matched) { totalScore += c.score * 1.5; matchedFields.push('category'); }
       post.tags.forEach(tag => {
-        const tagResult = searchScore(query, tag);
-        if (tagResult.matched) {
-          tagsScore += tagResult.score;
-          if (!matchedFields.includes('tags')) {
-            matchedFields.push('tags');
-          }
-        }
+        const r = searchScore(query, tag);
+        if (r.matched) { totalScore += r.score; if (!matchedFields.includes('tags')) matchedFields.push('tags'); }
       });
-      totalScore += tagsScore;
-
-      if (totalScore > 0) {
-        results.push({
-          type: 'blog',
-          item: post,
-          score: totalScore,
-          matchedFields
-        });
-      }
+      if (totalScore > 0) results.push({ type: 'blog', item: post, score: totalScore, matchedFields });
     });
   }
 
-  // Search silly questions
   if (filterType === 'all' || filterType === 'question') {
     sillyQuestions.forEach(question => {
       const matchedFields: string[] = [];
       let totalScore = 0;
-
-      const questionResult = searchScore(query, question.question);
-      if (questionResult.matched) {
-        totalScore += questionResult.score * 3;
-        matchedFields.push('question');
-      }
-
+      const q = searchScore(query, question.question);
+      if (q.matched) { totalScore += q.score * 3; matchedFields.push('question'); }
       if (question.answer) {
-        const answerResult = searchScore(query, question.answer);
-        if (answerResult.matched) {
-          totalScore += answerResult.score * 2;
-          matchedFields.push('answer');
-        }
+        const a = searchScore(query, question.answer);
+        if (a.matched) { totalScore += a.score * 2; matchedFields.push('answer'); }
       }
-
-      let tagsScore = 0;
       question.tags.forEach(tag => {
-        const tagResult = searchScore(query, tag);
-        if (tagResult.matched) {
-          tagsScore += tagResult.score;
-          if (!matchedFields.includes('tags')) {
-            matchedFields.push('tags');
-          }
-        }
+        const r = searchScore(query, tag);
+        if (r.matched) { totalScore += r.score; if (!matchedFields.includes('tags')) matchedFields.push('tags'); }
       });
-      totalScore += tagsScore;
-
-      if (totalScore > 0) {
-        results.push({
-          type: 'question',
-          item: question,
-          score: totalScore,
-          matchedFields
-        });
-      }
+      if (totalScore > 0) results.push({ type: 'question', item: question, score: totalScore, matchedFields });
     });
   }
 
-  return results.sort((a, b) => b.score - a.score).slice(0, 12); // Top 12 results
+  return results.sort((a, b) => b.score - a.score).slice(0, 10);
 }
 
 export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions }: SearchPopupProps) {
@@ -178,298 +91,327 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions }: Sear
   const [sortType, setSortType] = useState<SortType>('relevance');
   const inputRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
-  // Get unique categories and tags for suggestions
   const suggestions = useMemo(() => {
-    const categories = Array.from(new Set(blogPosts.map(post => post.category)));
+    const categories = Array.from(new Set(blogPosts.map(p => p.category)));
     const tags = Array.from(new Set([
-      ...blogPosts.flatMap(post => post.tags),
-      ...sillyQuestions.flatMap(q => q.tags)
+      ...blogPosts.flatMap(p => p.tags),
+      ...sillyQuestions.flatMap(q => q.tags),
     ]));
-    return { categories, tags };
+    return { categories: categories.slice(0, 6), tags: tags.slice(0, 8) };
   }, [blogPosts, sillyQuestions]);
 
-  // Search and sort results
   const sortedResults = useMemo(() => {
-    const searchResults = searchContent(query, blogPosts, sillyQuestions, filterType);
-
-    if (sortType === 'date') {
-      return searchResults.sort((a, b) => new Date(b.item.date).getTime() - new Date(a.item.date).getTime());
-    } else if (sortType === 'title') {
-      return searchResults.sort((a, b) => {
-        const titleA = a.type === 'blog' ? (a.item as BlogPost).title : (a.item as SillyQuestion).question;
-        const titleB = b.type === 'blog' ? (b.item as BlogPost).title : (b.item as SillyQuestion).question;
-        return titleA.localeCompare(titleB);
-      });
-    }
-    return searchResults; // relevance (default)
+    const r = searchContent(query, blogPosts, sillyQuestions, filterType);
+    if (sortType === 'date') return r.sort((a, b) => new Date(b.item.date).getTime() - new Date(a.item.date).getTime());
+    if (sortType === 'title') return r.sort((a, b) => {
+      const ta = a.type === 'blog' ? (a.item as BlogPost).title : (a.item as SillyQuestion).question;
+      const tb = b.type === 'blog' ? (b.item as BlogPost).title : (b.item as SillyQuestion).question;
+      return ta.localeCompare(tb);
+    });
+    return r;
   }, [query, blogPosts, sillyQuestions, filterType, sortType]);
 
-  useEffect(() => {
-    setResults(sortedResults);
-    setSelectedIndex(0);
-  }, [sortedResults]);
+  useEffect(() => { setResults(sortedResults); setSelectedIndex(0); }, [sortedResults]);
 
   useEffect(() => {
     if (isOpen) {
-      inputRef.current?.focus();
-      setQuery('');
-      setResults([]);
-      setFilterType('all');
-      setSortType('relevance');
-      setSelectedIndex(0);
+      setTimeout(() => inputRef.current?.focus(), 50);
+      setQuery(''); setResults([]); setFilterType('all'); setSortType('relevance'); setSelectedIndex(0);
     }
   }, [isOpen]);
 
   useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (!isOpen) return;
-
-      if (event.key === 'Escape') {
-        onClose();
-      } else if (event.key === 'ArrowDown') {
-        event.preventDefault();
-        setSelectedIndex(prev => Math.min(prev + 1, results.length - 1));
-      } else if (event.key === 'ArrowUp') {
-        event.preventDefault();
-        setSelectedIndex(prev => Math.max(prev - 1, 0));
-      } else if (event.key === 'Enter' && results[selectedIndex]) {
-        const result = results[selectedIndex];
-        const url = result.type === 'blog'
-          ? `/blog/${(result.item as BlogPost).slug}`
-          : `/silly-questions/${(result.item as SillyQuestion).slug}`;
-        window.location.href = url;
+    if (!isOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') { onClose(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); setSelectedIndex(p => Math.min(p + 1, results.length - 1)); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setSelectedIndex(p => Math.max(p - 1, 0)); }
+      else if (e.key === 'Enter' && results[selectedIndex]) {
+        const r = results[selectedIndex];
+        window.location.href = r.type === 'blog'
+          ? `/blog/${(r.item as BlogPost).slug}`
+          : `/silly-questions/${(r.item as SillyQuestion).slug}`;
       }
     }
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [isOpen, onClose, results, selectedIndex]);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
-        onClose();
-      }
+    if (!isOpen) return;
+    function onMouse(e: MouseEvent) {
+      if (popupRef.current && !popupRef.current.contains(e.target as Node)) onClose();
     }
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', onMouse);
+    return () => document.removeEventListener('mousedown', onMouse);
   }, [isOpen, onClose]);
 
+  // Scroll selected result into view
+  useEffect(() => {
+    const el = resultsRef.current?.children[selectedIndex] as HTMLElement;
+    el?.scrollIntoView({ block: 'nearest' });
+  }, [selectedIndex]);
+
+  const filterLabels: { id: FilterType; label: string; count: number }[] = [
+    { id: 'all', label: 'All', count: blogPosts.length + sillyQuestions.length },
+    { id: 'blog', label: 'Posts', count: blogPosts.length },
+    { id: 'question', label: 'Questions', count: sillyQuestions.length },
+  ];
+
   return (
-    <div className={`fixed inset-0 z-50 flex items-start justify-center pt-16 transition-all duration-300 ${isOpen
-      ? 'bg-black/20 backdrop-blur-sm visible'
-      : 'bg-transparent invisible pointer-events-none'
-      }`}>
-      <div ref={popupRef} className={`bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 border border-gray-200 transition-all duration-300 ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-4'
-        }`}>
-        {/* Search Header */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-900">Search</h2>
+    <div
+      className={`fixed inset-0 z-50 flex items-start justify-center transition-all duration-200 ${
+        isOpen ? 'visible' : 'invisible pointer-events-none'
+      }`}
+      style={{
+        backgroundColor: isOpen ? 'rgba(0,0,0,0.5)' : 'transparent',
+        backdropFilter: isOpen ? 'blur(4px)' : 'none',
+        paddingTop: 'clamp(3rem, 8vh, 7rem)',
+        paddingInline: '1rem',
+      }}
+    >
+      <div
+        ref={popupRef}
+        className={`w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl transition-all duration-200 ${
+          isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-97 -translate-y-3'
+        }`}
+        style={{
+          backgroundColor: 'var(--surface)',
+          border: '1px solid var(--border)',
+          maxHeight: '80vh',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* Search input row */}
+        <div className="flex items-center gap-3 px-4 py-3.5"
+          style={{ borderBottom: '1px solid var(--border)' }}>
+          <svg className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="Search posts, tags, questions…"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            className="flex-1 text-base bg-transparent outline-none border-none"
+            style={{ color: 'var(--text-primary)' }}
+          />
+          {query && (
             <button
-              onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              onClick={() => setQuery('')}
+              className="flex-shrink-0 text-xs px-1.5 py-0.5 rounded"
+              style={{ color: 'var(--text-muted)', backgroundColor: 'var(--surface-muted)' }}
             >
-              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              Clear
             </button>
-          </div>
+          )}
+          <button
+            onClick={onClose}
+            className="flex-shrink-0 text-xs px-2 py-1 rounded-md font-mono transition-colors"
+            style={{ color: 'var(--text-muted)', backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}
+          >
+            Esc
+          </button>
+        </div>
 
-          {/* Search Input */}
-          <div className="relative mb-4">
-            <svg className="absolute left-4 top-4 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Search posts, questions, tags, or categories..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 text-lg text-gray-900 placeholder-gray-500 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
+        {/* Filter + sort row */}
+        <div className="flex items-center justify-between px-4 py-2 gap-2"
+          style={{ borderBottom: '1px solid var(--border)', backgroundColor: 'var(--surface-muted)' }}>
+          <div className="flex items-center gap-1">
+            {filterLabels.map(f => (
+              <button
+                key={f.id}
+                onClick={() => setFilterType(f.id)}
+                className="text-xs px-2.5 py-1 rounded-full font-medium transition-all duration-150"
+                style={filterType === f.id
+                  ? { backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }
+                  : { backgroundColor: 'transparent', color: 'var(--text-muted)' }
+                }
+              >
+                {f.label}
+                <span className="ml-1 opacity-60">{f.count}</span>
+              </button>
+            ))}
           </div>
-
-          {/* Filters and Sort */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Filter by type</label>
-              <select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value as FilterType)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+          <div className="flex items-center gap-2">
+            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Sort:</span>
+            {(['relevance', 'date', 'title'] as SortType[]).map(s => (
+              <button
+                key={s}
+                onClick={() => setSortType(s)}
+                className="text-xs px-2 py-0.5 rounded transition-all"
+                style={sortType === s
+                  ? { color: 'var(--accent-500)', fontWeight: 600 }
+                  : { color: 'var(--text-muted)' }
+                }
               >
-                <option value="all">All Content</option>
-                <option value="blog">Blog Posts ({blogPosts.length})</option>
-                <option value="question">Questions ({sillyQuestions.length})</option>
-              </select>
-            </div>
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Sort by</label>
-              <select
-                value={sortType}
-                onChange={(e) => setSortType(e.target.value as SortType)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-              >
-                <option value="relevance">Relevance</option>
-                <option value="date">Latest First</option>
-                <option value="title">Title A-Z</option>
-              </select>
-            </div>
-            {results.length > 0 && (
-              <div className="flex items-end">
-                <div className="text-sm text-gray-500 py-2">
-                  {results.length} result{results.length !== 1 ? 's' : ''}
-                </div>
-              </div>
-            )}
+                {s === 'relevance' ? 'Best' : s === 'date' ? 'Latest' : 'A–Z'}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Search Results */}
-        <div className="max-h-[500px] overflow-y-auto">
+        {/* Results / Empty states */}
+        <div className="overflow-y-auto flex-1">
           {results.length > 0 ? (
-            <div className="p-4 space-y-3">
-              {results.map((result, index) => (
-                <Link
-                  key={`${result.type}-${result.item.slug}`}
-                  href={result.type === 'blog' ? `/blog/${(result.item as BlogPost).slug}` : `/silly-questions/${(result.item as SillyQuestion).slug}`}
-                  className={`block p-4 rounded-xl border transition-all duration-200 hover:shadow-md ${index === selectedIndex
-                    ? 'bg-blue-50 border-blue-200 shadow-md'
-                    : 'bg-white border-gray-200 hover:bg-gray-50'
-                    }`}
-                  onClick={onClose}
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${result.type === 'blog' ? 'bg-blue-100' : 'bg-amber-100'
-                      }`}>
-                      {result.type === 'blog' ? (
-                        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                      ) : (
-                        <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${result.type === 'blog'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-amber-100 text-amber-800'
-                          }`}>
-                          {result.type === 'blog' ? 'Blog Post' : 'Question'}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {format(new Date(result.item.date), 'MMM dd, yyyy')}
-                        </span>
-                        {result.matchedFields.length > 0 && (
-                          <span className="text-xs text-green-600 font-medium">
-                            Matched: {result.matchedFields.join(', ')}
-                          </span>
+            <>
+              {/* Result count */}
+              <div className="px-4 pt-3 pb-1">
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  {results.length} result{results.length !== 1 ? 's' : ''}
+                </span>
+              </div>
+              <div ref={resultsRef} className="px-2 pb-2">
+                {results.map((result, index) => {
+                  const isBlog = result.type === 'blog';
+                  const post = result.item as BlogPost;
+                  const question = result.item as SillyQuestion;
+                  const title = isBlog ? post.title : question.question;
+                  const subtitle = isBlog ? post.description : question.answer?.replace(/<[^>]*>/g, '').substring(0, 120) + '…';
+                  const href = isBlog ? `/blog/${post.slug}` : `/silly-questions/${question.slug}`;
+                  const isSelected = index === selectedIndex;
+
+                  return (
+                    <Link
+                      key={`${result.type}-${result.item.slug}`}
+                      href={href}
+                      onClick={onClose}
+                      className="flex items-start gap-3 px-3 py-3 rounded-xl mb-1 transition-all duration-100 group"
+                      style={isSelected
+                        ? { backgroundColor: 'var(--accent-50)', outline: `1px solid var(--accent-200)` }
+                        : { backgroundColor: 'transparent' }
+                      }
+                      onMouseEnter={() => setSelectedIndex(index)}
+                    >
+                      {/* Icon */}
+                      <div
+                        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                        style={{
+                          backgroundColor: isBlog ? 'var(--accent-50)' : 'var(--coral-50)',
+                          color: isBlog ? 'var(--accent-500)' : 'var(--coral-500)',
+                        }}
+                      >
+                        {isBlog ? (
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        ) : (
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
                         )}
                       </div>
-                      <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">
-                        {result.type === 'blog'
-                          ? (result.item as BlogPost).title
-                          : (result.item as SillyQuestion).question
-                        }
-                      </h3>
-                      <p className="text-sm text-gray-600 line-clamp-2 mb-3">
-                        {result.type === 'blog'
-                          ? (result.item as BlogPost).description
-                          : (result.item as SillyQuestion).answer?.substring(0, 150) + '...'
-                        }
-                      </p>
-                      {result.type === 'blog' && (
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                            {(result.item as BlogPost).category}
+
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="text-xs font-semibold uppercase tracking-wider"
+                            style={{ color: isBlog ? 'var(--accent-500)' : 'var(--coral-500)' }}>
+                            {isBlog ? (post.category || 'Post') : 'Question'}
                           </span>
-                          <span className="text-xs text-gray-500">
-                            {(result.item as BlogPost).readingTime}
+                          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                            {format(new Date(result.item.date), 'MMM d, yyyy')}
                           </span>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                        <p className="text-sm font-semibold leading-snug line-clamp-1 mb-0.5"
+                          style={{ color: 'var(--text-primary)' }}>
+                          {title}
+                        </p>
+                        <p className="text-xs leading-relaxed line-clamp-2"
+                          style={{ color: 'var(--text-muted)' }}>
+                          {subtitle}
+                        </p>
+                      </div>
+
+                      {/* Arrow */}
+                      <svg className={`w-4 h-4 flex-shrink-0 mt-1 transition-transform duration-150 ${isSelected ? 'translate-x-0.5' : ''}`}
+                        style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  );
+                })}
+              </div>
+            </>
           ) : query ? (
-            <div className="px-6 py-12 text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4"
+                style={{ backgroundColor: 'var(--surface-muted)' }}>
+                <svg className="w-6 h-6" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No results found</h3>
-              <p className="text-gray-500 mb-4">No results found for &ldquo;{query}&rdquo;</p>
-              <div className="text-sm text-gray-400 space-y-1">
-                <p>• Try different keywords or check spelling</p>
-                <p>• Use broader search terms</p>
-                <p>• Try searching for tags or categories</p>
-              </div>
+              <p className="text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
+                No results for &ldquo;{query}&rdquo;
+              </p>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                Try different keywords or browse by category below
+              </p>
             </div>
           ) : (
-            <div className="p-6">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Search Content</h3>
-                <p className="text-gray-500 mb-4">Start typing to search through all posts and questions</p>
-                <div className="text-sm text-gray-400 space-y-1">
-                  <p>• Use ↑↓ to navigate results</p>
-                  <p>• Press Enter to select</p>
-                  <p>• Press Esc to close</p>
+            <div className="p-4">
+              {/* Quick suggestions */}
+              <div className="mb-5">
+                <p className="text-xs font-semibold uppercase tracking-widest mb-3 px-1"
+                  style={{ color: 'var(--text-muted)' }}>Categories</p>
+                <div className="flex flex-wrap gap-2">
+                  {suggestions.categories.map(cat => (
+                    <button key={cat} onClick={() => setQuery(cat)}
+                      className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-150"
+                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--accent-100)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--accent-50)'}
+                    >
+                      {cat}
+                    </button>
+                  ))}
                 </div>
               </div>
-
-              {/* Quick Suggestions */}
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-700 mb-2">Popular Categories</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {suggestions.categories.slice(0, 6).map(category => (
-                      <button
-                        key={category}
-                        onClick={() => setQuery(category)}
-                        className="text-xs px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full hover:bg-blue-100 transition-colors"
-                      >
-                        {category}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-700 mb-2">Popular Tags</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {suggestions.tags.slice(0, 8).map(tag => (
-                      <button
-                        key={tag}
-                        onClick={() => setQuery(tag)}
-                        className="text-xs px-3 py-1.5 bg-gray-50 text-gray-700 rounded-full hover:bg-gray-100 transition-colors"
-                      >
-                        #{tag}
-                      </button>
-                    ))}
-                  </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-3 px-1"
+                  style={{ color: 'var(--text-muted)' }}>Popular tags</p>
+                <div className="flex flex-wrap gap-2">
+                  {suggestions.tags.map(tag => (
+                    <button key={tag} onClick={() => setQuery(tag)}
+                      className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-150"
+                      style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--neutral-200)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-muted)'}
+                    >
+                      #{tag}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
           )}
         </div>
+
+        {/* Keyboard hint footer */}
+        <div className="px-4 py-2.5 flex items-center gap-4"
+          style={{ borderTop: '1px solid var(--border)', backgroundColor: 'var(--surface-muted)' }}>
+          {[
+            { keys: ['↑', '↓'], label: 'Navigate' },
+            { keys: ['↵'], label: 'Open' },
+            { keys: ['Esc'], label: 'Close' },
+          ].map(({ keys, label }) => (
+            <div key={label} className="flex items-center gap-1.5">
+              {keys.map(k => (
+                <kbd key={k}
+                  className="text-xs px-1.5 py-0.5 rounded font-mono"
+                  style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}>
+                  {k}
+                </kbd>
+              ))}
+              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{label}</span>
+            </div>
+          ))}
+        </div>
       </div>
-    </div >
+    </div>
   );
 }

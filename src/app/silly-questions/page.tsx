@@ -70,8 +70,19 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function SillyQuestionsPage() {
+interface SillyQuestionsPageProps {
+  searchParams?: Promise<{ category?: string }>;
+}
+
+export default async function SillyQuestionsPage({ searchParams }: SillyQuestionsPageProps) {
   const questions = await getAllSillyQuestions();
+
+  const resolvedParams = await searchParams;
+  const rawCategory = resolvedParams?.category;
+  // Decode slug back to display label: "css" → "CSS", "javascript" → "JavaScript"
+  const initialCategory = rawCategory
+    ? decodeURIComponent(rawCategory).replace(/-/g, ' ').trim()
+    : null;
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
@@ -82,7 +93,7 @@ export default async function SillyQuestionsPage() {
     <>
       <FAQStructuredData questions={questions} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      <SillyQuestionsListingClient questions={questions} />
+      <SillyQuestionsListingClient questions={questions} initialCategory={initialCategory} />
     </>
   );
 }

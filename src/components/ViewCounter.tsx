@@ -84,7 +84,7 @@ export function ViewCounter({ slug, className = '', showLabel = true, incrementO
 
     if (isLoading) {
         return (
-            <span className={`text-gray-500 ${className}`}>
+            <span className={className} style={{ color: 'var(--text-muted)' }}>
                 {showLabel && '––– '}views
             </span>
         );
@@ -93,7 +93,7 @@ export function ViewCounter({ slug, className = '', showLabel = true, incrementO
     const formattedViews = views !== null ? views.toLocaleString() : '–––';
 
     return (
-        <span className={`text-gray-500 ${className}`}>
+        <span className={className} style={{ color: 'var(--text-muted)' }}>
             {formattedViews} {showLabel && 'views'}
         </span>
     );

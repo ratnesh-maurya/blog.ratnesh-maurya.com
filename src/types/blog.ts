@@ -23,6 +23,16 @@ export interface SillyQuestion {
   category: string;
 }
 
+export interface TILEntry {
+  slug: string;
+  title: string;
+  date: string;
+  category: string;
+  tags: string[];
+  content: string; // rendered HTML
+  rawContent: string; // plain markdown for excerpt
+}
+
 export interface BlogMetadata {
   title: string;
   description: string;

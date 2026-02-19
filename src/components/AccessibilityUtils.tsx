@@ -11,7 +11,8 @@ export function SkipLink({ href, children }: SkipLinkProps) {
   return (
     <a
       href={href}
-      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium z-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 px-4 py-2 rounded-lg font-medium z-50 focus:outline-none"
+      style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}
     >
       {children}
     </a>
@@ -119,13 +120,14 @@ export function ProgressBar({ value, max = 100, label, className = '' }: Progres
   return (
     <div className={`w-full ${className}`}>
       {label && (
-        <div className="flex justify-between text-sm font-medium text-gray-700 mb-1">
+        <div className="flex justify-between text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>
           <span>{label}</span>
           <span>{Math.round(percentage)}%</span>
         </div>
       )}
       <div
-        className="w-full bg-gray-200 rounded-full h-2"
+        className="w-full rounded-full h-2"
+        style={{ backgroundColor: 'var(--border)' }}
         role="progressbar"
         aria-valuenow={value}
         aria-valuemin={0}
@@ -133,8 +135,8 @@ export function ProgressBar({ value, max = 100, label, className = '' }: Progres
         aria-label={label || `Progress: ${Math.round(percentage)}%`}
       >
         <div
-          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300 ease-out"
-          style={{ width: `${percentage}%` }}
+          className="h-2 rounded-full transition-all duration-300 ease-out"
+          style={{ width: `${percentage}%`, background: 'linear-gradient(90deg, var(--accent-400), var(--accent-500))' }}
         />
       </div>
     </div>

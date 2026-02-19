@@ -1,4 +1,6 @@
-import { getBlogPost, getBlogPostSlugs } from '@/lib/content';
+import { getBlogPost, getBlogPostSlugs, getAllBlogPosts } from '@/lib/content';
+import { PostNavigation } from '@/components/PostNavigation';
+import { RelatedPosts } from '@/components/RelatedPosts';
 import { BlogStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
 import { getSocialImageUrl } from '@/components/BlogImage';
 import { SocialShare } from '@/components/SocialShare';
@@ -137,11 +139,15 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = await getBlogPost(slug);
+  const [post, allPosts] = await Promise.all([getBlogPost(slug), getAllBlogPosts()]);
 
   if (!post) {
     notFound();
   }
+
+  const currentIndex = allPosts.findIndex(p => p.slug === slug);
+  const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
@@ -170,70 +176,79 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {faqQuestions.length > 0 && <FAQStructuredData questions={faqQuestions} />}
       <ReadingProgress />
 
-      <div className="min-h-screen bg-white">
-        {/* Back Navigation */}
-        <div className="border-b border-gray-200">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+        {/* Back navigation bar */}
+        <div style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <Link
               href="/blog"
-              className="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition-colors group text-sm"
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors group"
+              style={{ color: 'var(--text-muted)' }}
+              onMouseEnter={undefined}
             >
-              <svg className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              Back to Blog
+              All posts
             </Link>
+            {post.category && (
+              <span className="text-xs font-semibold uppercase tracking-widest"
+                style={{ color: 'var(--accent-500)' }}>
+                {post.category}
+              </span>
+            )}
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-16 py-8 lg:py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-10 lg:py-16">
           <article>
             {/* Article Header */}
-            <header className="mb-12  ">
-              {/* Category */}
-              {post.category && (
-                <div className="mb-4">
-                  <span className="inline-block text-xs font-semibold uppercase tracking-wide text-blue-600">
-                    {post.category}
-                  </span>
-                </div>
-              )}
-
+            <header className="mb-12">
               {/* Title */}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight text-center">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-6"
+                style={{ color: 'var(--text-primary)' }}>
                 {post.title}
               </h1>
 
-              {/* Metadata */}
-              <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500 mb-8">
+              {/* Metadata row */}
+              <div className="flex flex-wrap items-center gap-5 text-sm mb-6"
+                style={{ color: 'var(--text-muted)' }}>
                 <time dateTime={post.date} className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  {format(new Date(post.date), 'MMM dd, yyyy')}
+                  {format(new Date(post.date), 'MMMM d, yyyy')}
                 </time>
                 <span className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   {post.readingTime}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  {post.author}
                 </span>
               </div>
 
               {/* Description */}
               {post.description && (
-                <p className="text-lg text-center text-gray-600 mb-8 leading-relaxed">
+                <p className="text-lg leading-relaxed mb-8"
+                  style={{ color: 'var(--text-secondary)', borderLeft: '3px solid var(--accent-300)', paddingLeft: '1rem' }}>
                   {post.description}
                 </p>
               )}
 
               {/* Tags */}
               {post.tags.length > 0 && (
-                <div className="flex flex-wrap justify-center items-center gap-2">
+                <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-block text-xs font-medium px-3 py-1.5 rounded-full bg-gray-100 text-gray-700"
+                      className="inline-block text-xs font-medium px-3 py-1 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
                     >
                       #{tag}
                     </span>
@@ -243,41 +258,117 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </header>
 
             {/* Separator */}
-            <div className="border-t border-gray-200 mb-12"></div>
+            <div className="mb-12" style={{ borderTop: '1px solid var(--border)' }} />
 
             {/* Article Content */}
-            <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-headings:mt-12 prose-headings:mb-6 prose-h1:text-4xl prose-h2:text-3xl prose-h2:mt-10 prose-h3:text-2xl prose-h3:mt-8 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-strong:font-semibold prose-code:text-blue-600 prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:bg-gray-50 prose-blockquote:pl-6 prose-blockquote:py-2 prose-blockquote:my-6 prose-blockquote:italic prose-blockquote:text-gray-700 prose-img:rounded-lg prose-img:shadow-md prose-img:my-8 prose-ul:list-disc prose-ul:pl-6 prose-ul:my-6 prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-6 prose-li:text-gray-700 prose-li:mb-2 prose-hr:my-12 prose-hr:border-gray-200">
-              <div
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
+            <div className="prose max-w-none">
+              <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
 
-            {/* Tags Section */}
-            {post.tags.length > 0 && (
-              <div className="mt-12 pt-8 border-t border-gray-200">
-                <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Tags</h3>
-                <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <Link
-                      key={tag}
-                      href={`/blog?tag=${tag}`}
-                      className="inline-block text-sm font-medium px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700 transition-colors"
-                    >
-                      #{tag}
-                    </Link>
-                  ))}
+            {/* Footer — Tags & Share */}
+            <div className="mt-16 space-y-8">
+              {post.tags.length > 0 && (
+                <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+                  <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
+                    style={{ color: 'var(--text-muted)' }}>
+                    Tags
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <Link
+                        key={tag}
+                        href={`/blog?tag=${tag}`}
+                        className="inline-block text-sm font-medium px-3 py-1.5 rounded-full transition-all duration-200"
+                        style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+                      >
+                        #{tag}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+                <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
+                  style={{ color: 'var(--text-muted)' }}>
+                  Share this post
+                </h3>
+                <SocialShare
+                  url={`/blog/${post.slug}`}
+                  title={post.title}
+                  description={post.description}
+                />
+              </div>
+
+              {/* Author box — E-E-A-T signal */}
+              <div className="mt-12 pt-8 flex flex-col sm:flex-row items-start gap-4 rounded-xl p-5"
+                style={{ borderTop: '1px solid var(--border)', backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://avatars.githubusercontent.com/u/85143283?v=4"
+                  alt="Ratnesh Maurya"
+                  className="w-14 h-14 rounded-xl flex-shrink-0 object-cover"
+                  style={{ outline: '2px solid var(--accent-200)' }}
+                />
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Ratnesh Maurya</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                      Software Engineer
+                    </span>
+                  </div>
+                  <p className="text-xs leading-relaxed mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Backend engineer at Initializ.ai — building scalable systems with Go, Elixir, and Kubernetes.
+                    Writing about distributed systems, AWS, and the bugs that cost me hours.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer author"
+                      className="text-xs font-semibold transition-colors" style={{ color: 'var(--accent-500)' }}>
+                      Portfolio ↗
+                    </a>
+                    <a href="https://github.com/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
+                      className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                      GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
+                      className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                      LinkedIn
+                    </a>
+                    <a href="/about" className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                      About
+                    </a>
+                  </div>
                 </div>
               </div>
-            )}
 
-            {/* Social Sharing */}
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Share</h3>
-              <SocialShare
-                url={`/blog/${post.slug}`}
-                title={post.title}
-                description={post.description}
+              {/* Related posts — internal linking for SEO */}
+              <RelatedPosts
+                currentSlug={post.slug}
+                currentCategory={post.category}
+                currentTags={post.tags}
+                allPosts={allPosts}
               />
+
+              {/* Prev / Next navigation */}
+              <PostNavigation
+                prev={prevPost ? { slug: prevPost.slug, title: prevPost.title, href: `/blog/${prevPost.slug}`, label: prevPost.category } : null}
+                next={nextPost ? { slug: nextPost.slug, title: nextPost.title, href: `/blog/${nextPost.slug}`, label: nextPost.category } : null}
+              />
+
+              {/* Back to Blog CTA */}
+              <div className="pt-6 flex items-center justify-between">
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200"
+                  style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Back to all posts
+                </Link>
+              </div>
             </div>
           </article>
         </div>

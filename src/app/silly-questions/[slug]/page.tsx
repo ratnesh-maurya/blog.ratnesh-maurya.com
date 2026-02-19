@@ -1,4 +1,5 @@
-import { getSillyQuestion, getSillyQuestionSlugs } from '@/lib/content';
+import { getSillyQuestion, getSillyQuestionSlugs, getAllSillyQuestions } from '@/lib/content';
+import { PostNavigation } from '@/components/PostNavigation';
 import { SillyQuestionStructuredData } from '@/components/StructuredData';
 import { SocialShare } from '@/components/SocialShare';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
@@ -113,85 +114,146 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
 
 export default async function SillyQuestionPage({ params }: SillyQuestionPageProps) {
   const { slug } = await params;
-  const question = await getSillyQuestion(slug);
+  const [question, allQuestions] = await Promise.all([getSillyQuestion(slug), getAllSillyQuestions()]);
 
   if (!question) {
     notFound();
   }
 
+  const currentIndex = allQuestions.findIndex(q => q.slug === slug);
+  const prevQuestion = currentIndex < allQuestions.length - 1 ? allQuestions[currentIndex + 1] : null;
+  const nextQuestion = currentIndex > 0 ? allQuestions[currentIndex - 1] : null;
+
   return (
     <>
       <SillyQuestionStructuredData question={question} />
-      <div className="min-h-screen bg-white">
-        <div className="max-w-4xl mx-auto px-2 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div className="mb-6 sm:mb-8 px-2 sm:px-0">
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+
+        {/* Back navigation */}
+        <div style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <Link
               href="/silly-questions"
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
+              style={{ color: 'var(--text-muted)' }}
             >
-              ← Back to Silly Questions
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              All silly questions
             </Link>
+            <span className="text-xs font-semibold uppercase tracking-widest"
+              style={{ color: 'var(--coral-400)' }}>
+              Debug Diary
+            </span>
           </div>
+        </div>
 
-          <article className="bg-yellow-50 rounded-lg p-3 sm:p-6 lg:p-8 border border-yellow-200">
-            <header className="mb-4 sm:mb-6 lg:mb-8">
-              <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 gap-2">
-                <time dateTime={question.date} className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-10 lg:py-16">
+          <article>
+            {/* Header */}
+            <header className="mb-10">
+              {/* Meta row */}
+              <div className="flex flex-wrap items-center gap-3 mb-5">
+                <time dateTime={question.date}
+                  className="flex items-center gap-1.5 text-sm"
+                  style={{ color: 'var(--text-muted)' }}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  {format(new Date(question.date), 'MMMM dd, yyyy')}
+                  {format(new Date(question.date), 'MMMM d, yyyy')}
                 </time>
-                <span className="hidden sm:inline">•</span>
-                <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs">
+                <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                  style={{ backgroundColor: 'var(--coral-50)', color: 'var(--coral-500)' }}>
                   {question.category}
                 </span>
               </div>
 
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+              {/* Question as heading */}
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight mb-5"
+                style={{ color: 'var(--text-primary)' }}>
                 {question.question}
               </h1>
 
-              {/* Metadata */}
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4 sm:mb-6">
-              </div>
-
-              <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
                 {question.tags.map((tag) => (
-                  <span key={tag} className="bg-yellow-200 text-yellow-800 text-xs sm:text-sm px-2 sm:px-3 py-1 rounded">
-                    {tag}
+                  <span key={tag}
+                    className="text-xs font-medium px-2.5 py-1 rounded-full"
+                    style={{ backgroundColor: 'var(--coral-50)', color: 'var(--coral-500)' }}>
+                    #{tag}
                   </span>
                 ))}
               </div>
             </header>
 
-            <div
-              className="prose prose-base sm:prose-lg max-w-none prose-headings:text-gray-900 prose-a:text-blue-600 prose-code:text-pink-600 prose-code:bg-yellow-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100"
-              dangerouslySetInnerHTML={{ __html: question.answer }}
-            />
+            {/* Answer section */}
+            <div className="rounded-2xl overflow-hidden"
+              style={{ border: '1px solid var(--border)' }}>
+              {/* Answer label */}
+              <div className="px-6 py-3 flex items-center gap-3"
+                style={{
+                  background: 'linear-gradient(90deg, var(--coral-50) 0%, var(--accent-50) 100%)',
+                  borderBottom: '1px solid var(--border)',
+                }}>
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold"
+                  style={{ background: 'linear-gradient(135deg, var(--coral-400), var(--gold-400))' }}>
+                  A
+                </div>
+                <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
+                  The Answer
+                </span>
+              </div>
 
-            {/* Social Sharing */}
-            <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-yellow-200">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Share this silly question</h3>
-              <SocialShare
-                url={`/silly-questions/${question.slug}`}
-                title={question.question}
-                description={`A silly coding mistake: ${question.question}`}
+              <div className="px-6 sm:px-8 py-8">
+                <div className="prose max-w-none"
+                  dangerouslySetInnerHTML={{ __html: question.answer }} />
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-12 space-y-8">
+              {/* Share */}
+              <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+                <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
+                  style={{ color: 'var(--text-muted)' }}>
+                  Share this question
+                </h3>
+                <SocialShare
+                  url={`/silly-questions/${question.slug}`}
+                  title={question.question}
+                  description={`A silly coding mistake: ${question.question}`}
+                />
+              </div>
+
+              {/* Prev / Next navigation */}
+              <PostNavigation
+                prev={prevQuestion ? { slug: prevQuestion.slug, title: prevQuestion.question, href: `/silly-questions/${prevQuestion.slug}`, label: prevQuestion.category } : null}
+                next={nextQuestion ? { slug: nextQuestion.slug, title: nextQuestion.question, href: `/silly-questions/${nextQuestion.slug}`, label: nextQuestion.category } : null}
+                accentVar="--coral-500"
               />
+
+              {/* CTA */}
+              <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                  Have you made a similar mistake? We&apos;ve all been there! 😅
+                </p>
+                <Link
+                  href="/silly-questions"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 whitespace-nowrap"
+                  style={{
+                    background: 'linear-gradient(135deg, var(--coral-400), var(--coral-500))',
+                    color: '#FAFAF8',
+                  }}
+                >
+                  More Silly Questions
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
             </div>
           </article>
-
-          <div className="mt-8 text-center">
-            <p className="text-gray-600 mb-4">
-              Have you made a similar mistake? We&apos;ve all been there! 😅
-            </p>
-            <Link
-              href="/silly-questions"
-              className="bg-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-yellow-600 transition-colors"
-            >
-              Read More Silly Questions
-            </Link>
-          </div>
         </div>
       </div>
       <ViewIncrementer slug={`silly-questions/${question.slug}`} />

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Baloo_Bhai_2 } from "next/font/google";
 import "./globals.css";
 import { AppWrapper } from "@/components/AppWrapper";
 import { Analytics } from "@/components/Analytics";
+import { WebsiteStructuredData, OrganizationStructuredData, ProfilePageStructuredData } from "@/components/StructuredData";
 
 
 const geistSans = Geist({
@@ -25,7 +26,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#3b82f6",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#2A6049" },
+    { media: "(prefers-color-scheme: dark)",  color: "#4EC48E" },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -36,8 +40,11 @@ export const metadata: Metadata = {
   },
   description: "Systems thinking, backend architecture, and AI engineering. Building scalable systems and sharing technical insights.",
   keywords: [
+    "Ratnesh Maurya",
+    "Ratnesh Maurya blog",
     "backend engineering",
     "system design",
+    "AI engineering",
     "web development",
     "programming",
     "javascript",
@@ -49,7 +56,8 @@ export const metadata: Metadata = {
     "API development",
     "software architecture",
     "coding best practices",
-    "debugging tips"
+    "debugging tips",
+    "silly coding mistakes"
   ],
   authors: [{
     name: "Ratnesh Maurya",
@@ -94,12 +102,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    // Add your verification codes here when available
-    // google: 'your-google-verification-code',
-    // yandex: 'your-yandex-verification-code',
-    // bing: 'your-bing-verification-code',
-  },
   category: 'technology',
 };
 
@@ -111,6 +113,8 @@ export const metadata: Metadata = {
 
 
 
+const themeScript = `(function(){try{var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -119,6 +123,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} ${balooBhai2.variable} antialiased`}>
+        {/* Inline theme script — runs synchronously before paint to prevent FOUC */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <WebsiteStructuredData />
+        <OrganizationStructuredData />
+        <ProfilePageStructuredData />
         <AppWrapper>{children}</AppWrapper>
         <Analytics />
       </body>

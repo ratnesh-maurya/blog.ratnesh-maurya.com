@@ -12,7 +12,11 @@ interface TagPageProps {
 
 const decodeTag = (rawTag: string) => {
   const decoded = decodeURIComponent(rawTag);
-  return decoded.replace(/-/g, ' ').trim();
+  // Convert slug back to display label with title casing
+  return decoded
+    .replace(/-/g, ' ')
+    .trim()
+    .replace(/\b\w/g, c => c.toUpperCase());
 };
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {

@@ -88,22 +88,14 @@ export function AppWrapper({ children }: AppWrapperProps) {
   });
 
   return (
-    <div className="min-h-screen flex flex-col transition-colors bg-white" style={{ color: 'var(--text-primary)' }}>
+    <div className="min-h-screen flex flex-col transition-colors" style={{ backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}>
       {/* Skip Links */}
       <SkipLink href="#main-content">Skip to main content</SkipLink>
       <SkipLink href="#navigation">Skip to navigation</SkipLink>
 
       <nav
         id="navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? 'backdrop-blur-md shadow-lg'
-          : 'shadow-sm'
-          }`}
-        style={{
-          backgroundColor: isScrolled ? 'var(--background)' + '95' : 'var(--background)',
-          borderBottomColor: 'var(--border)',
-          borderBottomWidth: '1px'
-        }}
+        className={`header-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'scrolled backdrop-blur-md shadow-sm' : ''}`}
         role="navigation"
         aria-label="Main navigation"
       >
@@ -112,9 +104,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
             <div className="flex items-center">
               <Link
                 href="/"
-                className="text-xl font-bold gradient-text-primary hover:scale-105 transition-transform duration-200"
+                className="text-lg font-bold tracking-tight transition-opacity duration-200 hover:opacity-75"
+                style={{ color: 'var(--text-primary)' }}
               >
-                Blog&apos;s By Ratnesh
+                Ratn<span style={{ color: 'var(--accent-500)' }}>Labs</span>
               </Link>
             </div>
             <div className="flex items-center space-x-1">
@@ -123,31 +116,56 @@ export function AppWrapper({ children }: AppWrapperProps) {
                 <Link
                   href="/blog"
                   onClick={() => trackNavigation('/blog', 'navbar')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/blog') || isActiveLink('/')
-                    ? 'bg-blue-50 text-blue-700 shadow-sm'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                    }`}
+                  className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
+                  style={isActiveLink('/blog') || isActiveLink('/')
+                    ? { color: 'var(--accent-500)', backgroundColor: 'var(--accent-50)' }
+                    : { color: 'var(--text-secondary)' }
+                  }
                 >
                   Blog
                 </Link>
                 <Link
                   href="/silly-questions"
                   onClick={() => trackNavigation('/silly-questions', 'navbar')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/silly-questions')
-                    ? 'bg-blue-50 text-blue-700 shadow-sm'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                    }`}
+                  className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
+                  style={isActiveLink('/silly-questions')
+                    ? { color: 'var(--accent-500)', backgroundColor: 'var(--accent-50)' }
+                    : { color: 'var(--text-secondary)' }
+                  }
                 >
-                  Silly Questions
+                  Questions
+                </Link>
+                <Link
+                  href="/topics"
+                  onClick={() => trackNavigation('/topics', 'navbar')}
+                  className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
+                  style={isActiveLink('/topics')
+                    ? { color: 'var(--accent-500)', backgroundColor: 'var(--accent-50)' }
+                    : { color: 'var(--text-secondary)' }
+                  }
+                >
+                  Topics
+                </Link>
+                <Link
+                  href="/about"
+                  onClick={() => trackNavigation('/about', 'navbar')}
+                  className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
+                  style={isActiveLink('/about')
+                    ? { color: 'var(--accent-500)', backgroundColor: 'var(--accent-50)' }
+                    : { color: 'var(--text-secondary)' }
+                  }
+                >
+                  About
                 </Link>
                 <a
                   href="https://ratnesh-maurya.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackNavigation('https://ratnesh-maurya.com', 'navbar')}
-                  className="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-200"
+                  className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
-                  Portfolio
+                  Portfolio ↗
                 </a>
               </div>
 
@@ -157,10 +175,11 @@ export function AppWrapper({ children }: AppWrapperProps) {
               <div className="md:hidden">
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className={`inline-flex items-center justify-center p-2 rounded-lg transition-all duration-200 ${isMobileMenuOpen
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-                    } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                  className="inline-flex items-center justify-center p-2 rounded-md transition-all duration-200 focus:outline-none"
+                  style={isMobileMenuOpen
+                    ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                    : { color: 'var(--text-muted)' }
+                  }
                   aria-expanded={isMobileMenuOpen}
                 >
                   <span className="sr-only">
@@ -193,53 +212,114 @@ export function AppWrapper({ children }: AppWrapperProps) {
         </div>
 
         {/* Mobile menu */}
-        <div className={`md:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
           }`}>
-          <div className="px-4 pt-2 pb-4 space-y-2 bg-white/95 backdrop-blur-md border-t border-gray-200/50">
+          <div className="px-4 pt-2 pb-4 space-y-1 border-t" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
             <Link
               href="/blog"
-              className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${isActiveLink('/blog') || isActiveLink('/')
-                ? 'bg-blue-50 text-blue-700 shadow-sm'
-                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                }`}
-              onClick={() => {
-                trackNavigation('/blog', 'mobile-menu');
-                setIsMobileMenuOpen(false);
-              }}
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/blog') || isActiveLink('/')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/blog', 'mobile-menu'); setIsMobileMenuOpen(false); }}
             >
               Blog
             </Link>
             <Link
               href="/silly-questions"
-              className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${isActiveLink('/silly-questions')
-                ? 'bg-blue-50 text-blue-700 shadow-sm'
-                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                }`}
-              onClick={() => {
-                trackNavigation('/silly-questions', 'mobile-menu');
-                setIsMobileMenuOpen(false);
-              }}
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/silly-questions')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/silly-questions', 'mobile-menu'); setIsMobileMenuOpen(false); }}
             >
               Silly Questions
+            </Link>
+            <Link
+              href="/topics"
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/topics')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/topics', 'mobile-menu'); setIsMobileMenuOpen(false); }}
+            >
+              Topics
+            </Link>
+            <Link
+              href="/about"
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/about')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/about', 'mobile-menu'); setIsMobileMenuOpen(false); }}
+            >
+              About
+            </Link>
+            <Link
+              href="/til"
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/til')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/til', 'mobile-menu'); setIsMobileMenuOpen(false); }}
+            >
+              TIL
+            </Link>
+            <Link
+              href="/cheatsheets"
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/cheatsheets')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/cheatsheets', 'mobile-menu'); setIsMobileMenuOpen(false); }}
+            >
+              Cheatsheets
+            </Link>
+            <Link
+              href="/series"
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/series')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/series', 'mobile-menu'); setIsMobileMenuOpen(false); }}
+            >
+              Series
+            </Link>
+            <Link
+              href="/uses"
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/uses')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/uses', 'mobile-menu'); setIsMobileMenuOpen(false); }}
+            >
+              Uses
             </Link>
             <a
               href="https://ratnesh-maurya.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="block px-4 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-200"
-              onClick={() => {
-                trackNavigation('https://ratnesh-maurya.com', 'mobile-menu');
-                setIsMobileMenuOpen(false);
-              }}
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={{ color: 'var(--text-secondary)' }}
+              onClick={() => { trackNavigation('https://ratnesh-maurya.com', 'mobile-menu'); setIsMobileMenuOpen(false); }}
             >
-              Portfolio
+              Portfolio ↗
             </a>
             <button
               onClick={() => {
                 setIsSearchOpen(true);
                 setIsMobileMenuOpen(false);
               }}
-              className="w-full text-left px-4 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-200 flex items-center"
+              className="w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-200 flex items-center"
+              style={{ color: 'var(--text-secondary)' }}
             >
               <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -250,11 +330,11 @@ export function AppWrapper({ children }: AppWrapperProps) {
         </div>
       </nav>
 
-      <main id="main-content" className="flex-1 pt-16 bg-white" role="main">
+      <main id="main-content" className="flex-1 pt-16" style={{ backgroundColor: 'var(--background)' }} role="main">
         {children}
       </main>
 
-      <footer className="bg-gradient-to-b from-gray-50 to-gray-100 border-t border-gray-200">
+      <footer style={{ backgroundColor: 'var(--footer-bg)', borderTop: '1px solid var(--footer-surface)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Main Footer Content */}
           <div className="py-16">
@@ -262,20 +342,23 @@ export function AppWrapper({ children }: AppWrapperProps) {
               {/* Brand Section */}
               <div className="lg:col-span-2">
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold gradient-text-primary mb-4">
-                    Blog&apos;s By Ratnesh
+                  <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--footer-text-primary)' }}>
+                    Ratn<span style={{ color: 'var(--accent-400)' }}>Labs</span>
                   </h3>
-                  <p className="text-gray-600 text-lg leading-relaxed max-w-md">
+                  <p className="text-base leading-relaxed max-w-md" style={{ color: 'var(--footer-text-secondary)' }}>
                     Exploring web development, programming insights, and the silly mistakes
                     we all make along the way. Learn from real-world experiences and practical solutions.
                   </p>
                 </div>
-                <div className="flex space-x-4">
+                <div className="flex space-x-3">
                   <a
                     href="https://github.com/ratnesh-maurya"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition-all duration-200"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200"
+                    style={{ backgroundColor: 'var(--footer-surface)', color: 'var(--footer-text-secondary)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface-hover)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'; (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface)'; }}
                     aria-label="GitHub"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -286,7 +369,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
                     href="https://linkedin.com/in/ratnesh-maurya"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition-all duration-200"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200"
+                    style={{ backgroundColor: 'var(--footer-surface)', color: 'var(--footer-text-secondary)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface-hover)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'; (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface)'; }}
                     aria-label="LinkedIn"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -297,7 +383,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
                     href="https://x.com/ratnesh_maurya_"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition-all duration-200"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200"
+                    style={{ backgroundColor: 'var(--footer-surface)', color: 'var(--footer-text-secondary)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface-hover)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'; (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface)'; }}
                     aria-label="Twitter/X"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -308,7 +397,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
                     href="https://ratnesh-maurya.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition-all duration-200"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200"
+                    style={{ backgroundColor: 'var(--footer-surface)', color: 'var(--footer-text-secondary)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface-hover)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'; (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface)'; }}
                     aria-label="Portfolio"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -320,25 +412,61 @@ export function AppWrapper({ children }: AppWrapperProps) {
 
               {/* Quick Links */}
               <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-6">Quick Links</h4>
-                <ul className="space-y-4">
+                <h4 className="text-sm font-semibold uppercase tracking-widest mb-6" style={{ color: 'var(--footer-text-muted)' }}>Quick Links</h4>
+                <ul className="space-y-3">
                   <li>
-                    <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors">
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/blog" className="text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/blog" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
                       All Posts
                     </Link>
                   </li>
                   <li>
-                    <Link href="/silly-questions" className="text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/silly-questions" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
                       Silly Questions
                     </Link>
                   </li>
                   <li>
-                    <a href="/rss.xml" className="text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/topics" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Topics
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      About
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/newsletter" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Newsletter
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/uses" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Uses
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy-policy" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="/rss.xml" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
                       RSS Feed
                     </a>
                   </li>
@@ -347,45 +475,72 @@ export function AppWrapper({ children }: AppWrapperProps) {
 
               {/* Resources */}
               <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-6">Resources</h4>
-                <ul className="space-y-4">
+                <h4 className="text-sm font-semibold uppercase tracking-widest mb-6" style={{ color: 'var(--footer-text-muted)' }}>Learn</h4>
+                <ul className="space-y-3">
                   <li>
-                    <a
-                      href="https://ratnesh-maurya.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-blue-600 transition-colors"
-                    >
+                    <Link href="/til" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Today I Learned
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/glossary" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Glossary
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/cheatsheets" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Cheatsheets
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/resources" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Resources
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/series" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Series
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer"
+                      className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
                       Portfolio
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="https://github.com/ratnesh-maurya"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-blue-600 transition-colors"
-                    >
+                    <a href="https://github.com/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
+                      className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
                       GitHub
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="https://linkedin.com/in/ratnesh-maurya"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-blue-600 transition-colors"
-                    >
+                    <a href="https://linkedin.com/in/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
+                      className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
                       LinkedIn
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="https://x.com/ratnesh_maurya_"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-blue-600 transition-colors"
-                    >
+                    <a href="https://x.com/ratnesh_maurya_" target="_blank" rel="noopener noreferrer"
+                      className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
                       Twitter/X
                     </a>
                   </li>
@@ -395,23 +550,23 @@ export function AppWrapper({ children }: AppWrapperProps) {
           </div>
 
           {/* Bottom Footer */}
-          <div className="py-8 border-t border-gray-300">
+          <div className="py-8" style={{ borderTop: '1px solid var(--footer-surface)' }}>
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-600 text-sm">
-                © 2025 Ratnesh Maurya. All rights reserved.
+              <p className="text-sm" style={{ color: 'var(--footer-text-muted)' }}>
+                © {new Date().getFullYear()} Ratnesh Maurya. All rights reserved.
               </p>
               <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 mt-4 md:mt-0">
-                <div className="text-sm text-gray-700">
+                <div className="text-sm" style={{ color: 'var(--footer-text-muted)' }}>
                   <span className="font-medium">Total Views:</span> <TotalViews />
                 </div>
-                <div className="flex items-center space-x-6">
-                  <span className="text-gray-500 text-sm">Built with</span>
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm" style={{ color: 'var(--footer-text-secondary)' }}>Built with</span>
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm font-medium text-gray-700">Next.js</span>
-                    <span className="text-gray-400">•</span>
-                    <span className="text-sm font-medium text-gray-700">Tailwind CSS</span>
-                    <span className="text-gray-400">•</span>
-                    <span className="text-sm font-medium text-gray-700">TypeScript</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--footer-text-muted)' }}>Next.js</span>
+                    <span style={{ color: 'var(--footer-surface-hover)' }}>·</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--footer-text-muted)' }}>Tailwind</span>
+                    <span style={{ color: 'var(--footer-surface-hover)' }}>·</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--footer-text-muted)' }}>TypeScript</span>
                   </div>
                 </div>
               </div>
