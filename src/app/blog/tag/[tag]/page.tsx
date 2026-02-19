@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
   const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
   const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
   const title = `Posts tagged "${tagLabel}"`;
-  const description = `Browse all blog posts tagged "${tagLabel}" from Blog's By Ratnesh.`;
+  const description = `Browse all blog posts tagged "${tagLabel}" from Ratn Labs.`;
   const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${params.tag}`;
 
   return {
@@ -35,14 +35,14 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
       title,
       description,
       url: canonicalUrl,
-      siteName: "Blog's By Ratnesh",
+      siteName: "Ratn Labs",
       type: 'website',
       images: [
         {
           url: fullOgImageUrl,
           width: 1200,
           height: 630,
-          alt: `Posts tagged "${tagLabel}" - Blog's By Ratnesh`,
+          alt: `Posts tagged "${tagLabel}" - Ratn Labs`,
         }
       ],
       locale: 'en_US',
@@ -103,4 +103,3 @@ export default async function BlogTagPage({ params }: TagPageProps) {
     </div>
   );
 }
-

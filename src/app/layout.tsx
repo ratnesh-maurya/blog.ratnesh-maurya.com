@@ -31,10 +31,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://blog.ratnesh-maurya.com'),
   title: {
-    default: "Blog's By Ratnesh - Backend Engineering & System Design",
-    template: "%s | Blog's By Ratnesh"
+    default: "Ratn Labs — Systems, Backend & AI Engineering",
+    template: "%s | Ratn Labs"
   },
-  description: "A blog about backend engineering, system design, web development, and the silly mistakes we all make along the way. Learn from real-world experiences.",
+  description: "Systems thinking, backend architecture, and AI engineering. Building scalable systems and sharing technical insights.",
   keywords: [
     "backend engineering",
     "system design",
@@ -69,17 +69,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Blog's By Ratnesh - Backend Engineering & System Design",
-    description: "A blog about backend engineering, system design, web development, and the silly mistakes we all make along the way.",
+    title: "Ratn Labs — Systems, Backend & AI Engineering",
+    description: "Systems thinking, backend architecture, and AI engineering. Building scalable systems and sharing technical insights.",
     url: "https://blog.ratnesh-maurya.com",
-    siteName: "Blog's By Ratnesh",
+    siteName: "Ratn Labs",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog's By Ratnesh - Backend Engineering & System Design",
-    description: "A blog about backend engineering, system design, and web development.",
+    title: "Ratn Labs — Systems, Backend & AI Engineering",
+    description: "Systems thinking, backend architecture, and AI engineering.",
     creator: "@ratnesh_maurya",
     site: "@ratnesh_maurya",
   },

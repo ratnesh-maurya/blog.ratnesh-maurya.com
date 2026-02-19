@@ -76,7 +76,7 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
         }
       ],
       url: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
-      siteName: 'Blog\'s By Ratnesh',
+      siteName: 'Ratn Labs',
       locale: 'en_US',
     },
     twitter: {

@@ -45,10 +45,19 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     title: post.title,
     description: post.description,
     keywords: post.tags,
-    authors: [{ name: post.author }],
+    authors: [{ name: post.author, url: 'https://ratnesh-maurya.com' }],
     category: post.category,
+    referrer: 'origin-when-cross-origin',
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
     alternates: {
       canonical: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+      languages: {
+        'en-US': `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+      },
     },
     openGraph: {
       title: post.title,
@@ -56,7 +65,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       type: 'article',
       publishedTime: post.date,
       modifiedTime: post.date,
-      authors: [post.author],
+      authors: [`https://ratnesh-maurya.com`],
       tags: post.tags,
       images: [
         {
@@ -67,8 +76,16 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
         }
       ],
       url: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
-      siteName: 'Ratnesh Maurya\'s Blog',
+      siteName: 'Ratn Labs',
       locale: 'en_US',
+      countryName: 'India',
+      article: {
+        publishedTime: post.date,
+        modifiedTime: post.date,
+        authors: [`https://ratnesh-maurya.com`],
+        section: post.category,
+        tags: post.tags,
+      },
     },
     twitter: {
       card: 'summary_large_image',
@@ -96,12 +113,24 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
         'max-snippet': -1,
       },
     },
+    applicationName: 'Blog',
+    appleWebApp: {
+      title: 'Ratnesh Blog',
+      capable: true,
+      statusBarStyle: 'default',
+    },
     other: {
       'pinterest-rich-pin': 'true',
       'article:author': post.author,
       'article:published_time': post.date,
+      'article:modified_time': post.date,
       'article:section': post.category,
       'article:tag': post.tags.join(', '),
+      'profile:username': 'ratnesh_maurya',
+      ...(post.questions && post.questions.length > 0 && {
+        'article:questions': post.questions.join(' | '),
+        'faq:questions': JSON.stringify(post.questions),
+      }),
     },
   };
 }

@@ -33,24 +33,24 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: "https://blog.ratnesh-maurya.com/silly-questions",
     },
     openGraph: {
-      title: "Silly Questions & Mistakes | Blog's By Ratnesh",
+      title: "Silly Questions & Mistakes | Ratn Labs",
       description: "We all make silly mistakes while coding. Here are some of mine, along with the lessons learned. Hopefully, they'll save you some debugging time! 🤦‍♂️",
       url: "https://blog.ratnesh-maurya.com/silly-questions",
-      siteName: "Blog's By Ratnesh",
+      siteName: "Ratn Labs",
       type: "website",
       images: [
         {
           url: fullOgImageUrl,
           width: 1200,
           height: 630,
-          alt: "Silly Questions & Mistakes - Blog's By Ratnesh",
+          alt: "Silly Questions & Mistakes - Ratn Labs",
         }
       ],
       locale: 'en_US',
     },
     twitter: {
       card: "summary_large_image",
-      title: "Silly Questions & Mistakes | Blog's By Ratnesh",
+      title: "Silly Questions & Mistakes | Ratn Labs",
       description: "We all make silly mistakes while coding. Here are some of mine, along with the lessons learned.",
       images: [fullTwitterImageUrl],
       creator: '@ratnesh_maurya',

@@ -19,24 +19,24 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: "https://blog.ratnesh-maurya.com/blog",
     },
     openGraph: {
-      title: "All Blog Posts | Blog's By Ratnesh",
+      title: "All Blog Posts",
       description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
       url: "https://blog.ratnesh-maurya.com/blog",
-      siteName: "Blog's By Ratnesh",
+      siteName: "Ratn Labs",
       type: "website",
       images: [
         {
           url: fullOgImageUrl,
           width: 1200,
           height: 630,
-          alt: "All Blog Posts - Blog's By Ratnesh",
+          alt: "All Blog Posts - Ratn Labs",
         }
       ],
       locale: 'en_US',
     },
     twitter: {
       card: "summary_large_image",
-      title: "All Blog Posts | Blog's By Ratnesh",
+      title: "All Blog Posts",
       description: "Explore all my thoughts on web development, programming, and technology.",
       images: [fullTwitterImageUrl],
       creator: '@ratnesh_maurya',
@@ -78,7 +78,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   const pageTitle = selectedTag ? `Posts tagged "${selectedTag}"` : "All Blog Posts";
   const pageDescription = selectedTag
-    ? `Browse all blog posts tagged "${selectedTag}" from Blog's By Ratnesh.`
+    ? `Browse all blog posts tagged "${selectedTag}" from Ratn Labs.`
     : baseDescription;
 
   return (
