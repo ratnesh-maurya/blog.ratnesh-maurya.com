@@ -222,3 +222,5 @@ Compression is the invisible engine behind smaller backups, faster transfers, an
 - **Video** adds **temporal** compression: store full frames rarely, and mostly store changes between frames.
 
 Understanding these mechanics helps you choose the right format—whether you’re optimizing Next.js assets, shipping backups to S3, or tuning video encoding—and demystifies how 100GB can become 25GB without losing a single bit.
+
+> written using AI tools

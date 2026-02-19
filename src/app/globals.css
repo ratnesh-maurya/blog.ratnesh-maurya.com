@@ -365,7 +365,8 @@ body {
 
 .prose li {
   font-size: 1.25rem; /* 20px — match paragraph size */
-  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
 }
 
 .prose img {
@@ -519,7 +520,8 @@ html, body {
 
 .prose li {
   font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
 }
 
 .prose blockquote {
