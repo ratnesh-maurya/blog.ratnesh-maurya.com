@@ -7,7 +7,12 @@ export const metadata: Metadata = {
   description: 'Quick reference for Go syntax, goroutines, channels, interfaces, error handling, and common CLI commands.',
   keywords: ['Go cheatsheet', 'Golang cheatsheet', 'Go syntax reference', 'goroutines', 'Go channels', 'Go interfaces', 'Go CLI'],
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/cheatsheets/go' },
-  openGraph: { title: 'Go Cheatsheet — Ratn Labs', url: 'https://blog.ratnesh-maurya.com/cheatsheets/go', siteName: 'Ratn Labs', type: 'article' },
+  openGraph: {
+    title: 'Go Cheatsheet — Ratn Labs',
+    url: 'https://blog.ratnesh-maurya.com/cheatsheets/go',
+    siteName: 'Ratn Labs',
+    type: 'article',
+  },
   twitter: { card: 'summary_large_image', title: 'Go Cheatsheet — Ratn Labs', creator: '@ratnesh_maurya' },
   robots: { index: true, follow: true },
 };

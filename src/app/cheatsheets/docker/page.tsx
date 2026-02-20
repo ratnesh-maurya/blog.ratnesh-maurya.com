@@ -7,7 +7,12 @@ export const metadata: Metadata = {
   description: 'Quick reference for Docker CLI commands, Dockerfile instructions, docker-compose, volumes, networks, and multi-stage builds.',
   keywords: ['Docker cheatsheet', 'Dockerfile reference', 'docker-compose commands', 'Docker CLI', 'Docker volumes', 'Docker networks'],
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/cheatsheets/docker' },
-  openGraph: { title: 'Docker Cheatsheet — Ratn Labs', url: 'https://blog.ratnesh-maurya.com/cheatsheets/docker', siteName: 'Ratn Labs', type: 'article' },
+  openGraph: {
+    title: 'Docker Cheatsheet — Ratn Labs',
+    url: 'https://blog.ratnesh-maurya.com/cheatsheets/docker',
+    siteName: 'Ratn Labs',
+    type: 'article',
+  },
   twitter: { card: 'summary_large_image', title: 'Docker Cheatsheet — Ratn Labs', creator: '@ratnesh_maurya' },
   robots: { index: true, follow: true },
 };

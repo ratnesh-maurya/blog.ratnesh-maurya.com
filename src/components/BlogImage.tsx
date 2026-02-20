@@ -118,14 +118,11 @@ interface SocialImageProps {
   type?: 'og' | 'twitter';
 }
 
-export function getSocialImageUrl({ post, type = 'og' }: SocialImageProps): string {
-  // If post has an image, use it
+export function getSocialImageUrl({ post }: SocialImageProps): string {
   if (post.image) {
     return post.image.startsWith('/') ? post.image : `/images/blog/${post.image}`;
   }
-
-  // Otherwise, fall back to the default blog social image
-  return getDefaultSocialImage(type, 'blog');
+  return `/blog/${post.slug}/opengraph-image`;
 }
 
 export function getDefaultSocialImage(type: 'og' | 'twitter' = 'og', page: 'home' | 'blog' | 'silly-questions' = 'home'): string {

@@ -28,7 +28,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#2A6049" },
-    { media: "(prefers-color-scheme: dark)",  color: "#4EC48E" },
+    { media: "(prefers-color-scheme: dark)",  color: "#030d0e" },
   ],
 };
 
@@ -83,6 +83,7 @@ export const metadata: Metadata = {
     siteName: "Ratn Labs",
     type: "website",
     locale: "en_US",
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: "Ratn Labs" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -90,6 +91,7 @@ export const metadata: Metadata = {
     description: "Systems thinking, backend architecture, and AI engineering.",
     creator: "@ratnesh_maurya",
     site: "@ratnesh_maurya",
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,

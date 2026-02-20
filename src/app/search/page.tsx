@@ -13,6 +13,11 @@ export const metadata: Metadata = {
     siteName: 'Ratn Labs',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Search — Ratn Labs',
+    description: 'Search all blog posts and Q&As on Ratn Labs.',
+  },
   robots: { index: true, follow: true },
 };
 

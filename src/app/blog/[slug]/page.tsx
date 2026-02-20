@@ -2,7 +2,6 @@ import { getBlogPost, getBlogPostSlugs, getAllBlogPosts } from '@/lib/content';
 import { PostNavigation } from '@/components/PostNavigation';
 import { RelatedPosts } from '@/components/RelatedPosts';
 import { BlogStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
-import { getSocialImageUrl } from '@/components/BlogImage';
 import { SocialShare } from '@/components/SocialShare';
 import { ReadingProgress } from '@/components/ReadingProgress';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
@@ -34,15 +33,6 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     };
   }
 
-  const socialImageUrl = getSocialImageUrl({ post, type: 'og' });
-  const twitterImageUrl = getSocialImageUrl({ post, type: 'twitter' });
-  const fullSocialImageUrl = socialImageUrl.startsWith('/')
-    ? `https://blog.ratnesh-maurya.com${socialImageUrl}`
-    : socialImageUrl;
-  const fullTwitterImageUrl = twitterImageUrl.startsWith('/')
-    ? `https://blog.ratnesh-maurya.com${twitterImageUrl}`
-    : twitterImageUrl;
-
   return {
     title: post.title,
     description: post.description,
@@ -69,14 +59,6 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       modifiedTime: post.date,
       authors: [`https://ratnesh-maurya.com`],
       tags: post.tags,
-      images: [
-        {
-          url: fullSocialImageUrl,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        }
-      ],
       url: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
       siteName: 'Ratn Labs',
       locale: 'en_US',
@@ -93,14 +75,6 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
-      images: [
-        {
-          url: fullTwitterImageUrl,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        }
-      ],
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
     },

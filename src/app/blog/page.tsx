@@ -1,15 +1,9 @@
 import { getAllBlogPosts } from '@/lib/content';
 import { BlogListingClient } from '@/components/BlogListingClient';
-import { getDefaultSocialImage } from '@/components/BlogImage';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const ogImageUrl = getDefaultSocialImage('og', 'blog');
-  const twitterImageUrl = getDefaultSocialImage('twitter', 'blog');
-  const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
-  const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
-
   return {
     title: "All Blog Posts",
     description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
@@ -24,21 +18,12 @@ export async function generateMetadata(): Promise<Metadata> {
       url: "https://blog.ratnesh-maurya.com/blog",
       siteName: "Ratn Labs",
       type: "website",
-      images: [
-        {
-          url: fullOgImageUrl,
-          width: 1200,
-          height: 630,
-          alt: "All Blog Posts - Ratn Labs",
-        }
-      ],
       locale: 'en_US',
     },
     twitter: {
       card: "summary_large_image",
       title: "All Blog Posts",
       description: "Explore all my thoughts on web development, programming, and technology.",
-      images: [fullTwitterImageUrl],
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
     },

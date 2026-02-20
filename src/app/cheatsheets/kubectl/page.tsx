@@ -7,7 +7,12 @@ export const metadata: Metadata = {
   description: 'Quick reference for kubectl commands — pods, deployments, services, configmaps, debugging, and rollouts.',
   keywords: ['kubectl cheatsheet', 'Kubernetes CLI', 'kubectl commands', 'kubectl reference', 'kubernetes pods', 'kubectl debug'],
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/cheatsheets/kubectl' },
-  openGraph: { title: 'kubectl Cheatsheet — Ratn Labs', url: 'https://blog.ratnesh-maurya.com/cheatsheets/kubectl', siteName: 'Ratn Labs', type: 'article' },
+  openGraph: {
+    title: 'kubectl Cheatsheet — Ratn Labs',
+    url: 'https://blog.ratnesh-maurya.com/cheatsheets/kubectl',
+    siteName: 'Ratn Labs',
+    type: 'article',
+  },
   twitter: { card: 'summary_large_image', title: 'kubectl Cheatsheet — Ratn Labs', creator: '@ratnesh_maurya' },
   robots: { index: true, follow: true },
 };

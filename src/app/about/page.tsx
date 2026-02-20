@@ -15,14 +15,12 @@ export const metadata: Metadata = {
     siteName: 'Ratn Labs',
     type: 'profile',
     locale: 'en_US',
-    images: [{ url: 'https://avatars.githubusercontent.com/u/85143283?v=4', width: 400, height: 400, alt: 'Ratnesh Maurya' }],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'About — Ratnesh Maurya',
     description: 'Backend engineer specialising in system design, distributed systems, and scalable architecture.',
     creator: '@ratnesh_maurya',
-    images: ['https://avatars.githubusercontent.com/u/85143283?v=4'],
   },
   robots: { index: true, follow: true },
 };

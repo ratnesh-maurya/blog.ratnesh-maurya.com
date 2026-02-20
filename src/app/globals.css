@@ -2,21 +2,21 @@
 @import "highlight.js/styles/github-dark-dimmed.css";
 
 /* ─────────────────────────────────────────────────────────
-   Design System — Soft Neutrals + Sage Green Accent
-   Palette: calm, editorial, high-end AI product aesthetic
+   Design System — documentation.md portfolio theme
+   Deep navy background, teal primary, indigo secondary (bluish)
    ───────────────────────────────────────────────────────── */
 :root {
-  /* Accent — Deep Sage Green */
-  --accent-50:  #EBF4F0;
-  --accent-100: #C5DDD6;
-  --accent-200: #94C4B4;
-  --accent-300: #63AB92;
-  --accent-400: #3D7A5E;
-  --accent-500: #2A6049;
-  --accent-600: #1E4A37;
-  --accent-700: #163627;
-  --accent-800: #0E2319;
-  --accent-900: #07110C;
+  /* Accent — Teal (portfolio primary) */
+  --accent-50:  #F0FDFA;
+  --accent-100: #CCFBF1;
+  --accent-200: #99F6E4;
+  --accent-300: #5EEAD4;
+  --accent-400: #2DD4BF;
+  --accent-500: #14B8A6;
+  --accent-600: #0D9488;
+  --accent-700: #0F766E;
+  --accent-800: #115E59;
+  --accent-900: #134E4A;
 
   /* Backward-compat aliases so existing --primary-* refs keep working */
   --primary-50:  var(--accent-50);
@@ -29,6 +29,10 @@
   --primary-700: var(--accent-700);
   --primary-800: var(--accent-800);
   --primary-900: var(--accent-900);
+
+  /* Indigo — portfolio secondary (bluish) */
+  --indigo-500: #6366F1;
+  --indigo-400: #818CF8;
 
   /* Warm Neutral Scale */
   --neutral-50:  #FAFAF8;
@@ -43,20 +47,20 @@
   --neutral-900: #1C1C1A;
   --neutral-950: #0F0F0E;
 
-  /* Footer — permanently dark regardless of page theme */
-  --footer-bg:            #1C1C1A;
-  --footer-surface:       #2A2A28;
-  --footer-surface-hover: #333331;
-  --footer-text-primary:  #FAFAF8;
-  --footer-text-secondary:#8E8E88;
-  --footer-text-muted:    #6A6A64;
-  --footer-border:        #2A2A28;
+  /* Footer — dark navy (portfolio) regardless of page theme */
+  --footer-bg:            #030d0e;
+  --footer-surface:       #0f172a;
+  --footer-surface-hover: #1e293b;
+  --footer-text-primary:  #f0fdfa;
+  --footer-text-secondary:#94a3b8;
+  --footer-text-muted:    #475569;
+  --footer-border:        rgb(255 255 255 / 0.07);
 
   /* Semantic Colors */
-  --success: #2A6049;
+  --success: #14B8A6;
   --warning: #B45309;
   --error:   #B91C1C;
-  --info:    var(--accent-500);
+  --info:    var(--indigo-500);
 
   /* Background & Surface */
   --background:       #FAFAF8;
@@ -114,13 +118,13 @@
   --coral-600: #A83118;
 }
 
-/* PWA theme colors */
+/* PWA theme colors — teal/indigo portfolio */
 :root {
-  --pwa-primary: #2A6049;
-  --pwa-primary-dark: #1E4A37;
-  --pwa-accent: #3D7A5E;
+  --pwa-primary: #14B8A6;
+  --pwa-primary-dark: #0D9488;
+  --pwa-accent: #2DD4BF;
   --pwa-background: #FAFAF8;
-  --pwa-surface: #EBF4F0;
+  --pwa-surface: #F0FDFA;
 }
 
 /* Component-level tokens (light mode defaults) */
@@ -137,25 +141,25 @@
   --destructive:          #B91C1C;
   --destructive-foreground: #FAFAF8;
   --input:                #E4E4DF;
-  --ring:                 #2A6049;
+  --ring:                 #14B8A6;
   --radius:               0.5rem;
 }
 
-/* ─── Dark theme ─────────────────────────────────────── */
+/* ─── Dark theme — documentation.md portfolio (deep navy, teal, indigo) ─── */
 [data-theme="dark"] {
   color-scheme: dark;
 
-  /* Accent — brighter sage for dark bg contrast */
-  --accent-50:  #071A11;
-  --accent-100: #0D2B1C;
-  --accent-200: #153D29;
-  --accent-300: #1F5C3D;
-  --accent-400: #2E7A56;
-  --accent-500: #4EC48E;
-  --accent-600: #72D4A8;
-  --accent-700: #96E0C4;
-  --accent-800: #BAEDDA;
-  --accent-900: #DDF8EE;
+  /* Teal accent — portfolio primary on dark */
+  --accent-50:  #052E2C;
+  --accent-100: #0D443F;
+  --accent-200: #115E59;
+  --accent-300: #0F766E;
+  --accent-400: #0D9488;
+  --accent-500: #14B8A6;
+  --accent-600: #2DD4BF;
+  --accent-700: #5EEAD4;
+  --accent-800: #99F6E4;
+  --accent-900: #CCFBF1;
 
   --primary-50:  var(--accent-50);
   --primary-100: var(--accent-100);
@@ -168,33 +172,33 @@
   --primary-800: var(--accent-800);
   --primary-900: var(--accent-900);
 
-  /* Warm dark neutrals */
-  --neutral-50:  #0D0D0B;
-  --neutral-100: #141412;
-  --neutral-200: #1C1C19;
-  --neutral-300: #262623;
-  --neutral-400: #38383A;
-  --neutral-500: #6A6A62;
-  --neutral-600: #8A8A82;
-  --neutral-700: #A8A8A0;
-  --neutral-800: #C8C8C0;
-  --neutral-900: #F0F0EA;
-  --neutral-950: #F8F8F4;
+  /* Navy/slate neutrals (bluish) */
+  --neutral-50:  #030d0e;
+  --neutral-100: #0f172a;
+  --neutral-200: #1e293b;
+  --neutral-300: #334155;
+  --neutral-400: #475569;
+  --neutral-500: #64748b;
+  --neutral-600: #94a3b8;
+  --neutral-700: #cbd5e1;
+  --neutral-800: #e2e8f0;
+  --neutral-900: #f0fdfa;
+  --neutral-950: #f8fafc;
 
-  /* Background & Surface */
-  --background:       #0E0E0C;
-  --surface:          #1B1B18;
-  --surface-elevated: #242420;
-  --surface-muted:    #181815;
-  --foreground:       #F0F0EA;
-  --muted:            #181815;
-  --border:           #333330;
+  /* Background & Surface — documentation.md §2.1 */
+  --background:       #030d0e;
+  --surface:          rgb(255 255 255 / 0.03);
+  --surface-elevated: rgb(255 255 255 / 0.055);
+  --surface-muted:    #0f172a;
+  --foreground:       #f0fdfa;
+  --muted:            #0f172a;
+  --border:           rgb(255 255 255 / 0.07);
 
-  /* Typography */
-  --text-primary:   #F0F0EA;
-  --text-secondary: #A8A8A0;
-  --text-muted:     #6A6A62;
-  --text-inverse:   #0D0D0B;
+  /* Typography — text high / mid / low */
+  --text-primary:   #f0fdfa;
+  --text-secondary: #94a3b8;
+  --text-muted:     #475569;
+  --text-inverse:   #030d0e;
 
   /* Shadows — deeper for dark */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
@@ -202,22 +206,22 @@
   --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.6), 0 4px 8px -4px rgb(0 0 0 / 0.5);
   --shadow-xl: 0 24px 40px -8px rgb(0 0 0 / 0.7), 0 8px 16px -8px rgb(0 0 0 / 0.6);
 
-  /* Component tokens */
-  --card:                 #1B1B18;
-  --card-foreground:      #F0F0EA;
-  --popover:              #242420;
-  --popover-foreground:   #F0F0EA;
-  --primary:              #4EC48E;
-  --primary-foreground:   #0E0E0C;
-  --secondary:            #242420;
-  --secondary-foreground: #F0F0EA;
-  --accent:               #153D29;
-  --accent-foreground:    #F0F0EA;
+  /* Component tokens — teal primary, indigo secondary */
+  --card:                 rgb(255 255 255 / 0.03);
+  --card-foreground:      #f0fdfa;
+  --popover:             rgb(255 255 255 / 0.055);
+  --popover-foreground:   #f0fdfa;
+  --primary:              #14b8a6;
+  --primary-foreground:   #030d0e;
+  --secondary:            #1e293b;
+  --secondary-foreground: #f0fdfa;
+  --accent:               rgb(20 184 166 / 0.12);
+  --accent-foreground:    #2dd4bf;
   --destructive:          #E85454;
-  --destructive-foreground: #0E0E0C;
-  --border:               #333330;
-  --input:                #333330;
-  --ring:                 #4EC48E;
+  --destructive-foreground: #030d0e;
+  --border:               rgb(255 255 255 / 0.07);
+  --input:                #334155;
+  --ring:                 #14b8a6;
 
   /* Gold — warmer in dark */
   --gold-50:  #150F00;
@@ -245,7 +249,7 @@
 }
 
 [data-theme="dark"] .header-nav {
-  background: rgba(13, 13, 11, 0.95);
+  background: rgba(3, 13, 14, 0.88);
 }
 
 .header-nav.scrolled {
@@ -518,7 +522,7 @@ body {
 }
 
 .prose p {
-  font-size: 1.25rem; /* 20px — comfortable reading size */
+  font-size: 1.125rem; /* 18px — blog body text */
   margin-bottom: 1rem;
   line-height: 1.5;
   color: var(--text-secondary);
@@ -577,7 +581,7 @@ body {
 }
 
 .prose li {
-  font-size: 1.25rem; /* 20px — match paragraph size */
+  font-size: 1.125rem; /* 18px — match paragraph size */
   line-height: 1.4;
   margin-bottom: 0.25rem;
 }
@@ -593,7 +597,7 @@ body {
 /* Mobile-specific improvements */
 @media (max-width: 640px) {
   .prose {
-    font-size: 20px;
+    font-size: 1.125rem;
     line-height: 1.5;
   }
 
@@ -720,7 +724,7 @@ html, body {
 }
 
 .prose p {
-  font-size: 1.25rem; /* 20px — comfortable reading size */
+  font-size: 1.125rem; /* 18px — blog body text */
   margin-bottom: 1rem;
   line-height: 1.5;
 }
@@ -732,7 +736,7 @@ html, body {
 }
 
 .prose li {
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
   line-height: 1.4;
   margin-bottom: 0.25rem;
 }

@@ -1,15 +1,19 @@
 import { BlogPost, SillyQuestion, TILEntry } from '@/types/blog';
 import { getSocialImageUrl } from './BlogImage';
 
+const BLOG_BASE = 'https://blog.ratnesh-maurya.com';
+
+function absoluteOgImageUrl(path: string): string {
+  return path.startsWith('http') ? path : `${BLOG_BASE}${path.startsWith('/') ? path : `/${path}`}`;
+}
+
 interface BlogStructuredDataProps {
   post: BlogPost;
 }
 
 export function BlogStructuredData({ post }: BlogStructuredDataProps) {
   const socialImageUrl = getSocialImageUrl({ post, type: 'og' });
-  const fullImageUrl = socialImageUrl.startsWith('/')
-    ? `https://blog.ratnesh-maurya.com${socialImageUrl}`
-    : socialImageUrl;
+  const fullImageUrl = absoluteOgImageUrl(socialImageUrl);
 
   // Convert date to ISO 8601 format with timezone
   const datePublished = new Date(post.date).toISOString();
@@ -101,9 +105,16 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
   const questionUrl = `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`;
   const answerText = question.answer.replace(/<[^>]*>/g, '');
 
+  const ogImageUrl = `${BLOG_BASE}/silly-questions/${question.slug}/opengraph-image`;
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'QAPage',
+    image: {
+      '@type': 'ImageObject',
+      url: ogImageUrl,
+      width: 1200,
+      height: 630,
+    },
     mainEntity: {
       '@type': 'Question',
       name: question.question,
@@ -483,6 +494,12 @@ export function CheatsheetStructuredData({ title, description, slug, keywords }:
       '@type': 'WebPage',
       '@id': `https://blog.ratnesh-maurya.com/cheatsheets/${slug}`,
     },
+    image: {
+      '@type': 'ImageObject',
+      url: `${BLOG_BASE}/cheatsheets/${slug}/opengraph-image`,
+      width: 1200,
+      height: 630,
+    },
     isPartOf: {
       '@type': 'WebSite',
       '@id': 'https://blog.ratnesh-maurya.com/#website',
@@ -524,6 +541,12 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `https://blog.ratnesh-maurya.com/til/${entry.slug}`,
+    },
+    image: {
+      '@type': 'ImageObject',
+      url: `${BLOG_BASE}/til/${entry.slug}/opengraph-image`,
+      width: 1200,
+      height: 630,
     },
     isPartOf: {
       '@type': 'Blog',

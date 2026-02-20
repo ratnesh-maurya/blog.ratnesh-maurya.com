@@ -6,6 +6,18 @@ export const metadata: Metadata = {
   title: 'Privacy Policy — Ratn Labs',
   description: 'Privacy policy for Ratn Labs (blog.ratnesh-maurya.com). How we collect, use, and protect your information.',
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/privacy-policy' },
+  openGraph: {
+    title: 'Privacy Policy — Ratn Labs',
+    description: 'How we collect, use, and protect your information.',
+    url: 'https://blog.ratnesh-maurya.com/privacy-policy',
+    siteName: 'Ratn Labs',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy — Ratn Labs',
+    description: 'How we collect, use, and protect your information.',
+  },
   robots: { index: true, follow: true },
 };
 

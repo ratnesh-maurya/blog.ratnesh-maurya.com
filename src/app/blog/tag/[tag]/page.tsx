@@ -1,18 +1,14 @@
 import { Metadata } from 'next';
 import { getAllBlogPosts } from '@/lib/content';
 import { BlogListingClient } from '@/components/BlogListingClient';
-import { getDefaultSocialImage } from '@/components/BlogImage';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 
 interface TagPageProps {
-  params: {
-    tag: string;
-  };
+  params: Promise<{ tag: string }>;
 }
 
 const decodeTag = (rawTag: string) => {
   const decoded = decodeURIComponent(rawTag);
-  // Convert slug back to display label with title casing
   return decoded
     .replace(/-/g, ' ')
     .trim()
@@ -20,42 +16,28 @@ const decodeTag = (rawTag: string) => {
 };
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
-  const tagLabel = decodeTag(params.tag);
-  const ogImageUrl = getDefaultSocialImage('og', 'blog');
-  const twitterImageUrl = getDefaultSocialImage('twitter', 'blog');
-  const fullOgImageUrl = `https://blog.ratnesh-maurya.com${ogImageUrl}`;
-  const fullTwitterImageUrl = `https://blog.ratnesh-maurya.com${twitterImageUrl}`;
+  const { tag } = await params;
+  const tagLabel = decodeTag(tag);
   const title = `Posts tagged "${tagLabel}"`;
   const description = `Browse all blog posts tagged "${tagLabel}" from Ratn Labs.`;
-  const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${params.tag}`;
+  const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${tag}`;
 
   return {
     title,
     description,
-    alternates: {
-      canonical: canonicalUrl,
-    },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       title,
       description,
       url: canonicalUrl,
       siteName: "Ratn Labs",
       type: 'website',
-      images: [
-        {
-          url: fullOgImageUrl,
-          width: 1200,
-          height: 630,
-          alt: `Posts tagged "${tagLabel}" - Ratn Labs`,
-        }
-      ],
       locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [fullTwitterImageUrl],
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
     },
@@ -74,13 +56,14 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 }
 
 export default async function BlogTagPage({ params }: TagPageProps) {
+  const { tag } = await params;
   const blogPosts = await getAllBlogPosts();
-  const tagLabel = decodeTag(params.tag);
+  const tagLabel = decodeTag(tag);
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
     { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' },
-    { name: `Tag: ${tagLabel}`, url: `https://blog.ratnesh-maurya.com/blog/tag/${params.tag}` },
+    { name: `Tag: ${tagLabel}`, url: `https://blog.ratnesh-maurya.com/blog/tag/${tag}` },
   ];
 
   return (

@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/now' },
   openGraph: {
     title: 'Now — Ratn Labs',
-    description: 'What I\'m working on, learning, and reading right now.',
+    description: "What I'm working on, learning, and reading right now.",
     url: 'https://blog.ratnesh-maurya.com/now',
     siteName: 'Ratn Labs',
     type: 'profile',
   },
-  twitter: { card: 'summary', title: 'Now — Ratn Labs', creator: '@ratnesh_maurya' },
+  twitter: { card: 'summary_large_image', title: 'Now — Ratn Labs', creator: '@ratnesh_maurya' },
   robots: { index: true, follow: true },
 };
 

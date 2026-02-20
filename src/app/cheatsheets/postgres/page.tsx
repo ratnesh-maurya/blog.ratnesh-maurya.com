@@ -7,7 +7,12 @@ export const metadata: Metadata = {
   description: 'Quick reference for PostgreSQL queries, indexes, JSONB operations, common admin commands, and performance patterns.',
   keywords: ['PostgreSQL cheatsheet', 'postgres reference', 'SQL cheatsheet', 'JSONB queries', 'PostgreSQL indexes', 'psql commands'],
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/cheatsheets/postgres' },
-  openGraph: { title: 'PostgreSQL Cheatsheet — Ratn Labs', url: 'https://blog.ratnesh-maurya.com/cheatsheets/postgres', siteName: 'Ratn Labs', type: 'article' },
+  openGraph: {
+    title: 'PostgreSQL Cheatsheet — Ratn Labs',
+    url: 'https://blog.ratnesh-maurya.com/cheatsheets/postgres',
+    siteName: 'Ratn Labs',
+    type: 'article',
+  },
   twitter: { card: 'summary_large_image', title: 'PostgreSQL Cheatsheet — Ratn Labs', creator: '@ratnesh_maurya' },
   robots: { index: true, follow: true },
 };

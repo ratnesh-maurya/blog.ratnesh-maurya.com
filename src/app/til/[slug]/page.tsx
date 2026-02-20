@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: TILPageProps): Promise<Metada
       type: 'article',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: entry.title,
       description: `TIL: ${entry.title}`,
       creator: '@ratnesh_maurya',
