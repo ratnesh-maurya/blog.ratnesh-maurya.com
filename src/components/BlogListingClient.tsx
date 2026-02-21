@@ -186,8 +186,8 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
           </div>
         </div>
 
-        {/* Blog Posts */}
-        <div className="space-y-4">
+        {/* Blog Posts — grid: one featured full-width, then 2 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {filteredAndSortedPosts.map((post, index) => {
             const accent = getCategoryAccent(post.category);
             const isFeatured = index === 0 && !selectedTag && sortBy === 'date';
@@ -195,7 +195,7 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="block group"
+                className={`block group ${isFeatured ? 'md:col-span-2' : ''}`}
                 onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
               >
                 <article

@@ -2,21 +2,28 @@
 @import "highlight.js/styles/github-dark-dimmed.css";
 
 /* ─────────────────────────────────────────────────────────
-   Design System — documentation.md portfolio theme
-   Deep navy background, teal primary, indigo secondary (bluish)
+   Design System — pastel palette
+   primary_blue, mint_green, soft_pink, lavender, pastel_yellow
    ───────────────────────────────────────────────────────── */
 :root {
-  /* Accent — Teal (portfolio primary) */
-  --accent-50:  #F0FDFA;
-  --accent-100: #CCFBF1;
-  --accent-200: #99F6E4;
-  --accent-300: #5EEAD4;
-  --accent-400: #2DD4BF;
-  --accent-500: #14B8A6;
-  --accent-600: #0D9488;
-  --accent-700: #0F766E;
-  --accent-800: #115E59;
-  --accent-900: #134E4A;
+  /* Palette (named) */
+  --palette-primary-blue: #E3F2FF;
+  --palette-mint-green:   #F3FFE3;
+  --palette-soft-pink:    #FDE4F9;
+  --palette-lavender:     #E3E3FF;
+  --palette-pastel-yellow:#FFF5C9;
+
+  /* Accent — Blue (from primary_blue) */
+  --accent-50:  #E3F2FF;
+  --accent-100: #CCE8FF;
+  --accent-200: #99D1FF;
+  --accent-300: #66BAFF;
+  --accent-400: #33A3FF;
+  --accent-500: #0088E6;
+  --accent-600: #006BB8;
+  --accent-700: #004D8A;
+  --accent-800: #00305C;
+  --accent-900: #00182E;
 
   /* Backward-compat aliases so existing --primary-* refs keep working */
   --primary-50:  var(--accent-50);
@@ -30,9 +37,9 @@
   --primary-800: var(--accent-800);
   --primary-900: var(--accent-900);
 
-  /* Indigo — portfolio secondary (bluish) */
-  --indigo-500: #6366F1;
-  --indigo-400: #818CF8;
+  /* Lavender — secondary (from palette) */
+  --indigo-500: #8B8BEE;
+  --indigo-400: #B8B8FF;
 
   /* Warm Neutral Scale */
   --neutral-50:  #FAFAF8;
@@ -47,29 +54,29 @@
   --neutral-900: #1C1C1A;
   --neutral-950: #0F0F0E;
 
-  /* Footer — dark navy (portfolio) regardless of page theme */
-  --footer-bg:            #030d0e;
-  --footer-surface:       #0f172a;
-  --footer-surface-hover: #1e293b;
-  --footer-text-primary:  #f0fdfa;
-  --footer-text-secondary:#94a3b8;
-  --footer-text-muted:    #475569;
+  /* Footer — dark blue (from accent-900) regardless of page theme */
+  --footer-bg:            #00182E;
+  --footer-surface:       #00305C;
+  --footer-surface-hover: #004D8A;
+  --footer-text-primary:  #E3F2FF;
+  --footer-text-secondary:#99D1FF;
+  --footer-text-muted:    #66BAFF;
   --footer-border:        rgb(255 255 255 / 0.07);
 
   /* Semantic Colors */
-  --success: #14B8A6;
+  --success: #0088E6;
   --warning: #B45309;
   --error:   #B91C1C;
   --info:    var(--indigo-500);
 
   /* Background & Surface */
-  --background:       #FAFAF8;
+  --background:       #FFFFFF;
   --surface:          #FFFFFF;
   --surface-elevated: #FFFFFF;
-  --surface-muted:    #F5F5F1;
+  --surface-muted:    var(--palette-mint-green);
   --foreground:       #1C1C1A;
-  --muted:            #F5F5F1;
-  --border:           #E4E4DF;
+  --muted:            var(--palette-mint-green);
+  --border:           #CCE8FF;
 
   /* Typography */
   --text-primary:   #1C1C1A;
@@ -99,32 +106,35 @@
   --radius-xl:  1rem;
   --radius-2xl: 1.5rem;
 
-  /* Gold accent — highlights, featured content, awards */
-  --gold-50:  #FDF8EA;
-  --gold-100: #F9EFC2;
-  --gold-200: #F2D97A;
+  /* Cursor-follow glow (mouse-move effect) */
+  --cursor-glow: rgba(0, 136, 230, 0.06);
+
+  /* Gold accent — from pastel_yellow */
+  --gold-50:  var(--palette-pastel-yellow);
+  --gold-100: #FFEEA3;
+  --gold-200: #F5E07A;
   --gold-300: #E8C042;
   --gold-400: #D4A020;
   --gold-500: #B8860B;
   --gold-600: #8C6508;
 
-  /* Coral accent — Silly Questions section personality */
-  --coral-50:  #FFF2EE;
-  --coral-100: #FFDDD4;
-  --coral-200: #FBB8A6;
-  --coral-300: #F48E74;
-  --coral-400: #E8664A;
-  --coral-500: #D44228;
-  --coral-600: #A83118;
+  /* Coral accent — from soft_pink (Silly Questions) */
+  --coral-50:  var(--palette-soft-pink);
+  --coral-100: #F9C8F0;
+  --coral-200: #F5A0E5;
+  --coral-300: #E870D0;
+  --coral-400: #D442B0;
+  --coral-500: #B8288C;
+  --coral-600: #8C1868;
 }
 
-/* PWA theme colors — teal/indigo portfolio */
+/* PWA theme colors — pastel palette */
 :root {
-  --pwa-primary: #14B8A6;
-  --pwa-primary-dark: #0D9488;
-  --pwa-accent: #2DD4BF;
-  --pwa-background: #FAFAF8;
-  --pwa-surface: #F0FDFA;
+  --pwa-primary: #0088E6;
+  --pwa-primary-dark: #006BB8;
+  --pwa-accent: #33A3FF;
+  --pwa-background: var(--palette-primary-blue);
+  --pwa-surface: var(--palette-primary-blue);
 }
 
 /* Component-level tokens (light mode defaults) */
@@ -134,32 +144,32 @@
   --popover:              #FFFFFF;
   --popover-foreground:   #1C1C1A;
   --primary-foreground:   #FAFAF8;
-  --secondary:            #F5F5F1;
+  --secondary:            var(--palette-mint-green);
   --secondary-foreground: #1C1C1A;
   --muted-foreground:     #8E8E88;
   --accent-foreground:    #1C1C1A;
   --destructive:          #B91C1C;
   --destructive-foreground: #FAFAF8;
-  --input:                #E4E4DF;
-  --ring:                 #14B8A6;
+  --input:                #CCE8FF;
+  --ring:                 #0088E6;
   --radius:               0.5rem;
 }
 
-/* ─── Dark theme — documentation.md portfolio (deep navy, teal, indigo) ─── */
+/* ─── Dark theme — muted, non-neon (soft blue‑grays & slate) ─── */
 [data-theme="dark"] {
   color-scheme: dark;
 
-  /* Teal accent — portfolio primary on dark */
-  --accent-50:  #052E2C;
-  --accent-100: #0D443F;
-  --accent-200: #115E59;
-  --accent-300: #0F766E;
-  --accent-400: #0D9488;
-  --accent-500: #14B8A6;
-  --accent-600: #2DD4BF;
-  --accent-700: #5EEAD4;
-  --accent-800: #99F6E4;
-  --accent-900: #CCFBF1;
+  /* Accent — muted blue (desaturated, no neon) */
+  --accent-50:  #0F172A;
+  --accent-100: #1E293B;
+  --accent-200: #334155;
+  --accent-300: #475569;
+  --accent-400: #5B7BA8;
+  --accent-500: #6B8FC9;
+  --accent-600: #8BA8D4;
+  --accent-700: #A8C2E0;
+  --accent-800: #C5D6EB;
+  --accent-900: #DDE5F0;
 
   --primary-50:  var(--accent-50);
   --primary-100: var(--accent-100);
@@ -172,76 +182,143 @@
   --primary-800: var(--accent-800);
   --primary-900: var(--accent-900);
 
-  /* Navy/slate neutrals (bluish) */
-  --neutral-50:  #030d0e;
-  --neutral-100: #0f172a;
-  --neutral-200: #1e293b;
-  --neutral-300: #334155;
-  --neutral-400: #475569;
+  /* Neutrals — slate (no bright blue in neutrals) */
+  --neutral-50:  #0F172A;
+  --neutral-100: #1E293B;
+  --neutral-200: #334155;
+  --neutral-300: #475569;
+  --neutral-400: #64748B;
   --neutral-500: #64748b;
-  --neutral-600: #94a3b8;
-  --neutral-700: #cbd5e1;
-  --neutral-800: #e2e8f0;
-  --neutral-900: #f0fdfa;
-  --neutral-950: #f8fafc;
+  --neutral-600: #94A3B8;
+  --neutral-700: #CBD5E1;
+  --neutral-800: #E2E8F0;
+  --neutral-900: #E2E8F0;
+  --neutral-950: #F1F5F9;
 
-  /* Background & Surface — documentation.md §2.1 */
-  --background:       #030d0e;
-  --surface:          rgb(255 255 255 / 0.03);
-  --surface-elevated: rgb(255 255 255 / 0.055);
-  --surface-muted:    #0f172a;
-  --foreground:       #f0fdfa;
-  --muted:            #0f172a;
-  --border:           rgb(255 255 255 / 0.07);
+  /* Background & Surface */
+  --background:       #0F172A;
+  --surface:          rgb(255 255 255 / 0.04);
+  --surface-elevated: rgb(255 255 255 / 0.06);
+  --surface-muted:    #1E293B;
+  --foreground:       #E2E8F0;
+  --muted:            #1E293B;
+  --border:           rgb(255 255 255 / 0.08);
 
-  /* Typography — text high / mid / low */
-  --text-primary:   #f0fdfa;
-  --text-secondary: #94a3b8;
-  --text-muted:     #475569;
-  --text-inverse:   #030d0e;
+  /* Typography — soft whites and slate (not bright blue) */
+  --text-primary:   #E2E8F0;
+  --text-secondary: #94A3B8;
+  --text-muted:     #64748B;
+  --text-inverse:   #0F172A;
 
-  /* Shadows — deeper for dark */
+  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
   --shadow-md: 0 4px 8px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.4);
   --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.6), 0 4px 8px -4px rgb(0 0 0 / 0.5);
   --shadow-xl: 0 24px 40px -8px rgb(0 0 0 / 0.7), 0 8px 16px -8px rgb(0 0 0 / 0.6);
 
-  /* Component tokens — teal primary, indigo secondary */
-  --card:                 rgb(255 255 255 / 0.03);
-  --card-foreground:      #f0fdfa;
-  --popover:             rgb(255 255 255 / 0.055);
-  --popover-foreground:   #f0fdfa;
-  --primary:              #14b8a6;
-  --primary-foreground:   #030d0e;
-  --secondary:            #1e293b;
-  --secondary-foreground: #f0fdfa;
-  --accent:               rgb(20 184 166 / 0.12);
-  --accent-foreground:    #2dd4bf;
+  /* Component tokens */
+  --card:                 rgb(255 255 255 / 0.04);
+  --card-foreground:      #E2E8F0;
+  --popover:              rgb(255 255 255 / 0.06);
+  --popover-foreground:   #E2E8F0;
+  --primary:              #6B8FC9;
+  --primary-foreground:   #0F172A;
+  --secondary:            #1E293B;
+  --secondary-foreground: #E2E8F0;
+  --accent:               rgb(107 143 201 / 0.14);
+  --accent-foreground:    #8BA8D4;
   --destructive:          #E85454;
-  --destructive-foreground: #030d0e;
-  --border:               rgb(255 255 255 / 0.07);
+  --destructive-foreground: #0F172A;
+  --border:               rgb(255 255 255 / 0.08);
   --input:                #334155;
-  --ring:                 #14b8a6;
+  --ring:                 #6B8FC9;
 
-  /* Gold — warmer in dark */
+  /* Gold — slightly toned in dark */
   --gold-50:  #150F00;
   --gold-100: #2A1E00;
-  --gold-300: #C49020;
-  --gold-400: #DCAA30;
-  --gold-500: #F0C040;
+  --gold-300: #B88620;
+  --gold-400: #C99A30;
+  --gold-500: #D4A840;
 
-  /* Coral — more vivid in dark */
-  --coral-50:  #180800;
-  --coral-100: #2E1008;
-  --coral-200: #5A2416;
-  --coral-300: #C85840;
-  --coral-400: #E07058;
-  --coral-500: #F08870;
+  /* Coral — muted in dark */
+  --coral-50:  #1A0F18;
+  --coral-100: #2E1A28;
+  --coral-200: #4A2A40;
+  --coral-300: #B070A0;
+  --coral-400: #C88AB8;
+  --coral-500: #D8A4C8;
+
+  /* Cursor-follow glow (mouse-move effect) */
+  --cursor-glow: rgba(107, 143, 201, 0.08);
+
+  /* Footer — same muted palette */
+  --footer-bg:            #0F172A;
+  --footer-surface:       #1E293B;
+  --footer-surface-hover: #334155;
+  --footer-text-primary:  #E2E8F0;
+  --footer-text-secondary:#94A3B8;
+  --footer-text-muted:    #64748B;
+  --footer-border:        rgb(255 255 255 / 0.08);
+}
+
+/* Search popup (Ctrl+K) — blue theme, no green */
+[data-search-popup] {
+  --surface-muted: var(--palette-primary-blue);
+  --muted:         var(--palette-primary-blue);
+  --secondary:    var(--palette-primary-blue);
+}
+[data-theme="dark"] [data-search-popup] {
+  --surface-muted: #1E293B;
+  --muted:         #1E293B;
+  --secondary:    #1E293B;
+}
+
+/* Dark theme — interactive UX (hover, focus, active) */
+[data-theme="dark"] .header-nav a:hover,
+[data-theme="dark"] .header-nav button:hover,
+[data-theme="dark"] nav a:hover,
+[data-theme="dark"] nav button:hover {
+  color: var(--accent-600);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background-color: var(--accent-200);
+  border-color: var(--accent-300);
+}
+
+[data-theme="dark"] .btn-ghost:hover {
+  background-color: var(--accent-100);
+  color: var(--accent-700);
+}
+
+[data-theme="dark"] .btn:focus,
+[data-theme="dark"] .btn:focus-visible {
+  outline: 2px solid var(--accent-400);
+  outline-offset: 2px;
+}
+
+[data-theme="dark"] .focus-visible:focus-visible {
+  outline: 2px solid var(--accent-400);
+  outline-offset: 2px;
+}
+
+[data-theme="dark"] .input:focus {
+  border-color: var(--accent-400);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-400) 35%, transparent);
+}
+
+[data-theme="dark"] .prose a:visited {
+  color: var(--accent-700) !important;
+}
+
+[data-theme="dark"] .prose a:hover {
+  color: var(--accent-600) !important;
+  text-decoration-color: var(--accent-500) !important;
 }
 
 /* Header and Navigation Styles */
 .header-nav {
-  background: rgba(250, 250, 248, 0.95);
+  background: rgba(227, 242, 255, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   transition: all 0.3s ease;
@@ -249,16 +326,16 @@
 }
 
 [data-theme="dark"] .header-nav {
-  background: rgba(3, 13, 14, 0.88);
+  background: rgba(15, 23, 42, 0.88);
 }
 
 .header-nav.scrolled {
-  background: rgba(250, 250, 248, 0.98);
+  background: rgba(227, 242, 255, 0.98);
   box-shadow: var(--shadow-sm);
 }
 
 [data-theme="dark"] .header-nav.scrolled {
-  background: rgba(13, 13, 11, 0.98);
+  background: rgba(15, 23, 42, 0.98);
 }
 
 .header-nav a,
@@ -354,6 +431,14 @@ body {
   background-color: var(--neutral-200);
 }
 
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:active {
+  box-shadow: var(--shadow-sm);
+}
+
 .btn-sm {
   padding: 0.375rem 0.75rem;
   font-size: 0.875rem;
@@ -416,6 +501,7 @@ body {
   background: var(--surface);
   border-color: var(--border);
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 [data-theme="dark"] .blog-card-glass:hover {
@@ -955,7 +1041,7 @@ html, body {
 
 [data-theme="dark"] .hero-gradient-bg {
   background-color: var(--background);
-  background-image: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(78, 196, 142, 0.07) 0%, transparent 65%);
+  background-image: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(107, 143, 201, 0.08) 0%, transparent 65%);
 }
 
 /* Coral section gradient */
@@ -966,7 +1052,7 @@ html, body {
 
 [data-theme="dark"] .coral-gradient-bg {
   background-color: var(--background);
-  background-image: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(240, 136, 112, 0.07) 0%, transparent 65%);
+  background-image: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(253, 228, 249, 0.07) 0%, transparent 65%);
 }
 
 /* Modern Animation Utilities */

@@ -45,7 +45,7 @@ if (!fs.existsSync(technicalTermsDirectory)) {
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
   const fileNames = fs.readdirSync(blogDirectory).filter(name => name.endsWith('.md'));
-  
+
   const allPostsData = await Promise.all(
     fileNames.map(async (fileName) => {
       const slug = fileName.replace(/\.md$/, '');
@@ -53,6 +53,47 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     })
   );
 
+  return allPostsData
+    .filter((post): post is BlogPost => post !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/** Lightweight listing: frontmatter + reading time only; no markdown→HTML. Use for /blog listing page. */
+export async function getBlogPostListingMeta(slug: string): Promise<BlogPost | null> {
+  try {
+    const fullPath = path.join(blogDirectory, `${slug}.md`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
+    const readingTimeResult = readingTime(content);
+    return {
+      slug,
+      title: data.title || '',
+      description: data.description || '',
+      date: data.date || '',
+      author: data.author || 'Ratnesh Maurya',
+      tags: data.tags || [],
+      category: data.category || 'General',
+      readingTime: readingTimeResult.text,
+      featured: data.featured || false,
+      image: data.image || '',
+      socialImage: data.socialImage || data.image || '',
+      questions: data.questions || [],
+      content: '',
+    };
+  } catch (error) {
+    console.error(`Error reading blog listing meta ${slug}:`, error);
+    return null;
+  }
+}
+
+export async function getAllBlogPostsForListing(): Promise<BlogPost[]> {
+  const fileNames = fs.readdirSync(blogDirectory).filter(name => name.endsWith('.md'));
+  const allPostsData = await Promise.all(
+    fileNames.map((fileName) => {
+      const slug = fileName.replace(/\.md$/, '');
+      return getBlogPostListingMeta(slug);
+    })
+  );
   return allPostsData
     .filter((post): post is BlogPost => post !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -241,6 +282,34 @@ export async function getAllTechnicalTerms(): Promise<TechnicalTerm[]> {
   );
   return terms
     .filter((t): t is TechnicalTerm => t !== null)
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+/** Lightweight listing: frontmatter only; no markdown→HTML. Use for /technical-terms listing page. */
+export async function getTechnicalTermListingMeta(slug: string): Promise<{ slug: string; title: string; description: string } | null> {
+  try {
+    const fullPath = path.join(technicalTermsDirectory, `${slug}.md`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data } = matter(fileContents);
+    const description = (data.description || '').replace(/\s*\[\d+\](?:\[\d+\])*/g, '').trim();
+    return { slug, title: data.title || '', description };
+  } catch (error) {
+    console.error(`Error reading technical term listing meta ${slug}:`, error);
+    return null;
+  }
+}
+
+export async function getAllTechnicalTermsForListing(): Promise<Array<{ slug: string; title: string; description: string }>> {
+  if (!fs.existsSync(technicalTermsDirectory)) return [];
+  const fileNames = fs.readdirSync(technicalTermsDirectory).filter((n) => n.endsWith('.md'));
+  const terms = await Promise.all(
+    fileNames.map((fileName) => {
+      const slug = fileName.replace(/\.md$/, '');
+      return getTechnicalTermListingMeta(slug);
+    })
+  );
+  return terms
+    .filter((t): t is { slug: string; title: string; description: string } => t !== null)
     .sort((a, b) => a.title.localeCompare(b.title));
 }
 

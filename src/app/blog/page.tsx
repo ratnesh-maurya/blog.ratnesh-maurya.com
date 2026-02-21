@@ -1,4 +1,4 @@
-import { getAllBlogPosts } from '@/lib/content';
+import { getAllBlogPostsForListing } from '@/lib/content';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { Metadata } from 'next';
@@ -48,7 +48,7 @@ interface BlogPageProps {
 }
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const blogPosts = await getAllBlogPosts();
+  const blogPosts = await getAllBlogPostsForListing();
 
   const resolvedSearchParams = await searchParams;
   const rawTag = resolvedSearchParams?.tag;

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAllTechnicalTerms } from '@/lib/content';
+import { getAllTechnicalTermsForListing } from '@/lib/content';
 import { BreadcrumbStructuredData, TechnicalTermsStructuredData } from '@/components/StructuredData';
 import { TechnicalTermsSearch } from '@/components/TechnicalTermsSearch';
 
@@ -28,22 +28,16 @@ export const metadata: Metadata = {
 };
 
 export default async function TechnicalTermsPage() {
-  const terms = await getAllTechnicalTerms();
+  const terms = await getAllTechnicalTermsForListing();
   const breadcrumbItems = [
     { name: 'Home', url: BASE },
     { name: 'Technical Terms', url: `${BASE}/technical-terms` },
   ];
 
-  const cards = terms.map((t) => ({
-    slug: t.slug,
-    title: t.title,
-    description: t.description,
-  }));
-
   return (
     <>
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      <TechnicalTermsStructuredData terms={cards} />
+      <TechnicalTermsStructuredData terms={terms} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="hero-gradient-bg">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
@@ -75,7 +69,7 @@ export default async function TechnicalTermsPage() {
         </div>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <TechnicalTermsSearch terms={cards} />
+          <TechnicalTermsSearch terms={terms} />
         </div>
       </div>
     </>
