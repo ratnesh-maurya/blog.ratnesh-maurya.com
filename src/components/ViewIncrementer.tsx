@@ -1,39 +1,38 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { incrementStat, type StatType } from '@/lib/supabase/stats';
 
 interface ViewIncrementerProps {
-    slug: string;
+  type: StatType;
+  slug: string;
 }
 
 /**
  * Silent component that increments view count in the background
  * without displaying anything. Used on individual post pages.
+ * Each page load counts as one view. Ref guards against double-increment in React Strict Mode.
  */
-export function ViewIncrementer({ slug }: ViewIncrementerProps) {
-    const hasIncremented = useRef(false);
+export function ViewIncrementer({ type, slug }: ViewIncrementerProps) {
+  const hasIncremented = useRef(false);
 
-    useEffect(() => {
-        // Only increment once per page load
-        if (!hasIncremented.current) {
-            const incrementViews = async () => {
-                try {
-                    // Small delay to ensure page is fully loaded
-                    await new Promise(resolve => setTimeout(resolve, 1500));
+  useEffect(() => {
+    if (hasIncremented.current) return;
 
-                    await fetch(`/api/views/${slug}`, {
-                        method: 'POST',
-                    });
-                    hasIncremented.current = true;
-                } catch (error) {
-                    console.error('Error incrementing views:', error);
-                }
-            };
-
-            incrementViews();
+    const timeoutId = setTimeout(() => {
+      const run = async () => {
+        try {
+          await incrementStat(type, slug, 'view');
+          hasIncremented.current = true;
+        } catch (e) {
+          console.error('Error incrementing views:', e);
         }
-    }, [slug]);
+      };
+      run();
+    }, 1500);
 
-    return null; // This component doesn't render anything
+    return () => clearTimeout(timeoutId);
+  }, [type, slug]);
+
+  return null;
 }
-

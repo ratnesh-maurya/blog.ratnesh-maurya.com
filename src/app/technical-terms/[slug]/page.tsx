@@ -7,6 +7,8 @@ import { notFound } from 'next/navigation';
 import { getTechnicalTerm, getTechnicalTermSlugs, getAllTechnicalTerms } from '@/lib/content';
 import { BreadcrumbStructuredData, TechnicalTermFAQStructuredData } from '@/components/StructuredData';
 import { PostNavigation } from '@/components/PostNavigation';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
 const OG_IMAGE_PATH = '/technical-terms';
@@ -138,6 +140,8 @@ export default async function TechnicalTermPage({
           </div>
         </div>
       </div>
+      <ViewIncrementer type="technical-terms" slug={slug} />
+      <FloatingUpvoteButton type="technical-terms" slug={slug} />
     </>
   );
 }

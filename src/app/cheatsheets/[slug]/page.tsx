@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BreadcrumbStructuredData, CheatsheetStructuredData } from '@/components/StructuredData';
 import { getCheatsheet, getCheatsheetSlugs } from '@/lib/static-content';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
 
@@ -99,6 +101,8 @@ export default async function CheatsheetPage({
           </div>
         </div>
       </div>
+      <ViewIncrementer type="cheatsheets" slug={slug} />
+      <FloatingUpvoteButton type="cheatsheets" slug={slug} />
     </>
   );
 }

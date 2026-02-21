@@ -36,6 +36,7 @@ interface BlogListingClientProps {
 interface BlogStats {
   views: Record<string, number>;
   upvotes: Record<string, number>;
+  reports?: Record<string, number>;
 }
 
 export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pageDescription }: BlogListingClientProps) {
@@ -52,15 +53,13 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
     setSelectedCategory('all');
   }, [initialTag]);
 
-  // Fetch stats from master API
+  // Fetch stats from Supabase
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('/api/stats/blog');
-        if (response.ok) {
-          const data = await response.json();
-          setStats(data);
-        }
+        const { getStatsByType } = await import('@/lib/supabase/stats');
+        const data = await getStatsByType('blog');
+        setStats(data);
       } catch (error) {
         console.error('Error fetching blog stats:', error);
       } finally {
@@ -287,7 +286,7 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                         {isLoadingStats ? '–' : (
-                          <ViewCounter slug={post.slug} showLabel={false} className="text-xs" initialCount={stats.views[post.slug] ?? 0} />
+                          <ViewCounter type="blog" slug={post.slug} showLabel={false} className="text-xs" initialCount={stats.views[post.slug] ?? 0} />
                         )}
                       </span>
                       <span className="flex items-center gap-1.5">

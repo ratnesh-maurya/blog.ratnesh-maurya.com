@@ -510,6 +510,13 @@ export function AppWrapper({ children }: AppWrapperProps) {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/analytics" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Analytics
+                    </Link>
+                  </li>
+                  <li>
                     <a href="/rss.xml" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
                       onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
                       onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>

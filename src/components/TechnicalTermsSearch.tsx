@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import { ViewCounter } from '@/components/ViewCounter';
+import { getStatsByType } from '@/lib/supabase/stats';
 
 interface TermCard {
   slug: string;
@@ -11,6 +13,15 @@ interface TermCard {
 
 export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
   const [query, setQuery] = useState('');
+  const [stats, setStats] = useState<{ views: Record<string, number>; upvotes: Record<string, number> }>({ views: {}, upvotes: {} });
+  const [statsLoaded, setStatsLoaded] = useState(false);
+
+  useEffect(() => {
+    getStatsByType('technical-terms').then((d) => {
+      setStats({ views: d.views, upvotes: d.upvotes });
+      setStatsLoaded(true);
+    }).catch(() => setStatsLoaded(true));
+  }, []);
 
   const filtered = useMemo(() => {
     if (!query.trim()) return terms;
@@ -72,6 +83,15 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
             <p className="text-sm leading-relaxed line-clamp-3 flex-1" style={{ color: 'var(--text-secondary)' }}>
               {term.description}
             </p>
+            {statsLoaded && (
+              <span className="mt-2 flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+                <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <ViewCounter type="technical-terms" slug={term.slug} showLabel={false} className="text-xs" initialCount={stats.views[term.slug] ?? 0} />
+              </span>
+            )}
             <span className="mt-3 text-xs font-semibold flex items-center gap-1" style={{ color: 'var(--accent-500)' }}>
               Read definition
               <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

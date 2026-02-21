@@ -242,8 +242,8 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
           </article>
         </div>
       </div>
-      <ViewIncrementer slug={`silly-questions/${question.slug}`} />
-      <FloatingUpvoteButton slug={`silly-questions/${question.slug}`} />
+      <ViewIncrementer type="silly-questions" slug={question.slug} />
+      <FloatingUpvoteButton type="silly-questions" slug={question.slug} />
     </>
   );
 }

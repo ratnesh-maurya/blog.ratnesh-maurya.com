@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { getTILEntry, getTILSlugs, getAllTILEntries } from '@/lib/content';
 import { PostNavigation } from '@/components/PostNavigation';
 import { BreadcrumbStructuredData, TILStructuredData } from '@/components/StructuredData';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { format } from 'date-fns';
 
 interface TILPageProps {
@@ -124,6 +126,8 @@ export default async function TILEntryPage({ params }: TILPageProps) {
           </div>
         </div>
       </div>
+      <ViewIncrementer type="til" slug={slug} />
+      <FloatingUpvoteButton type="til" slug={slug} />
     </>
   );
 }

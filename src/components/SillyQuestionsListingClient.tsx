@@ -14,6 +14,7 @@ interface SillyQuestionsListingClientProps {
 interface SillyQuestionStats {
     views: Record<string, number>;
     upvotes: Record<string, number>;
+    reports?: Record<string, number>;
 }
 
 const categoryColors: Record<string, { bg: string; text: string; darkBg: string; darkText: string }> = {
@@ -51,11 +52,9 @@ export function SillyQuestionsListingClient({ questions, initialCategory = null 
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const response = await fetch('/api/stats/silly-questions');
-                if (response.ok) {
-                    const data = await response.json();
-                    setStats(data);
-                }
+                const { getStatsByType } = await import('@/lib/supabase/stats');
+                const data = await getStatsByType('silly-questions');
+                setStats(data);
             } catch (error) {
                 console.error('Error fetching silly questions stats:', error);
             } finally {
@@ -229,7 +228,8 @@ export function SillyQuestionsListingClient({ questions, initialCategory = null 
                                                 </svg>
                                                 {isLoadingStats ? '–' : (
                                                     <ViewCounter
-                                                        slug={`silly-questions/${question.slug}`}
+                                                        type="silly-questions"
+                                                        slug={question.slug}
                                                         showLabel={false}
                                                         className="text-xs"
                                                         initialCount={stats.views[question.slug] ?? 0}

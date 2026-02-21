@@ -4,7 +4,7 @@ tldr: "We collect anonymous page view and upvote counts. We don't use ad tracker
 sections:
   - title: "What we collect"
     body:
-      - "Page view counts and upvote counts are stored anonymously in MongoDB Atlas. No personally identifiable information (PII) is linked to these metrics — we record only the post slug and a count."
+      - "Page view counts and upvote counts are stored anonymously in Supabase (PostgreSQL). No personally identifiable information (PII) is linked to these metrics — we record only the page type, slug, and counts."
       - "If you use the newsletter signup form, your email address is processed by Buttondown, our third-party email provider. We do not store your email on our own servers. See Buttondown's privacy policy at buttondown.email/privacy."
       - "We use basic analytics (view counts) built into the blog itself. We do not use Google Analytics, Meta Pixel, or any third-party advertising trackers."
   - title: "Cookies and local storage"
@@ -15,7 +15,7 @@ sections:
   - title: "Third-party services"
     body:
       - "Vercel — This site is hosted on Vercel, which may log your IP address and request metadata as part of normal server operation. See vercel.com/legal/privacy-policy."
-      - "MongoDB Atlas — Anonymous view and upvote counts are stored on MongoDB Atlas (MongoDB, Inc.). See mongodb.com/legal/privacy-policy."
+      - "Supabase — Anonymous view and upvote counts are stored on Supabase (Supabase, Inc.). See supabase.com/privacy."
       - "GitHub — The source code of this blog is hosted publicly on GitHub. No user data is stored there."
       - "Buttondown — If you subscribe to the newsletter, your email is stored with Buttondown. You can unsubscribe at any time using the link in any email we send."
   - title: "Data retention"

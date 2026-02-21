@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllBlogPosts } from '@/lib/content';
 import { BreadcrumbStructuredData, ProfilePageStructuredData } from '@/components/StructuredData';
+import { PageStatsTracker } from '@/components/PageStatsTracker';
 
 export const metadata: Metadata = {
   title: 'About — Ratnesh Maurya',
@@ -321,6 +322,7 @@ export default async function AboutPage() {
 
         </div>
       </div>
+      <PageStatsTracker type="about" slug="about" />
     </>
   );
 }

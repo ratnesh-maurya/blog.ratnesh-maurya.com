@@ -347,8 +347,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </article>
         </div>
       </div>
-      <ViewIncrementer slug={post.slug} />
-      <FloatingUpvoteButton slug={post.slug} />
+      <ViewIncrementer type="blog" slug={post.slug} />
+      <FloatingUpvoteButton type="blog" slug={post.slug} />
     </>
   );
 }

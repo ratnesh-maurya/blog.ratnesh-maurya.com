@@ -59,7 +59,7 @@
       "items": [
         { "name": "Next.js 15 (App Router)", "desc": "Framework. Server components, static generation, and API routes all in one place.", "href": "https://nextjs.org", "badge": "Powering this site" },
         { "name": "Tailwind CSS", "desc": "Utility-first CSS. Once you internalize the scale, the speed is unmatched.", "href": "https://tailwindcss.com" },
-        { "name": "MongoDB Atlas", "desc": "View counts and upvotes are stored here. Free tier handles the traffic comfortably.", "href": "https://mongodb.com/atlas" },
+        { "name": "Supabase", "desc": "View counts, upvotes, and reports are stored here. Client-only; no API in the loop.", "href": "https://supabase.com" },
         { "name": "Vercel", "desc": "Deployment. Every push to main deploys in ~30 seconds.", "href": "https://vercel.com" },
         { "name": "Markdown + gray-matter", "desc": "All posts are plain Markdown files in the repo. No CMS, no database for content.", "href": "https://github.com/jonschlinkert/gray-matter" }
       ]

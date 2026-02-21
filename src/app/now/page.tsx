@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 import { getNowContent } from '@/lib/static-content';
+import { PageStatsTracker } from '@/components/PageStatsTracker';
 
 export default function NowPage() {
   const { lastUpdated, sections } = getNowContent();
@@ -92,6 +93,7 @@ export default function NowPage() {
           </div>
         </div>
       </div>
+      <PageStatsTracker type="now" slug="now" />
     </>
   );
 }

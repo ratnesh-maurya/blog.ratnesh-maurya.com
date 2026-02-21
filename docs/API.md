@@ -249,5 +249,5 @@ Slug is always the segment(s) that identify the page within that type (no leadin
 
 ## Environment variables (Go service)
 
-- **MongoDB** (or your store) connection string for the `blog` database.
+- Your store connection string (e.g. PostgreSQL/Supabase or other).
 - No indexing/reindex env vars; that stays in the blog.
