@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ClientNavigation } from '@/components/ClientNavigation';
 import { SearchPopup } from '@/components/SearchPopup';
+import { CustomCursor } from '@/components/CustomCursor';
 import { SkipLink, FocusTrap, useKeyboardShortcut } from '@/components/AccessibilityUtils';
 import { TotalViews } from '@/components/TotalViews';
 import { BlogPost, SillyQuestion } from '@/types/blog';
@@ -20,6 +21,8 @@ export function AppWrapper({ children }: AppWrapperProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [sillyQuestions, setSillyQuestions] = useState<SillyQuestion[]>([]);
+  const [technicalTerms, setTechnicalTerms] = useState<{ slug: string; title: string; description: string }[]>([]);
+  const [tilEntries, setTilEntries] = useState<{ slug: string; title: string; description: string; tags: string[]; category: string; date: string }[]>([]);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -29,8 +32,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
         const response = await fetch('/search-data.json');
         if (response.ok) {
           const data = await response.json();
-          setBlogPosts(data.blogPosts);
-          setSillyQuestions(data.sillyQuestions);
+          setBlogPosts(data.blogPosts ?? []);
+          setSillyQuestions(data.sillyQuestions ?? []);
+          setTechnicalTerms(data.technicalTerms ?? []);
+          setTilEntries(data.tilEntries ?? []);
         }
       } catch (error) {
         console.error('Failed to fetch search data:', error);
@@ -89,6 +94,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
 
   return (
     <div className="min-h-screen flex flex-col transition-colors" style={{ backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}>
+      <CustomCursor />
       {/* Skip Links */}
       <SkipLink href="#main-content">Skip to main content</SkipLink>
       <SkipLink href="#navigation">Skip to navigation</SkipLink>
@@ -145,6 +151,17 @@ export function AppWrapper({ children }: AppWrapperProps) {
                   }
                 >
                   Topics
+                </Link>
+                <Link
+                  href="/technical-terms"
+                  onClick={() => trackNavigation('/technical-terms', 'navbar')}
+                  className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
+                  style={isActiveLink('/technical-terms')
+                    ? { color: 'var(--accent-500)', backgroundColor: 'var(--accent-50)' }
+                    : { color: 'var(--text-secondary)' }
+                  }
+                >
+                  Technical Terms
                 </Link>
                 <Link
                   href="/about"
@@ -249,6 +266,17 @@ export function AppWrapper({ children }: AppWrapperProps) {
               Topics
             </Link>
             <Link
+              href="/technical-terms"
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/technical-terms')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/technical-terms', 'mobile-menu'); setIsMobileMenuOpen(false); }}
+            >
+              Technical Terms
+            </Link>
+            <Link
               href="/about"
               className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
               style={isActiveLink('/about')
@@ -280,6 +308,17 @@ export function AppWrapper({ children }: AppWrapperProps) {
               onClick={() => { trackNavigation('/cheatsheets', 'mobile-menu'); setIsMobileMenuOpen(false); }}
             >
               Cheatsheets
+            </Link>
+            <Link
+              href="/technical-terms"
+              className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+              style={isActiveLink('/technical-terms')
+                ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+                : { color: 'var(--text-secondary)' }
+              }
+              onClick={() => { trackNavigation('/technical-terms', 'mobile-menu'); setIsMobileMenuOpen(false); }}
+            >
+              Technical Terms
             </Link>
             <Link
               href="/series"
@@ -436,6 +475,13 @@ export function AppWrapper({ children }: AppWrapperProps) {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/technical-terms" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Technical Terms
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/about" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
                       onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
                       onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
@@ -496,6 +542,13 @@ export function AppWrapper({ children }: AppWrapperProps) {
                       onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
                       onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
                       Cheatsheets
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/technical-terms" className="text-sm transition-colors" style={{ color: 'var(--footer-text-secondary)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent-400)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)'}>
+                      Technical Terms
                     </Link>
                   </li>
                   <li>
@@ -581,6 +634,8 @@ export function AppWrapper({ children }: AppWrapperProps) {
           onClose={() => setIsSearchOpen(false)}
           blogPosts={blogPosts}
           sillyQuestions={sillyQuestions}
+          technicalTerms={technicalTerms}
+          tilEntries={tilEntries}
         />
       </FocusTrap>
 

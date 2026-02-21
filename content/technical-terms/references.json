@@ -1,0 +1,202 @@
+{
+  "1": {
+    "url": "https://en.wikipedia.org/wiki/Database_index",
+    "title": "Database index - Wikipedia"
+  },
+  "2": {
+    "url": "https://bluegrid.io/glossary/software-development/data-replication-in-databases/",
+    "title": "Data Replication in Databases - BlueGrid.io : BlueGrid.io"
+  },
+  "3": {
+    "url": "https://planetscale.com/learn/courses/mysql-for-developers/indexes/covering-indexes",
+    "title": "Covering indexes — MySQL for Developers — PlanetScale"
+  },
+  "4": {
+    "url": "https://planetscale.com/learn/courses/mysql-for-developers/indexes/covering-indexes",
+    "title": "Covering indexes — MySQL for Developers — PlanetScale"
+  },
+  "5": {
+    "url": "https://planetscale.com/learn/courses/mysql-for-developers/indexes/covering-indexes",
+    "title": "Covering indexes — MySQL for Developers — PlanetScale"
+  },
+  "6": {
+    "url": "https://www.harper.fast/resources/what-is-database-clustering",
+    "title": "Blog | What is Database Clustering?"
+  },
+  "7": {
+    "url": "https://www.geeksforgeeks.org/dbms/denormalization-in-databases/",
+    "title": "Denormalization in Databases - GeeksforGeeks"
+  },
+  "8": {
+    "url": "https://www.geeksforgeeks.org/dbms/what-is-data-normalization-and-why-is-it-important/",
+    "title": "What is Data Normalization and Why Is It Important? - GeeksforGeeks"
+  },
+  "9": {
+    "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html",
+    "title": "Working with DB instance read replicas - Amazon Relational Database Service"
+  },
+  "10": {
+    "url": "https://bluegrid.io/glossary/software-development/data-replication-in-databases/",
+    "title": "Data Replication in Databases - BlueGrid.io : BlueGrid.io"
+  },
+  "11": {
+    "url": "https://bluegrid.io/glossary/software-development/data-replication-in-databases/",
+    "title": "Data Replication in Databases - BlueGrid.io : BlueGrid.io"
+  },
+  "12": {
+    "url": "https://en.wikipedia.org/wiki/Quorum_(distributed_computing)",
+    "title": "Quorum (distributed computing) - Wikipedia"
+  },
+  "13": {
+    "url": "https://www.geeksforgeeks.org/computer-organization-architecture/distributed-consensus-in-distributed-systems/",
+    "title": "Distributed Consensus in Distributed Systems - GeeksforGeeks"
+  },
+  "14": {
+    "url": "https://en.wikipedia.org/wiki/CAP_theorem",
+    "title": "CAP theorem - Wikipedia"
+  },
+  "15": {
+    "url": "https://aws.amazon.com/compare/the-difference-between-acid-and-base-database/",
+    "title": "ACID vs BASE Databases - Difference Between Databases - AWS"
+  },
+  "16": {
+    "url": "https://neo4j.com/blog/graph-database/acid-vs-base-consistency-models-explained/",
+    "title": "Data Consistency Models: ACID vs. BASE Databases Explained"
+  },
+  "17": {
+    "url": "https://neo4j.com/blog/graph-database/acid-vs-base-consistency-models-explained/",
+    "title": "Data Consistency Models: ACID vs. BASE Databases Explained"
+  },
+  "18": {
+    "url": "https://www.geeksforgeeks.org/system-design/eventual-consistency-in-distributive-systems-learn-system-design/",
+    "title": "Eventual Consistency in Distributed Systems | Learn System Design - GeeksforGeeks"
+  },
+  "19": {
+    "url": "https://www.geeksforgeeks.org/system-design/eventual-consistency-in-distributive-systems-learn-system-design/",
+    "title": "Eventual Consistency in Distributed Systems | Learn System Design - GeeksforGeeks"
+  },
+  "20": {
+    "url": "https://www.geeksforgeeks.org/system-design/strong-consistency-in-system-design/",
+    "title": "Strong Consistency in System Design - GeeksforGeeks"
+  },
+  "21": {
+    "url": "https://en.wikipedia.org/wiki/Snapshot_isolation",
+    "title": "Snapshot isolation - Wikipedia"
+  },
+  "22": {
+    "url": "https://en.wikipedia.org/wiki/Multiversion_concurrency_control",
+    "title": "Multiversion concurrency control - Wikipedia"
+  },
+  "23": {
+    "url": "https://en.wikipedia.org/wiki/Multiversion_concurrency_control",
+    "title": "Multiversion concurrency control - Wikipedia"
+  },
+  "24": {
+    "url": "https://en.wikipedia.org/wiki/Two-phase_commit_protocol",
+    "title": "Two-phase commit protocol - Wikipedia"
+  },
+  "25": {
+    "url": "https://en.wikipedia.org/wiki/Two-phase_commit_protocol",
+    "title": "Two-phase commit protocol - Wikipedia"
+  },
+  "26": {
+    "url": "https://en.wikipedia.org/wiki/Three-phase_commit_protocol",
+    "title": "Three-phase commit protocol - Wikipedia"
+  },
+  "27": {
+    "url": "https://en.wikipedia.org/wiki/Write-ahead_logging",
+    "title": "Write-ahead logging - Wikipedia"
+  },
+  "28": {
+    "url": "https://en.wikipedia.org/wiki/Write-ahead_logging",
+    "title": "Write-ahead logging - Wikipedia"
+  },
+  "29": {
+    "url": "https://www.alibabacloud.com/blog/596780",
+    "title": "An In-depth Discussion on the LSM Compaction Mechanism - Alibaba Cloud Community"
+  },
+  "30": {
+    "url": "https://www.alibabacloud.com/blog/596780",
+    "title": "An In-depth Discussion on the LSM Compaction Mechanism - Alibaba Cloud Community"
+  },
+  "31": {
+    "url": "https://dagster.io/glossary/data-rebalancing",
+    "title": "What Does Rebalance Mean | Dagster"
+  },
+  "32": {
+    "url": "https://planetscale.com/blog/database-sharding",
+    "title": "Database Sharding — PlanetScale"
+  },
+  "33": {
+    "url": "https://www.thoughtworks.com/insights/decoder/d/data-locality",
+    "title": "Data locality | Thoughtworks"
+  },
+  "34": {
+    "url": "https://medium.com/@_sidharth_m_/how-to-handle-hot-shard-problem-7f640a5444e0",
+    "title": "How to Handle Hot Shard Problem? | Medium"
+  },
+  "35": {
+    "url": "https://en.wikipedia.org/wiki/Split-brain_(computing)",
+    "title": "Split-brain (computing) - Wikipedia"
+  },
+  "36": {
+    "url": "https://www.ibm.com/docs/en/db2/11.5.x?topic=strategies-failover",
+    "title": "High availability through failover"
+  },
+  "37": {
+    "url": "https://www.ibm.com/think/topics/high-availability",
+    "title": "What is High Availability? | IBM"
+  },
+  "38": {
+    "url": "https://www.freecodecamp.org/news/horizontal-vs-vertical-scaling-in-database/",
+    "title": "Horizontal vs. Vertical Scaling – How to Scale a Database"
+  },
+  "39": {
+    "url": "https://www.freecodecamp.org/news/horizontal-vs-vertical-scaling-in-database/",
+    "title": "Horizontal vs. Vertical Scaling – How to Scale a Database"
+  },
+  "40": {
+    "url": "https://en.wikipedia.org/wiki/Load_balancing_(computing)",
+    "title": "Load balancing (computing) - Wikipedia"
+  },
+  "41": {
+    "url": "https://www.cockroachlabs.com/blog/what-is-connection-pooling/",
+    "title": "What is connection pooling, and why should you care"
+  },
+  "42": {
+    "url": "https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-caching",
+    "title": "What Is Caching? | Microsoft Azure"
+  },
+  "43": {
+    "url": "https://aws.amazon.com/what-is/materialized-view/",
+    "title": "What is a Materialized View? - Materialized View Explained - AWS"
+  },
+  "44": {
+    "url": "https://en.wikipedia.org/wiki/Bloom_filter",
+    "title": "Bloom filter - Wikipedia"
+  },
+  "45": {
+    "url": "https://en.wikipedia.org/wiki/Log-structured_merge-tree",
+    "title": "Log-structured merge-tree - Wikipedia"
+  },
+  "46": {
+    "url": "https://en.wikipedia.org/wiki/B-tree",
+    "title": "B-tree - Wikipedia"
+  },
+  "47": {
+    "url": "https://docs.yugabyte.com/stable/architecture/query-layer/planner-optimizer/",
+    "title": "Query Planner | YugabyteDB Docs"
+  },
+  "48": {
+    "url": "https://www.geeksforgeeks.org/dbms/deadlock-in-dbms/",
+    "title": "Deadlock in DBMS - GeeksforGeeks"
+  },
+  "49": {
+    "url": "https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation",
+    "title": "Resolve blocking problem caused by lock escalation - SQL Server | Microsoft Learn"
+  },
+  "50": {
+    "url": "https://www.freecodecamp.org/news/horizontal-vs-vertical-scaling-in-database/",
+    "title": "Horizontal vs. Vertical Scaling – How to Scale a Database"
+  }
+}

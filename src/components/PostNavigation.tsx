@@ -5,6 +5,7 @@ interface NavItem {
   title: string;
   href: string;
   label?: string; // category or type label
+  description?: string; // optional excerpt for prev/next card
 }
 
 interface PostNavigationProps {
@@ -46,6 +47,11 @@ export function PostNavigation({ prev, next, accentVar = '--accent-500' }: PostN
             style={{ color: 'var(--text-primary)' }}>
             {prev.title}
           </span>
+          {prev.description && (
+            <span className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--text-muted)' }}>
+              {prev.description}
+            </span>
+          )}
         </Link>
       ) : (
         <div />
@@ -75,6 +81,11 @@ export function PostNavigation({ prev, next, accentVar = '--accent-500' }: PostN
             style={{ color: 'var(--text-primary)' }}>
             {next.title}
           </span>
+          {next.description && (
+            <span className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--text-muted)' }}>
+              {next.description}
+            </span>
+          )}
         </Link>
       ) : (
         <div />

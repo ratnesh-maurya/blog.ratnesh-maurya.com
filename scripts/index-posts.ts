@@ -6,7 +6,7 @@ try {
   console.log('ℹ️  dotenv not found, using environment variables');
 }
 
-import { getAllBlogPosts, getAllSillyQuestions, getAllTILEntries } from '../src/lib/content';
+import { getAllBlogPosts, getAllSillyQuestions, getAllTILEntries, getTechnicalTermSlugs } from '../src/lib/content';
 import { requestIndexingBatch } from '../src/lib/googleIndexing';
 
 const baseUrl = 'https://blog.ratnesh-maurya.com';
@@ -43,6 +43,7 @@ async function indexAllPosts() {
       `${baseUrl}/privacy-policy`,
       `${baseUrl}/series`,
       `${baseUrl}/glossary`,
+      `${baseUrl}/technical-terms`,
       `${baseUrl}/resources`,
       `${baseUrl}/now`,
       `${baseUrl}/cheatsheets`,
@@ -69,6 +70,12 @@ async function indexAllPosts() {
       urls.push(`${baseUrl}/til/${entry.slug}`);
     });
 
+    // Technical term URLs
+    const technicalTermSlugs = getTechnicalTermSlugs();
+    technicalTermSlugs.forEach(slug => {
+      urls.push(`${baseUrl}/technical-terms/${slug}`);
+    });
+
     // Tag pages (derived from blog posts)
     const tagSet = new Set<string>();
     blogPosts.forEach(post => {
@@ -87,6 +94,7 @@ async function indexAllPosts() {
     console.log(`   - ${blogPosts.length} blog posts`);
     console.log(`   - ${sillyQuestions.length} silly questions`);
     console.log(`   - ${tilEntries.length} TIL entries`);
+    console.log(`   - ${technicalTermSlugs.length} technical terms`);
     console.log(`   - ${tagSet.size} tag pages\n`);
 
     // Index URLs in batches to respect rate limits (200 per day)

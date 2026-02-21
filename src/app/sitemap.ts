@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getAllBlogPosts, getAllSillyQuestions, getAllTILEntries } from '@/lib/content';
+import { getAllBlogPosts, getAllSillyQuestions, getAllTILEntries, getTechnicalTermSlugs } from '@/lib/content';
 
 export const dynamic = 'force-static';
 
@@ -179,6 +179,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       images: [`${baseUrl}/series/opengraph-image`],
     },
     {
+      url: `${baseUrl}/technical-terms`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+      images: [`${baseUrl}/technical-terms/opengraph-image`],
+    },
+    {
       url: `${baseUrl}/now`,
       lastModified: now,
       changeFrequency: 'monthly',
@@ -195,5 +202,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: [`${baseUrl}/til/${e.slug}/opengraph-image`],
   }));
 
-  return [...staticWithOg, ...tilUrls, ...tagUrls, ...blogUrls, ...questionUrls];
+  const technicalTermSlugs = getTechnicalTermSlugs();
+  const technicalTermUrls = technicalTermSlugs.map((slug) => ({
+    url: `${baseUrl}/technical-terms/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
+    images: [`${baseUrl}/technical-terms/${slug}/opengraph-image`],
+  }));
+
+  return [...staticWithOg, ...tilUrls, ...technicalTermUrls, ...tagUrls, ...blogUrls, ...questionUrls];
 }

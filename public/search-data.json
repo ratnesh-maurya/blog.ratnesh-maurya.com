@@ -1,6 +1,33 @@
 {
   "blogPosts": [
     {
+      "slug": "How-Files-Are-Stored-Deleted-and-Copied-Inside-Your-Computer",
+      "title": "How Files Are Stored, Deleted, and Copied Inside Your Computer",
+      "description": "Understand how files are actually stored on disk, why deletion is instant, and why copying takes time. A beginner-friendly deep dive into file systems and storage architecture.",
+      "tags": [
+        "File System",
+        "Operating System",
+        "Storage",
+        "NTFS",
+        "ext4"
+      ],
+      "category": "System Design",
+      "date": "2026-02-20"
+    },
+    {
+      "slug": "The-Mechanics-of-Compression-How-100GB-Becomes-25GB",
+      "title": "The Mechanics of Compression: How 100GB Becomes 25GB",
+      "description": "A deep dive into the mathematical 'magic' behind data compression, from Huffman Coding to the architectural differences between ZIP and TAR.GZ.",
+      "tags": [
+        "Compression",
+        "Algorithms",
+        "Backend",
+        "DevOps"
+      ],
+      "category": "Computer Science",
+      "date": "2026-02-19"
+    },
+    {
       "slug": "building-this-blog",
       "title": "Building This Blog: A Modern Next.js Blog with Markdown",
       "description": "How I built this blog using Next.js, TypeScript, Tailwind CSS, and markdown for content management. A complete guide to creating a fast, SEO-optimized blog.",
@@ -12,40 +39,77 @@
         "Tailwind CSS"
       ],
       "category": "Web Development",
-      "date": "2024-01-20"
+      "date": "2025-09-08"
     },
     {
-      "slug": "getting-started-with-nextjs",
-      "title": "Getting Started with Next.js: A Complete Guide",
-      "description": "Learn how to build modern web applications with Next.js, from setup to deployment. Perfect for beginners and experienced developers alike.",
+      "slug": "Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design",
+      "title": "Optimizing Memory Layout in Go: A Deep Dive into Struct Design",
+      "description": "In Go, struct design can play a significant role in optimizing memory usage, especially when dealing with applications that need to handle a large number of structs. Understanding memory layout and the concept of alignment is crucial for writing efficient code. Let's dive into how struct field ordering impacts memory and how we can improve its design for better performance.",
       "tags": [
-        "Next.js",
-        "React",
-        "Web Development",
-        "JavaScript"
+        "Golang",
+        "Go Memory Layout"
       ],
-      "category": "Web Development",
-      "date": "2024-01-15"
+      "category": "Golang",
+      "date": "2025-01-10"
     },
     {
-      "slug": "mastering-typescript",
-      "title": "Mastering TypeScript: From Beginner to Pro",
-      "description": "Dive deep into TypeScript and learn advanced patterns, best practices, and how to leverage its powerful type system for better code.",
+      "slug": "Easily-Deploy-Your-Nanoc-Website-to-S3-with-GitHub-Actions",
+      "title": "Easily Deploy Your Nanoc Website to S3 with GitHub Actions",
+      "description": "Learn how to deploy your Nanoc website to an AWS S3 bucket using GitHub Actions. This step-by-step guide provides detailed instructions for automating your deployment process.",
       "tags": [
-        "TypeScript",
-        "JavaScript",
-        "Programming",
-        "Types"
+        "AWS",
+        "Nanoc",
+        "GitHub Actions",
+        "GitHub Actions Workflow"
       ],
-      "category": "Programming",
-      "date": "2024-01-10"
+      "category": "AWS",
+      "date": "2024-11-23"
+    },
+    {
+      "slug": "Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO",
+      "title": "Architectural Design for a Ride App such as OLA, UBER, RAPIDO",
+      "description": "This blog post explores the design Pattern of a ride app such as OLA, UBER, RAPIDO.",
+      "tags": [
+        "microservices",
+        "system-design",
+        "architecture",
+        "ride-sharing",
+        "scalability"
+      ],
+      "category": "Software Architecture",
+      "date": "2024-07-30"
+    },
+    {
+      "slug": "Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups",
+      "title": "Amazon SNS for Cost Reduction and Message Delivery Assurance in Startups",
+      "description": "Amazon Simple Notification Service (SNS) is a fully managed messaging service that enables the reliable and scalable distribution of messages and notifications to a variety of endpoints, including mobile devices, email, SMS, and other AWS services, making it a powerful tool for communication and information dissemination.",
+      "tags": [
+        "AWS",
+        "SNS",
+        "SQS"
+      ],
+      "category": "AWS",
+      "date": "2023-12-10"
+    },
+    {
+      "slug": "Understanding-S3-and-S3-Policies",
+      "title": "Understanding S3 and S3 Policies",
+      "description": "This blog post explores the fundamentals of Amazon S3, a powerful and versatile object storage service offered by AWS. We'll delve into the key features of S3, discuss S3 policies, and provide practical examples to illustrate how these policies work in real-world scenarios.",
+      "tags": [
+        "AWS",
+        " Amazon S3",
+        "S3",
+        "S3 Policies"
+      ],
+      "category": "AWS",
+      "date": "2023-11-23"
     }
   ],
   "sillyQuestions": [
     {
       "slug": "forgot-to-save-file",
       "question": "Why does my code work in my head but not on the computer?",
-      "answer": "\n**The Answer:** You probably forgot to save the file! 🤦‍♂️\n\nThis is probably the most common mistake every developer makes, especially when starting out. You spend 30 minutes debugging why your chan...",
+      "answer": "<p><strong>The Answer:</strong> You probably forgot to save the file! 🤦‍♂️</p>\n<p>This is probably the most common mistake every developer makes, especially when starting out. You spend 30 minutes debugging why your changes aren't working, only to realize you never saved the file.</p>\n<p><strong>How to avoid this:</strong></p>\n<ol>\n<li><strong>Enable auto-save</strong> in your editor (VS Code: <code>File > Auto Save</code>)</li>\n<li><strong>Use Ctrl+S (or Cmd+S)</strong> religiously after every change</li>\n<li><strong>Check the file tab</strong> - unsaved files usually have a dot or asterisk</li>\n<li><strong>Use hot reload</strong> in development - it will force you to save to see changes</li>\n</ol>\n<p><strong>Pro tip:</strong> Make saving a muscle memory. I save after every few lines of code, even if I'm not done with the thought. It's better to save too often than not enough!</p>\n<p>Remember: The computer only knows what you've saved, not what you've typed! 💾</p>",
       "tags": [
         "debugging",
         "beginner-mistakes",
@@ -56,7 +120,7 @@
     {
       "slug": "semicolon-missing",
       "question": "Why is my JavaScript breaking with 'Unexpected token' errors?",
-      "answer": "\n**The Answer:** You're probably missing a semicolon somewhere! 😅\n\nJavaScript has something called \"Automatic Semicolon Insertion\" (ASI), but it doesn't always work the way you expect. Sometimes a mi...",
+      "answer": "<p><strong>The Answer:</strong> You're probably missing a semicolon somewhere! 😅</p>\n<p>JavaScript has something called \"Automatic Semicolon Insertion\" (ASI), but it doesn't always work the way you expect. Sometimes a missing semicolon can cause the next line to be interpreted as part of the previous statement.</p>\n<p><strong>Common scenarios:</strong></p>\n<pre><code class=\"hljs language-javascript\"><span class=\"hljs-comment\">// This breaks:</span>\n<span class=\"hljs-keyword\">let</span> a = <span class=\"hljs-number\">5</span>\n<span class=\"hljs-keyword\">let</span> b = <span class=\"hljs-number\">10</span>\n[<span class=\"hljs-number\">1</span>, <span class=\"hljs-number\">2</span>, <span class=\"hljs-number\">3</span>].<span class=\"hljs-title function_\">forEach</span>(<span class=\"hljs-variable language_\">console</span>.<span class=\"hljs-property\">log</span>) <span class=\"hljs-comment\">// Error!</span>\n\n<span class=\"hljs-comment\">// JavaScript sees this as:</span>\n<span class=\"hljs-keyword\">let</span> a = 5<span class=\"hljs-keyword\">let</span> b = <span class=\"hljs-number\">10</span>[<span class=\"hljs-number\">1</span>, <span class=\"hljs-number\">2</span>, <span class=\"hljs-number\">3</span>].<span class=\"hljs-title function_\">forEach</span>(<span class=\"hljs-variable language_\">console</span>.<span class=\"hljs-property\">log</span>)\n</code></pre>\n<p><strong>How to avoid this:</strong></p>\n<ol>\n<li><strong>Use a linter</strong> like ESLint with semicolon rules</li>\n<li><strong>Be consistent</strong> - either always use semicolons or never use them</li>\n<li><strong>Use Prettier</strong> to automatically format your code</li>\n<li><strong>Learn the ASI rules</strong> if you want to go semicolon-free</li>\n</ol>\n<p><strong>My recommendation:</strong> Just use semicolons. It's clearer, more explicit, and prevents these weird edge cases. Your future self will thank you! 🙏</p>",
       "tags": [
         "javascript",
         "syntax-errors",
@@ -67,13 +131,439 @@
     {
       "slug": "css-not-working",
       "question": "Why isn't my CSS working? I've been staring at it for hours!",
-      "answer": "\n**The Answer:** You probably have a typo in your CSS selector or property name! 🤦‍♂️\n\nThis happens to everyone. You write what you think is perfect CSS, but there's a tiny typo that breaks everythin...",
+      "answer": "<p><strong>The Answer:</strong> You probably have a typo in your CSS selector or property name! 🤦‍♂️</p>\n<p>This happens to everyone. You write what you think is perfect CSS, but there's a tiny typo that breaks everything.</p>\n<p><strong>Common culprits:</strong></p>\n<ol>\n<li>\n<p><strong>Typos in class names:</strong></p>\n<pre><code class=\"hljs language-css\"><span class=\"hljs-comment\">/* You wrote */</span>\n<span class=\"hljs-selector-class\">.btn-primray</span> { <span class=\"hljs-attribute\">color</span>: blue; }\n\n<span class=\"hljs-comment\">/* But your HTML has */</span>\n&#x3C;<span class=\"hljs-selector-tag\">button</span> class=\"btn-primary\">Click me&#x3C;/<span class=\"hljs-selector-tag\">button</span>>\n</code></pre>\n</li>\n<li>\n<p><strong>Missing semicolons:</strong></p>\n<pre><code class=\"hljs language-css\"><span class=\"hljs-selector-class\">.my-class</span> {\n  <span class=\"hljs-attribute\">color</span>: red  <span class=\"hljs-comment\">/* Missing semicolon! */</span>\n  background: blue;\n}\n</code></pre>\n</li>\n<li>\n<p><strong>Wrong property names:</strong></p>\n<pre><code class=\"hljs language-css\"><span class=\"hljs-selector-class\">.my-class</span> {\n  <span class=\"hljs-selector-tag\">text</span>-colour: red; <span class=\"hljs-comment\">/* Should be 'color' */</span>\n  <span class=\"hljs-attribute\">font</span>-wieght: bold; <span class=\"hljs-comment\">/* Should be 'weight' */</span>\n}\n</code></pre>\n</li>\n<li>\n<p><strong>Selector specificity issues:</strong></p>\n<pre><code class=\"hljs language-css\"><span class=\"hljs-comment\">/* This is more specific and overrides your styles */</span>\n<span class=\"hljs-selector-tag\">div</span><span class=\"hljs-selector-class\">.container</span> <span class=\"hljs-selector-class\">.my-class</span> { <span class=\"hljs-attribute\">color</span>: green; }\n\n<span class=\"hljs-comment\">/* Your style gets overridden */</span>\n<span class=\"hljs-selector-class\">.my-class</span> { <span class=\"hljs-attribute\">color</span>: red; }\n</code></pre>\n</li>\n</ol>\n<p><strong>How to debug:</strong></p>\n<ol>\n<li><strong>Use browser dev tools</strong> - Right-click → Inspect Element</li>\n<li><strong>Check the computed styles</strong> - See what's actually being applied</li>\n<li><strong>Look for crossed-out styles</strong> - These are being overridden</li>\n<li><strong>Validate your CSS</strong> - Use a CSS validator to catch syntax errors</li>\n</ol>\n<p><strong>Pro tip:</strong> Use a good code editor with CSS IntelliSense. It'll catch most typos before you even save the file!</p>\n<p>Remember: CSS is case-sensitive for class names but not for property names. <code>background-Color</code> works, but <code>.MyClass</code> and <code>.myclass</code> are different! 🎨</p>",
       "tags": [
         "css",
         "debugging",
         "typos"
       ],
       "date": "2024-01-05"
+    }
+  ],
+  "technicalTerms": [
+    {
+      "slug": "acid",
+      "title": "ACID",
+      "description": "ACID is an acronym for database transaction properties: Atomicity, Consistency, Isolation, Durability."
+    },
+    {
+      "slug": "b-tree",
+      "title": "B-tree",
+      "description": "A B-tree is a self-balancing tree data structure that maintains sorted data and allows searches, sequential access, insertions, and deletions in logarithmic…"
+    },
+    {
+      "slug": "backpressure",
+      "title": "Backpressure",
+      "description": "Backpressure is a technique to prevent system overload by signaling to upstream components to slow down when downstream is overwhelmed."
+    },
+    {
+      "slug": "base",
+      "title": "BASE",
+      "description": "BASE is an acronym contrasting ACID for distributed systems: Basically Available, Soft state, Eventually consistent. It describes a model where availability is…"
+    },
+    {
+      "slug": "bloom-filter",
+      "title": "Bloom Filter",
+      "description": "A Bloom filter is a space-efficient probabilistic data structure to test whether an element is in a set. It can tell “possibly in set” or “definitely not…"
+    },
+    {
+      "slug": "caching",
+      "title": "Caching",
+      "description": "Caching stores frequently accessed data in a faster storage (often memory) to speed up retrieval."
+    },
+    {
+      "slug": "cap-theorem",
+      "title": "CAP Theorem",
+      "description": "The CAP theorem (Brewer’s theorem) states that in the presence of a network partition, a distributed data store can only guarantee two of the following three:…"
+    },
+    {
+      "slug": "cdc-change-data-capture",
+      "title": "CDC (Change Data Capture)",
+      "description": "CDC is the process of tracking and capturing changes in a database and delivering change events (inserts/updates/deletes) to downstream systems."
+    },
+    {
+      "slug": "checkpointing",
+      "title": "Checkpointing",
+      "description": "Checkpointing is the process of flushing all committed changes from the write-ahead log (WAL) to the main database storage, and then clearing the…"
+    },
+    {
+      "slug": "circuit-breaker",
+      "title": "Circuit Breaker",
+      "description": "A circuit breaker is a pattern where a system stops sending requests to a failing service for a period, allowing it to recover and preventing resource…"
+    },
+    {
+      "slug": "clustering",
+      "title": "Clustering",
+      "description": "In databases, clustering can refer to either grouping similar data together or deploying multiple nodes for scalability/HA. A database cluster is a set of…"
+    },
+    {
+      "slug": "columnar-vs-row-storage",
+      "title": "Columnar vs Row Storage",
+      "description": "Columnar storage stores data column-by-column (all values of one column together). Row-based storage stores data row-by-row (complete records…"
+    },
+    {
+      "slug": "compaction",
+      "title": "Compaction",
+      "description": "Compaction is the process of merging and recycling data files to reclaim space and improve read performance, especially in Log-Structured Merge (LSM) tree…"
+    },
+    {
+      "slug": "composite-index",
+      "title": "Composite Index",
+      "description": "A composite index (multi-column index) indexes multiple columns together in one index. It creates a single B-tree keyed by the tuple of column…"
+    },
+    {
+      "slug": "connection-pooling",
+      "title": "Connection Pooling",
+      "description": "Connection pooling maintains a pool of open database connections that can be reused, reducing the overhead of opening/closing connections."
+    },
+    {
+      "slug": "consensus",
+      "title": "Consensus",
+      "description": "Consensus refers to the process whereby a group of distributed nodes agree on a single value or decision. It is critical in systems that need consistency…"
+    },
+    {
+      "slug": "consistent-hashing",
+      "title": "Consistent Hashing",
+      "description": "Consistent hashing is a technique to distribute keys across nodes so that minimal keys need to be moved when nodes join/leave."
+    },
+    {
+      "slug": "covering-index",
+      "title": "Covering Index",
+      "description": "A covering index is a (secondary or composite) index that includes all columns needed for a query. The index “covers” the query, so the database can…"
+    },
+    {
+      "slug": "data-lake",
+      "title": "Data Lake",
+      "description": "A data lake is a centralized repository that stores large volumes of raw data (structured, semi-structured, unstructured) in its native format, usually in a…"
+    },
+    {
+      "slug": "data-locality",
+      "title": "Data Locality",
+      "description": "Data locality is the principle of placing computation (queries, processing) close to where the data resides, rather than moving large data sets across the…"
+    },
+    {
+      "slug": "data-migration",
+      "title": "Data Migration",
+      "description": "Data migration involves moving data between systems or formats (e.g., during an upgrade or platform change)."
+    },
+    {
+      "slug": "data-skew",
+      "title": "Data Skew",
+      "description": "Data skew is an uneven distribution of data (or workload) across partitions or nodes. Some partitions get more data/traffic than others."
+    },
+    {
+      "slug": "data-warehouse",
+      "title": "Data Warehouse",
+      "description": "A data warehouse is a centralized repository that stores curated, cleaned, and structured data optimized for queries and reporting, typically in a columnar…"
+    },
+    {
+      "slug": "deadlock",
+      "title": "Deadlock",
+      "description": "A deadlock occurs when two or more transactions block each other indefinitely, each holding a resource the other needs."
+    },
+    {
+      "slug": "denormalization",
+      "title": "Denormalization",
+      "description": "Denormalization is the process of intentionally adding redundancy to a database schema to improve read/query performance. In a denormalized design, data…"
+    },
+    {
+      "slug": "dirty-read",
+      "title": "Dirty Read",
+      "description": "A dirty read is when a transaction reads data written by another uncommitted transaction. If that other transaction rolls back, the reading transaction got…"
+    },
+    {
+      "slug": "eventual-consistency",
+      "title": "Eventual Consistency",
+      "description": "Eventual consistency is a weak consistency model where if no new updates are made, all replicas of data will eventually converge to the same…"
+    },
+    {
+      "slug": "exactly-once-semantics",
+      "title": "Exactly-Once Semantics",
+      "description": "Guarantees that an operation (like processing a message) is performed only once, despite retries and failures."
+    },
+    {
+      "slug": "failover",
+      "title": "Failover",
+      "description": "Failover is the automatic or manual switching of operations from a failed primary system to a secondary (standby) system."
+    },
+    {
+      "slug": "federation",
+      "title": "Federation",
+      "description": "Federation refers to a setup where multiple autonomous databases or services coordinate to respond to queries, often by delegating parts of a query to…"
+    },
+    {
+      "slug": "geo-replication",
+      "title": "Geo-Replication",
+      "description": "Geo-replication is replicating data across geographically distributed data centers."
+    },
+    {
+      "slug": "hash-partitioning",
+      "title": "Hash Partitioning",
+      "description": "Hash partitioning assigns data to shards by hashing a key and using the hash result to pick a partition."
+    },
+    {
+      "slug": "high-availability-ha",
+      "title": "High Availability (HA)",
+      "description": "High availability means a system is continuously operational and accessible with minimal downtime (often 99.99% uptime or better)."
+    },
+    {
+      "slug": "horizontal-scaling",
+      "title": "Horizontal Scaling",
+      "description": "Horizontal scaling (scale-out) means adding more machines (nodes) to a system to handle increased load."
+    },
+    {
+      "slug": "hot-partition-hot-shard",
+      "title": "Hot Partition (Hot Shard)",
+      "description": "A hot partition (or hot shard/key) is a data partition that receives disproportionately high traffic, causing resource saturation."
+    },
+    {
+      "slug": "idempotency",
+      "title": "Idempotency",
+      "description": "Idempotency means an operation can be applied multiple times without changing the result beyond the initial application. In distributed systems, it ensures…"
+    },
+    {
+      "slug": "indexing",
+      "title": "Indexing",
+      "description": "A database index is a data structure that improves the speed of data retrieval on a table at the cost of additional writes and storage. It works like a book’s…"
+    },
+    {
+      "slug": "leader-follower-replication",
+      "title": "Leader–Follower Replication",
+      "description": "Leader–Follower (also called master-slave) replication is a strategy where one node (the leader) receives all write operations, and one or more follower…"
+    },
+    {
+      "slug": "load-balancing",
+      "title": "Load Balancing",
+      "description": "Load balancing is distributing incoming requests or tasks across multiple servers/resources to optimize performance and avoid overload."
+    },
+    {
+      "slug": "lock-escalation",
+      "title": "Lock Escalation",
+      "description": "Lock escalation is the process of converting many fine-grained locks (like row or page locks) into a coarser lock (like a table lock) to reduce lock management…"
+    },
+    {
+      "slug": "logical-vs-physical-replication",
+      "title": "Logical vs Physical Replication",
+      "description": "Logical replication replicates database changes at a logical level (e.g. SQL statements or row change events). Physical replication copies the exact data files…"
+    },
+    {
+      "slug": "lsm-tree",
+      "title": "LSM Tree",
+      "description": "A Log-Structured Merge-tree (LSM tree) is a data structure optimized for high write volumes. It buffers writes in memory and periodically merges them to…"
+    },
+    {
+      "slug": "materialized-views",
+      "title": "Materialized Views",
+      "description": "A materialized view is a database object that stores the result of a query as a physical table. Unlike a regular (virtual) view, it contains actual…"
+    },
+    {
+      "slug": "multi-leader-replication",
+      "title": "Multi-Leader Replication",
+      "description": "Multi-leader (also called multi-master) replication allows multiple nodes (leaders) to accept writes. Data is replicated between leaders to keep them in…"
+    },
+    {
+      "slug": "mvcc-multi-version-concurrency-control",
+      "title": "MVCC (Multi-Version Concurrency Control)",
+      "description": "MVCC is a concurrency control method that keeps multiple versions of data records to allow non-blocking reads. Instead of locking, transactions see the…"
+    },
+    {
+      "slug": "normalization",
+      "title": "Normalization",
+      "description": "Normalization is the process of organizing database schema to reduce redundancy and improve integrity. Typically, data is divided into multiple tables…"
+    },
+    {
+      "slug": "optimistic-locking",
+      "title": "Optimistic Locking",
+      "description": "Optimistic locking is a concurrency control strategy where a transaction proceeds without locking resources, checking for conflicts only at commit. Typically…"
+    },
+    {
+      "slug": "pessimistic-locking",
+      "title": "Pessimistic Locking",
+      "description": "Pessimistic locking is the strategy of locking data resources before accessing them to prevent conflicts. A transaction acquires locks on rows it will read or…"
+    },
+    {
+      "slug": "phantom-read",
+      "title": "Phantom Read",
+      "description": "A phantom read occurs when a transaction re-reads rows matching a condition and finds new rows that were inserted or deleted by another transaction after the…"
+    },
+    {
+      "slug": "query-planner-cost-based-optimizer",
+      "title": "Query Planner (Cost-Based Optimizer)",
+      "description": "The query planner/optimizer is a component that determines the most efficient way to execute a database query. A cost-based optimizer (CBO) estimates the…"
+    },
+    {
+      "slug": "quorum",
+      "title": "Quorum",
+      "description": "In distributed systems, a quorum is the minimum number of votes (or nodes) that must agree to perform an operation. It is a technique to ensure consistency…"
+    },
+    {
+      "slug": "range-partitioning",
+      "title": "Range Partitioning",
+      "description": "Range partitioning divides data by ordered key ranges. Each shard holds a contiguous range of key values."
+    },
+    {
+      "slug": "read-replicas",
+      "title": "Read Replicas",
+      "description": "A read replica is a read-only copy of a database instance. The primary database handles writes; read replicas asynchronously replicate data from the primary…"
+    },
+    {
+      "slug": "read-skew",
+      "title": "Read Skew",
+      "description": "Read skew is an anomaly where a transaction reads outdated data in one table or column while reading updated related data in another, leading to inconsistency…"
+    },
+    {
+      "slug": "rebalancing-data-rebalancing",
+      "title": "Rebalancing (Data Rebalancing)",
+      "description": "Rebalancing is redistributing data across nodes or partitions to ensure even load and resource utilization."
+    },
+    {
+      "slug": "resharding",
+      "title": "Resharding",
+      "description": "Resharding is changing the number or configuration of shards (data partitions) in a sharded database, moving data between shards accordingly."
+    },
+    {
+      "slug": "schema-evolution",
+      "title": "Schema Evolution",
+      "description": "Schema evolution refers to managing changes to the database schema over time without disrupting services."
+    },
+    {
+      "slug": "schema-registry",
+      "title": "Schema Registry",
+      "description": "A schema registry is a centralized service to store and enforce data schema versions for messages/events (common in streaming systems like Kafka)."
+    },
+    {
+      "slug": "secondary-indexes",
+      "title": "Secondary Indexes",
+      "description": "A secondary index is any index on a table column that is not the primary key. It is stored separately from the table rows."
+    },
+    {
+      "slug": "snapshot-isolation",
+      "title": "Snapshot Isolation",
+      "description": "Snapshot isolation is a transaction isolation level where each transaction operates on a snapshot of the database as of the start of the transaction.…"
+    },
+    {
+      "slug": "split-brain",
+      "title": "Split-Brain",
+      "description": "Split-brain is a failure scenario in clustered systems where network failures cause two (or more) segments of the cluster to believe they are the sole primary…"
+    },
+    {
+      "slug": "strong-consistency",
+      "title": "Strong Consistency",
+      "description": "Strong consistency means every read receives the most recent write (or an error). All nodes see the same data at the same time."
+    },
+    {
+      "slug": "three-phase-commit-3pc",
+      "title": "Three-Phase Commit (3PC)",
+      "description": "Three-phase commit is an extension of 2PC designed to reduce blocking. It adds a “pre-commit” phase so participants can make a safe decision without indefinite…"
+    },
+    {
+      "slug": "throttling-and-rate-limiting",
+      "title": "Throttling and Rate Limiting",
+      "description": "Throttling controls resource usage by limiting the rate of requests. Rate limiting enforces a maximum number of requests in a time window."
+    },
+    {
+      "slug": "time-series-partitioning",
+      "title": "Time-Series Partitioning",
+      "description": "Partitioning data by time (e.g., daily/weekly/monthly partitions). Each partition holds data for a time range."
+    },
+    {
+      "slug": "two-phase-commit-2pc",
+      "title": "Two-Phase Commit (2PC)",
+      "description": "Two-phase commit is an atomic commitment protocol for distributed transactions. A coordinator asks all involved nodes (participants) whether they can commit.…"
+    },
+    {
+      "slug": "vertical-scaling",
+      "title": "Vertical Scaling",
+      "description": "Vertical scaling (scale-up) is increasing the resources (CPU, RAM, disk) of a single machine."
+    },
+    {
+      "slug": "write-skew",
+      "title": "Write Skew",
+      "description": "Write skew is an anomaly where two concurrent transactions each read overlapping data and then write non-overlapping fields, resulting in an overall invalid…"
+    },
+    {
+      "slug": "write-ahead-logging-wal",
+      "title": "Write-Ahead Logging (WAL)",
+      "description": "Write-Ahead Logging is a technique where changes are first recorded in a log before being applied to the database files. It ensures atomicity and…"
+    }
+  ],
+  "tilEntries": [
+    {
+      "slug": "docker-layer-cache-order",
+      "title": "Docker layer cache order matters — put COPY last",
+      "description": "Docker caches each instruction as a layer. Once a layer changes, all subsequent layers are rebuilt. Order your Dockerfile so things that change least often come first. **Bad — copies source code before installing dependencies:** ```dockerfile FROM golang:1.23 WORKDIR /app COPY . . # Changes every co",
+      "tags": [
+        "docker",
+        "dockerfile",
+        "caching",
+        "devops"
+      ],
+      "category": "Docker",
+      "date": "2025-02-15"
+    },
+    {
+      "slug": "go-defer-loop-gotcha",
+      "title": "Go defer inside a loop doesn't run until the function returns",
+      "description": "A classic Go gotcha: `defer` in a loop defers until the **surrounding function** returns, not until the loop iteration ends. ```go // BAD: files are not closed after each iteration for _, filename := range files { f, _ := os.Open(filename) defer f.Close() // Only runs when the whole function exits! ",
+      "tags": [
+        "go",
+        "defer",
+        "loops",
+        "gotchas"
+      ],
+      "category": "Go",
+      "date": "2025-02-10"
+    },
+    {
+      "slug": "kubernetes-liveness-vs-readiness",
+      "title": "Kubernetes: liveness vs readiness probes are not the same thing",
+      "description": "Confusing these two causes subtle production incidents. **Liveness probe** — answers: \"Is this container dead and should be restarted?\" - Failure → Kubernetes kills and restarts the container - Use for: detecting deadlocks, infinite loops, completely broken state **Readiness probe** — answers: \"Is t",
+      "tags": [
+        "kubernetes",
+        "k8s",
+        "probes",
+        "devops"
+      ],
+      "category": "Kubernetes",
+      "date": "2025-02-01"
+    },
+    {
+      "slug": "aws-s3-eventual-consistency",
+      "title": "AWS S3 now provides strong read-after-write consistency",
+      "description": "Before December 2020, S3 had eventual consistency for overwrite PUTs and DELETEs — meaning you could read stale data immediately after a write. This caught many developers off guard. Since December 2020, **S3 provides strong read-after-write consistency for all operations** — PUTs, DELETEs, and LIST",
+      "tags": [
+        "aws",
+        "s3",
+        "consistency",
+        "cloud"
+      ],
+      "category": "AWS",
+      "date": "2025-01-25"
+    },
+    {
+      "slug": "postgres-jsonb-vs-json",
+      "title": "PostgreSQL: JSONB is almost always better than JSON",
+      "description": "PostgreSQL has two JSON types: `json` and `jsonb`. Always use `jsonb` unless you have a specific reason not to. | Feature | `json` | `jsonb` | |---|---|---| | Storage | Exact text copy | Binary, parsed | | Indexing | Not indexable | GIN/GiST indexable | | Operators | Limited | Full (`@>`, `?`, `#>`)",
+      "tags": [
+        "postgres",
+        "json",
+        "jsonb",
+        "database"
+      ],
+      "category": "PostgreSQL",
+      "date": "2025-01-18"
+    },
+    {
+      "slug": "go-maps-not-concurrent-safe",
+      "title": "Go maps are not safe for concurrent reads and writes",
+      "description": "Accessing a Go map from multiple goroutines simultaneously — even for reads — can cause a panic if any goroutine is writing. ```go // This will panic under concurrent access m := map[string]int{} go func() { m[\"key\"] = 1 }() go func() { fmt.Println(m[\"key\"]) }() ``` The fix: use `sync.RWMutex` for r",
+      "tags": [
+        "go",
+        "concurrency",
+        "maps"
+      ],
+      "category": "Go",
+      "date": "2025-01-10"
     }
   ]
 }

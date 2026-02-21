@@ -10,10 +10,24 @@ import readingTime from 'reading-time';
 import { BlogPost, SillyQuestion, TILEntry } from '@/types/blog';
 import { addIdsToHeadings } from './toc';
 
+export interface TechnicalTermQuestion {
+  question: string;
+  answer: string;
+}
+
+export interface TechnicalTerm {
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  questions?: TechnicalTermQuestion[];
+}
+
 const contentDirectory = path.join(process.cwd(), 'content');
 const blogDirectory = path.join(contentDirectory, 'blog');
 const sillyQuestionsDirectory = path.join(contentDirectory, 'silly-questions');
 const tilDirectory = path.join(contentDirectory, 'til');
+const technicalTermsDirectory = path.join(contentDirectory, 'technical-terms');
 
 // Ensure directories exist
 if (!fs.existsSync(blogDirectory)) {
@@ -24,6 +38,9 @@ if (!fs.existsSync(sillyQuestionsDirectory)) {
 }
 if (!fs.existsSync(tilDirectory)) {
   fs.mkdirSync(tilDirectory, { recursive: true });
+}
+if (!fs.existsSync(technicalTermsDirectory)) {
+  fs.mkdirSync(technicalTermsDirectory, { recursive: true });
 }
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
@@ -175,4 +192,59 @@ export function getBlogPostSlugs(): string[] {
 export function getSillyQuestionSlugs(): string[] {
   const fileNames = fs.readdirSync(sillyQuestionsDirectory);
   return fileNames.map((name) => name.replace(/\.md$/, ''));
+}
+
+export async function getTechnicalTerm(slug: string): Promise<TechnicalTerm | null> {
+  try {
+    const fullPath = path.join(technicalTermsDirectory, `${slug}.md`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
+    const processedContent = await remark()
+      .use(remarkGfm)
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
+      .process(content);
+    const contentHtml = addIdsToHeadings(processedContent.toString());
+    const rawQuestions = Array.isArray(data.questions) ? data.questions : [];
+    const description = (data.description || '').replace(/\s*\[\d+\](?:\[\d+\])*/g, '').trim();
+    const questions: TechnicalTermQuestion[] = rawQuestions
+      .map((q: unknown) => {
+        if (typeof q === 'string') return { question: q, answer: description };
+        if (typeof q === 'object' && q !== null && 'question' in q && 'answer' in q)
+          return { question: String(q.question), answer: String(q.answer) };
+        return null;
+      })
+      .filter((q): q is TechnicalTermQuestion => q !== null);
+
+    return {
+      slug,
+      title: data.title || '',
+      description,
+      content: contentHtml,
+      questions: questions.length > 0 ? questions : undefined,
+    };
+  } catch (error) {
+    console.error(`Error reading technical term ${slug}:`, error);
+    return null;
+  }
+}
+
+export async function getAllTechnicalTerms(): Promise<TechnicalTerm[]> {
+  if (!fs.existsSync(technicalTermsDirectory)) return [];
+  const fileNames = fs.readdirSync(technicalTermsDirectory).filter((n) => n.endsWith('.md'));
+  const terms = await Promise.all(
+    fileNames.map((fileName) => {
+      const slug = fileName.replace(/\.md$/, '');
+      return getTechnicalTerm(slug);
+    })
+  );
+  return terms
+    .filter((t): t is TechnicalTerm => t !== null)
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+export function getTechnicalTermSlugs(): string[] {
+  if (!fs.existsSync(technicalTermsDirectory)) return [];
+  return fs.readdirSync(technicalTermsDirectory).filter((n) => n.endsWith('.md')).map((n) => n.replace(/\.md$/, ''));
 }

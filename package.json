@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "postbuild": "tsx scripts/index-posts.ts",
+    "postbuild": "tsx scripts/generate-search-data.ts && tsx scripts/index-posts.ts && tsx scripts/build-og-technical-terms.tsx",
     "start": "next start",
     "lint": "eslint",
     "export": "next build",
@@ -39,6 +39,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vercel/og": "^0.8.6",
     "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",

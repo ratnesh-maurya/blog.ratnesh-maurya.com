@@ -461,6 +461,75 @@ export function GlossaryStructuredData({ terms }: GlossaryStructuredDataProps) {
   );
 }
 
+// ─── Technical Term: FAQPage (per-term) ───────────────────────────────────────
+interface TechnicalTermFAQItem { question: string; answer: string; }
+interface TechnicalTermFAQStructuredDataProps {
+  termTitle: string;
+  termUrl: string;
+  faq: TechnicalTermFAQItem[];
+}
+
+export function TechnicalTermFAQStructuredData({
+  termTitle,
+  termUrl,
+  faq,
+}: TechnicalTermFAQStructuredDataProps) {
+  if (!faq || faq.length === 0) return null;
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question' as const,
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer' as const,
+        text: item.answer,
+      },
+    })),
+    name: `${termTitle} — Frequently Asked Questions`,
+    url: termUrl,
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+// ─── Technical Terms: DefinedTermSet ──────────────────────────────────────────
+interface TechnicalTermCard { slug: string; title: string; description: string; }
+interface TechnicalTermsStructuredDataProps { terms: TechnicalTermCard[]; }
+
+export function TechnicalTermsStructuredData({ terms }: TechnicalTermsStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTermSet',
+    '@id': 'https://blog.ratnesh-maurya.com/technical-terms#termset',
+    name: 'Technical Terms — Backend & System Design',
+    description: 'Definitions for indexing, clustering, CAP, ACID, replication, and other backend and system design terms.',
+    url: 'https://blog.ratnesh-maurya.com/technical-terms',
+    publisher: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+    },
+    hasDefinedTerm: terms.map((t) => ({
+      '@type': 'DefinedTerm' as const,
+      name: t.title,
+      description: t.description,
+      inDefinedTermSet: 'https://blog.ratnesh-maurya.com/technical-terms#termset',
+      url: `https://blog.ratnesh-maurya.com/technical-terms/${t.slug}`,
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
 // ─── Cheatsheet: TechArticle ──────────────────────────────────────────────────
 interface CheatsheetStructuredDataProps {
   title: string;
