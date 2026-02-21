@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Baloo_Bhai_2 } from "next/font/google";
 import "./globals.css";
 import { AppWrapper } from "@/components/AppWrapper";
 import { Analytics } from "@/components/Analytics";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { WebsiteStructuredData, OrganizationStructuredData, ProfilePageStructuredData } from "@/components/StructuredData";
 
 
@@ -132,6 +133,7 @@ export default function RootLayout({
         <ProfilePageStructuredData />
         <AppWrapper>{children}</AppWrapper>
         <Analytics />
+        <VercelAnalytics />
       </body>
     </html>
   );
