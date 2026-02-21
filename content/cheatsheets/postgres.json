@@ -1,0 +1,49 @@
+{
+  "title": "PostgreSQL Cheatsheet — Queries, Indexes & JSONB",
+  "description": "Quick reference for PostgreSQL queries, indexes, JSONB operations, common admin commands, and performance patterns.",
+  "subtitle": "Queries, indexes, JSONB, transactions, and admin reference",
+  "keywords": [
+    "PostgreSQL",
+    "postgres cheatsheet",
+    "SQL reference",
+    "JSONB",
+    "indexes",
+    "psql commands",
+    "transactions"
+  ],
+  "emoji": "🐘",
+  "sections": [
+    {
+      "title": "psql CLI",
+      "code": "psql -U user -d dbname -h localhost\n\\\\l                    -- list databases\n\\\\c dbname             -- connect to database\n\\\\dt                   -- list tables\n\\\\d tablename          -- describe table\n\\\\di                   -- list indexes\n\\\\df                   -- list functions\n\\\\x                    -- toggle expanded output\n\\\\timing               -- show query time\n\\\\e                    -- open query in editor\n\\\\q                    -- quit"
+    },
+    {
+      "title": "Table Operations",
+      "code": "-- Create\nCREATE TABLE users (\n    id         BIGSERIAL PRIMARY KEY,\n    email      TEXT NOT NULL UNIQUE,\n    name       TEXT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\n-- Alter\nALTER TABLE users ADD COLUMN age INT;\nALTER TABLE users DROP COLUMN age;\nALTER TABLE users RENAME COLUMN name TO full_name;\nALTER TABLE users ALTER COLUMN email SET NOT NULL;\n\n-- Drop\nDROP TABLE users;\nDROP TABLE IF EXISTS users CASCADE;"
+    },
+    {
+      "title": "Core Queries",
+      "code": "-- SELECT with filtering and sorting\nSELECT id, name, email\nFROM users\nWHERE created_at > NOW() - INTERVAL '30 days'\nORDER BY created_at DESC\nLIMIT 10 OFFSET 20;\n\n-- COUNT and GROUP BY\nSELECT category, COUNT(*) AS total\nFROM posts\nGROUP BY category\nHAVING COUNT(*) > 5\nORDER BY total DESC;\n\n-- JOIN\nSELECT u.name, p.title\nFROM users u\nJOIN posts p ON p.user_id = u.id\nWHERE u.active = true;\n\n-- LEFT JOIN (include users with no posts)\nSELECT u.name, COUNT(p.id) AS post_count\nFROM users u\nLEFT JOIN posts p ON p.user_id = u.id\nGROUP BY u.id, u.name;"
+    },
+    {
+      "title": "Insert, Update, Delete",
+      "code": "-- Insert\nINSERT INTO users (email, name) VALUES ('x@example.com', 'Alice');\n\n-- Upsert (insert or update on conflict)\nINSERT INTO users (email, name)\nVALUES ('x@example.com', 'Alice')\nON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name;\n\n-- Update\nUPDATE users SET name = 'Bob', updated_at = NOW()\nWHERE id = 42;\n\n-- Delete\nDELETE FROM users WHERE id = 42;\n\n-- Returning modified rows\nUPDATE users SET active = false WHERE id = 42 RETURNING *;"
+    },
+    {
+      "title": "Indexes",
+      "code": "-- B-tree (default, good for =, <, >, BETWEEN, ORDER BY)\nCREATE INDEX idx_users_email ON users (email);\n\n-- Partial index (smaller, faster for filtered queries)\nCREATE INDEX idx_active_users ON users (created_at) WHERE active = true;\n\n-- Composite index\nCREATE INDEX idx_posts_user_date ON posts (user_id, created_at DESC);\n\n-- Unique index\nCREATE UNIQUE INDEX idx_users_email_unique ON users (email);\n\n-- GIN index for JSONB and full-text search\nCREATE INDEX idx_metadata ON posts USING GIN (metadata);\n\n-- Check index usage\nSELECT * FROM pg_stat_user_indexes WHERE relname = 'users';\n\n-- Drop index concurrently (no lock)\nDROP INDEX CONCURRENTLY idx_users_email;"
+    },
+    {
+      "title": "JSONB",
+      "code": "-- Create column\nALTER TABLE posts ADD COLUMN metadata JSONB;\n\n-- Insert\nINSERT INTO posts (metadata)\nVALUES ('{\"tags\": [\"go\", \"aws\"], \"views\": 100}');\n\n-- Query operators\n-- @>  contains\nSELECT * FROM posts WHERE metadata @> '{\"status\": \"published\"}';\n\n-- ?   key exists\nSELECT * FROM posts WHERE metadata ? 'tags';\n\n-- ->> get value as text\nSELECT metadata->>'author' FROM posts;\n\n-- #>> get nested value\nSELECT metadata#>>'{address,city}' FROM posts;\n\n-- Update nested key\nUPDATE posts SET metadata = jsonb_set(metadata, '{views}', '200');\n\n-- GIN index for fast JSONB queries\nCREATE INDEX idx_posts_meta ON posts USING GIN (metadata);"
+    },
+    {
+      "title": "Transactions",
+      "code": "BEGIN;\n  UPDATE accounts SET balance = balance - 100 WHERE id = 1;\n  UPDATE accounts SET balance = balance + 100 WHERE id = 2;\nCOMMIT;\n\n-- Rollback on error\nBEGIN;\n  UPDATE accounts SET balance = balance - 100 WHERE id = 1;\n  -- something fails\nROLLBACK;\n\n-- Savepoints\nBEGIN;\n  SAVEPOINT sp1;\n  UPDATE ...;\n  ROLLBACK TO sp1;   -- undo only to savepoint\nCOMMIT;"
+    },
+    {
+      "title": "Useful Queries",
+      "code": "-- Table sizes\nSELECT relname AS table,\n       pg_size_pretty(pg_total_relation_size(relid)) AS size\nFROM pg_catalog.pg_statio_user_tables\nORDER BY pg_total_relation_size(relid) DESC;\n\n-- Slow queries (requires pg_stat_statements extension)\nSELECT query, mean_exec_time, calls\nFROM pg_stat_statements\nORDER BY mean_exec_time DESC\nLIMIT 10;\n\n-- Lock monitoring\nSELECT pid, query, state, wait_event_type, wait_event\nFROM pg_stat_activity\nWHERE wait_event IS NOT NULL;\n\n-- Kill a connection\nSELECT pg_terminate_backend(pid) FROM pg_stat_activity\nWHERE datname = 'mydb' AND pid <> pg_backend_pid();"
+    }
+  ]
+}

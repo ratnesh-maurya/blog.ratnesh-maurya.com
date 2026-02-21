@@ -1,0 +1,53 @@
+{
+  "title": "kubectl Cheatsheet — Kubernetes CLI Reference",
+  "description": "Quick reference for kubectl commands — pods, deployments, services, configmaps, debugging, and rollouts.",
+  "subtitle": "Pods, deployments, services, debugging, and cluster management",
+  "keywords": [
+    "kubectl",
+    "Kubernetes CLI",
+    "kubectl commands",
+    "kubectl reference",
+    "pods",
+    "deployments",
+    "kubectl debug"
+  ],
+  "emoji": "☸️",
+  "sections": [
+    {
+      "title": "Context & Cluster",
+      "code": "kubectl config get-contexts              # list all contexts\nkubectl config current-context            # current context\nkubectl config use-context my-cluster     # switch context\nkubectl config set-context --current --namespace=dev  # set default namespace\nkubectl cluster-info                      # cluster info\nkubectl get nodes                         # list nodes\nkubectl get nodes -o wide                 # with IPs and OS info"
+    },
+    {
+      "title": "Pods",
+      "code": "kubectl get pods                          # list pods (current namespace)\nkubectl get pods -n kube-system           # list in namespace\nkubectl get pods -A                       # list all namespaces\nkubectl get pods -o wide                  # with node and IP\nkubectl get pod mypod -o yaml             # full pod spec\nkubectl describe pod mypod                # events and details\nkubectl logs mypod                        # pod logs\nkubectl logs mypod -c container-name      # specific container\nkubectl logs mypod -f                     # follow (tail -f)\nkubectl logs mypod --previous             # logs from crashed container\nkubectl exec -it mypod -- bash            # shell into pod\nkubectl exec mypod -- env                 # run command in pod\nkubectl delete pod mypod                  # delete pod\nkubectl delete pod mypod --force          # force delete (stuck pods)"
+    },
+    {
+      "title": "Deployments",
+      "code": "kubectl get deployments\nkubectl describe deployment myapp\nkubectl create deployment myapp --image=myimage:1.0\nkubectl scale deployment myapp --replicas=3\nkubectl set image deployment/myapp app=myimage:2.0   # update image\nkubectl rollout status deployment/myapp              # watch rollout\nkubectl rollout history deployment/myapp             # revision history\nkubectl rollout undo deployment/myapp                # rollback\nkubectl rollout undo deployment/myapp --to-revision=2\nkubectl edit deployment myapp                        # live edit"
+    },
+    {
+      "title": "Services",
+      "code": "kubectl get services\nkubectl describe service myapp\nkubectl expose deployment myapp --port=80 --target-port=8080\nkubectl port-forward svc/myapp 8080:80     # local port forward\nkubectl port-forward pod/mypod 8080:8080   # forward to pod\nkubectl delete service myapp"
+    },
+    {
+      "title": "ConfigMaps & Secrets",
+      "code": "# ConfigMap\nkubectl create configmap myconfig --from-literal=KEY=value\nkubectl create configmap myconfig --from-file=config.yaml\nkubectl get configmap myconfig -o yaml\nkubectl delete configmap myconfig\n\n# Secret\nkubectl create secret generic mysecret --from-literal=password=s3cr3t\nkubectl create secret generic mysecret --from-file=.dockerconfigjson\nkubectl get secret mysecret -o jsonpath='{.data.password}' | base64 -d\nkubectl delete secret mysecret"
+    },
+    {
+      "title": "Namespaces",
+      "code": "kubectl get namespaces\nkubectl create namespace staging\nkubectl delete namespace staging\n# Run command in specific namespace\nkubectl get pods -n staging\n# Set default namespace for session\nkubectl config set-context --current --namespace=staging"
+    },
+    {
+      "title": "Debugging",
+      "code": "# Events (most useful first stop for debugging)\nkubectl get events --sort-by='.lastTimestamp'\nkubectl get events -n mynamespace\n\n# Resource usage\nkubectl top pods\nkubectl top nodes\n\n# Debug with ephemeral container (k8s 1.23+)\nkubectl debug -it mypod --image=busybox --target=mycontainer\n\n# Copy files to/from pod\nkubectl cp mypod:/app/log.txt ./log.txt\nkubectl cp ./config.yaml mypod:/app/config.yaml\n\n# Apply and dry-run\nkubectl apply -f manifest.yaml --dry-run=client\nkubectl diff -f manifest.yaml"
+    },
+    {
+      "title": "Apply & Delete",
+      "code": "kubectl apply -f deployment.yaml         # apply manifest\nkubectl apply -f ./k8s/                  # apply directory\nkubectl apply -k ./kustomize/            # apply kustomize dir\nkubectl delete -f deployment.yaml        # delete from manifest\nkubectl replace -f deployment.yaml       # replace (not patch)\nkubectl patch deployment myapp -p '{\"spec\":{\"replicas\":5}}'"
+    },
+    {
+      "title": "Labels & Selectors",
+      "code": "kubectl get pods -l app=myapp            # filter by label\nkubectl get pods -l 'env in (prod,staging)'\nkubectl label pod mypod tier=frontend    # add label\nkubectl label pod mypod tier-            # remove label\nkubectl annotate pod mypod note=\"debug\"  # add annotation"
+    }
+  ]
+}

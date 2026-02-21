@@ -1,0 +1,53 @@
+{
+  "title": "Docker Cheatsheet — Dockerfile, Commands & Compose",
+  "description": "Quick reference for Docker CLI commands, Dockerfile instructions, docker-compose, volumes, networks, and multi-stage builds.",
+  "subtitle": "Dockerfile, CLI commands, docker-compose, volumes, and networks",
+  "keywords": [
+    "Docker",
+    "Dockerfile",
+    "docker-compose",
+    "Docker CLI",
+    "Docker volumes",
+    "Docker networks",
+    "multi-stage build"
+  ],
+  "emoji": "🐳",
+  "sections": [
+    {
+      "title": "Dockerfile — Core Instructions",
+      "code": "FROM golang:1.23-alpine AS builder\nWORKDIR /app\nCOPY go.mod go.sum ./\nRUN go mod download\nCOPY . .\nRUN go build -o server .\n\nFROM alpine:3.19\nRUN adduser -D appuser\nUSER appuser\nCOPY --from=builder /app/server /server\nEXPOSE 8080\nCMD [\"/server\"]"
+    },
+    {
+      "title": "Dockerfile — Common Instructions",
+      "code": "FROM image:tag         # base image\nWORKDIR /app          # set working directory\nCOPY src dest         # copy files from host\nADD src dest          # like COPY but also handles URLs & .tar\nRUN command           # run during build\nCMD [\"cmd\", \"arg\"]    # default command (can be overridden)\nENTRYPOINT [\"cmd\"]    # fixed executable\nENV KEY=value         # set environment variable\nARG NAME=default      # build-time variable\nEXPOSE 8080           # document port (does not publish)\nVOLUME [\"/data\"]      # create mount point\nLABEL key=\"value\"     # metadata"
+    },
+    {
+      "title": "Container Lifecycle",
+      "code": "docker run -d -p 8080:8080 --name api myimage   # run detached\ndocker run -it ubuntu bash                       # interactive shell\ndocker run --rm myimage                          # remove after exit\ndocker start/stop/restart container_name\ndocker pause/unpause container_name\ndocker rm container_name                         # remove stopped\ndocker rm -f container_name                     # force remove running\ndocker ps                                       # list running\ndocker ps -a                                    # list all"
+    },
+    {
+      "title": "Images",
+      "code": "docker build -t myapp:1.0 .              # build\ndocker build --no-cache -t myapp .       # build without cache\ndocker build --target builder -t myapp . # multi-stage: specific stage\ndocker images                            # list images\ndocker rmi image_id                      # remove image\ndocker pull nginx:alpine                 # pull from registry\ndocker push registry/myapp:tag           # push to registry\ndocker tag myapp registry/myapp:latest   # tag image\ndocker inspect image_id                  # full metadata"
+    },
+    {
+      "title": "Logs & Debugging",
+      "code": "docker logs container_name              # view logs\ndocker logs -f container_name           # follow (tail -f)\ndocker logs --tail 100 container_name   # last 100 lines\ndocker exec -it container_name bash     # shell into running container\ndocker exec container_name env          # run command in container\ndocker cp container:/path/file .        # copy file from container\ndocker stats                            # live resource usage\ndocker inspect container_name          # full details"
+    },
+    {
+      "title": "Volumes & Networks",
+      "code": "# Volumes\ndocker volume create mydata\ndocker volume ls\ndocker volume rm mydata\ndocker run -v mydata:/app/data myimage  # named volume\ndocker run -v $(pwd):/app myimage       # bind mount\n\n# Networks\ndocker network create mynet\ndocker network ls\ndocker run --network mynet myimage\ndocker network connect mynet container_name\ndocker network inspect mynet"
+    },
+    {
+      "title": "docker-compose",
+      "code": "# docker-compose.yml\nversion: '3.9'\nservices:\n  api:\n    build: .\n    ports: [\"8080:8080\"]\n    environment:\n      - DB_URL=postgres://user:pass@db:5432/mydb\n    depends_on: [db]\n    volumes: [\"./config:/app/config\"]\n\n  db:\n    image: postgres:16-alpine\n    environment:\n      POSTGRES_DB: mydb\n      POSTGRES_USER: user\n      POSTGRES_PASSWORD: pass\n    volumes: [\"pgdata:/var/lib/postgresql/data\"]\n\nvolumes:\n  pgdata:"
+    },
+    {
+      "title": "docker-compose Commands",
+      "code": "docker compose up -d          # start in background\ndocker compose up --build     # rebuild and start\ndocker compose down           # stop and remove containers\ndocker compose down -v        # also remove volumes\ndocker compose logs -f api    # follow service logs\ndocker compose exec api bash  # shell into service\ndocker compose ps             # list service status\ndocker compose restart api    # restart one service\ndocker compose pull           # pull latest images"
+    },
+    {
+      "title": "Cleanup",
+      "code": "docker system prune           # remove all stopped containers, unused images\ndocker system prune -a        # also remove unused images (not just dangling)\ndocker container prune        # remove stopped containers\ndocker image prune            # remove dangling images\ndocker volume prune           # remove unused volumes\ndocker network prune          # remove unused networks"
+    }
+  ]
+}

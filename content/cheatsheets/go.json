@@ -1,0 +1,54 @@
+{
+  "title": "Go Cheatsheet — Syntax, Concurrency & CLI",
+  "description": "Quick reference for Go syntax, goroutines, channels, interfaces, error handling, and common CLI commands.",
+  "subtitle": "Syntax, concurrency, error handling, and CLI reference",
+  "keywords": [
+    "Go",
+    "Golang",
+    "goroutines",
+    "channels",
+    "interfaces",
+    "error handling",
+    "Go CLI",
+    "concurrency"
+  ],
+  "emoji": "🐹",
+  "sections": [
+    {
+      "title": "Variables & Types",
+      "code": "// Declaration\nvar x int = 10\nx := 10          // short declaration (inside functions)\nconst Pi = 3.14\n\n// Multiple assignment\na, b := 1, 2\na, b = b, a      // swap\n\n// Zero values: 0, false, \"\", nil"
+    },
+    {
+      "title": "Functions",
+      "code": "// Basic\nfunc add(a, b int) int { return a + b }\n\n// Multiple return values\nfunc divide(a, b float64) (float64, error) {\n    if b == 0 { return 0, errors.New(\"division by zero\") }\n    return a / b, nil\n}\n\n// Named return values\nfunc minMax(a, b int) (min, max int) {\n    if a < b { return a, b }\n    return b, a\n}\n\n// Variadic\nfunc sum(nums ...int) int {\n    total := 0\n    for _, n := range nums { total += n }\n    return total\n}"
+    },
+    {
+      "title": "Structs & Methods",
+      "code": "type User struct {\n    ID   int\n    Name string\n    Age  int\n}\n\n// Value receiver (copy)\nfunc (u User) String() string {\n    return fmt.Sprintf(\"%s (%d)\", u.Name, u.Age)\n}\n\n// Pointer receiver (mutates)\nfunc (u *User) Birthday() { u.Age++ }\n\n// Embedding\ntype Admin struct {\n    User\n    Role string\n}"
+    },
+    {
+      "title": "Interfaces",
+      "code": "type Writer interface {\n    Write(p []byte) (n int, err error)\n}\n\n// Implicit implementation — no \"implements\" keyword\ntype FileWriter struct{ f *os.File }\nfunc (fw FileWriter) Write(p []byte) (int, error) {\n    return fw.f.Write(p)\n}\n\n// Empty interface\nfunc printAny(v interface{}) { fmt.Println(v) }\n// or in Go 1.18+:\nfunc printAny(v any) { fmt.Println(v) }\n\n// Type assertion\nif w, ok := v.(Writer); ok { w.Write(data) }\n\n// Type switch\nswitch t := v.(type) {\ncase int:   fmt.Println(\"int:\", t)\ncase string: fmt.Println(\"string:\", t)\n}"
+    },
+    {
+      "title": "Error Handling",
+      "code": "// Standard pattern\nresult, err := doSomething()\nif err != nil {\n    return fmt.Errorf(\"context: %w\", err)\n}\n\n// Sentinel errors\nvar ErrNotFound = errors.New(\"not found\")\nif errors.Is(err, ErrNotFound) { /* ... */ }\n\n// Custom error type\ntype ValidationError struct { Field, Msg string }\nfunc (e *ValidationError) Error() string {\n    return fmt.Sprintf(\"%s: %s\", e.Field, e.Msg)\n}\nvar ve *ValidationError\nif errors.As(err, &ve) { fmt.Println(ve.Field) }"
+    },
+    {
+      "title": "Goroutines & Channels",
+      "code": "// Launch goroutine\ngo func() { fmt.Println(\"async\") }()\n\n// Unbuffered channel (synchronises sender and receiver)\nch := make(chan int)\ngo func() { ch <- 42 }()\nval := <-ch\n\n// Buffered channel\nch := make(chan int, 10)\n\n// Select — multiplex channels\nselect {\ncase msg := <-ch1:   fmt.Println(\"ch1:\", msg)\ncase msg := <-ch2:   fmt.Println(\"ch2:\", msg)\ncase <-time.After(1 * time.Second): fmt.Println(\"timeout\")\n}\n\n// Close and range over channel\nclose(ch)\nfor v := range ch { fmt.Println(v) }"
+    },
+    {
+      "title": "Sync Primitives",
+      "code": "// Mutex\nvar mu sync.Mutex\nmu.Lock()\ndefer mu.Unlock()\n\n// RWMutex\nvar rw sync.RWMutex\nrw.RLock(); defer rw.RUnlock()  // read\nrw.Lock();  defer rw.Unlock()   // write\n\n// WaitGroup\nvar wg sync.WaitGroup\nfor i := 0; i < 5; i++ {\n    wg.Add(1)\n    go func(id int) {\n        defer wg.Done()\n        work(id)\n    }(i)\n}\nwg.Wait()\n\n// sync.Once\nvar once sync.Once\nonce.Do(func() { /* runs exactly once */ })"
+    },
+    {
+      "title": "Context",
+      "code": "// With timeout\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)\ndefer cancel()\n\n// With cancellation\nctx, cancel := context.WithCancel(context.Background())\ngo func() {\n    <-someSignal\n    cancel()\n}()\n\n// Pass context through call chain\nfunc fetchUser(ctx context.Context, id int) (*User, error) {\n    return db.QueryContext(ctx, \"SELECT * FROM users WHERE id=cd /Users/rk/Documents/GitHub/blog.ratnesh-maurya.com && node -e \"\nconst fs = require('fs');\nconst path = require('path');\nconst goSections = [\n  { title: 'Variables & Types', code: `// Declaration\nvar x int = 10\nx := 10          // short declaration (inside functions)\nconst Pi = 3.14\n\n// Multiple assignment\na, b := 1, 2\na, b = b, a      // swap\n\n// Zero values: 0, false, \\\"\\\", nil` },\n  { title: 'Functions', code: `// Basic\nfunc add(a, b int) int { return a + b }\n\n// Multiple return values\nfunc divide(a, b float64) (float64, error) {\n    if b == 0 { return 0, errors.New(\\\"division by zero\\\") }\n    return a / b, nil\n}\n\n// Named return values\nfunc minMax(a, b int) (min, max int) {\n    if a < b { return a, b }\n    return b, a\n}\n\n// Variadic\nfunc sum(nums ...int) int {\n    total := 0\n    for _, n := range nums { total += n }\n    return total\n}` },\n  { title: 'Structs & Methods', code: `type User struct {\n    ID   int\n    Name string\n    Age  int\n}\n\n// Value receiver (copy)\nfunc (u User) String() string {\n    return fmt.Sprintf(\\\"%s (%d)\\\", u.Name, u.Age)\n}\n\n// Pointer receiver (mutates)\nfunc (u *User) Birthday() { u.Age++ }\n\n// Embedding\ntype Admin struct {\n    User\n    Role string\n}` },\n  { title: 'Interfaces', code: `type Writer interface {\n    Write(p []byte) (n int, err error)\n}\n\n// Implicit implementation — no \\\"implements\\\" keyword\ntype FileWriter struct{ f *os.File }\nfunc (fw FileWriter) Write(p []byte) (int, error) {\n    return fw.f.Write(p)\n}\n\n// Empty interface\nfunc printAny(v interface{}) { fmt.Println(v) }\n// or in Go 1.18+:\nfunc printAny(v any) { fmt.Println(v) }\n\n// Type assertion\nif w, ok := v.(Writer); ok { w.Write(data) }\n\n// Type switch\nswitch t := v.(type) {\ncase int:   fmt.Println(\\\"int:\\\", t)\ncase string: fmt.Println(\\\"string:\\\", t)\n}` },\n  { title: 'Error Handling', code: `// Standard pattern\nresult, err := doSomething()\nif err != nil {\n    return fmt.Errorf(\\\"context: %w\\\", err)\n}\n\n// Sentinel errors\nvar ErrNotFound = errors.New(\\\"not found\\\")\nif errors.Is(err, ErrNotFound) { /* ... */ }\n\n// Custom error type\ntype ValidationError struct { Field, Msg string }\nfunc (e *ValidationError) Error() string {\n    return fmt.Sprintf(\\\"%s: %s\\\", e.Field, e.Msg)\n}\nvar ve *ValidationError\nif errors.As(err, &ve) { fmt.Println(ve.Field) }` },\n  { title: 'Goroutines & Channels', code: `// Launch goroutine\ngo func() { fmt.Println(\\\"async\\\") }()\n\n// Unbuffered channel (synchronises sender and receiver)\nch := make(chan int)\ngo func() { ch <- 42 }()\nval := <-ch\n\n// Buffered channel\nch := make(chan int, 10)\n\n// Select — multiplex channels\nselect {\ncase msg := <-ch1:   fmt.Println(\\\"ch1:\\\", msg)\ncase msg := <-ch2:   fmt.Println(\\\"ch2:\\\", msg)\ncase <-time.After(1 * time.Second): fmt.Println(\\\"timeout\\\")\n}\n\n// Close and range over channel\nclose(ch)\nfor v := range ch { fmt.Println(v) }` },\n  { title: 'Sync Primitives', code: `// Mutex\nvar mu sync.Mutex\nmu.Lock()\ndefer mu.Unlock()\n\n// RWMutex\nvar rw sync.RWMutex\nrw.RLock(); defer rw.RUnlock()  // read\nrw.Lock();  defer rw.Unlock()   // write\n\n// WaitGroup\nvar wg sync.WaitGroup\nfor i := 0; i < 5; i++ {\n    wg.Add(1)\n    go func(id int) {\n        defer wg.Done()\n        work(id)\n    }(i)\n}\nwg.Wait()\n\n// sync.Once\nvar once sync.Once\nonce.Do(func() { /* runs exactly once */ })` },\n  { title: 'Context', code: `// With timeout\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)\ndefer cancel()\n\n// With cancellation\nctx, cancel := context.WithCancel(context.Background())\ngo func() {\n    <-someSignal\n    cancel()\n}()\n\n// Pass context through call chain\nfunc fetchUser(ctx context.Context, id int) (*User, error) {\n    return db.QueryContext(ctx, \\\"SELECT * FROM users WHERE id=$1\\\", id)\n}\n\n// Check if context is done\nselect {\ncase <-ctx.Done():\n    return ctx.Err()\ndefault:\n}` },\n  { title: 'Common CLI Commands', code: `go run main.go          # run without building\ngo build ./...          # build all packages\ngo test ./...           # run all tests\ngo test -race ./...     # run with race detector\ngo test -cover ./...    # show coverage\ngo mod tidy             # clean up go.mod/go.sum\ngo mod download         # download dependencies\ngo vet ./...            # static analysis\ngo fmt ./...            # format code\ngo doc fmt.Println      # show docs for a symbol\ngopls                   # language server (IDE)` },\n];\nconst goContent = { title: 'Go Cheatsheet — Syntax, Concurrency & CLI', description: 'Quick reference for Go syntax, goroutines, channels, interfaces, error handling, and common CLI commands.', subtitle: 'Syntax, concurrency, error handling, and CLI reference', keywords: ['Go', 'Golang', 'goroutines', 'channels', 'interfaces', 'error handling', 'Go CLI', 'concurrency'], emoji: '🐹', sections: goSections };\nfs.mkdirSync(path.join('content', 'cheatsheets'), { recursive: true });\nfs.writeFileSync(path.join('content', 'cheatsheets', 'go.json'), JSON.stringify(goContent, null, 2));\nconsole.log('go.json written');\n\"\", id)\n}\n\n// Check if context is done\nselect {\ncase <-ctx.Done():\n    return ctx.Err()\ndefault:\n}"
+    },
+    {
+      "title": "Common CLI Commands",
+      "code": "go run main.go          # run without building\ngo build ./...          # build all packages\ngo test ./...           # run all tests\ngo test -race ./...     # run with race detector\ngo test -cover ./...    # show coverage\ngo mod tidy             # clean up go.mod/go.sum\ngo mod download         # download dependencies\ngo vet ./...            # static analysis\ngo fmt ./...            # format code\ngo doc fmt.Println      # show docs for a symbol\ngopls                   # language server (IDE)"
+    }
+  ]
+}

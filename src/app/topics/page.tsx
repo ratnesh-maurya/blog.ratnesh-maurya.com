@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllBlogPosts, getAllSillyQuestions } from '@/lib/content';
+import { getTopicsMeta } from '@/lib/static-content';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 
 export const metadata: Metadata = {
@@ -25,21 +26,10 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const categoryMeta: Record<string, { emoji: string; description: string; color: string; textColor: string }> = {
-  'AWS':               { emoji: '☁️', description: 'Amazon Web Services — S3, SNS, IAM, infrastructure patterns and cost optimisation.', color: 'var(--accent-50)', textColor: 'var(--accent-600)' },
-  'System Design':     { emoji: '🏗️', description: 'Architecting large-scale systems — databases, caching, load balancing, and reliability.', color: 'var(--coral-50)', textColor: 'var(--coral-600)' },
-  'Golang':            { emoji: '🐹', description: 'Go language deep-dives — performance, memory, concurrency, and idiomatic patterns.', color: 'var(--accent-50)', textColor: 'var(--accent-600)' },
-  'Software Architecture': { emoji: '📐', description: 'Designing software at scale — microservices, event-driven systems, and tradeoffs.', color: 'var(--coral-50)', textColor: 'var(--coral-600)' },
-  'Computer Science':  { emoji: '💻', description: 'Fundamentals — algorithms, data structures, operating systems, and theory.', color: 'var(--accent-50)', textColor: 'var(--accent-600)' },
-  'Web Development':   { emoji: '🌐', description: 'Building for the web — Next.js, React, APIs, and everything in between.', color: 'var(--coral-50)', textColor: 'var(--coral-600)' },
-  'JavaScript':        { emoji: '⚡', description: 'JavaScript quirks, patterns, and the funny bugs that keep us humble.', color: 'var(--accent-50)', textColor: 'var(--accent-600)' },
-  'CSS':               { emoji: '🎨', description: 'Styling the web — the good parts and the headscratchers.', color: 'var(--coral-50)', textColor: 'var(--coral-600)' },
-  'Debugging':         { emoji: '🐛', description: 'Real debugging stories — the bugs, the process, and the lessons.', color: 'var(--accent-50)', textColor: 'var(--accent-600)' },
-};
-
 const defaultMeta = { emoji: '📝', description: 'Articles on this topic.', color: 'var(--surface-muted)', textColor: 'var(--text-secondary)' };
 
 export default async function TopicsPage() {
+  const categoryMeta = getTopicsMeta();
   const [posts, questions] = await Promise.all([getAllBlogPosts(), getAllSillyQuestions()]);
 
   const blogByCategory = posts.reduce<Record<string, number>>((acc, post) => {

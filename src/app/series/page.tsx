@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllBlogPosts } from '@/lib/content';
+import { getSeriesConfig } from '@/lib/static-content';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 
 export const metadata: Metadata = {
@@ -19,68 +20,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-/**
- * Series configuration — defines each series by category name or tag match.
- *
- * HOW TO ADD A NEW SERIES:
- *   1. Add an entry to this array with a unique `id`, display `title`, and either:
- *      - `matchCategory`: matches posts where post.category === value (case-insensitive)
- *      - `matchTags`: matches posts where any tag includes any of these strings (case-insensitive)
- *   2. That's it — any new blog post with the matching category/tag appears automatically.
- *
- * HOW POSTS ARE ORDERED: newest first (same as /blog listing).
- * To override order within a series, add `orderedSlugs` with slugs in the desired sequence.
- */
-const seriesConfig: Array<{
-  id: string;
-  title: string;
-  desc: string;
-  emoji: string;
-  matchCategory?: string;
-  matchTags?: string[];
-  orderedSlugs?: string[]; // optional explicit order
-}> = [
-  {
-    id: 'aws',
-    title: 'AWS for Backend Engineers',
-    desc: 'Practical AWS guides covering S3, SNS, SQS, and cloud infrastructure patterns.',
-    emoji: '☁️',
-    matchCategory: 'AWS',
-  },
-  {
-    id: 'system-design',
-    title: 'System Design Deep Dives',
-    desc: 'Real-world architectural decisions — from ride-app design to file systems and compression.',
-    emoji: '📐',
-    matchCategory: 'System Design',
-    // Posts from "Software Architecture" and "Computer Science" with system design tags also included
-    matchTags: ['system-design', 'architecture', 'scalability'],
-  },
-  {
-    id: 'go',
-    title: 'Go Performance & Internals',
-    desc: 'Go-specific posts covering memory layout, struct optimisation, and idiomatic patterns.',
-    emoji: '🐹',
-    matchCategory: 'Golang',
-    matchTags: ['Golang', 'Go Memory Layout'],
-  },
-  {
-    id: 'web-dev',
-    title: 'Building for the Web',
-    desc: 'Frontend, tooling, and web development posts — from Next.js to deployment.',
-    emoji: '🌐',
-    matchCategory: 'Web Development',
-  },
-  {
-    id: 'computer-science',
-    title: 'Computer Science Fundamentals',
-    desc: 'Posts covering algorithms, compression, operating systems, and CS foundations.',
-    emoji: '🖥️',
-    matchCategory: 'Computer Science',
-  },
-];
-
 export default async function SeriesPage() {
+  const seriesConfig = getSeriesConfig();
   const allPosts = await getAllBlogPosts();
 
   // Build each series by matching posts against category or tags — fully automatic

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { getCheatsheetSlugs, getCheatsheet } from '@/lib/static-content';
 
 export const metadata: Metadata = {
   title: 'Cheatsheets — Go, Docker, PostgreSQL, Kubectl | Ratn Labs',
@@ -18,14 +19,20 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const sheets = [
-  { slug: 'go', title: 'Go', subtitle: 'Syntax, concurrency, CLI, common patterns', emoji: '🐹', tags: ['goroutines', 'channels', 'interfaces', 'error handling'] },
-  { slug: 'docker', title: 'Docker', subtitle: 'Dockerfile, build, run, compose commands', emoji: '🐳', tags: ['Dockerfile', 'docker-compose', 'volumes', 'networks'] },
-  { slug: 'postgres', title: 'PostgreSQL', subtitle: 'Queries, indexes, JSON, admin commands', emoji: '🐘', tags: ['SELECT', 'indexes', 'JSONB', 'psql'] },
-  { slug: 'kubectl', title: 'kubectl', subtitle: 'Kubernetes CLI — pods, deployments, debugging', emoji: '☸️', tags: ['pods', 'deployments', 'services', 'logs'] },
-];
-
 export default function CheatsheetsPage() {
+  const slugs = getCheatsheetSlugs();
+  const sheets = slugs.map((slug) => {
+    const data = getCheatsheet(slug);
+    return data
+      ? {
+          slug,
+          title: data.title.split(' ')[0] ?? data.title,
+          subtitle: data.subtitle ?? '',
+          emoji: data.emoji ?? '📄',
+          tags: data.keywords ?? [],
+        }
+      : null;
+  }).filter(Boolean) as Array<{ slug: string; title: string; subtitle: string; emoji: string; tags: string[] }>;
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
     { name: 'Cheatsheets', url: 'https://blog.ratnesh-maurya.com/cheatsheets' },

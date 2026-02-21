@@ -1,0 +1,56 @@
+{
+  "AWS": {
+    "emoji": "☁️",
+    "description": "Amazon Web Services — S3, SNS, IAM, infrastructure patterns and cost optimisation.",
+    "color": "var(--accent-50)",
+    "textColor": "var(--accent-600)"
+  },
+  "System Design": {
+    "emoji": "🏗️",
+    "description": "Architecting large-scale systems — databases, caching, load balancing, and reliability.",
+    "color": "var(--coral-50)",
+    "textColor": "var(--coral-600)"
+  },
+  "Golang": {
+    "emoji": "🐹",
+    "description": "Go language deep-dives — performance, memory, concurrency, and idiomatic patterns.",
+    "color": "var(--accent-50)",
+    "textColor": "var(--accent-600)"
+  },
+  "Software Architecture": {
+    "emoji": "📐",
+    "description": "Designing software at scale — microservices, event-driven systems, and tradeoffs.",
+    "color": "var(--coral-50)",
+    "textColor": "var(--coral-600)"
+  },
+  "Computer Science": {
+    "emoji": "💻",
+    "description": "Fundamentals — algorithms, data structures, operating systems, and theory.",
+    "color": "var(--accent-50)",
+    "textColor": "var(--accent-600)"
+  },
+  "Web Development": {
+    "emoji": "🌐",
+    "description": "Building for the web — Next.js, React, APIs, and everything in between.",
+    "color": "var(--coral-50)",
+    "textColor": "var(--coral-600)"
+  },
+  "JavaScript": {
+    "emoji": "⚡",
+    "description": "JavaScript quirks, patterns, and the funny bugs that keep us humble.",
+    "color": "var(--accent-50)",
+    "textColor": "var(--accent-600)"
+  },
+  "CSS": {
+    "emoji": "🎨",
+    "description": "Styling the web — the good parts and the headscratchers.",
+    "color": "var(--coral-50)",
+    "textColor": "var(--coral-600)"
+  },
+  "Debugging": {
+    "emoji": "🐛",
+    "description": "Real debugging stories — the bugs, the process, and the lessons.",
+    "color": "var(--accent-50)",
+    "textColor": "var(--accent-600)"
+  }
+}

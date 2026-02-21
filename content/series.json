@@ -1,0 +1,39 @@
+[
+  {
+    "id": "aws",
+    "title": "AWS for Backend Engineers",
+    "desc": "Practical AWS guides covering S3, SNS, SQS, and cloud infrastructure patterns.",
+    "emoji": "☁️",
+    "matchCategory": "AWS"
+  },
+  {
+    "id": "system-design",
+    "title": "System Design Deep Dives",
+    "desc": "Real-world architectural decisions — from ride-app design to file systems and compression.",
+    "emoji": "📐",
+    "matchCategory": "System Design",
+    "matchTags": ["system-design", "architecture", "scalability"]
+  },
+  {
+    "id": "go",
+    "title": "Go Performance & Internals",
+    "desc": "Go-specific posts covering memory layout, struct optimisation, and idiomatic patterns.",
+    "emoji": "🐹",
+    "matchCategory": "Golang",
+    "matchTags": ["Golang", "Go Memory Layout"]
+  },
+  {
+    "id": "web-dev",
+    "title": "Building for the Web",
+    "desc": "Frontend, tooling, and web development posts — from Next.js to deployment.",
+    "emoji": "🌐",
+    "matchCategory": "Web Development"
+  },
+  {
+    "id": "computer-science",
+    "title": "Computer Science Fundamentals",
+    "desc": "Posts covering algorithms, compression, operating systems, and CS foundations.",
+    "emoji": "🖥️",
+    "matchCategory": "Computer Science"
+  }
+]

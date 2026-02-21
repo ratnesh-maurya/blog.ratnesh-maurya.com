@@ -1,0 +1,78 @@
+{
+  "sections": [
+    {
+      "title": "Editor & Terminal",
+      "emoji": "💻",
+      "items": [
+        { "name": "VS Code", "desc": "My daily editor. Clean, fast, and the extension ecosystem covers everything I need.", "href": "https://code.visualstudio.com", "badge": "Primary" },
+        { "name": "Cursor", "desc": "AI-native IDE on top of VS Code — excellent for exploring unfamiliar codebases quickly.", "href": "https://cursor.sh" },
+        { "name": "Zsh + Oh My Zsh", "desc": "Shell with sensible defaults, aliases, and plugins (git, zsh-autosuggestions, syntax highlighting).", "badge": "Daily driver" },
+        { "name": "iTerm2", "desc": "Terminal emulator on macOS. Native splits, profiles per project, and solid colour themes.", "href": "https://iterm2.com" },
+        { "name": "tmux", "desc": "Session management for long-running processes — invaluable when SSHing into remote servers.", "href": "https://github.com/tmux/tmux" }
+      ]
+    },
+    {
+      "title": "Languages & Runtimes",
+      "emoji": "⚡",
+      "items": [
+        { "name": "Go", "desc": "My go-to (pun intended) for backend services. Compiled, fast, simple concurrency, and excellent tooling.", "href": "https://go.dev", "badge": "Favourite" },
+        { "name": "TypeScript", "desc": "For anything touching the web layer — APIs, full-stack apps, tooling scripts.", "href": "https://typescriptlang.org" },
+        { "name": "Python", "desc": "Scripting, data processing, and quick prototypes. Hard to beat for one-off automation.", "href": "https://python.org" },
+        { "name": "Node.js", "desc": "Runtime for TypeScript services and tooling when the JS ecosystem wins.", "href": "https://nodejs.org" }
+      ]
+    },
+    {
+      "title": "Databases",
+      "emoji": "🗄️",
+      "items": [
+        { "name": "PostgreSQL", "desc": "First choice for relational data. Reliable, feature-rich, and the JSONB support is underrated.", "href": "https://postgresql.org", "badge": "Preferred" },
+        { "name": "MongoDB", "desc": "When the data model genuinely calls for documents. Used for content-heavy and flexible schemas.", "href": "https://mongodb.com" },
+        { "name": "Redis", "desc": "Caching, pub/sub, rate limiting, and session storage. Always nearby in the stack.", "href": "https://redis.io" },
+        { "name": "DynamoDB", "desc": "When I need single-digit millisecond latency at scale and can design around its constraints.", "href": "https://aws.amazon.com/dynamodb" }
+      ]
+    },
+    {
+      "title": "Cloud & Infrastructure",
+      "emoji": "☁️",
+      "items": [
+        { "name": "AWS", "desc": "Primary cloud. Mostly S3, Lambda, EC2, RDS, SNS/SQS, and IAM. Deep familiarity with the pricing model too.", "href": "https://aws.amazon.com", "badge": "Primary" },
+        { "name": "Docker", "desc": "Containers for local dev parity, CI pipelines, and deployment. docker-compose for multi-service local setups.", "href": "https://docker.com" },
+        { "name": "GitHub Actions", "desc": "CI/CD pipelines. Simple YAML, good marketplace, free tier is generous.", "href": "https://github.com/features/actions" },
+        { "name": "Vercel", "desc": "Frontend and Next.js deployments. Zero-config, edge network, excellent DX.", "href": "https://vercel.com" },
+        { "name": "Linux (Ubuntu)", "desc": "All production servers run Linux. Ubuntu for predictability, documentation density, and package availability.", "badge": "Production" }
+      ]
+    },
+    {
+      "title": "Dev Tools",
+      "emoji": "🔧",
+      "items": [
+        { "name": "Postman / Bruno", "desc": "API development and testing. Bruno for local-first, git-friendly collections.", "href": "https://www.usebruno.com" },
+        { "name": "DBeaver", "desc": "Database GUI that works with every database I use. Saves time on schema exploration.", "href": "https://dbeaver.io" },
+        { "name": "Git", "desc": "Version control. Conventional commits, feature branches, squash merges. Nothing exotic.", "href": "https://git-scm.com", "badge": "Essential" },
+        { "name": "k9s", "desc": "Terminal UI for Kubernetes. Makes cluster inspection and log tailing much less painful.", "href": "https://k9scli.io" },
+        { "name": "jq", "desc": "JSON on the command line. Indispensable when working with API responses in scripts.", "href": "https://jqlang.github.io/jq" }
+      ]
+    },
+    {
+      "title": "This Blog's Stack",
+      "emoji": "📝",
+      "items": [
+        { "name": "Next.js 15 (App Router)", "desc": "Framework. Server components, static generation, and API routes all in one place.", "href": "https://nextjs.org", "badge": "Powering this site" },
+        { "name": "Tailwind CSS", "desc": "Utility-first CSS. Once you internalize the scale, the speed is unmatched.", "href": "https://tailwindcss.com" },
+        { "name": "MongoDB Atlas", "desc": "View counts and upvotes are stored here. Free tier handles the traffic comfortably.", "href": "https://mongodb.com/atlas" },
+        { "name": "Vercel", "desc": "Deployment. Every push to main deploys in ~30 seconds.", "href": "https://vercel.com" },
+        { "name": "Markdown + gray-matter", "desc": "All posts are plain Markdown files in the repo. No CMS, no database for content.", "href": "https://github.com/jonschlinkert/gray-matter" }
+      ]
+    },
+    {
+      "title": "Productivity & Writing",
+      "emoji": "📋",
+      "items": [
+        { "name": "Obsidian", "desc": "Personal knowledge base and drafts. Local-first, Markdown, and the graph view is genuinely useful.", "href": "https://obsidian.md", "badge": "Note taking" },
+        { "name": "Linear", "desc": "Issue tracking for projects. Fast, keyboard-driven, and doesn't get in the way.", "href": "https://linear.app" },
+        { "name": "Excalidraw", "desc": "Whiteboard for system design diagrams. Hand-drawn look makes it feel low-stakes and fast to iterate.", "href": "https://excalidraw.com" },
+        { "name": "Notion", "desc": "Team docs and wikis when collaborating. Not for personal notes (too slow), but good for shared knowledge.", "href": "https://notion.so" }
+      ]
+    }
+  ]
+}
