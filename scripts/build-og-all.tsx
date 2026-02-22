@@ -23,27 +23,28 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const outDir = path.join(rootDir, 'public', 'og');
 
-/* Light blueish theme — matches site light theme (globals.css accent/primary-blue) */
+/* Dark theme — deep blue/slate with light text and accent glows */
 const BRAND = {
-  bgStart: '#F0F8FF',
-  bgMid: '#E3F2FF',
-  bgEnd: '#D6EBFA',
-  accent: '#0088E6',
-  accentLight: '#006BB8',
-  coral: '#E8664A',
-  textPrimary: '#00182E',
-  textMuted: '#00305C',
-  textMid: '#004D8A',
-  textLow: '#475569',
-  separator: '#94a3b8',
-  dotColor: 'rgba(0,53,122,0.22)',
-  dotOpacity: 0.85,
-  stripeColor: 'rgba(0,53,122,0.12)',
-  stripeWidth: 3,
-  glowColor: 'rgba(51,163,255,0.15)',
-  glowIndigo: 'rgba(99,102,241,0.06)',
-  badgeCoralBg: 'rgba(232,102,74,0.1)',
-  badgeCoralBorder: 'rgba(232,102,74,0.25)',
+  bgStart: '#0a0f1a',
+  bgMid: '#0f172a',
+  bgEnd: '#0c1222',
+  accent: '#3b82f6',
+  accentLight: '#60a5fa',
+  coral: '#f97316',
+  textPrimary: '#f1f5f9',
+  textMuted: '#94a3b8',
+  textMid: '#cbd5e1',
+  textLow: '#64748b',
+  separator: '#475569',
+  dotColor: 'rgba(148,163,184,0.12)',
+  dotOpacity: 0.9,
+  stripeColor: 'rgba(59,130,246,0.06)',
+  stripeWidth: 2,
+  gridLineColor: 'rgba(148,163,184,0.22)',
+  glowColor: 'rgba(59,130,246,0.2)',
+  glowCoral: 'rgba(249,115,22,0.12)',
+  badgeCoralBg: 'rgba(249,115,22,0.15)',
+  badgeCoralBorder: 'rgba(249,115,22,0.35)',
 } as const;
 
 function sanitize(text: string, maxLen: number): string {
@@ -69,101 +70,187 @@ function buildOgElement(
   breadcrumb?: string,
   accent: string = BRAND.accent
 ): React.ReactElement {
+
+  const titleLength = title.length
+
+  const titleFontSize =
+    titleLength > 90 ? 54 :
+      titleLength > 65 ? 60 :
+        68
+
+  const gridSpacing = 48;
+
   return (
     <div
       style={{
-        width: '100%',
-        height: '100%',
+        width: '1200px',
+        height: '630px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
         background: `linear-gradient(135deg, ${BRAND.bgStart} 0%, ${BRAND.bgMid} 50%, ${BRAND.bgEnd} 100%)`,
-        padding: 64,
+        padding: '80px',
         position: 'relative',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontFamily: 'Inter, system-ui, sans-serif',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 18px, ${BRAND.stripeColor} 18px, ${BRAND.stripeColor} ${18 + BRAND.stripeWidth}px), repeating-linear-gradient(-45deg, transparent, transparent 18px, ${BRAND.stripeColor} 18px, ${BRAND.stripeColor} ${18 + BRAND.stripeWidth}px)`,
-          opacity: 1,
-        }}
-      />
+      {/* Dot grid pattern */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           backgroundImage: `radial-gradient(circle, ${BRAND.dotColor} 1px, transparent 1px)`,
-          backgroundSize: '40px 40px',
+          backgroundSize: '32px 32px',
           opacity: BRAND.dotOpacity,
         }}
       />
+
+      {/* Diagonal stripes */}
       <div
         style={{
           position: 'absolute',
-          top: '30%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 700,
-          height: 700,
+          inset: 0,
+          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 20px, ${BRAND.stripeColor} 20px, ${BRAND.stripeColor} ${20 + BRAND.stripeWidth}px), repeating-linear-gradient(-45deg, transparent, transparent 20px, ${BRAND.stripeColor} 20px, ${BRAND.stripeColor} ${20 + BRAND.stripeWidth}px)`,
+          opacity: 1,
+        }}
+      />
+
+      {/* Grid: vertical + horizontal lines via background (repeating-linear-gradient) */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `repeating-linear-gradient(90deg, ${BRAND.gridLineColor} 0px, ${BRAND.gridLineColor} 1px, transparent 1px, transparent ${gridSpacing}px), repeating-linear-gradient(0deg, ${BRAND.gridLineColor} 0px, ${BRAND.gridLineColor} 1px, transparent 1px, transparent ${gridSpacing}px)`,
+          backgroundSize: '100% 100%',
+        }}
+      />
+
+      {/* Top-right accent glow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-180px',
+          right: '-180px',
+          width: '520px',
+          height: '520px',
           borderRadius: '50%',
           background: `radial-gradient(circle, ${BRAND.glowColor} 0%, transparent 65%)`,
         }}
       />
+
+      {/* Bottom-left coral glow */}
       <div
         style={{
           position: 'absolute',
-          top: '55%',
-          right: '15%',
-          width: 400,
-          height: 400,
+          bottom: '-120px',
+          left: '-120px',
+          width: '380px',
+          height: '380px',
           borderRadius: '50%',
-          background: `radial-gradient(circle, ${BRAND.glowIndigo} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${BRAND.glowCoral} 0%, transparent 70%)`,
         }}
       />
-      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 16, color: BRAND.textLow }}>
-          <span>blog.ratnesh-maurya.com</span>
-          {breadcrumb && (
-            <>
-              <span style={{ color: BRAND.separator }}>›</span>
-              <span style={{ color: BRAND.coral }}>{breadcrumb}</span>
-            </>
-          )}
-        </div>
-        <div
-          style={{
-            fontSize: 72,
-            fontWeight: 800,
-            letterSpacing: -2,
-            lineHeight: 1.0,
-            color: BRAND.textPrimary,
-            maxWidth: 900,
-          }}
-        >
-          {title}
-        </div>
-        <div style={{ fontSize: 26, color: BRAND.textMuted, fontWeight: 500, marginTop: 4 }}>
-          {subtitle}
-        </div>
+
+      {/* CONTENT */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '28px',
+          position: 'relative',
+        }}
+      >
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 8,
-            marginTop: 12,
-            background: BRAND.badgeCoralBg,
-            border: `1px solid ${BRAND.badgeCoralBorder}`,
-            borderRadius: 100,
-            padding: '6px 16px',
-            alignSelf: 'flex-start',
+            gap: '8px',
+            fontSize: '18px',
+            color: BRAND.textLow,
           }}
         >
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: BRAND.coral }} />
-          <span style={{ color: BRAND.coral, fontSize: 14, fontWeight: 600 }}>Ratnesh Maurya</span>
+          <span>blog.ratnesh-maurya.com</span>
+          {breadcrumb && (
+            <>
+              <span style={{ color: BRAND.separator }}>›</span>
+              <span style={{ color: BRAND.coral, fontWeight: 600 }}>
+                {breadcrumb}
+              </span>
+            </>
+          )}
+        </div>
+
+        <div
+          style={{
+            width: '90px',
+            height: '6px',
+            borderRadius: '6px',
+            background: accent,
+          }}
+        />
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            fontSize: `${titleFontSize}px`,
+            fontWeight: 800,
+            lineHeight: 1.05,
+            letterSpacing: '-2px',
+            color: BRAND.textPrimary,
+            maxWidth: '900px',
+          }}
+        >
+          {title}
+        </div>
+
+        <div
+          style={{
+            fontSize: '26px',
+            fontWeight: 500,
+            color: BRAND.textMuted,
+            maxWidth: '760px',
+          }}
+        >
+          {subtitle}
+        </div>
+      </div>
+
+      {/* Author Badge */}
+      <div
+        style={{
+          display: 'flex',
+          position: 'relative',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            background: BRAND.badgeCoralBg,
+            border: `1px solid ${BRAND.badgeCoralBorder}`,
+            borderRadius: '100px',
+            padding: '10px 22px',
+          }}
+        >
+          <div
+            style={{
+              width: '10px',
+              height: '10px',
+              borderRadius: '50%',
+              background: BRAND.coral,
+            }}
+          />
+          <span
+            style={{
+              color: BRAND.coral,
+              fontSize: '16px',
+              fontWeight: 600,
+            }}
+          >
+            Ratnesh Maurya
+          </span>
         </div>
       </div>
     </div>
@@ -253,14 +340,18 @@ async function main() {
     }
   }
 
-  const allTags = new Set<string>();
+  const allTagLabels = new Set<string>();
   for (const slug of blogSlugs) {
     const post = await getBlogPostListingMeta(slug);
-    if (post?.tags) post.tags.forEach((t: string) => allTags.add(t));
+    if (post?.tags) post.tags.forEach((t: string) => allTagLabels.add(t.trim()));
+    if (post?.category) allTagLabels.add(post.category.trim());
   }
-  for (const tag of allTags) {
-    const slug = slugifyTag(tag);
-    const tagLabel = tag.trim().replace(/\b\w/g, (c) => c.toUpperCase());
+  const seenTagSlugs = new Set<string>();
+  for (const label of allTagLabels) {
+    const slug = slugifyTag(label);
+    if (seenTagSlugs.has(slug)) continue;
+    seenTagSlugs.add(slug);
+    const tagLabel = label.replace(/\b\w/g, (c) => c.toUpperCase());
     const dir = path.join('blog', 'tag', slug);
     const outPath = path.join(outDir, dir + '.png');
     const outPathDir = path.dirname(outPath);

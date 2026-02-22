@@ -7,8 +7,8 @@ import { PostNavigation } from '@/components/PostNavigation';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { SocialShare } from '@/components/SocialShare';
-import { OgImageInBody } from '@/components/OgImageInBody';
-import { getStoredOgImageUrl } from '@/lib/og';
+import { getStoredOgImagePath, getStoredOgImageUrl } from '@/lib/og';
+import Image from 'next/image';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
 
@@ -74,9 +74,10 @@ export default async function TechnicalTermPage({
 
   const termUrl = `${BASE}/technical-terms/${slug}`;
 
+  const ogImagePath = getStoredOgImagePath('technical-term', slug);
+
   return (
     <>
-      <OgImageInBody src={getStoredOgImageUrl('technical-term', slug)} alt={term.title} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       {term.questions && term.questions.length > 0 && (
         <TechnicalTermFAQStructuredData
@@ -97,6 +98,17 @@ export default async function TechnicalTermPage({
             </svg>
             Technical Terms
           </Link>
+
+          <div className="rounded-xl overflow-hidden mb-8 w-full" style={{ border: '1px solid var(--border)' }}>
+            <Image
+              src={ogImagePath}
+              alt={term.title}
+              width={1200}
+              height={630}
+              className="w-full h-auto"
+              priority
+            />
+          </div>
 
           <article>
             <div

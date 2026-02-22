@@ -9,15 +9,28 @@ interface OgImageInBodyProps {
 
 export function OgImageInBody({ src, alt }: OgImageInBodyProps) {
   return (
-    <img
-      src={src}
-      alt={alt}
-      width={1200}
-      height={630}
-      fetchPriority="low"
+    <div
       aria-hidden
-      className="absolute w-px h-px -left-[9999px] overflow-hidden opacity-0 pointer-events-none"
-      style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden', opacity: 0, pointerEvents: 'none' }}
-    />
+      className="overflow-hidden absolute opacity-0 pointer-events-none"
+      style={{
+        position: 'absolute',
+        left: '-9999px',
+        top: 0,
+        width: 1,
+        height: 1,
+        overflow: 'hidden',
+        opacity: 0,
+        pointerEvents: 'none',
+        clipPath: 'inset(50%)',
+      }}
+    >
+      <img
+        src={src}
+        alt={alt}
+        width={1200}
+        height={630}
+        fetchPriority="low"
+      />
+    </div>
   );
 }
