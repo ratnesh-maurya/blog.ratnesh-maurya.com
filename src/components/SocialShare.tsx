@@ -2,6 +2,24 @@
 
 import { useState } from 'react';
 
+const BASE = 'https://blog.ratnesh-maurya.com';
+const UTM_MEDIUM = 'social';
+const UTM_CAMPAIGN = 'share';
+
+function addUtmParams(url: string, utmSource: string): string {
+  const full = url.startsWith('/') ? `${BASE}${url}` : url;
+  try {
+    const parsed = new URL(full, BASE);
+    parsed.searchParams.set('utm_source', utmSource);
+    parsed.searchParams.set('utm_medium', UTM_MEDIUM);
+    parsed.searchParams.set('utm_campaign', UTM_CAMPAIGN);
+    return parsed.toString();
+  } catch {
+    const sep = full.includes('?') ? '&' : '?';
+    return `${full}${sep}utm_source=${encodeURIComponent(utmSource)}&utm_medium=${encodeURIComponent(UTM_MEDIUM)}&utm_campaign=${encodeURIComponent(UTM_CAMPAIGN)}`;
+  }
+}
+
 interface SocialShareProps {
   url: string;
   title: string;
@@ -12,23 +30,38 @@ interface SocialShareProps {
 export function SocialShare({ url, title, description, className = '' }: SocialShareProps) {
   const [copied, setCopied] = useState(false);
 
-  const shareUrl = url.startsWith('/') ? `https://blog.ratnesh-maurya.com${url}` : url;
-  const encodedUrl = encodeURIComponent(shareUrl);
-  const encodedTitle = encodeURIComponent(title);
-  const encodedDescription = encodeURIComponent(description || '');
-
   const shareLinks = {
-    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}&title=${encodedTitle}&summary=${encodedDescription}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-    whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
-    reddit: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
-    hackernews: `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${encodedTitle}`,
+    twitter: (() => {
+      const u = addUtmParams(url, 'twitter');
+      return `https://twitter.com/intent/tweet?url=${encodeURIComponent(u)}&text=${encodeURIComponent(title)}`;
+    })(),
+    linkedin: (() => {
+      const u = addUtmParams(url, 'linkedin');
+      return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(u)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(description || '')}`;
+    })(),
+    facebook: (() => {
+      const u = addUtmParams(url, 'facebook');
+      return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(u)}`;
+    })(),
+    whatsapp: (() => {
+      const u = addUtmParams(url, 'whatsapp');
+      return `https://wa.me/?text=${encodeURIComponent(`${title} ${u}`)}`;
+    })(),
+    reddit: (() => {
+      const u = addUtmParams(url, 'reddit');
+      return `https://reddit.com/submit?url=${encodeURIComponent(u)}&title=${encodeURIComponent(title)}`;
+    })(),
+    hackernews: (() => {
+      const u = addUtmParams(url, 'hackernews');
+      return `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(u)}&t=${encodeURIComponent(title)}`;
+    })(),
   };
+
+  const urlForCopy = addUtmParams(url, 'copy');
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(shareUrl);
+      await navigator.clipboard.writeText(urlForCopy);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
