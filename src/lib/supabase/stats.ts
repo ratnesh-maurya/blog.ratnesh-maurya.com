@@ -152,6 +152,24 @@ export async function getEventsDaily(sinceDays = 90): Promise<EventsDailyRow[]> 
   }));
 }
 
+export async function getEventsDailyRange(fromStr: string, toStr: string): Promise<EventsDailyRow[]> {
+  const { data, error } = await supabase.rpc('get_events_daily', { since: fromStr });
+
+  if (error) {
+    console.error('get_events_daily error:', error);
+    return [];
+  }
+
+  const rows = (data ?? []).map((r: { day: string; event_type: string; type: string; count: number }) => ({
+    day: r.day,
+    event_type: r.event_type,
+    type: r.type,
+    count: Number(r.count) || 0,
+  }));
+
+  return rows.filter((r: EventsDailyRow) => r.day >= fromStr && r.day <= toStr);
+}
+
 export async function getAllStatsForAnalytics(): Promise<{
   byType: Record<StatType, { views: number; upvotes: number; reports: number; slugs: Array<{ slug: string; views: number; upvotes: number }> }>;
   footerTotal: number;

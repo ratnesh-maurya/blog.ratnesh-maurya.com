@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
-import { AnalyticsCharts } from '@/components/AnalyticsCharts';
+import { AnalyticsDashboard } from '@/components/analytics/dashboard';
 
 export const metadata: Metadata = {
   title: 'Post Analytics — Ratn Labs',
@@ -20,20 +20,23 @@ export default function AnalyticsPage() {
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="hero-gradient-bg">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent-500)' }}>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
+            <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-500)' }}>
               Insights
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
-              Post analytics
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+              Analytics
             </h1>
-            <p className="text-base leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
-              Views, upvotes, and engagement across content. Footer total includes only blog, technical terms, silly questions, and cheatsheets.
+            <p className="text-base leading-relaxed max-w-xl mb-4" style={{ color: 'var(--text-secondary)' }}>
+              Overall and today&apos;s metrics, post views by date range, and UTM traffic. Drag section headers to reorder.
+            </p>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              Each section can have its own date range where applicable.
             </p>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <AnalyticsCharts />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <AnalyticsDashboard />
         </div>
       </div>
     </>

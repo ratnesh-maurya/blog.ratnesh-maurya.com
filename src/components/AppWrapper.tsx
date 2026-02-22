@@ -8,6 +8,7 @@ import { SearchPopup } from '@/components/SearchPopup';
 import { CustomCursor } from '@/components/CustomCursor';
 import { SkipLink, FocusTrap, useKeyboardShortcut } from '@/components/AccessibilityUtils';
 import { TotalViews } from '@/components/TotalViews';
+import { UtmTracker } from '@/components/UtmTracker';
 import { BlogPost, SillyQuestion } from '@/types/blog';
 import { trackNavigation } from '@/lib/analytics';
 
@@ -94,6 +95,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
 
   return (
     <div className="min-h-screen flex flex-col transition-colors" style={{ backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}>
+      <UtmTracker />
       <CustomCursor />
       {/* Skip Links */}
       <SkipLink href="#main-content">Skip to main content</SkipLink>
