@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { SearchPageClient } from '@/app/search/SearchPageClient';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Search — Ratn Labs',
@@ -12,11 +14,13 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/search',
     siteName: 'Ratn Labs',
     type: 'website',
+    images: [{ url: getStoredOgImageUrl('search'), width: 1200, height: 630, alt: 'Search — Ratn Labs' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Search — Ratn Labs',
     description: 'Search all blog posts and Q&As on Ratn Labs.',
+    images: [getStoredOgImageUrl('search')],
   },
   robots: { index: true, follow: true },
 };
@@ -33,8 +37,11 @@ function SearchFallback() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<SearchFallback />}>
-      <SearchPageClient />
-    </Suspense>
+    <>
+      <OgImageInBody src={getStoredOgImageUrl('search')} alt="Search — Ratn Labs" />
+      <Suspense fallback={<SearchFallback />}>
+        <SearchPageClient />
+      </Suspense>
+    </>
   );
 }

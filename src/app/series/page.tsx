@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { getAllBlogPosts } from '@/lib/content';
 import { getSeriesConfig } from '@/lib/static-content';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Series — Learning Paths | Ratn Labs',
@@ -15,8 +17,9 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/series',
     siteName: 'Ratn Labs',
     type: 'website',
+    images: [{ url: getStoredOgImageUrl('series'), width: 1200, height: 630, alt: 'Series — Ratn Labs' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Series — Ratn Labs', creator: '@ratnesh_maurya' },
+  twitter: { card: 'summary_large_image', title: 'Series — Ratn Labs', creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('series')] },
   robots: { index: true, follow: true },
 };
 
@@ -63,6 +66,7 @@ export default async function SeriesPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('series')} alt="Series — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
 

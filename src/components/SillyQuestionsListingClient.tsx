@@ -91,7 +91,7 @@ export function SillyQuestionsListingClient({ questions, initialCategory = null 
                                 Mistakes
                             </span>
                         </h1>
-                        <p className="text-base sm:text-lg max-w-2xl leading-relaxed"
+                        <p className="text-base md:text-lg max-w-2xl leading-relaxed"
                             style={{ color: 'var(--text-muted)' }}>
                             We all make silly mistakes while coding. Here are some of mine, along with the lessons
                             learned — hopefully they&apos;ll save you some debugging time.
@@ -193,7 +193,7 @@ export function SillyQuestionsListingClient({ questions, initialCategory = null 
 
                                     {/* Question title */}
                                     <h2
-                                        className="text-base font-semibold leading-snug mb-3 flex-grow transition-colors duration-200"
+                                        className="text-xl md:text-2xl font-semibold leading-snug mb-3 flex-grow transition-colors duration-200"
                                         style={{ color: 'var(--text-primary)' }}
                                     >
                                         {question.question}

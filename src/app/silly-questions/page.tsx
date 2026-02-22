@@ -1,9 +1,12 @@
 import { getAllSillyQuestions } from '@/lib/content';
 import { FAQStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { SillyQuestionsListingClient } from '@/components/SillyQuestionsListingClient';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const ogImage = getStoredOgImageUrl('silly-questions');
   return {
     title: "Silly Questions & Coding Mistakes",
     description: "Common coding mistakes and silly questions every developer encounters. Learn from real debugging experiences, troubleshooting tips, and programming errors. Save time debugging with these practical lessons! 🤦‍♂️",
@@ -33,6 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Ratn Labs",
       type: "website",
       locale: 'en_US',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: 'Silly Questions & Coding Mistakes' }],
     },
     twitter: {
       card: "summary_large_image",
@@ -40,6 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: "We all make silly mistakes while coding. Here are some of mine, along with the lessons learned.",
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
+      images: [ogImage],
     },
     robots: {
       index: true,
@@ -76,6 +81,7 @@ export default async function SillyQuestionsPage({ searchParams }: SillyQuestion
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('silly-questions')} alt="Silly Questions & Coding Mistakes" />
       <FAQStructuredData questions={questions} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <SillyQuestionsListingClient questions={questions} initialCategory={initialCategory} />

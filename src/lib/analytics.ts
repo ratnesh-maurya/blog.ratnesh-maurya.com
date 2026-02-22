@@ -1,5 +1,7 @@
 // Google Analytics and Microsoft Clarity configuration and utilities
 
+import { isProduction } from '@/lib/env';
+
 declare global {
   interface Window {
     gtag: (...args: unknown[]) => void;
@@ -11,9 +13,9 @@ declare global {
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
 export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || '';
 
-// Initialize Google Analytics
+// Initialize Google Analytics (only in production)
 export const initGA = () => {
-  if (typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!isProduction || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
   // Create dataLayer if it doesn't exist
   window.dataLayer = window.dataLayer || [];
@@ -32,9 +34,9 @@ export const initGA = () => {
   });
 };
 
-// Initialize Microsoft Clarity
+// Initialize Microsoft Clarity (only in production)
 export const initClarity = () => {
-  if (typeof window === 'undefined' || !CLARITY_PROJECT_ID) return;
+  if (!isProduction || typeof window === 'undefined' || !CLARITY_PROJECT_ID) return;
 
   // Clarity script is loaded via Script component in layout
   // This function can be used for custom Clarity events
@@ -44,9 +46,9 @@ export const initClarity = () => {
   }
 };
 
-// Track page views
+// Track page views (only in production)
 export const trackPageView = (url: string, title?: string) => {
-  if (typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!isProduction || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
   window.gtag('config', GA_MEASUREMENT_ID, {
     page_path: url,
@@ -54,14 +56,14 @@ export const trackPageView = (url: string, title?: string) => {
   });
 };
 
-// Track custom events
+// Track custom events (only in production)
 export const trackEvent = (
   action: string,
   category: string,
   label?: string,
   value?: number
 ) => {
-  if (typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!isProduction || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
   window.gtag('event', action, {
     event_category: category,
@@ -102,52 +104,57 @@ export const trackSearch = (query: string, resultsCount: number) => {
 
 
 
-// Track social shares
+// Track social shares (only in production)
 export const trackSocialShare = (platform: string, url: string, title: string) => {
+  if (!isProduction) return;
   trackEvent('share', 'Social', `${platform}: ${title}`, 1);
 
   // Track in Clarity
-  if (window.clarity) {
+  if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('event', 'social_share', { platform, url, title });
   }
 };
 
-// Track external link clicks
+// Track external link clicks (only in production)
 export const trackExternalLink = (url: string, text: string) => {
+  if (!isProduction) return;
   trackEvent('click_external_link', 'Navigation', `${text}: ${url}`, 1);
 
   // Track in Clarity
-  if (window.clarity) {
+  if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('event', 'external_link_click', { url, text });
   }
 };
 
-// Track navigation clicks
+// Track navigation clicks (only in production)
 export const trackNavigation = (destination: string, source: string) => {
+  if (!isProduction) return;
   trackEvent('navigation', 'Navigation', `${source} -> ${destination}`, 1);
 
   // Track in Clarity
-  if (window.clarity) {
+  if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('event', 'navigation_click', { destination, source });
   }
 };
 
-// Track blog card clicks
+// Track blog card clicks (only in production)
 export const trackBlogCardClick = (slug: string, title: string, source: string) => {
+  if (!isProduction) return;
   trackEvent('blog_card_click', 'Blog', `${source}: ${title}`, 1);
 
   // Track in Clarity
-  if (window.clarity) {
+  if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('event', 'blog_card_click', { slug, title, source });
   }
 };
 
-// Track silly question clicks
+// Track silly question clicks (only in production)
 export const trackSillyQuestionClick = (slug: string, title: string, source: string) => {
+  if (!isProduction) return;
   trackEvent('silly_question_click', 'Silly Questions', `${source}: ${title}`, 1);
 
   // Track in Clarity
-  if (window.clarity) {
+  if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('event', 'silly_question_click', { slug, title, source });
   }
 };
@@ -157,9 +164,9 @@ export const trackCarouselInteraction = (action: 'next' | 'previous' | 'indicato
   trackEvent('carousel_interaction', 'UI', action, slideIndex);
 };
 
-// Performance tracking
+// Performance tracking (only in production)
 export const trackPerformance = () => {
-  if (typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!isProduction || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
   // Track Core Web Vitals
   try {
@@ -216,9 +223,9 @@ export const trackPerformance = () => {
   }
 };
 
-// Track user engagement
+// Track user engagement (only in production)
 export const trackEngagement = () => {
-  if (typeof window === 'undefined') return;
+  if (!isProduction || typeof window === 'undefined') return;
 
   let startTime = Date.now();
   let isActive = true;

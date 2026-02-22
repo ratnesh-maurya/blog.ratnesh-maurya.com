@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { getAllBlogPosts, getAllSillyQuestions } from '@/lib/content';
 import { getTopicsMeta } from '@/lib/static-content';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Topics — Ratn Labs',
@@ -16,12 +18,14 @@ export const metadata: Metadata = {
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',
+    images: [{ url: getStoredOgImageUrl('topics'), width: 1200, height: 630, alt: 'Topics — Ratn Labs' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Topics — Ratn Labs',
     description: 'Browse all topics covered on Ratn Labs: system design, Go, AWS, web development, and more.',
     creator: '@ratnesh_maurya',
+    images: [getStoredOgImageUrl('topics')],
   },
   robots: { index: true, follow: true },
 };
@@ -61,6 +65,7 @@ export default async function TopicsPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('topics')} alt="Topics — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>

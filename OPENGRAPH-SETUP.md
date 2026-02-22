@@ -18,6 +18,38 @@ This document describes how Open Graph (OG) images are set up in this Next.js pr
 
 ---
 
+## 1.1 Runtime vs stored OG images (this project)
+
+**Runtime-generated (on each request)**  
+These routes have an `opengraph-image.tsx` that returns an `ImageResponse`; the image is generated when the URL is requested (e.g. by crawlers or when the page is shared):
+
+| Route | File | Served at |
+|-------|------|-----------|
+| Root (home) | `app/opengraph-image.tsx` | `/opengraph-image` |
+| Blog listing | `app/blog/opengraph-image.tsx` | `/blog/opengraph-image` |
+| Blog post | `app/blog/[slug]/opengraph-image.tsx` | `/blog/{slug}/opengraph-image` |
+| Blog tag | `app/blog/tag/[tag]/opengraph-image.tsx` | `/blog/tag/{tag}/opengraph-image` |
+| Silly questions listing | `app/silly-questions/opengraph-image.tsx` | `/silly-questions/opengraph-image` |
+| Silly question | `app/silly-questions/[slug]/opengraph-image.tsx` | `/silly-questions/{slug}/opengraph-image` |
+| Technical terms listing | `app/technical-terms/opengraph-image.tsx` | `/technical-terms/opengraph-image` |
+| Technical term (fallback) | `app/technical-terms/[slug]/opengraph-image.tsx` | `/technical-terms/{slug}/opengraph-image` |
+| TIL listing | `app/til/opengraph-image.tsx` | `/til/opengraph-image` |
+| TIL entry | `app/til/[slug]/opengraph-image.tsx` | `/til/{slug}/opengraph-image` |
+| Cheatsheets listing | `app/cheatsheets/opengraph-image.tsx` | `/cheatsheets/opengraph-image` |
+| Cheatsheet | `app/cheatsheets/[slug]/opengraph-image.tsx` | `/cheatsheets/{slug}/opengraph-image` |
+| About, Now, Uses, Topics, Search, Newsletter, Privacy, Resources, Series, Glossary | `app/{route}/opengraph-image.tsx` | `/{route}/opengraph-image` |
+
+**Stored (pre-built, served from disk)**  
+Only **technical terms** support a stored OG image so metadata can point to a static file and avoid runtime generation for that page:
+
+- **Where they are stored:** `public/technical-terms/{slug}.png` (e.g. `public/technical-terms/indexing.png`).
+- **How they are built:** Script `scripts/build-og-technical-terms.tsx` (run at build time, e.g. in `postbuild`) generates one PNG per term from `content/technical-terms/*.md` and writes to `public/technical-terms/`.
+- **How the page uses them:** In `app/technical-terms/[slug]/page.tsx`, `generateMetadata()` checks for `public/technical-terms/${slug}.png`. If it exists, `openGraph.images` and `twitter.images` are set to `https://blog.ratnesh-maurya.com/technical-terms/{slug}.png`; otherwise no static image is set and crawlers may use the runtime route `/technical-terms/{slug}/opengraph-image` if linked elsewhere.
+
+So: **all OG images are generated at runtime** by the routes above; **only technical term pages** can use a **stored** image from `public/technical-terms/` when that file exists.
+
+---
+
 ## 2. Project structure
 
 ```text

@@ -12,11 +12,13 @@ import {
   trackPerformance,
   trackEngagement
 } from '@/lib/analytics';
+import { isProduction } from '@/lib/env';
 
 export function Analytics() {
   const pathname = usePathname();
 
   useEffect(() => {
+    if (!isProduction) return;
     // Track page views on route changes
     if (GA_MEASUREMENT_ID) {
       trackPageView(pathname);
@@ -29,6 +31,7 @@ export function Analytics() {
   }, [pathname]);
 
   useEffect(() => {
+    if (!isProduction) return;
     // Initialize analytics on mount
     if (GA_MEASUREMENT_ID) {
       initGA();
@@ -42,8 +45,8 @@ export function Analytics() {
     }
   }, []);
 
-  // Don't render anything if neither GA nor Clarity is set
-  if (!GA_MEASUREMENT_ID && !CLARITY_PROJECT_ID) {
+  // Don't render scripts or run tracking in development
+  if (!isProduction || (!GA_MEASUREMENT_ID && !CLARITY_PROJECT_ID)) {
     return null;
   }
 

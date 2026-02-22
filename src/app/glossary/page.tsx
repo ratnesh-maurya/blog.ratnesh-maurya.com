@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { BreadcrumbStructuredData, GlossaryStructuredData } from '@/components/StructuredData';
 import { getGlossaryContent } from '@/lib/static-content';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Glossary — Backend & System Design Terms | Ratn Labs',
@@ -13,8 +15,9 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/glossary',
     siteName: 'Ratn Labs',
     type: 'website',
+    images: [{ url: getStoredOgImageUrl('glossary'), width: 1200, height: 630, alt: 'Glossary — Ratn Labs' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Glossary — Backend Terms | Ratn Labs', creator: '@ratnesh_maurya' },
+  twitter: { card: 'summary_large_image', title: 'Glossary — Backend Terms | Ratn Labs', creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('glossary')] },
   robots: { index: true, follow: true },
 };
 
@@ -28,6 +31,7 @@ export default function GlossaryPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('glossary')} alt="Glossary — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <GlossaryStructuredData terms={terms} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>

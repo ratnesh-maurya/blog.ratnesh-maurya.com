@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { incrementStat, type StatType } from '@/lib/supabase/stats';
+import { isProduction } from '@/lib/env';
 
 interface ViewIncrementerProps {
   type: StatType;
@@ -11,13 +12,13 @@ interface ViewIncrementerProps {
 /**
  * Silent component that increments view count in the background
  * without displaying anything. Used on individual post pages.
- * Each page load counts as one view. Ref guards against double-increment in React Strict Mode.
+ * Only runs in production (not in dev) to avoid updating stats during development.
  */
 export function ViewIncrementer({ type, slug }: ViewIncrementerProps) {
   const hasIncremented = useRef(false);
 
   useEffect(() => {
-    if (hasIncremented.current) return;
+    if (!isProduction || hasIncremented.current) return;
 
     const timeoutId = setTimeout(() => {
       const run = async () => {

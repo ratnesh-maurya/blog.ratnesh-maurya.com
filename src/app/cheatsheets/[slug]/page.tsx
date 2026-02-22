@@ -5,6 +5,9 @@ import { BreadcrumbStructuredData, CheatsheetStructuredData } from '@/components
 import { getCheatsheet, getCheatsheetSlugs } from '@/lib/static-content';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { SocialShare } from '@/components/SocialShare';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
 
@@ -32,8 +35,9 @@ export async function generateMetadata({
       url,
       siteName: 'Ratn Labs',
       type: 'article',
+      images: [{ url: getStoredOgImageUrl('cheatsheet', slug), width: 1200, height: 630, alt: data.title }],
     },
-    twitter: { card: 'summary_large_image', title: ogTitle, creator: '@ratnesh_maurya' },
+    twitter: { card: 'summary_large_image', title: ogTitle, creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('cheatsheet', slug)] },
     robots: { index: true, follow: true },
   };
 }
@@ -56,6 +60,7 @@ export default async function CheatsheetPage({
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('cheatsheet', slug)} alt={data.title} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <CheatsheetStructuredData
         title={data.title}
@@ -98,6 +103,18 @@ export default async function CheatsheetPage({
                 </pre>
               </div>
             ))}
+          </div>
+
+          <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+            <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
+              style={{ color: 'var(--text-muted)' }}>
+              Share this cheatsheet
+            </h3>
+            <SocialShare
+              url={`/cheatsheets/${slug}`}
+              title={data.title}
+              description={data.description}
+            />
           </div>
         </div>
       </div>

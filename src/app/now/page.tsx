@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Now — What I\'m Up To | Ratn Labs',
@@ -12,8 +14,9 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/now',
     siteName: 'Ratn Labs',
     type: 'profile',
+    images: [{ url: getStoredOgImageUrl('now'), width: 1200, height: 630, alt: 'Now — Ratn Labs' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Now — Ratn Labs', creator: '@ratnesh_maurya' },
+  twitter: { card: 'summary_large_image', title: 'Now — Ratn Labs', creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('now')] },
   robots: { index: true, follow: true },
 };
 
@@ -29,6 +32,7 @@ export default function NowPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('now')} alt="Now — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20">

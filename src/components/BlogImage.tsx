@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { getStoredOgImagePath } from '@/lib/og';
 
 interface BlogImageProps {
   src: string;
@@ -118,20 +119,7 @@ interface SocialImageProps {
   type?: 'og' | 'twitter';
 }
 
+/** OG/social image URL for a blog post (stored image in public/og/). Used by structured data and must match metadata. */
 export function getSocialImageUrl({ post }: SocialImageProps): string {
-  if (post.image) {
-    return post.image.startsWith('/') ? post.image : `/images/blog/${post.image}`;
-  }
-  return `/blog/${post.slug}/opengraph-image`;
-}
-
-export function getDefaultSocialImage(type: 'og' | 'twitter' = 'og', page: 'home' | 'blog' | 'silly-questions' = 'home'): string {
-  return `/images/social/default-${page}-${type}.jpg`;
-}
-
-// Generate a fallback OG image URL when no specific image exists
-export function generateFallbackOGImage(title: string, type: 'blog' | 'silly-question' | 'page' = 'page'): string {
-  // For now, return a default image. In the future, this could generate dynamic images
-  const pageType = type === 'silly-question' ? 'silly-questions' : type === 'blog' ? 'blog' : 'home';
-  return `/images/social/default-${pageType}-og.jpg`;
+  return getStoredOgImagePath('blog-slug', post.slug);
 }

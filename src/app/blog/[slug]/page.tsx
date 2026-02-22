@@ -6,14 +6,14 @@ import { SocialShare } from '@/components/SocialShare';
 import { ReadingProgress } from '@/components/ReadingProgress';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
 
 interface BlogPostPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     };
   }
 
+  const ogImage = getStoredOgImageUrl('blog-slug', slug);
   return {
     title: post.title,
     description: post.description,
@@ -63,6 +64,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       siteName: 'Ratn Labs',
       locale: 'en_US',
       countryName: 'India',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
       article: {
         publishedTime: post.date,
         modifiedTime: post.date,
@@ -77,6 +79,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       description: post.description,
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
+      images: [ogImage],
     },
     robots: {
       index: true,
@@ -145,6 +148,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('blog-slug', post.slug)} alt={post.title} />
       <BlogStructuredData post={post} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       {faqQuestions.length > 0 && <FAQStructuredData questions={faqQuestions} />}

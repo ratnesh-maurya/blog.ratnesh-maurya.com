@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Uses — Tools & Setup · Ratn Labs',
@@ -12,12 +14,14 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/uses',
     siteName: 'Ratn Labs',
     type: 'website',
+    images: [{ url: getStoredOgImageUrl('uses'), width: 1200, height: 630, alt: 'Uses — Ratn Labs' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Uses — Tools & Setup · Ratn Labs',
     description: "The tools and setup I use daily as a backend engineer.",
     creator: '@ratnesh_maurya',
+    images: [getStoredOgImageUrl('uses')],
   },
   robots: { index: true, follow: true },
 };
@@ -33,6 +37,7 @@ export default function UsesPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('uses')} alt="Uses — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>

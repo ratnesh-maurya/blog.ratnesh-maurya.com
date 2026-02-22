@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { getAllTILEntries } from '@/lib/content';
 import { BreadcrumbStructuredData, TILListStructuredData } from '@/components/StructuredData';
 import { TILListingClient } from '@/components/TILListingClient';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Today I Learned — Ratn Labs',
@@ -14,12 +16,14 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/til',
     siteName: 'Ratn Labs',
     type: 'website',
+    images: [{ url: getStoredOgImageUrl('til'), width: 1200, height: 630, alt: 'Today I Learned' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Today I Learned — Ratn Labs',
     description: 'Short, practical learnings from real engineering work.',
     creator: '@ratnesh_maurya',
+    images: [getStoredOgImageUrl('til')],
   },
   robots: { index: true, follow: true },
 };
@@ -35,6 +39,7 @@ export default async function TILPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('til')} alt="Today I Learned" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <TILListStructuredData entries={entries} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>

@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { getAllTechnicalTermsForListing } from '@/lib/content';
 import { BreadcrumbStructuredData, TechnicalTermsStructuredData } from '@/components/StructuredData';
 import { TechnicalTermsSearch } from '@/components/TechnicalTermsSearch';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
 
@@ -17,12 +19,14 @@ export const metadata: Metadata = {
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',
+    images: [{ url: getStoredOgImageUrl('technical-terms'), width: 1200, height: 630, alt: 'Technical Terms' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Technical Terms — Ratn Labs',
     description: 'Definitions for backend and system design technical terms.',
     creator: '@ratnesh_maurya',
+    images: [getStoredOgImageUrl('technical-terms')],
   },
   robots: { index: true, follow: true },
 };
@@ -36,6 +40,7 @@ export default async function TechnicalTermsPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('technical-terms')} alt="Technical Terms" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <TechnicalTermsStructuredData terms={terms} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
@@ -57,7 +62,7 @@ export default async function TechnicalTermsPage() {
                 Terms
               </span>
             </h1>
-            <p className="text-base leading-relaxed max-w-xl mb-6" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-base md:text-lg leading-relaxed max-w-xl mb-6" style={{ color: 'var(--text-secondary)' }}>
               Clear definitions and explanations for indexing, databases, distributed systems, and backend concepts — with use cases and trade-offs.
             </p>
             <div className="flex flex-wrap gap-4 pt-6" style={{ borderTop: '1px solid var(--border)' }}>

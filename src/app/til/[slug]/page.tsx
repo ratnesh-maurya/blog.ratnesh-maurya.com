@@ -6,6 +6,8 @@ import { PostNavigation } from '@/components/PostNavigation';
 import { BreadcrumbStructuredData, TILStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 
 interface TILPageProps {
@@ -31,12 +33,14 @@ export async function generateMetadata({ params }: TILPageProps): Promise<Metada
       url: `https://blog.ratnesh-maurya.com/til/${slug}`,
       siteName: 'Ratn Labs',
       type: 'article',
+      images: [{ url: getStoredOgImageUrl('til-slug', slug), width: 1200, height: 630, alt: entry.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: entry.title,
       description: `TIL: ${entry.title}`,
       creator: '@ratnesh_maurya',
+      images: [getStoredOgImageUrl('til-slug', slug)],
     },
   };
 }
@@ -63,6 +67,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('til-slug', slug)} alt={entry.title} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <TILStructuredData entry={entry} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>

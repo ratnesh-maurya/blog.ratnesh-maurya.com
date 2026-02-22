@@ -2,6 +2,9 @@ import { Metadata } from 'next';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getCheatsheetSlugs, getCheatsheet } from '@/lib/static-content';
 import { CheatsheetsListingClient } from '@/components/CheatsheetsListingClient';
+import { SocialShare } from '@/components/SocialShare';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Cheatsheets — Go, Docker, PostgreSQL, Kubectl | Ratn Labs',
@@ -14,8 +17,9 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/cheatsheets',
     siteName: 'Ratn Labs',
     type: 'website',
+    images: [{ url: getStoredOgImageUrl('cheatsheets'), width: 1200, height: 630, alt: 'Cheatsheets' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Cheatsheets — Ratn Labs', creator: '@ratnesh_maurya' },
+  twitter: { card: 'summary_large_image', title: 'Cheatsheets — Ratn Labs', creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('cheatsheets')] },
   robots: { index: true, follow: true },
 };
 
@@ -40,6 +44,7 @@ export default function CheatsheetsPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('cheatsheets')} alt="Cheatsheets" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="hero-gradient-bg">
@@ -60,6 +65,17 @@ export default function CheatsheetsPage() {
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <CheatsheetsListingClient sheets={sheets} />
+          <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+            <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
+              style={{ color: 'var(--text-muted)' }}>
+              Share this page
+            </h3>
+            <SocialShare
+              url="/cheatsheets"
+              title="Cheatsheets — Go, Docker, PostgreSQL, Kubectl | Ratn Labs"
+              description="Quick reference cheatsheets for Go, Docker, PostgreSQL, and Kubernetes kubectl."
+            />
+          </div>
         </div>
       </div>
     </>

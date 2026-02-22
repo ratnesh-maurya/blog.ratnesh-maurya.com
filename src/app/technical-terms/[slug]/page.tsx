@@ -1,22 +1,16 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
-import path from 'path';
-import fs from 'fs';
 import { notFound } from 'next/navigation';
 import { getTechnicalTerm, getTechnicalTermSlugs, getAllTechnicalTerms } from '@/lib/content';
 import { BreadcrumbStructuredData, TechnicalTermFAQStructuredData } from '@/components/StructuredData';
 import { PostNavigation } from '@/components/PostNavigation';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { SocialShare } from '@/components/SocialShare';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
-const OG_IMAGE_PATH = '/technical-terms';
-
-function hasStaticOgImage(slug: string): boolean {
-  const p = path.join(process.cwd(), 'public', 'technical-terms', `${slug}.png`);
-  return fs.existsSync(p);
-}
 
 export async function generateStaticParams() {
   return getTechnicalTermSlugs().map((slug) => ({ slug }));
@@ -32,8 +26,7 @@ export async function generateMetadata({
   if (!term) return { title: 'Not Found' };
   const url = `${BASE}/technical-terms/${slug}`;
   const title = `${term.title} | Technical Terms`;
-  const useStaticOg = hasStaticOgImage(slug);
-  const ogImage = useStaticOg ? `${BASE}${OG_IMAGE_PATH}/${slug}.png` : undefined;
+  const ogImage = getStoredOgImageUrl('technical-term', slug);
   return {
     title,
     description: term.description,
@@ -83,6 +76,7 @@ export default async function TechnicalTermPage({
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('technical-term', slug)} alt={term.title} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       {term.questions && term.questions.length > 0 && (
         <TechnicalTermFAQStructuredData
@@ -105,19 +99,6 @@ export default async function TechnicalTermPage({
           </Link>
 
           <article>
-            {hasStaticOgImage(slug) && (
-              <div className="rounded-2xl overflow-hidden border mb-8 w-full aspect-[1200/630] relative" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
-                <Image
-                  src={`${OG_IMAGE_PATH}/${slug}.png`}
-                  alt=""
-                  width={1200}
-                  height={630}
-                  className="object-contain w-full h-full"
-                  unoptimized
-                  priority
-                />
-              </div>
-            )}
             <div
               className="prose prose-sm max-w-none"
               dangerouslySetInnerHTML={{ __html: term.content }}
@@ -129,7 +110,18 @@ export default async function TechnicalTermPage({
             next={nextTerm ? { slug: nextTerm.slug, title: nextTerm.title, href: `/technical-terms/${nextTerm.slug}`, description: nextTerm.description } : null}
           />
 
-          <div className="pt-6">
+          <div className="pt-8 mt-8 space-y-6" style={{ borderTop: '1px solid var(--border)' }}>
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
+                style={{ color: 'var(--text-muted)' }}>
+                Share this definition
+              </h3>
+              <SocialShare
+                url={`/technical-terms/${slug}`}
+                title={term.title}
+                description={term.description}
+              />
+            </div>
             <Link
               href="/technical-terms"
               className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-xl border transition-all duration-200"

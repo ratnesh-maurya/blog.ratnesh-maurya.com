@@ -4,14 +4,14 @@ import { SillyQuestionStructuredData } from '@/components/StructuredData';
 import { SocialShare } from '@/components/SocialShare';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 interface SillyQuestionPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -66,6 +66,7 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
       url: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
       siteName: 'Ratn Labs',
       locale: 'en_US',
+      images: [{ url: getStoredOgImageUrl('silly-question', question.slug), width: 1200, height: 630, alt: question.question }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -73,6 +74,7 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
       description: seoDescription.substring(0, 200),
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
+      images: [getStoredOgImageUrl('silly-question', question.slug)],
     },
     robots: {
       index: true,
@@ -112,6 +114,7 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('silly-question', question.slug)} alt={question.question} />
       <SillyQuestionStructuredData question={question} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
 

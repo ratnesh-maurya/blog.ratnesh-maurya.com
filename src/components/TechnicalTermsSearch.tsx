@@ -76,11 +76,11 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
             className="group flex flex-col p-5 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5"
             style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
           >
-            <h2 className="text-base font-bold mb-2 group-hover:text-[var(--accent-500)] transition-colors"
+            <h2 className="text-xl md:text-2xl font-bold leading-snug mb-2 group-hover:text-[var(--accent-500)] transition-colors"
               style={{ color: 'var(--text-primary)' }}>
               {term.title}
             </h2>
-            <p className="text-sm leading-relaxed line-clamp-3 flex-1" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm md:text-base leading-relaxed line-clamp-3 flex-1" style={{ color: 'var(--text-secondary)' }}>
               {term.description}
             </p>
             {statsLoaded && (

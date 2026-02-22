@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { getAllBlogPosts } from '@/lib/content';
 import { BreadcrumbStructuredData, ProfilePageStructuredData } from '@/components/StructuredData';
 import { PageStatsTracker } from '@/components/PageStatsTracker';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'About — Ratnesh Maurya',
@@ -16,12 +18,14 @@ export const metadata: Metadata = {
     siteName: 'Ratn Labs',
     type: 'profile',
     locale: 'en_US',
+    images: [{ url: getStoredOgImageUrl('about'), width: 1200, height: 630, alt: 'About — Ratnesh Maurya' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'About — Ratnesh Maurya',
     description: 'Backend engineer specialising in system design, distributed systems, and scalable architecture.',
     creator: '@ratnesh_maurya',
+    images: [getStoredOgImageUrl('about')],
   },
   robots: { index: true, follow: true },
 };
@@ -65,6 +69,7 @@ export default async function AboutPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('about')} alt="About — Ratnesh Maurya" />
       <ProfilePageStructuredData />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { getStatsForSlug, incrementStat, type StatType } from '@/lib/supabase/stats';
+import { isProduction } from '@/lib/env';
 
 interface UpvoteCounterProps {
   type: StatType;
@@ -73,8 +74,12 @@ export function UpvoteCounter({
 
     setIsUpvoting(true);
     try {
-      const { upvotes: u } = await incrementStat(type, slug, 'upvote');
-      setUpvotes(u);
+      if (isProduction) {
+        const { upvotes: u } = await incrementStat(type, slug, 'upvote');
+        setUpvotes(u);
+      } else {
+        setUpvotes((prev) => (prev !== null ? prev + 1 : 1));
+      }
       setHasUpvoted(true);
       if (typeof window !== 'undefined') {
         localStorage.setItem(`upvoted:${type}:${slug}`, '1');

@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getPrivacyPolicyContent } from '@/lib/static-content';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Ratn Labs',
@@ -13,11 +15,13 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/privacy-policy',
     siteName: 'Ratn Labs',
     type: 'website',
+    images: [{ url: getStoredOgImageUrl('privacy-policy'), width: 1200, height: 630, alt: 'Privacy Policy — Ratn Labs' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Privacy Policy — Ratn Labs',
     description: 'How we collect, use, and protect your information.',
+    images: [getStoredOgImageUrl('privacy-policy')],
   },
   robots: { index: true, follow: true },
 };
@@ -31,6 +35,7 @@ export default function PrivacyPolicyPage() {
 
   return (
     <>
+      <OgImageInBody src={getStoredOgImageUrl('privacy-policy')} alt="Privacy Policy — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>

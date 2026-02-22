@@ -1,9 +1,12 @@
 import { getAllBlogPostsForListing } from '@/lib/content';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const ogImage = getStoredOgImageUrl('blog');
   return {
     title: "All Blog Posts",
     description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
@@ -19,6 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Ratn Labs",
       type: "website",
       locale: 'en_US',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: "All Blog Posts" }],
     },
     twitter: {
       card: "summary_large_image",
@@ -26,6 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: "Explore all my thoughts on web development, programming, and technology.",
       creator: '@ratnesh_maurya',
       site: '@ratnesh_maurya',
+      images: [ogImage],
     },
     robots: {
       index: true,
@@ -68,6 +73,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <div className="relative overflow-hidden">
+      <OgImageInBody src={getStoredOgImageUrl('blog')} alt="All Blog Posts" />
       <BlogListStructuredData posts={blogPosts} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <BlogListingClient
