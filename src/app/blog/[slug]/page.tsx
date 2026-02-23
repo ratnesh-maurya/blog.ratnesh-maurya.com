@@ -7,7 +7,7 @@ import { ReadingProgress } from '@/components/ReadingProgress';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { OgImageInBody } from '@/components/OgImageInBody';
-import { getStoredOgImageUrl } from '@/lib/og';
+import { BlogImage } from '@/components/BlogImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     };
   }
 
-  const ogImage = getStoredOgImageUrl('blog-slug', slug);
+  const ogImage = post.socialImage || post.image || '/images/blog/building-blog.jpg';
   return {
     title: post.title,
     description: post.description,
@@ -148,7 +148,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
-      <OgImageInBody src={getStoredOgImageUrl('blog-slug', post.slug)} alt={post.title} />
+      <OgImageInBody src={post.socialImage || post.image || '/images/blog/building-blog.jpg'} alt={post.title} />
       <BlogStructuredData post={post} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       {faqQuestions.length > 0 && <FAQStructuredData questions={faqQuestions} />}
@@ -210,6 +210,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   {post.author}
                 </span>
               </div>
+
+              {/* Hero image */}
+              {(post.image || post.socialImage) && (
+                <div
+                  className="mt-6 mb-8 overflow-hidden rounded-2xl border"
+                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
+                >
+                  <BlogImage
+                    src={post.image || post.socialImage || ''}
+                    alt={post.title}
+                    width={1200}
+                    height={630}
+                    className="w-full h-auto"
+                    priority
+                  />
+                </div>
+              )}
 
               {/* Description */}
               {post.description && (

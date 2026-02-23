@@ -3,7 +3,6 @@ import { getAllBlogPosts } from '@/lib/content';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
-import { getStoredOgImageUrl } from '@/lib/og';
 
 interface TagPageProps {
   params: Promise<{ tag: string }>;
@@ -23,7 +22,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
   const title = `Posts tagged "${tagLabel}"`;
   const description = `Browse all blog posts tagged "${tagLabel}" from Ratn Labs.`;
   const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${tag}`;
-  const ogImage = getStoredOgImageUrl('blog-tag', undefined, tag);
+  const ogImage = '/images/blog/building-blog.jpg';
 
   return {
     title,
@@ -73,7 +72,7 @@ export default async function BlogTagPage({ params }: TagPageProps) {
 
   return (
     <div className="relative overflow-hidden">
-      <OgImageInBody src={getStoredOgImageUrl('blog-tag', undefined, tag)} alt={`Posts tagged "${tagLabel}"`} />
+      <OgImageInBody src="/images/blog/building-blog.jpg" alt={`Posts tagged "${tagLabel}"`} />
       <BlogListStructuredData posts={blogPosts} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <BlogListingClient
