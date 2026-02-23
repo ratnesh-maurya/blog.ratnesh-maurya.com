@@ -5,7 +5,7 @@ date: "2026-02-24"
 author: "Ratnesh Maurya"
 category: "Web Development"
 tags: ["HTML", "Geolocation API", "Chrome", "Web APIs", "Privacy"]
-image: "images/blog/chrome-144-introduces-the-geolocation-element-declarative-location-access-for-modern-web-apps.png"
+image: "/images/blog/chrome-144-introduces-the-geolocation-element-declarative-location-access-for-modern-web-apps.png"
 featured: false
 questions: ["What is the new <geolocation> HTML element in Chrome 144?", "How is <geolocation> different from navigator.geolocation?", "Does the <geolocation> element improve user privacy?", "How to use the new geolocation element with fallback support?"]
 ---

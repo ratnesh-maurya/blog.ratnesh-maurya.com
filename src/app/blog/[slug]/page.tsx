@@ -11,6 +11,7 @@ import { BlogImage } from '@/components/BlogImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     };
   }
 
-  const ogImage = post.socialImage || post.image || '/images/blog/building-blog.jpg';
+  const ogImage = post.socialImage || getStoredOgImageUrl('blog-slug', post.slug);
   return {
     title: post.title,
     description: post.description,
@@ -122,6 +123,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  const ogImage = post.socialImage || getStoredOgImageUrl('blog-slug', post.slug);
   const currentIndex = allPosts.findIndex(p => p.slug === slug);
   const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
@@ -148,7 +150,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
-      <OgImageInBody src={post.socialImage || post.image || '/images/blog/building-blog.jpg'} alt={post.title} />
+      <OgImageInBody src={ogImage} alt={post.title} />
       <BlogStructuredData post={post} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       {faqQuestions.length > 0 && <FAQStructuredData questions={faqQuestions} />}
@@ -212,13 +214,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
 
               {/* Hero image */}
-              {(post.image || post.socialImage) && (
+              {post.image && (
                 <div
                   className="mt-6 mb-8 overflow-hidden rounded-2xl border"
                   style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
                 >
                   <BlogImage
-                    src={post.image || post.socialImage || ''}
+                    src={post.image}
                     alt={post.title}
                     width={1200}
                     height={630}

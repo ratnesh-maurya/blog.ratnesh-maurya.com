@@ -76,7 +76,7 @@ export async function getBlogPostListingMeta(slug: string): Promise<BlogPost | n
       readingTime: readingTimeResult.text,
       featured: data.featured || false,
       image: data.image || '',
-      socialImage: data.socialImage || data.image || '',
+      socialImage: data.socialImage || '',
       questions: data.questions || [],
       content: '',
     };
@@ -126,7 +126,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       readingTime: readingTimeResult.text,
       featured: data.featured || false,
       image: data.image || '',
-      socialImage: data.socialImage || data.image || '',
+      socialImage: data.socialImage || '',
       questions: data.questions || [],
       content: contentHtml,
     };
