@@ -637,6 +637,20 @@ export function AppWrapper({ children }: AppWrapperProps) {
         </div>
       </footer>
 
+      <a
+        href="https://peerlist.io/ratnesh_maurya/project/all-blog-posts--ratn-labs"
+        target="_blank"
+        rel="noreferrer"
+        className="fixed top-20 right-4 z-20 block"
+        aria-label="All Blog Posts | Ratn Labs on Peerlist"
+      >
+        <img
+          src="https://peerlist.io/api/v1/projects/embed/PRJHA9E9AD7RLAA67IJJPOEJPO7E9P?showUpvote=true&theme=dark"
+          alt="All Blog Posts | Ratn Labs"
+          style={{ width: 'auto', height: '48px' }}
+        />
+      </a>
+
       <FocusTrap isActive={isSearchOpen} onEscape={() => setIsSearchOpen(false)}>
         <SearchPopup
           isOpen={isSearchOpen}

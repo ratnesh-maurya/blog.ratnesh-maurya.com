@@ -109,7 +109,7 @@ export function FloatingUpvoteButton({ type, slug }: FloatingUpvoteButtonProps) 
         color: hasUpvoted ? 'var(--accent-500)' : 'var(--text-secondary)',
         boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
       }}
-      className="fixed right-6 z-50 inline-flex flex-row items-center justify-center gap-2 px-4 py-3 border-2 rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
+      className="fixed right-6 z-[100] inline-flex flex-row items-center justify-center gap-2 px-4 py-3 border-2 rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
       title={hasUpvoted ? 'Already upvoted' : 'Upvote this post'}
     >
       <svg
