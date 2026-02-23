@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "postbuild": "tsx scripts/generate-search-data.ts && tsx scripts/index-posts.ts && tsx scripts/build-og-all.tsx",
+    "postbuild": "tsx scripts/generate-search-data.ts && tsx scripts/index-posts.ts && tsx scripts/build-og-all.tsx && tsx scripts/indexnow-notify.ts",
     "start": "next start",
     "lint": "eslint",
     "export": "next build",
