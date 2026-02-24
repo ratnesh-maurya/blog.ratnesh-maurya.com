@@ -8,6 +8,11 @@ import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BlogImage } from '@/components/BlogImage';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import { mdxComponents } from '@/components/mdx';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
@@ -259,7 +264,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             {/* Article Content */}
             <div className="prose max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              {post.format === 'mdx' ? (
+                <MDXRemote
+                  source={post.content}
+                  components={mdxComponents}
+                  options={{
+                    mdxOptions: {
+                      remarkPlugins: [remarkGfm],
+                      rehypePlugins: [rehypeSlug, rehypeHighlight],
+                    },
+                  }}
+                />
+              ) : (
+                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              )}
             </div>
 
             {/* Footer — Tags & Share */}

@@ -43,16 +43,24 @@ if (!fs.existsSync(technicalTermsDirectory)) {
   fs.mkdirSync(technicalTermsDirectory, { recursive: true });
 }
 
+function getBlogFilePath(slug: string): { path: string; format: 'md' | 'mdx' } | null {
+  const mdxPath = path.join(blogDirectory, `${slug}.mdx`);
+  const mdPath = path.join(blogDirectory, `${slug}.md`);
+  if (fs.existsSync(mdxPath)) return { path: mdxPath, format: 'mdx' };
+  if (fs.existsSync(mdPath)) return { path: mdPath, format: 'md' };
+  return null;
+}
+
+function getBlogPostSlugsFromFs(): string[] {
+  const md = fs.readdirSync(blogDirectory).filter(n => n.endsWith('.md')).map(n => n.replace(/\.md$/, ''));
+  const mdx = fs.readdirSync(blogDirectory).filter(n => n.endsWith('.mdx')).map(n => n.replace(/\.mdx$/, ''));
+  const mdxSet = new Set(mdx);
+  return [...mdx, ...md.filter(s => !mdxSet.has(s))];
+}
+
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
-  const fileNames = fs.readdirSync(blogDirectory).filter(name => name.endsWith('.md'));
-
-  const allPostsData = await Promise.all(
-    fileNames.map(async (fileName) => {
-      const slug = fileName.replace(/\.md$/, '');
-      return await getBlogPost(slug);
-    })
-  );
-
+  const slugs = getBlogPostSlugsFromFs();
+  const allPostsData = await Promise.all(slugs.map(slug => getBlogPost(slug)));
   return allPostsData
     .filter((post): post is BlogPost => post !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -61,8 +69,9 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
 /** Lightweight listing: frontmatter + reading time only; no markdown→HTML. Use for /blog listing page. */
 export async function getBlogPostListingMeta(slug: string): Promise<BlogPost | null> {
   try {
-    const fullPath = path.join(blogDirectory, `${slug}.md`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const resolved = getBlogFilePath(slug);
+    if (!resolved) return null;
+    const fileContents = fs.readFileSync(resolved.path, 'utf8');
     const { data, content } = matter(fileContents);
     const readingTimeResult = readingTime(content);
     return {
@@ -87,13 +96,8 @@ export async function getBlogPostListingMeta(slug: string): Promise<BlogPost | n
 }
 
 export async function getAllBlogPostsForListing(): Promise<BlogPost[]> {
-  const fileNames = fs.readdirSync(blogDirectory).filter(name => name.endsWith('.md'));
-  const allPostsData = await Promise.all(
-    fileNames.map((fileName) => {
-      const slug = fileName.replace(/\.md$/, '');
-      return getBlogPostListingMeta(slug);
-    })
-  );
+  const slugs = getBlogPostSlugsFromFs();
+  const allPostsData = await Promise.all(slugs.map(slug => getBlogPostListingMeta(slug)));
   return allPostsData
     .filter((post): post is BlogPost => post !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -101,21 +105,13 @@ export async function getAllBlogPostsForListing(): Promise<BlogPost[]> {
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
-    const fullPath = path.join(blogDirectory, `${slug}.md`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const resolved = getBlogFilePath(slug);
+    if (!resolved) return null;
+    const fileContents = fs.readFileSync(resolved.path, 'utf8');
     const { data, content } = matter(fileContents);
-    
-    const processedContent = await remark()
-      .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeHighlight)
-      .use(rehypeStringify)
-      .process(content);
-
-    const contentHtml = addIdsToHeadings(processedContent.toString());
     const readingTimeResult = readingTime(content);
 
-    return {
+    const base = {
       slug,
       title: data.title || '',
       description: data.description || '',
@@ -128,8 +124,20 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       image: data.image || '',
       socialImage: data.socialImage || '',
       questions: data.questions || [],
-      content: contentHtml,
     };
+
+    if (resolved.format === 'mdx') {
+      return { ...base, content, format: 'mdx' };
+    }
+
+    const processedContent = await remark()
+      .use(remarkGfm)
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
+      .process(content);
+    const contentHtml = addIdsToHeadings(processedContent.toString());
+    return { ...base, content: contentHtml, format: 'md' };
   } catch (error) {
     console.error(`Error reading blog post ${slug}:`, error);
     return null;
@@ -226,8 +234,7 @@ export function getTILSlugs(): string[] {
 }
 
 export function getBlogPostSlugs(): string[] {
-  const fileNames = fs.readdirSync(blogDirectory);
-  return fileNames.map((name) => name.replace(/\.md$/, ''));
+  return getBlogPostSlugsFromFs();
 }
 
 export function getSillyQuestionSlugs(): string[] {

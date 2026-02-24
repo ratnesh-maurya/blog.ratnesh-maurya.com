@@ -1,0 +1,287 @@
+---
+title: "Five Caching Strategies Every Backend Dev Should Know"
+description: "A beginner-friendly guide to Cache-Aside, Read-Through, Write-Through, Write-Back, and Write-Around, with when to use each."
+date: "2026-02-24"
+author: "Ratnesh Maurya"
+tags: ["System Design", "Caching", "Redis", "Backend"]
+category: "Backend"
+featured: true
+image: "/images/blog/Distributed-Caching-Strategies-Architecture.png"
+questions: [
+  "What is Cache-Aside?",
+  "What is Read-Through caching?",
+  "When should I use Write-Through vs Write-Back?",
+  "What is Write-Around caching?",
+  "Which caching strategy is best for my app?"
+]
+---
+
+# Five Caching Strategies Every Backend Dev Should Know
+
+If you build backend systems, you eventually run into **caching**.
+
+Someone says “just put Redis in front of it” and suddenly your app is faster… until you start seeing stale data, cache misses, and weird bugs when you deploy.
+
+This post explains **five core caching strategies** in plain language:
+
+- Cache-Aside
+- Read-Through
+- Write-Through
+- Write-Back
+- Write-Around
+
+You’ll see **how each one works**, **what can go wrong**, and **when to use it**.
+
+<Callout type="info" title="Mental model">
+A cache is just a faster, smaller copy of some data.
+The hard part is **keeping that copy useful**: when to fill it, when to read from it, and when to update or skip it.
+</Callout>
+
+---
+
+## 1. Cache-Aside (Lazy Loading)
+
+**Idea:**
+The application talks to the cache and the database.
+It “checks the cache first, then falls back to the DB” and fills the cache on a miss.
+
+<Flow title="Cache-Aside read flow">
+  <FlowStep title="1. App checks cache (GET key)">
+    If the key is in the cache (a hit), just return it. Super fast.
+  </FlowStep>
+  <FlowStep title="2. Cache miss → read from DB">
+    If the key is missing, the app queries the database instead.
+  </FlowStep>
+  <FlowStep title="3. Write into cache and return">
+    The app stores the result in the cache and returns it to the user.
+  </FlowStep>
+</Flow>
+
+**Why people love it**
+
+- **Simple and flexible**: logic lives in your code; you control what goes in the cache.
+- **Resilient**: if the cache dies, the app can still read from the DB (just slower).
+- **Memory-efficient**: only data that is actually read gets cached.
+
+**What can go wrong**
+
+- The **first** request for a key is slow (cold cache).
+- If the DB is updated **outside** your code path (e.g. admin tool, another service), the cache can serve **stale data** until TTL expires or you manually invalidate.
+
+**When to use**
+
+- Great default for **read-heavy** apps (blogs, product catalogs, many dashboards).
+- When you’re just adding caching to an existing codebase and want full control.
+
+---
+
+## 2. Read-Through
+
+**Idea:**
+The application pretends the **cache is the main database**.
+
+It calls the cache for every read. On a miss, the **cache layer itself** fetches from the DB, stores the result, and returns it.
+
+<Callout type="info" title="Key difference from Cache-Aside">
+With **Cache-Aside**, your app code calls both cache and DB.
+With **Read-Through**, your app only calls the cache; a loader behind the cache talks to the DB.
+</Callout>
+
+**Pros**
+
+- **Cleaner application code**: your code only knows “get from cache”.
+- Cache libraries or infrastructure can handle loading, retries, and metrics.
+
+**Cons**
+
+- If some writes go **directly to the DB** (bypassing the cache API), the cache can easily become **stale**.
+- You need a cache provider or library that supports read-through loading.
+
+**When to use**
+
+- Larger teams where you want **centralized cache logic**, not ad-hoc caching scattered everywhere.
+- Situations where infra/platform team owns the cache layer.
+
+---
+
+## 3. Write-Through
+
+So far we talked about reads.
+Now let’s talk about **writes**: how we keep cache and DB in sync.
+
+**Write-Through** means:
+
+> On a write, update the cache **and** the database synchronously.
+> Only when both succeed is the write considered “done”.
+
+**Flow**
+
+1. User updates something (e.g. changes quantity in a cart).
+2. App writes the new value into the **cache**.
+3. App also writes the same value into the **database**.
+4. Only if both succeed do we return “OK” to the user.
+
+**Pros**
+
+- **Strong consistency**: cache and DB always match for that key.
+- Reads from the cache always see the latest value.
+
+**Cons**
+
+- **Slower writes**: every write has to hit both cache and DB before returning.
+- If DB is slow, your API write latency is also slow.
+
+**When to use**
+
+- When correctness matters more than raw speed:
+  - balances in a **wallet / bank**,
+  - **inventory** in an e‑commerce site,
+  - data where a stale read would be really bad.
+
+---
+
+## 4. Write-Back (Write-Behind)
+
+**Write-Back** trades strict consistency for **speed**.
+
+> On a write, update **only the cache** and return success quickly.
+> Later, an async process flushes those changes to the database.
+
+**Flow**
+
+1. User sends a write.
+2. App writes to cache and returns `200 OK` immediately.
+3. A background worker or the cache itself periodically writes batched updates into the DB.
+
+**Pros**
+
+- **Very fast writes**: app isn’t blocked waiting for DB.
+- Great for high-throughput workloads:
+  - counters (views, likes),
+  - logs / telemetry,
+  - social feed events.
+
+**Cons**
+
+- **Risk of data loss**: if the cache crashes before flushing to DB, those changes are gone.
+- DB is **eventually** updated, not immediately.
+
+**When to use**
+
+- Write-heavy workloads where losing a tiny fraction of data is acceptable:
+  - metrics, dashboards, click-streams,
+  - non-critical logs.
+
+---
+
+## 5. Write-Around
+
+**Write-Around** takes a different approach:
+
+> Writes **skip the cache** and go straight to the DB.
+> The cache is only filled later when data is read.
+
+**Flow**
+
+1. A write goes **directly** into the database.
+2. The cache is **not** updated.
+3. On the next read, the app (or cache) sees a **miss**:
+   - loads from DB,
+   - populates the cache,
+   - and returns the value.
+
+**Pros**
+
+- Prevents “polluting” the cache with data that is **written but rarely read**.
+- Good when you have big write batches (imports, ETL jobs) that users won’t read immediately.
+
+**Cons**
+
+- The **first read** after a write is always a **cache miss** (slower).
+- More frequent DB reads if many keys are only read once.
+
+**When to use**
+
+- Large imports, archival data, logs that might be read only occasionally.
+- Systems where memory is tight and you want the cache to focus on **truly hot** data.
+
+---
+
+## Side-by-side comparison
+
+Here’s a quick comparison of these five strategies using the labels you provided.
+
+<PerformanceComparison
+  title="Before vs after: what each strategy trades off"
+  baselineLabel="Main risk"
+  variantLabel="Best for"
+>
+  <PerformanceRow
+    metric="Cache-Aside"
+    before="Stale data if DB updated elsewhere"
+    after="General use, read-heavy"
+    unit="Application-managed"
+  />
+  <PerformanceRow
+    metric="Read-Through"
+    before="Stale if DB bypassed"
+    after="Centralized cache logic"
+    unit="Cache/library fetches"
+  />
+  <PerformanceRow
+    metric="Write-Through"
+    before="Higher write latency"
+    after="Strong consistency"
+    unit="Sync cache + DB"
+  />
+  <PerformanceRow
+    metric="Write-Back"
+    before="Data loss if cache dies"
+    after="Write-heavy, throughput"
+    unit="Async flush to DB"
+  />
+  <PerformanceRow
+    metric="Write-Around"
+    before="First read always miss"
+    after="Large, rarely re-read data"
+    unit="Writes bypass cache"
+  />
+</PerformanceComparison>
+---
+
+## How teams typically choose
+
+To connect this with the interactive content you built:
+
+<CachingAdoptionPieChart />
+
+<CachingTradeoffChart />
+
+These charts show two things:
+
+- **Cache-Aside** dominates in real systems because it’s **simple and resilient**.
+- **Write-Back** gives the fastest writes but carries the most risk;
+  **Write-Through** is safest but slower on each write.
+
+---
+
+## Putting it all together (for a newbie)
+
+If you’re just starting with caching:
+
+1. **Start with Cache-Aside** for reads.
+   It’s simple, safe, and easy to reason about.
+
+2. **Add Read-Through** if you want a cleaner abstraction and your cache provider supports it.
+
+3. For writes:
+   - Use **Write-Through** when you absolutely need the cache and DB to agree on every write.
+   - Use **Write-Back** when you care a lot about write speed and can tolerate a little risk.
+   - Use **Write-Around** when you write lots of data that users won’t read immediately.
+
+4. Whatever you choose, always:
+   - Set reasonable **TTLs**,
+   - Have a plan for **invalidating** keys,
+   - And monitor **hit rate** and **latency** so you can adjust over time.
+
+With just these five strategies, you can handle most caching problems you’ll run into as a backend engineer.

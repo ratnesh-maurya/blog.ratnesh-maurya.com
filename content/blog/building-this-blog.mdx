@@ -1,0 +1,173 @@
+---
+title: "Building This Blog: A Modern Next.js Blog with Markdown"
+description: "How I built this blog using Next.js, TypeScript, Tailwind CSS, and markdown for content management. A complete guide to creating a fast, SEO-optimized blog."
+date: "2025-09-08"
+author: "Ratnesh Maurya"
+tags: ["Next.js", "Blog", "Markdown", "TypeScript", "Tailwind CSS"]
+category: "Web Development"
+featured: true
+image: "/images/blog/building-blog.jpg"
+questions: [
+  "How to build a blog with Next.js?",
+  "How to create a markdown-based blog?",
+  "How to optimize a blog for SEO?",
+  "How to build a fast blog with Next.js?",
+  "How to use markdown for blog content management?",
+  "What is the best tech stack for a blog?",
+  "How to deploy a Next.js blog?",
+  "How to add table of contents to blog posts?"
+]
+---
+
+# Building This Blog: an MDX‑powered Next.js blog
+
+This blog is a small, opinionated setup for writing long‑form content that feels good to read and fun to build on.
+
+Under the hood it uses static generation, MDX, and a theme‑aware UI that works in both light and dark modes.
+
+<Callout type="info" title="This article runs on MDX">
+Everything after the frontmatter is pure **MDX**. Components like `Callout`, `Steps`, architecture diagrams, flows, and charts are all React components rendered directly in the post body.
+</Callout>
+
+## Stack I ended up with
+
+I wanted something fast, simple, and easy to reason about over years—not weeks.
+
+<Steps title="Stack at a glance">
+  <Step title="Next.js 15 + App Router">
+    The site is a static App Router app. Routes like `/blog/[slug]`, `/til/[slug]`, `/technical-terms/[slug]` are statically generated at build time.
+  </Step>
+  <Step title="TypeScript + Tailwind CSS">
+    TypeScript keeps the content layer and components honest. Tailwind + CSS variables handle layout and theming.
+  </Step>
+  <Step title="Markdown &amp; MDX content">
+    All long‑form content lives in the repo inside <Highlight>content/</Highlight>, written as `.md` or `.mdx` files with frontmatter.
+  </Step>
+  <Step title="Supabase analytics">
+    Views, upvotes, and UTM events are stored in Supabase and surfaced through a custom analytics dashboard.
+  </Step>
+</Steps>
+
+## How content works
+
+All posts are simple files in the repo—no CMS required.
+
+```markdown
+---
+title: "Your Post Title"
+description: "Post description"
+date: "2024-01-20"
+author: "Your Name"
+tags: ["tag1", "tag2"]
+category: "Category"
+featured: true
+---
+
+Your content here...
+```
+
+- **Markdown (`.md`)** posts go through a Remark pipeline and are rendered as HTML.
+- **MDX (`.mdx`)** posts are compiled at runtime in the page using `next-mdx-remote/rsc`, with a shared component map.
+
+<Callout type="tip" title="MDX for richer articles">
+For posts that need diagrams, flows, or charts, I use `.mdx` and drop in components like <Badge>ArchitectureCard</Badge>, <Badge>FlowStep</Badge>, and <Badge>DemoBarChart</Badge>.
+</Callout>
+
+### Authoring flow
+
+<Steps title="From idea to published post">
+  <Step title="1. Create the file">
+    Add a new `.md` or `.mdx` file to <Highlight>content/blog/</Highlight> with frontmatter for SEO, tags, and images.
+  </Step>
+  <Step title="2. Preview locally">
+    Run <Highlight>npm run dev</Highlight> and iterate on copy, diagrams, and layout until the post feels polished.
+  </Step>
+  <Step title="3. Ship with a push">
+    Push to the main branch. The build step generates static HTML for every route and updates search data + OG images.
+  </Step>
+</Steps>
+
+## Architecture of the blog
+
+At a high level, the blog is just three pieces: browser, Next.js, and Supabase.
+
+<ArchitectureColumns title="High-level architecture">
+  <ArchitectureCard title="Browser" subtitle="Reader experience">
+    Readers get fully rendered HTML from the CDN, with minimal JavaScript on top for upvotes, analytics, and small interactions.
+  </ArchitectureCard>
+  <ArchitectureCard title="Next.js app" subtitle="Build &amp; routing">
+    Next.js statically generates pages for blog posts, TIL entries, technical terms, and lists. It also exposes a few API routes for analytics.
+  </ArchitectureCard>
+  <ArchitectureCard title="Supabase" subtitle="Analytics &amp; stats">
+    Supabase stores per‑page views, upvotes, and UTM events that feed the analytics dashboard and charts.
+  </ArchitectureCard>
+</ArchitectureColumns>
+
+## Request–response flow for a page view
+
+Here’s how a single blog page view flows through the system.
+
+<Flow title="Page view lifecycle">
+  <FlowStep title="1. Reader opens /blog/[slug]">
+    The CDN serves a pre‑rendered HTML page that was generated at build time.
+  </FlowStep>
+  <FlowStep title="2. Client enhances the page">
+    Next.js hydrates the page; components like the upvote button, custom cursor, and view counter start working.
+  </FlowStep>
+  <FlowStep title="3. Analytics event is recorded">
+    A lightweight request records the view / upvote in Supabase without blocking the reader.
+  </FlowStep>
+  <FlowStep title="4. Dashboard visualizes it">
+    Aggregated stats are used to power Recharts visualizations on the analytics page.
+  </FlowStep>
+</Flow>
+
+## Visualizing traffic with charts
+
+The same Recharts setup used in the analytics dashboard is available inside MDX posts.
+
+<Callout type="info" title="Charts inside content">
+Charts are plain React components exposed to MDX. They respect the global theme and use the same accent palette as the rest of the site.
+</Callout>
+
+<DemoBarChart />
+
+<DemoPieChart />
+
+## Performance before and after
+
+Static export plus small tweaks around assets made a noticeable difference in user‑facing numbers.
+
+<PerformanceComparison
+  title="Before vs after optimizations"
+  baselineLabel="Before"
+  variantLabel="After"
+>
+  <PerformanceRow
+    metric="First load JavaScript"
+    before="230 kB"
+    after="200 kB"
+    unit="Bundle size"
+  />
+  <PerformanceRow
+    metric="Time to first byte"
+    before="220"
+    after="90"
+    unit="Milliseconds"
+  />
+  <PerformanceRow
+    metric="Largest contentful paint"
+    before="2.3"
+    after="1.3"
+    unit="Seconds"
+  />
+</PerformanceComparison>
+
+## Why this setup works for me
+
+1. **Files as the source of truth** – I can write posts in a text editor, version them in git, and refactor them like any other code.
+2. **Static by default** – Most pages are static HTML, which is great for speed and reliability.
+3. **MDX when I need power** – Architecture diagrams, flows, and charts are just components; I only reach for them when a post really needs them.
+4. **Theme‑aware UI** – Components use the same CSS variables as the rest of the app, so they look good in both light and dark modes.
+
+If you want to explore the implementation details, the full source code is on [GitHub](https://github.com/ratnesh-maurya/blog.ratnesh-maurya.com). You could clone it, point it at your own content folder, and have a similar blog running in minutes.

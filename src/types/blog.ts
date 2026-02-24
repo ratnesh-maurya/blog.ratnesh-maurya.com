@@ -12,6 +12,8 @@ export interface BlogPost {
   socialImage?: string; // Custom social sharing image
   questions?: string[]; // SEO questions for FAQ structured data (not displayed on page)
   content: string;
+  /** When 'mdx', content is raw MDX source; when 'md' or omitted, content is HTML. */
+  format?: 'md' | 'mdx';
 }
 
 export interface SillyQuestion {

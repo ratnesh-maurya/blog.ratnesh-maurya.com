@@ -1,6 +1,20 @@
 {
   "blogPosts": [
     {
+      "slug": "Chrome-144-Introduces-the-Geolocation-Element-Declarative-Location-Access-for-Modern-Web-Apps",
+      "title": "Chrome 144 Introduces the <geolocation> Element: Declarative Location Access for Modern Web Apps",
+      "description": "Learn how Chrome 144's new <geolocation> HTML element simplifies location access, improves privacy, and replaces imperative navigator.geolocation calls with a declarative, user-driven approach.",
+      "tags": [
+        "HTML",
+        "Geolocation API",
+        "Chrome",
+        "Web APIs",
+        "Privacy"
+      ],
+      "category": "Web Development",
+      "date": "2026-02-24"
+    },
+    {
       "slug": "How-Files-Are-Stored-Deleted-and-Copied-Inside-Your-Computer",
       "title": "How Files Are Stored, Deleted, and Copied Inside Your Computer",
       "description": "Understand how files are actually stored on disk, why deletion is instant, and why copying takes time. A beginner-friendly deep dive into file systems and storage architecture.",
