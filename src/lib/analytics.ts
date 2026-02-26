@@ -1,6 +1,6 @@
 // Google Analytics and Microsoft Clarity configuration and utilities
 
-import { isProduction } from '@/lib/env';
+import { shouldTrack } from '@/lib/env';
 
 declare global {
   interface Window {
@@ -15,7 +15,7 @@ export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || 
 
 // Initialize Google Analytics (only in production)
 export const initGA = () => {
-  if (!isProduction || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!shouldTrack() || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
   // Create dataLayer if it doesn't exist
   window.dataLayer = window.dataLayer || [];
@@ -36,7 +36,7 @@ export const initGA = () => {
 
 // Initialize Microsoft Clarity (only in production)
 export const initClarity = () => {
-  if (!isProduction || typeof window === 'undefined' || !CLARITY_PROJECT_ID) return;
+  if (!shouldTrack() || typeof window === 'undefined' || !CLARITY_PROJECT_ID) return;
 
   // Clarity script is loaded via Script component in layout
   // This function can be used for custom Clarity events
@@ -48,7 +48,7 @@ export const initClarity = () => {
 
 // Track page views (only in production)
 export const trackPageView = (url: string, title?: string) => {
-  if (!isProduction || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!shouldTrack() || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
   window.gtag('config', GA_MEASUREMENT_ID, {
     page_path: url,
@@ -63,7 +63,7 @@ export const trackEvent = (
   label?: string,
   value?: number
 ) => {
-  if (!isProduction || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!shouldTrack() || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
   window.gtag('event', action, {
     event_category: category,
@@ -75,14 +75,14 @@ export const trackEvent = (
 // Track blog post views
 export const trackBlogView = (slug: string, title: string, category: string) => {
   trackEvent('view_blog_post', 'Blog', `${category}: ${title}`, 1);
-  
+
   // Track reading progress
   let readingProgress = 0;
   const trackProgress = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
     const progress = Math.round((scrollTop / scrollHeight) * 100);
-    
+
     if (progress > readingProgress && progress % 25 === 0) {
       readingProgress = progress;
       trackEvent('reading_progress', 'Blog', `${slug}: ${progress}%`, progress);
@@ -90,7 +90,7 @@ export const trackBlogView = (slug: string, title: string, category: string) => 
   };
 
   window.addEventListener('scroll', trackProgress);
-  
+
   // Clean up listener after 5 minutes
   setTimeout(() => {
     window.removeEventListener('scroll', trackProgress);
@@ -106,7 +106,7 @@ export const trackSearch = (query: string, resultsCount: number) => {
 
 // Track social shares (only in production)
 export const trackSocialShare = (platform: string, url: string, title: string) => {
-  if (!isProduction) return;
+  if (!shouldTrack()) return;
   trackEvent('share', 'Social', `${platform}: ${title}`, 1);
 
   // Track in Clarity
@@ -117,7 +117,7 @@ export const trackSocialShare = (platform: string, url: string, title: string) =
 
 // Track external link clicks (only in production)
 export const trackExternalLink = (url: string, text: string) => {
-  if (!isProduction) return;
+  if (!shouldTrack()) return;
   trackEvent('click_external_link', 'Navigation', `${text}: ${url}`, 1);
 
   // Track in Clarity
@@ -128,7 +128,7 @@ export const trackExternalLink = (url: string, text: string) => {
 
 // Track navigation clicks (only in production)
 export const trackNavigation = (destination: string, source: string) => {
-  if (!isProduction) return;
+  if (!shouldTrack()) return;
   trackEvent('navigation', 'Navigation', `${source} -> ${destination}`, 1);
 
   // Track in Clarity
@@ -139,7 +139,7 @@ export const trackNavigation = (destination: string, source: string) => {
 
 // Track blog card clicks (only in production)
 export const trackBlogCardClick = (slug: string, title: string, source: string) => {
-  if (!isProduction) return;
+  if (!shouldTrack()) return;
   trackEvent('blog_card_click', 'Blog', `${source}: ${title}`, 1);
 
   // Track in Clarity
@@ -150,7 +150,7 @@ export const trackBlogCardClick = (slug: string, title: string, source: string) 
 
 // Track silly question clicks (only in production)
 export const trackSillyQuestionClick = (slug: string, title: string, source: string) => {
-  if (!isProduction) return;
+  if (!shouldTrack()) return;
   trackEvent('silly_question_click', 'Silly Questions', `${source}: ${title}`, 1);
 
   // Track in Clarity
@@ -166,7 +166,7 @@ export const trackCarouselInteraction = (action: 'next' | 'previous' | 'indicato
 
 // Performance tracking (only in production)
 export const trackPerformance = () => {
-  if (!isProduction || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!shouldTrack() || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
   // Track Core Web Vitals
   try {
@@ -225,7 +225,7 @@ export const trackPerformance = () => {
 
 // Track user engagement (only in production)
 export const trackEngagement = () => {
-  if (!isProduction || typeof window === 'undefined') return;
+  if (!shouldTrack() || typeof window === 'undefined') return;
 
   let startTime = Date.now();
   let isActive = true;

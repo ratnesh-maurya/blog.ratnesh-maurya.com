@@ -1,7 +1,7 @@
-import { Metadata } from 'next';
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Uses — Tools & Setup · Ratn Labs',
@@ -48,7 +48,7 @@ export default function UsesPage() {
               style={{ color: 'var(--accent-500)' }}>
               Setup & tooling
             </p>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ color: 'var(--text-primary)' }}>
               Uses
             </h1>

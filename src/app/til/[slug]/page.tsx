@@ -1,14 +1,14 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { getTILEntry, getTILSlugs, getAllTILEntries } from '@/lib/content';
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { OgImageInBody } from '@/components/OgImageInBody';
 import { PostNavigation } from '@/components/PostNavigation';
 import { BreadcrumbStructuredData, TILStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
-import { OgImageInBody } from '@/components/OgImageInBody';
+import { getAllTILEntries, getTILEntry, getTILSlugs } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 interface TILPageProps {
   params: Promise<{ slug: string }>;
@@ -71,7 +71,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <TILStructuredData entry={entry} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
           {/* Back */}
           <Link href="/til"
@@ -95,7 +95,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
                 {format(new Date(entry.date), 'MMMM dd, yyyy')}
               </time>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug"
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight leading-snug"
               style={{ color: 'var(--text-primary)' }}>
               {entry.title}
             </h1>

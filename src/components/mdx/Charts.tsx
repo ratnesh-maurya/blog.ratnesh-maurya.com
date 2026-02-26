@@ -1,18 +1,33 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
-  BarChart,
   Bar,
+  BarChart,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  PieChart,
-  Pie,
-  Cell,
 } from 'recharts';
+
+function useAccentHex(fallback = '#0d9488') {
+  const [hex, setHex] = useState(fallback);
+  const read = useCallback(() => {
+    const v = getComputedStyle(document.documentElement).getPropertyValue('--accent-500').trim();
+    if (v) setHex(v);
+  }, []);
+  useEffect(() => {
+    read();
+    const observer = new MutationObserver(read);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-accent', 'data-theme'] });
+    return () => observer.disconnect();
+  }, [read]);
+  return hex;
+}
 
 const DEMO_BAR_DATA = [
   { name: 'Blog', views: 4800 },
@@ -28,7 +43,7 @@ const DEMO_PIE_DATA = [
   { name: 'Social', value: 7 },
 ];
 
-const CHART_COLORS = ['#0d9488', '#6366f1', '#d97706', '#475569']; // teal, indigo, amber, slate
+const CHART_COLORS_TAIL = ['#6366f1', '#d97706', '#475569']; // indigo, amber, slate
 
 const CACHING_ADOPTION_DATA = [
   { name: 'Cache Aside', value: 65 },
@@ -39,7 +54,7 @@ const CACHING_ADOPTION_DATA = [
   { name: 'Refresh-Ahead', value: 2 },
 ];
 
-const CACHING_ADOPTION_COLORS = ['#0d9488', '#4f46e5', '#f59e0b', '#db2777', '#64748b', '#10b981'];
+const CACHING_ADOPTION_COLORS_TAIL = ['#4f46e5', '#f59e0b', '#db2777', '#64748b', '#10b981'];
 
 const CACHING_TRADEOFF_DATA = [
   { name: 'Cache Aside', consistency: 5, writeSpeed: 6 },
@@ -60,6 +75,8 @@ function useIsMounted() {
 
 export function DemoBarChart() {
   const mounted = useIsMounted();
+  const accent = useAccentHex();
+  const CHART_COLORS = [accent, ...CHART_COLORS_TAIL];
 
   if (!mounted) {
     return null;
@@ -106,7 +123,7 @@ export function DemoBarChart() {
             <Bar
               dataKey="views"
               name="Views"
-              fill="#0d9488"
+              fill={accent}
               radius={[4, 4, 0, 0]}
             />
           </BarChart>
@@ -118,6 +135,8 @@ export function DemoBarChart() {
 
 export function DemoPieChart() {
   const mounted = useIsMounted();
+  const accent = useAccentHex();
+  const CHART_COLORS = [accent, ...CHART_COLORS_TAIL];
 
   if (!mounted) {
     return null;
@@ -173,6 +192,8 @@ export function DemoPieChart() {
 
 export function CachingAdoptionPieChart() {
   const mounted = useIsMounted();
+  const accent = useAccentHex();
+  const CACHING_ADOPTION_COLORS = [accent, ...CACHING_ADOPTION_COLORS_TAIL];
   if (!mounted) return null;
 
   return (
@@ -242,6 +263,7 @@ export function CachingAdoptionPieChart() {
 
 export function CachingTradeoffChart() {
   const mounted = useIsMounted();
+  const accent = useAccentHex();
   if (!mounted) return null;
 
   return (
@@ -297,7 +319,7 @@ export function CachingTradeoffChart() {
             <Bar
               dataKey="writeSpeed"
               name="Write speed"
-              fill="#0d9488"
+              fill={accent}
               radius={[0, 4, 4, 0]}
               barSize={10}
             />

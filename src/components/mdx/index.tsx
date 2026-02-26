@@ -1,14 +1,14 @@
-import type { MDXComponents } from 'mdx/types';
 import { BlogImage } from '@/components/BlogImage';
-import { DemoBarChart, DemoPieChart, CachingAdoptionPieChart, CachingTradeoffChart } from './Charts';
+import type { MDXComponents } from 'mdx/types';
 import {
-  ArchitectureColumns,
   ArchitectureCard,
+  ArchitectureColumns,
   Flow,
   FlowStep,
   PerformanceComparison,
   PerformanceRow,
 } from './Architecture';
+import { CachingAdoptionPieChart, CachingTradeoffChart, DemoBarChart, DemoPieChart } from './Charts';
 
 function Callout({
   type = 'info',
@@ -20,9 +20,9 @@ function Callout({
   children?: React.ReactNode;
 }) {
   const styles = {
-    info: { borderColor: '#0d9488', bg: 'rgba(13, 148, 136, 0.08)' },
+    info: { borderColor: 'var(--accent-500)', bg: 'color-mix(in srgb, var(--accent-500) 8%, transparent)' },
     warning: { borderColor: '#b45309', bg: 'rgba(180, 83, 9, 0.08)' },
-    tip: { borderColor: '#059669', bg: 'rgba(5, 150, 105, 0.08)' }
+    tip: { borderColor: 'var(--accent-600)', bg: 'color-mix(in srgb, var(--accent-600) 8%, transparent)' }
   };
   const s = styles[type];
   return (
@@ -53,9 +53,9 @@ function Badge({
     <span
       className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
       style={{
-        backgroundColor: 'rgba(13, 148, 136, 0.12)',
+        backgroundColor: 'color-mix(in srgb, var(--accent-500) 12%, transparent)',
         color: 'var(--text-primary)',
-        border: '1px solid rgba(13, 148, 136, 0.35)'
+        border: '1px solid color-mix(in srgb, var(--accent-500) 35%, transparent)'
       }}
     >
       {children}
@@ -103,8 +103,8 @@ function Step({
       <div
         className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
         style={{
-          backgroundColor: 'rgba(13, 148, 136, 0.15)',
-          color: '#0d9488'
+          backgroundColor: 'color-mix(in srgb, var(--accent-500) 15%, transparent)',
+          color: 'var(--accent-500)'
         }}
       >
         ●
@@ -176,7 +176,7 @@ function Highlight({
     <span
       className="rounded px-1"
       style={{
-        backgroundColor: 'rgba(13, 148, 136, 0.15)',
+        backgroundColor: 'color-mix(in srgb, var(--accent-500) 15%, transparent)',
         color: 'var(--text-primary)'
       }}
     >

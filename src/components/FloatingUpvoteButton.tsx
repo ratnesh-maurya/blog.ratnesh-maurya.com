@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { getStatsForSlug, incrementStat, type StatType } from '@/lib/supabase/stats';
+import { trackEvent } from '@/lib/analytics';
 import { isProduction } from '@/lib/env';
+import { getStatsForSlug, incrementStat, type StatType } from '@/lib/supabase/stats';
+import { useEffect, useRef, useState } from 'react';
 
 interface FloatingUpvoteButtonProps {
   type: StatType;
@@ -84,6 +85,7 @@ export function FloatingUpvoteButton({ type, slug }: FloatingUpvoteButtonProps) 
         setUpvotes((prev) => (prev !== null ? prev + 1 : 1));
       }
       setHasUpvoted(true);
+      trackEvent('upvote', 'Engagement', `${type}:${slug}`);
       if (typeof window !== 'undefined') {
         localStorage.setItem(`upvoted:${type}:${slug}`, '1');
       }

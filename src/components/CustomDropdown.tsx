@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface DropdownOption {
   value: string;
@@ -52,7 +52,7 @@ export function CustomDropdown({
           {label}
         </label>
       )}
-      
+
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -83,7 +83,7 @@ export function CustomDropdown({
 
       {isOpen && (
         <div
-          className="absolute z-10 w-full mt-1 rounded-lg border shadow-lg max-h-60 overflow-auto"
+          className="absolute z-50 w-full mt-1 rounded-lg border shadow-lg max-h-60 overflow-auto"
           style={{
             backgroundColor: 'var(--surface)',
             borderColor: 'var(--border)'
@@ -95,9 +95,8 @@ export function CustomDropdown({
               key={option.value}
               type="button"
               onClick={() => handleSelect(option.value)}
-              className={`w-full px-4 py-3 text-left text-sm transition-colors duration-150 hover:bg-opacity-80 ${
-                option.value === value ? 'font-medium' : ''
-              }`}
+              className={`w-full px-4 py-3 text-left text-sm transition-colors duration-150 hover:bg-opacity-80 ${option.value === value ? 'font-medium' : ''
+                }`}
               style={{
                 backgroundColor: option.value === value ? 'var(--accent-50)' : 'transparent',
                 color: option.value === value ? 'var(--accent-500)' : 'var(--text-primary)'

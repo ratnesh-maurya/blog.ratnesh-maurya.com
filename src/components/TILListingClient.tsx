@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { format } from 'date-fns';
 import { ViewCounter } from '@/components/ViewCounter';
 import { getStatsByType } from '@/lib/supabase/stats';
 import type { TILEntry } from '@/types/blog';
+import { format } from 'date-fns';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const categoryEmoji: Record<string, string> = {
   Go: '🐹',
@@ -26,6 +26,7 @@ interface TILListingClientProps {
 export function TILListingClient({ entries, categories }: TILListingClientProps) {
   const [stats, setStats] = useState<{ views: Record<string, number>; upvotes: Record<string, number> }>({ views: {}, upvotes: {} });
   const [statsLoaded, setStatsLoaded] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   useEffect(() => {
     getStatsByType('til').then((d) => {
@@ -34,63 +35,100 @@ export function TILListingClient({ entries, categories }: TILListingClientProps)
     }).catch(() => setStatsLoaded(true));
   }, []);
 
+  const filteredEntries = activeCategory
+    ? entries.filter(e => e.category === activeCategory)
+    : entries;
+
   return (
     <>
-      <div className="flex flex-wrap gap-2 mb-10">
+      {/* Category filter tabs — Medium style */}
+      <nav className="flex items-center gap-2 overflow-x-auto pb-3 mb-8 scrollbar-hide"
+        style={{ borderBottom: '1px solid var(--border)' }}>
+        <button
+          onClick={() => setActiveCategory(null)}
+          className="whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors font-medium"
+          style={!activeCategory
+            ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
+            : { color: 'var(--text-muted)' }
+          }
+        >
+          All
+        </button>
         {categories.map(cat => (
-          <span key={cat}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full"
-            style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}>
-            <span>{categoryEmoji[cat] ?? '💡'}</span>
-            {cat}
-          </span>
+          <button key={cat}
+            onClick={() => setActiveCategory(activeCategory === cat ? null : cat)}
+            className="whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors font-medium"
+            style={activeCategory === cat
+              ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
+              : { color: 'var(--text-muted)' }
+            }
+          >
+            {categoryEmoji[cat] ?? '💡'} {cat}
+          </button>
+        ))}
+      </nav>
+
+      {/* Entries — flat list with dividers */}
+      <div className="flex flex-col">
+        {filteredEntries.map((entry, index) => (
+          <div key={entry.slug}>
+            <Link href={`/til/${entry.slug}`} className="group block py-6">
+              <article>
+                {/* Category + date line */}
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm">{categoryEmoji[entry.category] ?? '💡'}</span>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                    {entry.category}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h2 className="text-[20px] md:text-[22px] font-bold leading-snug mb-1.5 group-hover:underline decoration-1 underline-offset-2"
+                  style={{ color: 'var(--text-primary)' }}>
+                  {entry.title}
+                </h2>
+
+                {/* Meta row */}
+                <div className="flex items-center gap-1 text-[13px] flex-wrap" style={{ color: 'var(--text-muted)' }}>
+                  <time dateTime={entry.date}>
+                    {format(new Date(entry.date), 'MMM d, yyyy')}
+                  </time>
+                  {statsLoaded && stats.views[entry.slug] != null && (
+                    <>
+                      <span className="mx-1">·</span>
+                      <ViewCounter type="til" slug={entry.slug} showLabel={false} className="text-[13px]" initialCount={stats.views[entry.slug] ?? 0} />
+                      <span> views</span>
+                    </>
+                  )}
+                  {entry.tags.slice(0, 3).map(tag => (
+                    <span key={tag} className="ml-1.5 px-2 py-0.5 rounded-full text-xs"
+                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            </Link>
+            {index < filteredEntries.length - 1 && (
+              <hr className="border-0" style={{ borderTop: '1px solid var(--border)' }} />
+            )}
+          </div>
         ))}
       </div>
 
-      <div className="space-y-4">
-        {entries.map(entry => (
-          <Link key={entry.slug} href={`/til/${entry.slug}`}
-            className="block group rounded-xl border p-5 transition-all duration-200"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-            <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="text-lg">{categoryEmoji[entry.category] ?? '💡'}</span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full"
-                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
-                {entry.category}
-              </span>
-              <time className="text-xs ml-auto" style={{ color: 'var(--text-muted)' }}>
-                {format(new Date(entry.date), 'MMM dd, yyyy')}
-              </time>
-              {statsLoaded && (
-                <span className="flex items-center gap-1.5 text-xs ml-auto" style={{ color: 'var(--text-muted)' }}>
-                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  <ViewCounter type="til" slug={entry.slug} showLabel={false} className="text-xs" initialCount={stats.views[entry.slug] ?? 0} />
-                </span>
-              )}
-            </div>
-            <h2 className="text-base font-semibold leading-snug group-hover:text-[var(--accent-500)] transition-colors"
-              style={{ color: 'var(--text-primary)' }}>
-              {entry.title}
-            </h2>
-            <div className="flex flex-wrap gap-1.5 mt-3">
-              {entry.tags.map(tag => (
-                <span key={tag} className="text-xs px-2 py-0.5 rounded-md"
-                  style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}>
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      {entries.length === 0 && (
+      {filteredEntries.length === 0 && (
         <div className="text-center py-20" style={{ color: 'var(--text-muted)' }}>
           <p className="text-4xl mb-4">📝</p>
-          <p className="text-base font-medium">First TIL entry coming soon.</p>
+          <p className="text-base font-medium">
+            {activeCategory ? `No entries in "${activeCategory}" yet.` : 'First TIL entry coming soon.'}
+          </p>
+          {activeCategory && (
+            <button onClick={() => setActiveCategory(null)}
+              className="mt-3 text-sm font-medium" style={{ color: 'var(--accent-500)' }}>
+              Show all entries →
+            </button>
+          )}
         </div>
       )}
     </>

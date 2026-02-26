@@ -1,9 +1,9 @@
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { getAllBlogPosts } from '@/lib/content';
+import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllBlogPosts } from '@/lib/content';
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
-import { OgImageInBody } from '@/components/OgImageInBody';
-import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Newsletter — Ratn Labs',
@@ -57,7 +57,7 @@ export default async function NewsletterPage() {
               style={{ color: 'var(--accent-500)' }}>
               Newsletter
             </p>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ color: 'var(--text-primary)' }}>
               Engineering insights,<br />straight to you
             </h1>

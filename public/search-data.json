@@ -1,15 +1,22 @@
 {
   "blogPosts": [
     {
+      "slug": "Distributed-Caching-Strategies-Architecture",
+      "title": "Five Caching Strategies Every Backend Dev Should Know",
+      "description": "A beginner-friendly guide to Cache-Aside, Read-Through, Write-Through, Write-Back, and Write-Around, with when to use each.",
+      "tags": [
+        "System Design",
+        "Backend"
+      ],
+      "category": "Backend",
+      "date": "2026-02-24"
+    },
+    {
       "slug": "Chrome-144-Introduces-the-Geolocation-Element-Declarative-Location-Access-for-Modern-Web-Apps",
       "title": "Chrome 144 Introduces the <geolocation> Element: Declarative Location Access for Modern Web Apps",
       "description": "Learn how Chrome 144's new <geolocation> HTML element simplifies location access, improves privacy, and replaces imperative navigator.geolocation calls with a declarative, user-driven approach.",
       "tags": [
-        "HTML",
-        "Geolocation API",
-        "Chrome",
-        "Web APIs",
-        "Privacy"
+        "Web Development"
       ],
       "category": "Web Development",
       "date": "2026-02-24"
@@ -19,11 +26,8 @@
       "title": "How Files Are Stored, Deleted, and Copied Inside Your Computer",
       "description": "Understand how files are actually stored on disk, why deletion is instant, and why copying takes time. A beginner-friendly deep dive into file systems and storage architecture.",
       "tags": [
-        "File System",
-        "Operating System",
-        "Storage",
-        "NTFS",
-        "ext4"
+        "Computer Science",
+        "System Design"
       ],
       "category": "System Design",
       "date": "2026-02-20"
@@ -33,10 +37,8 @@
       "title": "The Mechanics of Compression: How 100GB Becomes 25GB",
       "description": "A deep dive into the mathematical 'magic' behind data compression, from Huffman Coding to the architectural differences between ZIP and TAR.GZ.",
       "tags": [
-        "Compression",
-        "Algorithms",
-        "Backend",
-        "DevOps"
+        "Computer Science",
+        "Backend"
       ],
       "category": "Computer Science",
       "date": "2026-02-19"
@@ -46,11 +48,7 @@
       "title": "Building This Blog: A Modern Next.js Blog with Markdown",
       "description": "How I built this blog using Next.js, TypeScript, Tailwind CSS, and markdown for content management. A complete guide to creating a fast, SEO-optimized blog.",
       "tags": [
-        "Next.js",
-        "Blog",
-        "Markdown",
-        "TypeScript",
-        "Tailwind CSS"
+        "Web Development"
       ],
       "category": "Web Development",
       "date": "2025-09-08"
@@ -60,8 +58,9 @@
       "title": "Optimizing Memory Layout in Go: A Deep Dive into Struct Design",
       "description": "In Go, struct design can play a significant role in optimizing memory usage, especially when dealing with applications that need to handle a large number of structs. Understanding memory layout and the concept of alignment is crucial for writing efficient code. Let's dive into how struct field ordering impacts memory and how we can improve its design for better performance.",
       "tags": [
-        "Golang",
-        "Go Memory Layout"
+        "Go",
+        "Backend",
+        "System Design"
       ],
       "category": "Golang",
       "date": "2025-01-10"
@@ -71,10 +70,7 @@
       "title": "Easily Deploy Your Nanoc Website to S3 with GitHub Actions",
       "description": "Learn how to deploy your Nanoc website to an AWS S3 bucket using GitHub Actions. This step-by-step guide provides detailed instructions for automating your deployment process.",
       "tags": [
-        "AWS",
-        "Nanoc",
-        "GitHub Actions",
-        "GitHub Actions Workflow"
+        "Cloud & DevOps"
       ],
       "category": "AWS",
       "date": "2024-11-23"
@@ -84,11 +80,8 @@
       "title": "Architectural Design for a Ride App such as OLA, UBER, RAPIDO",
       "description": "This blog post explores the design Pattern of a ride app such as OLA, UBER, RAPIDO.",
       "tags": [
-        "microservices",
-        "system-design",
-        "architecture",
-        "ride-sharing",
-        "scalability"
+        "System Design",
+        "Backend"
       ],
       "category": "Software Architecture",
       "date": "2024-07-30"
@@ -98,9 +91,9 @@
       "title": "Amazon SNS for Cost Reduction and Message Delivery Assurance in Startups",
       "description": "Amazon Simple Notification Service (SNS) is a fully managed messaging service that enables the reliable and scalable distribution of messages and notifications to a variety of endpoints, including mobile devices, email, SMS, and other AWS services, making it a powerful tool for communication and information dissemination.",
       "tags": [
-        "AWS",
-        "SNS",
-        "SQS"
+        "System Design",
+        "Backend",
+        "Cloud & DevOps"
       ],
       "category": "AWS",
       "date": "2023-12-10"
@@ -110,10 +103,8 @@
       "title": "Understanding S3 and S3 Policies",
       "description": "This blog post explores the fundamentals of Amazon S3, a powerful and versatile object storage service offered by AWS. We'll delve into the key features of S3, discuss S3 policies, and provide practical examples to illustrate how these policies work in real-world scenarios.",
       "tags": [
-        "AWS",
-        " Amazon S3",
-        "S3",
-        "S3 Policies"
+        "Cloud & DevOps",
+        "Backend"
       ],
       "category": "AWS",
       "date": "2023-11-23"

@@ -1,10 +1,10 @@
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData, SeriesListStructuredData } from '@/components/StructuredData';
+import { getAllBlogPosts } from '@/lib/content';
+import { getStoredOgImageUrl } from '@/lib/og';
+import { getSeriesConfig } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllBlogPosts } from '@/lib/content';
-import { getSeriesConfig } from '@/lib/static-content';
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
-import { OgImageInBody } from '@/components/OgImageInBody';
-import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Series — Learning Paths | Ratn Labs',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [{ url: getStoredOgImageUrl('series'), width: 1200, height: 630, alt: 'Series — Ratn Labs' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Series — Ratn Labs', creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('series')] },
+  twitter: { card: 'summary_large_image', title: 'Series — Ratn Labs', description: 'Related blog posts grouped into structured learning paths.', creator: '@ratnesh_maurya', site: '@ratnesh_maurya', images: [getStoredOgImageUrl('series')] },
   robots: { index: true, follow: true },
 };
 
@@ -36,8 +36,8 @@ export default async function SeriesPage() {
 
       const tagMatch = config.matchTags
         ? post.tags.some(t =>
-            config.matchTags!.some(mt => t.toLowerCase().includes(mt.toLowerCase()))
-          )
+          config.matchTags!.some(mt => t.toLowerCase().includes(mt.toLowerCase()))
+        )
         : false;
 
       return catMatch || tagMatch;
@@ -68,6 +68,7 @@ export default async function SeriesPage() {
     <>
       <OgImageInBody src={getStoredOgImageUrl('series')} alt="Series — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
+      <SeriesListStructuredData series={series.map(s => ({ id: s.id, title: s.title, desc: s.desc, postCount: s.posts.length }))} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
 
         <div className="hero-gradient-bg">
@@ -76,7 +77,7 @@ export default async function SeriesPage() {
               style={{ color: 'var(--accent-500)' }}>
               Learning Paths
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Series
             </h1>

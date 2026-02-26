@@ -1,7 +1,7 @@
-import { Metadata } from 'next';
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Now — What I\'m Up To | Ratn Labs',
@@ -16,12 +16,12 @@ export const metadata: Metadata = {
     type: 'profile',
     images: [{ url: getStoredOgImageUrl('now'), width: 1200, height: 630, alt: 'Now — Ratn Labs' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Now — Ratn Labs', creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('now')] },
+  twitter: { card: 'summary_large_image', title: 'Now — Ratn Labs', description: 'What Ratnesh Maurya is working on, learning, and thinking about right now.', creator: '@ratnesh_maurya', site: '@ratnesh_maurya', images: [getStoredOgImageUrl('now')] },
   robots: { index: true, follow: true },
 };
 
-import { getNowContent } from '@/lib/static-content';
 import { PageStatsTracker } from '@/components/PageStatsTracker';
+import { getNowContent } from '@/lib/static-content';
 
 export default function NowPage() {
   const { lastUpdated, sections } = getNowContent();
@@ -43,7 +43,7 @@ export default function NowPage() {
               style={{ color: 'var(--accent-500)' }}>
               /now
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ color: 'var(--text-primary)' }}>
               What I&apos;m doing now
             </h1>

@@ -1,7 +1,7 @@
-import { Metadata } from 'next';
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData, ResourcesListStructuredData } from '@/components/StructuredData';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Resources — Books, Talks & Tools | Ratn Labs',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [{ url: getStoredOgImageUrl('resources'), width: 1200, height: 630, alt: 'Resources — Ratn Labs' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Resources — Ratn Labs', creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('resources')] },
+  twitter: { card: 'summary_large_image', title: 'Resources — Ratn Labs', description: 'Books, talks, tools, and newsletters for backend engineering and systems.', creator: '@ratnesh_maurya', site: '@ratnesh_maurya', images: [getStoredOgImageUrl('resources')] },
   robots: { index: true, follow: true },
 };
 
@@ -87,6 +87,7 @@ export default function ResourcesPage() {
     <>
       <OgImageInBody src={getStoredOgImageUrl('resources')} alt="Resources — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
+      <ResourcesListStructuredData sections={resources} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
 
         <div className="hero-gradient-bg">
@@ -95,7 +96,7 @@ export default function ResourcesPage() {
               style={{ color: 'var(--accent-500)' }}>
               Reading List
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Resources
             </h1>

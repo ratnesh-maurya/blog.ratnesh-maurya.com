@@ -1,22 +1,24 @@
-import { getBlogPost, getBlogPostSlugs, getAllBlogPosts } from '@/lib/content';
-import { PostNavigation } from '@/components/PostNavigation';
-import { RelatedPosts } from '@/components/RelatedPosts';
-import { BlogStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
-import { SocialShare } from '@/components/SocialShare';
-import { ReadingProgress } from '@/components/ReadingProgress';
-import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
-import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { OgImageInBody } from '@/components/OgImageInBody';
 import { BlogImage } from '@/components/BlogImage';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import { CodeCopyButton } from '@/components/CodeCopyButton';
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { mdxComponents } from '@/components/mdx';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeSlug from 'rehype-slug';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { PostNavigation } from '@/components/PostNavigation';
+import { ReadingProgress } from '@/components/ReadingProgress';
+import { RelatedPosts } from '@/components/RelatedPosts';
+import { SocialShare } from '@/components/SocialShare';
+import { BlogStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
+import { TableOfContents } from '@/components/TableOfContents';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { getAllBlogPosts, getBlogPost, getBlogPostSlugs } from '@/lib/content';
+import { getStoredOgImageUrl } from '@/lib/og';
+import { format } from 'date-fns';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { format } from 'date-fns';
-import { getStoredOgImageUrl } from '@/lib/og';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -185,207 +187,215 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-10 lg:py-16">
-          <article>
-            {/* Article Header */}
-            <header className="mb-12">
-              {/* Title */}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-6"
-                style={{ color: 'var(--text-primary)' }}>
-                {post.title}
-              </h1>
+        <div className="max-w-4xl xl:max-w-[1100px] mx-auto px-4 sm:px-8 lg:px-12 py-10 lg:py-16">
+          <div className="xl:grid xl:grid-cols-[minmax(0,_48rem)_200px] xl:gap-10">
+            <article>
+              {/* Article Header */}
+              <header className="mb-12">
+                {/* Title */}
+                <h1 className="text-[32px] sm:text-4xl lg:text-[42px] font-bold leading-tight tracking-tight mb-6"
+                  style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-source-serif, Georgia, serif)', letterSpacing: '-0.02em' }}>
+                  {post.title}
+                </h1>
 
-              {/* Metadata row */}
-              <div className="flex flex-wrap items-center gap-5 text-sm mb-6"
-                style={{ color: 'var(--text-muted)' }}>
-                <time dateTime={post.date} className="flex items-center gap-1.5">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  {format(new Date(post.date), 'MMMM d, yyyy')}
-                </time>
-                <span className="flex items-center gap-1.5">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  {post.readingTime}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  {post.author}
-                </span>
-              </div>
-
-              {/* Hero image */}
-              {post.image && (
-                <div
-                  className="mt-6 mb-8 overflow-hidden rounded-2xl border"
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
-                >
-                  <BlogImage
-                    src={post.image}
-                    alt={post.title}
-                    width={1200}
-                    height={630}
-                    className="w-full h-auto"
-                    priority
-                  />
+                {/* Metadata row */}
+                <div className="flex flex-wrap items-center gap-5 text-sm mb-6"
+                  style={{ color: 'var(--text-muted)' }}>
+                  <time dateTime={post.date} className="flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {format(new Date(post.date), 'MMMM d, yyyy')}
+                  </time>
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {post.readingTime}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    {post.author}
+                  </span>
                 </div>
-              )}
 
-              {/* Description */}
-              {post.description && (
-                <p className="text-lg leading-relaxed mb-8"
-                  style={{ color: 'var(--text-secondary)', borderLeft: '3px solid var(--accent-300)', paddingLeft: '1rem' }}>
-                  {post.description}
-                </p>
-              )}
+                {/* Hero image */}
+                {post.image && (
+                  <div
+                    className="mt-6 mb-8 overflow-hidden rounded-2xl border"
+                    style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
+                  >
+                    <BlogImage
+                      src={post.image}
+                      alt={post.title}
+                      width={1200}
+                      height={630}
+                      className="w-full h-auto"
+                      priority
+                    />
+                  </div>
+                )}
 
-              {/* Tags */}
-              {post.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-block text-xs font-medium px-3 py-1 rounded-full"
-                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </header>
+                {/* Description */}
+                {post.description && (
+                  <p className="text-lg md:text-xl leading-relaxed mb-8"
+                    style={{ color: 'var(--text-secondary)', borderLeft: '3px solid var(--accent-300)', paddingLeft: '1rem' }}>
+                    {post.description}
+                  </p>
+                )}
 
-            {/* Separator */}
-            <div className="mb-12" style={{ borderTop: '1px solid var(--border)' }} />
-
-            {/* Article Content */}
-            <div className="prose max-w-none">
-              {post.format === 'mdx' ? (
-                <MDXRemote
-                  source={post.content}
-                  components={mdxComponents}
-                  options={{
-                    mdxOptions: {
-                      remarkPlugins: [remarkGfm],
-                      rehypePlugins: [rehypeSlug, rehypeHighlight],
-                    },
-                  }}
-                />
-              ) : (
-                <div dangerouslySetInnerHTML={{ __html: post.content }} />
-              )}
-            </div>
-
-            {/* Footer — Tags & Share */}
-            <div className="mt-16 space-y-8">
-              {post.tags.length > 0 && (
-                <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
-                  <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
-                    style={{ color: 'var(--text-muted)' }}>
-                    Tags
-                  </h3>
+                {/* Tags */}
+                {post.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {post.tags.map((tag) => (
-                      <Link
+                      <span
                         key={tag}
-                        href={`/blog?tag=${tag}`}
-                        className="inline-block text-sm font-medium px-3 py-1.5 rounded-full transition-all duration-200"
+                        className="inline-block text-xs font-medium px-3 py-1 rounded-full"
                         style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
                       >
                         #{tag}
-                      </Link>
+                      </span>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
+              </header>
 
-              <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
-                <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
-                  style={{ color: 'var(--text-muted)' }}>
-                  Share this post
-                </h3>
-                <SocialShare
-                  url={`/blog/${post.slug}`}
-                  title={post.title}
-                  description={post.description}
-                />
+              {/* Separator */}
+              <div className="mb-12" style={{ borderTop: '1px solid var(--border)' }} />
+
+              {/* Article Content */}
+              <div className="prose max-w-none">
+                {post.format === 'mdx' ? (
+                  <MDXRemote
+                    source={post.content}
+                    components={mdxComponents}
+                    options={{
+                      mdxOptions: {
+                        remarkPlugins: [remarkGfm],
+                        rehypePlugins: [rehypeSlug, rehypeHighlight],
+                      },
+                    }}
+                  />
+                ) : (
+                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                )}
               </div>
+              <CodeCopyButton />
 
-              {/* Author box — E-E-A-T signal */}
-              <div className="mt-12 pt-8 flex flex-col sm:flex-row items-start gap-4 rounded-xl p-5"
-                style={{ borderTop: '1px solid var(--border)', backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://avatars.githubusercontent.com/u/85143283?v=4"
-                  alt="Ratnesh Maurya"
-                  className="w-14 h-14 rounded-xl flex-shrink-0 object-cover"
-                  style={{ outline: '2px solid var(--accent-200)' }}
-                />
-                <div>
-                  <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Ratnesh Maurya</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full"
-                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
-                      Software Engineer
-                    </span>
+              {/* Footer — Tags & Share */}
+              <div className="mt-16 space-y-8">
+                {post.tags.length > 0 && (
+                  <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+                    <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
+                      style={{ color: 'var(--text-muted)' }}>
+                      Tags
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags.map((tag) => (
+                        <Link
+                          key={tag}
+                          href={`/blog?tag=${tag}`}
+                          className="inline-block text-sm font-medium px-3 py-1.5 rounded-full transition-all duration-200"
+                          style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+                        >
+                          #{tag}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-xs leading-relaxed mb-2" style={{ color: 'var(--text-secondary)' }}>
-                    Backend engineer at Initializ.ai — building scalable systems with Go, Elixir, and Kubernetes.
-                    Writing about distributed systems, AWS, and the bugs that cost me hours.
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer author"
-                      className="text-xs font-semibold transition-colors" style={{ color: 'var(--accent-500)' }}>
-                      Portfolio ↗
-                    </a>
-                    <a href="https://github.com/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
-                      className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
-                      GitHub
-                    </a>
-                    <a href="https://linkedin.com/in/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
-                      className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
-                      LinkedIn
-                    </a>
-                    <a href="/about" className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
-                      About
-                    </a>
+                )}
+
+                <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+                  <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
+                    style={{ color: 'var(--text-muted)' }}>
+                    Share this post
+                  </h3>
+                  <SocialShare
+                    url={`/blog/${post.slug}`}
+                    title={post.title}
+                    description={post.description}
+                  />
+                </div>
+
+                {/* Author box — E-E-A-T signal */}
+                <div className="mt-12 pt-8 flex flex-col sm:flex-row items-start gap-4 rounded-xl p-5"
+                  style={{ borderTop: '1px solid var(--border)', backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://avatars.githubusercontent.com/u/85143283?v=4"
+                    alt="Ratnesh Maurya"
+                    className="w-14 h-14 rounded-xl flex-shrink-0 object-cover"
+                    style={{ outline: '2px solid var(--accent-200)' }}
+                  />
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Ratnesh Maurya</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full"
+                        style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                        Software Engineer
+                      </span>
+                    </div>
+                    <p className="text-xs leading-relaxed mb-2" style={{ color: 'var(--text-secondary)' }}>
+                      Backend engineer at Initializ.ai — building scalable systems with Go, Elixir, and Kubernetes.
+                      Writing about distributed systems, AWS, and the bugs that cost me hours.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer author"
+                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--accent-500)' }}>
+                        Portfolio ↗
+                      </a>
+                      <a href="https://github.com/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
+                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                        GitHub
+                      </a>
+                      <a href="https://linkedin.com/in/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
+                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                        LinkedIn
+                      </a>
+                      <a href="/about" className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                        About
+                      </a>
+                    </div>
                   </div>
                 </div>
+
+                {/* Related posts — internal linking for SEO */}
+                <RelatedPosts
+                  currentSlug={post.slug}
+                  currentCategory={post.category}
+                  currentTags={post.tags}
+                  allPosts={allPosts}
+                />
+
+                {/* Prev / Next navigation */}
+                <PostNavigation
+                  prev={prevPost ? { slug: prevPost.slug, title: prevPost.title, href: `/blog/${prevPost.slug}`, label: prevPost.category } : null}
+                  next={nextPost ? { slug: nextPost.slug, title: nextPost.title, href: `/blog/${nextPost.slug}`, label: nextPost.category } : null}
+                />
+
+                {/* Back to Blog CTA */}
+                <div className="pt-6 flex items-center justify-between">
+                  <Link
+                    href="/blog"
+                    className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200"
+                    style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Back to all posts
+                  </Link>
+                </div>
               </div>
+            </article>
 
-              {/* Related posts — internal linking for SEO */}
-              <RelatedPosts
-                currentSlug={post.slug}
-                currentCategory={post.category}
-                currentTags={post.tags}
-                allPosts={allPosts}
-              />
-
-              {/* Prev / Next navigation */}
-              <PostNavigation
-                prev={prevPost ? { slug: prevPost.slug, title: prevPost.title, href: `/blog/${prevPost.slug}`, label: prevPost.category } : null}
-                next={nextPost ? { slug: nextPost.slug, title: nextPost.title, href: `/blog/${nextPost.slug}`, label: nextPost.category } : null}
-              />
-
-              {/* Back to Blog CTA */}
-              <div className="pt-6 flex items-center justify-between">
-                <Link
-                  href="/blog"
-                  className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200"
-                  style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                  Back to all posts
-                </Link>
-              </div>
-            </div>
-          </article>
+            {/* Table of Contents — right sidebar on xl screens */}
+            <aside className="hidden xl:block self-start sticky top-24">
+              <TableOfContents />
+            </aside>
+          </div>
         </div>
       </div>
       <ViewIncrementer type="blog" slug={post.slug} />

@@ -4,7 +4,7 @@ description: "Understand how files are actually stored on disk, why deletion is 
 date: "2026-02-20"
 author: "Ratnesh Maurya"
 category: "System Design"
-tags: ["File System", "Operating System", "Storage", "NTFS", "ext4"]
+tags: ["Computer Science", "System Design"]
 image: "/images/blog/How-Files-Are-Stored-Deleted-and-Copied-Inside-Your-Computer.jpg"
 featured: false
 questions: ["Why does deleting a file happen instantly?", "Do files actually get deleted from disk?", "Why does copying files take time?", "What happens when moving files between drives?"]

@@ -1,8 +1,8 @@
-import { Metadata } from 'next';
-import { BreadcrumbStructuredData, GlossaryStructuredData } from '@/components/StructuredData';
-import { getGlossaryContent } from '@/lib/static-content';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData, GlossaryStructuredData } from '@/components/StructuredData';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { getGlossaryContent } from '@/lib/static-content';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Glossary — Backend & System Design Terms | Ratn Labs',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [{ url: getStoredOgImageUrl('glossary'), width: 1200, height: 630, alt: 'Glossary — Ratn Labs' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Glossary — Backend Terms | Ratn Labs', creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('glossary')] },
+  twitter: { card: 'summary_large_image', title: 'Glossary — Backend Terms | Ratn Labs', description: 'A curated glossary of backend engineering and system design terms.', creator: '@ratnesh_maurya', site: '@ratnesh_maurya', images: [getStoredOgImageUrl('glossary')] },
   robots: { index: true, follow: true },
 };
 
@@ -43,7 +43,7 @@ export default function GlossaryPage() {
               style={{ color: 'var(--accent-500)' }}>
               Reference
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Engineering{' '}
               <span style={{

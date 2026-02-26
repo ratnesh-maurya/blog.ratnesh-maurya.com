@@ -4,7 +4,7 @@ description: "A deep dive into the mathematical 'magic' behind data compression,
 date: "2026-02-19"
 author: "Ratnesh Maurya"
 category: "Computer Science"
-tags: ["Compression", "Algorithms", "Backend", "DevOps"]
+tags: ["Computer Science", "Backend"]
 image: "/images/blog/The-Mechanics-of-Compression-How-100GB-Becomes-25GB.png"
 featured: true
 questions: ["How does data compression work?", "Difference between ZIP and TAR.GZ?", "How to compress 100GB to 25GB?"]

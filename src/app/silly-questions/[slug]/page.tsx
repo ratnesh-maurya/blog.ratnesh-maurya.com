@@ -1,10 +1,10 @@
-import { getSillyQuestion, getSillyQuestionSlugs, getAllSillyQuestions } from '@/lib/content';
-import { PostNavigation } from '@/components/PostNavigation';
-import { SillyQuestionStructuredData } from '@/components/StructuredData';
-import { SocialShare } from '@/components/SocialShare';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
-import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { PostNavigation } from '@/components/PostNavigation';
+import { SocialShare } from '@/components/SocialShare';
+import { SillyQuestionStructuredData } from '@/components/StructuredData';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { getAllSillyQuestions, getSillyQuestion, getSillyQuestionSlugs } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -132,7 +132,7 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
               All silly questions
             </Link>
             <span className="text-xs font-semibold uppercase tracking-widest"
-              style={{ color: 'var(--coral-400)' }}>
+              style={{ color: 'var(--accent-500)' }}>
               Debug Diary
             </span>
           </div>
@@ -153,13 +153,13 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
                   {format(new Date(question.date), 'MMMM d, yyyy')}
                 </time>
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                  style={{ backgroundColor: 'var(--coral-50)', color: 'var(--coral-500)' }}>
+                  style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
                   {question.category}
                 </span>
               </div>
 
               {/* Question as heading */}
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight mb-5"
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight mb-5"
                 style={{ color: 'var(--text-primary)' }}>
                 {question.question}
               </h1>
@@ -169,7 +169,7 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
                 {question.tags.map((tag) => (
                   <span key={tag}
                     className="text-xs font-medium px-2.5 py-1 rounded-full"
-                    style={{ backgroundColor: 'var(--coral-50)', color: 'var(--coral-500)' }}>
+                    style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
                     #{tag}
                   </span>
                 ))}
@@ -182,11 +182,11 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
               {/* Answer label */}
               <div className="px-6 py-3 flex items-center gap-3"
                 style={{
-                  background: 'linear-gradient(90deg, var(--coral-50) 0%, var(--accent-50) 100%)',
+                  background: 'var(--accent-50)',
                   borderBottom: '1px solid var(--border)',
                 }}>
                 <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                  style={{ background: 'linear-gradient(135deg, var(--coral-400), var(--gold-400))' }}>
+                  style={{ backgroundColor: 'var(--accent-500)' }}>
                   A
                 </div>
                 <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
@@ -219,7 +219,6 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
               <PostNavigation
                 prev={prevQuestion ? { slug: prevQuestion.slug, title: prevQuestion.question, href: `/silly-questions/${prevQuestion.slug}`, label: prevQuestion.category } : null}
                 next={nextQuestion ? { slug: nextQuestion.slug, title: nextQuestion.question, href: `/silly-questions/${nextQuestion.slug}`, label: nextQuestion.category } : null}
-                accentVar="--coral-500"
               />
 
               {/* CTA */}
@@ -231,8 +230,8 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
                   href="/silly-questions"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 whitespace-nowrap"
                   style={{
-                    background: 'linear-gradient(135deg, var(--coral-400), var(--coral-500))',
-                    color: '#FAFAF8',
+                    backgroundColor: 'var(--accent-500)',
+                    color: 'var(--text-inverse)',
                   }}
                 >
                   More Silly Questions

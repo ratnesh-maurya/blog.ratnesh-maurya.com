@@ -1,10 +1,10 @@
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { getAllBlogPosts, getAllSillyQuestions } from '@/lib/content';
+import { getStoredOgImageUrl } from '@/lib/og';
+import { getTopicsMeta } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllBlogPosts, getAllSillyQuestions } from '@/lib/content';
-import { getTopicsMeta } from '@/lib/static-content';
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
-import { OgImageInBody } from '@/components/OgImageInBody';
-import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Topics — Ratn Labs',
@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     title: 'Topics — Ratn Labs',
     description: 'Browse all topics covered on Ratn Labs: system design, Go, AWS, web development, and more.',
     creator: '@ratnesh_maurya',
+    site: '@ratnesh_maurya',
     images: [getStoredOgImageUrl('topics')],
   },
   robots: { index: true, follow: true },
@@ -76,7 +77,7 @@ export default async function TopicsPage() {
               style={{ color: 'var(--accent-500)' }}>
               All topics
             </p>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ color: 'var(--text-primary)' }}>
               Browse by Topic
             </h1>

@@ -1,7 +1,7 @@
-import { getAllBlogPostsForListing } from '@/lib/content';
 import { BlogListingClient } from '@/components/BlogListingClient';
-import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
+import { getAllBlogPostsForListing } from '@/lib/content';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -81,17 +81,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         pageTitle={pageTitle}
         pageDescription={pageDescription}
       />
-
-      {/* Subtle marquee watermark */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 select-none hidden sm:block" aria-hidden="true">
-        <div className="h-20 sm:h-24" style={{ background: 'linear-gradient(to top, var(--accent-50), transparent)' }}>
-          <div className="whitespace-nowrap bg-text-marquee h-full flex items-center opacity-[0.07]">
-            <span className="gradient-text-primary font-extrabold tracking-[0.5em] uppercase text-4xl sm:text-5xl md:text-6xl">
-              Blog&nbsp;·&nbsp;Systems&nbsp;·&nbsp;AI&nbsp;·&nbsp;Backend&nbsp;·&nbsp;Blog&nbsp;·&nbsp;Systems&nbsp;·&nbsp;AI&nbsp;·&nbsp;Backend&nbsp;
-            </span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

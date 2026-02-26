@@ -1,5 +1,7 @@
 'use client';
 
+import { ColorAccentPicker } from '@/components/ColorAccentPicker';
+import { trackEvent } from '@/lib/analytics';
 import { useEffect, useState } from "react";
 
 interface ClientNavigationProps {
@@ -20,6 +22,7 @@ export function ClientNavigation({ onSearchOpen }: ClientNavigationProps) {
     document.documentElement.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch { /* ignore */ }
     setIsDark(!isDark);
+    trackEvent('theme_toggle', 'UI', next);
   };
 
   if (!mounted) {
@@ -58,6 +61,9 @@ export function ClientNavigation({ onSearchOpen }: ClientNavigationProps) {
         Search
         <span className="ml-1 text-xs opacity-60">⌘K</span>
       </button>
+
+      {/* Accent color picker */}
+      <ColorAccentPicker />
 
       {/* Theme toggle */}
       <button

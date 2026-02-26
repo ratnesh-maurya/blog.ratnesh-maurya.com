@@ -1,9 +1,9 @@
-import { Metadata } from 'next';
-import { getAllTechnicalTermsForListing } from '@/lib/content';
+import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData, TechnicalTermsStructuredData } from '@/components/StructuredData';
 import { TechnicalTermsSearch } from '@/components/TechnicalTermsSearch';
-import { OgImageInBody } from '@/components/OgImageInBody';
+import { getAllTechnicalTermsForListing } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { Metadata } from 'next';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
 
@@ -26,6 +26,7 @@ export const metadata: Metadata = {
     title: 'Technical Terms — Ratn Labs',
     description: 'Definitions for backend and system design technical terms.',
     creator: '@ratnesh_maurya',
+    site: '@ratnesh_maurya',
     images: [getStoredOgImageUrl('technical-terms')],
   },
   robots: { index: true, follow: true },
@@ -50,7 +51,7 @@ export default async function TechnicalTermsPage() {
               style={{ color: 'var(--accent-500)' }}>
               Reference
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Technical{' '}
               <span style={{
@@ -73,7 +74,7 @@ export default async function TechnicalTermsPage() {
           </div>
         </div>
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <TechnicalTermsSearch terms={terms} />
         </div>
       </div>

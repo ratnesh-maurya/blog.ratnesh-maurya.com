@@ -1,13 +1,14 @@
+import { CheatsheetCodeBlock } from '@/components/CheatsheetCodeBlock';
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { SocialShare } from '@/components/SocialShare';
+import { BreadcrumbStructuredData, CheatsheetStructuredData } from '@/components/StructuredData';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { getStoredOgImageUrl } from '@/lib/og';
+import { getCheatsheet, getCheatsheetSlugs } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { BreadcrumbStructuredData, CheatsheetStructuredData } from '@/components/StructuredData';
-import { getCheatsheet, getCheatsheetSlugs } from '@/lib/static-content';
-import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
-import { SocialShare } from '@/components/SocialShare';
-import { OgImageInBody } from '@/components/OgImageInBody';
-import { getStoredOgImageUrl } from '@/lib/og';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
 
@@ -81,7 +82,7 @@ export default async function CheatsheetPage({
           <div className="flex items-center gap-3 mb-10">
             <span className="text-4xl">{data.emoji ?? '📄'}</span>
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+              <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 {displayTitle}
               </h1>
               <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
@@ -97,10 +98,7 @@ export default async function CheatsheetPage({
                   style={{ color: 'var(--text-muted)' }}>
                   {section.title}
                 </h2>
-                <pre className="rounded-xl p-5 text-sm leading-relaxed overflow-x-auto"
-                  style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono, monospace)' }}>
-                  <code>{section.code}</code>
-                </pre>
+                <CheatsheetCodeBlock code={section.code} title={section.title} />
               </div>
             ))}
           </div>

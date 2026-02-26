@@ -5,7 +5,7 @@ author: Ratnesh Maurya
 date: "2024-07-30"
 category: "Software Architecture"
 image: "/images/blog/Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO.jpg"
-tags: ["microservices", "system-design", "architecture", "ride-sharing", "scalability"]
+tags: ["System Design", "Backend"]
 readTime: "3 min read"
 questions: [
   "How to design a ride-sharing app architecture?",

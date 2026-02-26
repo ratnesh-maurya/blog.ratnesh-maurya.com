@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { format } from 'date-fns';
-import { BlogPost, SillyQuestion } from '@/types/blog';
 import type { TechnicalTermSearchItem, TILSearchItem } from '@/components/SearchPopup';
+import { BlogPost, SillyQuestion } from '@/types/blog';
+import { format } from 'date-fns';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type FilterType = 'all' | 'blog' | 'question' | 'term' | 'til';
 type SortType = 'relevance' | 'date' | 'title';
@@ -172,12 +172,12 @@ export function SearchPageClient() {
     <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
       {/* Header */}
       <div className="hero-gradient-bg">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
           <p className="text-xs font-semibold uppercase tracking-widest mb-3 text-center"
             style={{ color: 'var(--accent-500)' }}>
             Search
           </p>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-center mb-8"
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-center mb-8"
             style={{ color: 'var(--text-primary)' }}>
             Find anything
           </h1>
@@ -224,7 +224,7 @@ export function SearchPageClient() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
 
         {/* Filters & Sort (only when there's a query) */}
         {query && (
@@ -306,8 +306,8 @@ export function SearchPageClient() {
                     <div
                       className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
                       style={{
-                        backgroundColor: isBlog ? 'var(--accent-50)' : isQuestion ? 'var(--coral-50)' : 'var(--surface-muted)',
-                        color: isBlog ? 'var(--accent-500)' : isQuestion ? 'var(--coral-500)' : 'var(--text-muted)',
+                        backgroundColor: isBlog ? 'var(--accent-50)' : isQuestion ? 'var(--accent-50)' : 'var(--surface-muted)',
+                        color: isBlog ? 'var(--accent-500)' : isQuestion ? 'var(--accent-500)' : 'var(--text-muted)',
                       }}
                     >
                       {isBlog ? (
@@ -320,7 +320,7 @@ export function SearchPageClient() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: isBlog ? 'var(--accent-500)' : isQuestion ? 'var(--coral-500)' : 'var(--text-muted)' }}>
+                        <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: isBlog ? 'var(--accent-500)' : isQuestion ? 'var(--accent-500)' : 'var(--text-muted)' }}>
                           {cat}
                         </span>
                         {dateStr && (

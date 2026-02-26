@@ -259,9 +259,10 @@ export function OrganizationStructuredData() {
       'Database Design',
       'API Development'
     ],
-    alumniOf: {
+    worksFor: {
       '@type': 'Organization',
-      name: 'Your University' // Update this with actual info
+      name: 'Ratn Labs',
+      url: 'https://blog.ratnesh-maurya.com',
     }
   };
 
@@ -461,6 +462,64 @@ export function GlossaryStructuredData({ terms }: GlossaryStructuredDataProps) {
   );
 }
 
+// ─── Technical Term: DefinedTerm (individual page) ───────────────────────────
+interface TechnicalTermStructuredDataProps {
+  title: string;
+  description: string;
+  slug: string;
+  ogImageUrl?: string;
+}
+
+export function TechnicalTermStructuredData({ title, description, slug, ogImageUrl }: TechnicalTermStructuredDataProps) {
+  const url = `https://blog.ratnesh-maurya.com/technical-terms/${slug}`;
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    name: title,
+    description,
+    url,
+    inDefinedTermSet: 'https://blog.ratnesh-maurya.com/technical-terms#termset',
+    ...(ogImageUrl && {
+      image: {
+        '@type': 'ImageObject',
+        url: ogImageUrl,
+        width: 1200,
+        height: 630,
+      },
+    }),
+    author: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+      sameAs: [
+        'https://github.com/ratnesh-maurya',
+        'https://linkedin.com/in/ratnesh-maurya',
+        'https://twitter.com/ratnesh_maurya',
+      ],
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Ratn Labs',
+      url: 'https://blog.ratnesh-maurya.com',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url,
+    },
+    isPartOf: {
+      '@type': 'DefinedTermSet',
+      '@id': 'https://blog.ratnesh-maurya.com/technical-terms#termset',
+      name: 'Technical Terms — Backend & System Design',
+    },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
 // ─── Technical Term: FAQPage (per-term) ───────────────────────────────────────
 interface TechnicalTermFAQItem { question: string; answer: string; }
 interface TechnicalTermFAQStructuredDataProps {
@@ -651,6 +710,112 @@ export function TILListStructuredData({ entries }: TILListStructuredDataProps) {
       url: `https://blog.ratnesh-maurya.com/til/${entry.slug}`,
       description: `TIL about ${entry.category}: ${entry.title}`,
     })),
+  };
+  return (
+    <script type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+  );
+}
+
+// ─── Cheatsheets Listing: CollectionPage + ItemList ───────────────────────────
+interface CheatsheetListItem { slug: string; title: string; subtitle: string; }
+interface CheatsheetsListStructuredDataProps { sheets: CheatsheetListItem[]; }
+
+export function CheatsheetsListStructuredData({ sheets }: CheatsheetsListStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Cheatsheets — Go, Docker, PostgreSQL, Kubectl | Ratn Labs',
+    description: 'Quick reference cheatsheets for Go, Docker, PostgreSQL, and Kubernetes kubectl. Commands, syntax, and patterns you need while building.',
+    url: `${BLOG_BASE}/cheatsheets`,
+    inLanguage: 'en-US',
+    author: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: sheets.length,
+      itemListElement: sheets.map((sheet, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        url: `${BLOG_BASE}/cheatsheets/${sheet.slug}`,
+        name: sheet.title,
+        description: sheet.subtitle,
+      })),
+    },
+  };
+  return (
+    <script type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+  );
+}
+
+// ─── Series Listing: CollectionPage + ItemList ────────────────────────────────
+interface SeriesListItem { id: string; title: string; desc: string; postCount: number; }
+interface SeriesListStructuredDataProps { series: SeriesListItem[]; }
+
+export function SeriesListStructuredData({ series }: SeriesListStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Series — Learning Paths | Ratn Labs',
+    description: 'Grouped reading paths for backend engineering topics — system design, AWS, Go, and more.',
+    url: `${BLOG_BASE}/series`,
+    inLanguage: 'en-US',
+    author: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: series.length,
+      itemListElement: series.map((s, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        url: `${BLOG_BASE}/series`,
+        name: s.title,
+        description: `${s.desc} (${s.postCount} posts)`,
+      })),
+    },
+  };
+  return (
+    <script type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+  );
+}
+
+// ─── Resources Listing: CollectionPage + ItemList ─────────────────────────────
+interface ResourceSection { category: string; items: { title: string; author: string; href: string; }[]; }
+interface ResourcesListStructuredDataProps { sections: ResourceSection[]; }
+
+export function ResourcesListStructuredData({ sections }: ResourcesListStructuredDataProps) {
+  const allItems = sections.flatMap(s => s.items);
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Resources — Books, Talks & Tools | Ratn Labs',
+    description: 'Curated books, talks, tools, and newsletters for backend engineers — system design, Go, distributed systems, and cloud-native development.',
+    url: `${BLOG_BASE}/resources`,
+    inLanguage: 'en-US',
+    author: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: allItems.length,
+      itemListElement: allItems.map((item, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        url: item.href,
+        name: item.title,
+        description: `By ${item.author}`,
+      })),
+    },
   };
   return (
     <script type="application/ld+json"

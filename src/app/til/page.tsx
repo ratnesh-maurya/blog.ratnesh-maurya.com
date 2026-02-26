@@ -1,9 +1,9 @@
-import { Metadata } from 'next';
-import { getAllTILEntries } from '@/lib/content';
+import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData, TILListStructuredData } from '@/components/StructuredData';
 import { TILListingClient } from '@/components/TILListingClient';
-import { OgImageInBody } from '@/components/OgImageInBody';
+import { getAllTILEntries } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Today I Learned — Ratn Labs',
@@ -23,6 +23,7 @@ export const metadata: Metadata = {
     title: 'Today I Learned — Ratn Labs',
     description: 'Short, practical learnings from real engineering work.',
     creator: '@ratnesh_maurya',
+    site: '@ratnesh_maurya',
     images: [getStoredOgImageUrl('til')],
   },
   robots: { index: true, follow: true },
@@ -46,12 +47,12 @@ export default async function TILPage() {
 
         {/* Header */}
         <div className="hero-gradient-bg">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--accent-500)' }}>
               Today I Learned
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Short learnings from{' '}
               <span style={{
@@ -79,8 +80,7 @@ export default async function TILPage() {
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <TILListingClient entries={entries} categories={categories} />
         </div>
       </div>

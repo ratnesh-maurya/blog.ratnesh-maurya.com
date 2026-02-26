@@ -1,14 +1,14 @@
+import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { PostNavigation } from '@/components/PostNavigation';
+import { SocialShare } from '@/components/SocialShare';
+import { BreadcrumbStructuredData, TechnicalTermFAQStructuredData, TechnicalTermStructuredData } from '@/components/StructuredData';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { getAllTechnicalTerms, getTechnicalTerm, getTechnicalTermSlugs } from '@/lib/content';
+import { getStoredOgImagePath, getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getTechnicalTerm, getTechnicalTermSlugs, getAllTechnicalTerms } from '@/lib/content';
-import { BreadcrumbStructuredData, TechnicalTermFAQStructuredData } from '@/components/StructuredData';
-import { PostNavigation } from '@/components/PostNavigation';
-import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
-import { SocialShare } from '@/components/SocialShare';
-import { getStoredOgImagePath, getStoredOgImageUrl } from '@/lib/og';
-import Image from 'next/image';
 
 const BASE = 'https://blog.ratnesh-maurya.com';
 
@@ -75,10 +75,17 @@ export default async function TechnicalTermPage({
   const termUrl = `${BASE}/technical-terms/${slug}`;
 
   const ogImagePath = getStoredOgImagePath('technical-term', slug);
+  const ogImageUrl = getStoredOgImageUrl('technical-term', slug);
 
   return (
     <>
       <BreadcrumbStructuredData items={breadcrumbItems} />
+      <TechnicalTermStructuredData
+        title={term.title}
+        description={term.description}
+        slug={slug}
+        ogImageUrl={ogImageUrl || undefined}
+      />
       {term.questions && term.questions.length > 0 && (
         <TechnicalTermFAQStructuredData
           termTitle={term.title}

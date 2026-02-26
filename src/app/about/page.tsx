@@ -1,10 +1,10 @@
+import { OgImageInBody } from '@/components/OgImageInBody';
+import { PageStatsTracker } from '@/components/PageStatsTracker';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { getAllBlogPosts } from '@/lib/content';
+import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllBlogPosts } from '@/lib/content';
-import { BreadcrumbStructuredData, ProfilePageStructuredData } from '@/components/StructuredData';
-import { PageStatsTracker } from '@/components/PageStatsTracker';
-import { OgImageInBody } from '@/components/OgImageInBody';
-import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'About — Ratnesh Maurya',
@@ -70,7 +70,6 @@ export default async function AboutPage() {
   return (
     <>
       <OgImageInBody src={getStoredOgImageUrl('about')} alt="About — Ratnesh Maurya" />
-      <ProfilePageStructuredData />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
@@ -101,7 +100,7 @@ export default async function AboutPage() {
                   style={{ color: 'var(--accent-500)' }}>
                   About me
                 </p>
-                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2"
+                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2"
                   style={{ color: 'var(--text-primary)' }}>
                   Ratnesh Maurya
                 </h1>

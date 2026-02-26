@@ -1,18 +1,18 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { getAllStatsForAnalytics, getEventsDailyRange, type EventsDailyRow, type StatType } from '@/lib/supabase/stats';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  BarChart,
   Bar,
+  BarChart,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  Legend,
 } from 'recharts';
-import { getEventsDailyRange, getAllStatsForAnalytics, type StatType, type EventsDailyRow } from '@/lib/supabase/stats';
 
 const TYPE_LABELS: Record<string, string> = {
   blog: 'Blog',
@@ -28,6 +28,14 @@ function formatNumber(n: number) {
   return n.toLocaleString();
 }
 
+function formatSlug(slug: string) {
+  return slug
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 const LAST_DAYS = 30;
 
 function getDefaultRange() {
@@ -37,14 +45,19 @@ function getDefaultRange() {
   return { from: from.toISOString().slice(0, 10), to: to.toISOString().slice(0, 10) };
 }
 
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
 export function PostViewsRangeSection() {
   const [daily, setDaily] = useState<EventsDailyRow[]>([]);
   const [stats, setStats] = useState<Awaited<ReturnType<typeof getAllStatsForAnalytics>> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [fromDate, setFromDate] = useState(() => getDefaultRange().from);
+  const [toDate, setToDate] = useState(() => getDefaultRange().to);
 
-  useEffect(() => {
-    const { from, to } = getDefaultRange();
+  const fetchData = useCallback((from: string, to: string) => {
     setLoading(true);
     setError(null);
     Promise.all([
@@ -62,6 +75,10 @@ export function PostViewsRangeSection() {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    fetchData(fromDate, toDate);
+  }, [fromDate, toDate, fetchData]);
 
   const viewsByDay = useMemo(() => {
     const viewEvents = daily.filter((e) => e.event_type === 'view');
@@ -111,6 +128,36 @@ export function PostViewsRangeSection() {
 
   return (
     <div className="space-y-8">
+      {/* Date range picker */}
+      <div className="flex flex-wrap items-center gap-3">
+        <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>From</label>
+        <input
+          type="date"
+          value={fromDate}
+          max={toDate}
+          onChange={(e) => setFromDate(e.target.value)}
+          className="rounded-lg border px-3 py-1.5 text-sm focus:outline-none focus:ring-2"
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+        />
+        <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>To</label>
+        <input
+          type="date"
+          value={toDate}
+          min={fromDate}
+          max={todayStr()}
+          onChange={(e) => setToDate(e.target.value)}
+          className="rounded-lg border px-3 py-1.5 text-sm focus:outline-none focus:ring-2"
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+        />
+        <button
+          onClick={() => { setFromDate(getDefaultRange().from); setToDate(getDefaultRange().to); }}
+          className="text-xs font-medium px-3 py-1.5 rounded-lg transition-colors"
+          style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+        >
+          Last 30 days
+        </button>
+      </div>
+
       {viewsByDay.length > 0 && (
         <div className="rounded-xl border p-4 md:p-6" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
           <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
@@ -172,14 +219,32 @@ export function PostViewsRangeSection() {
               if (top.length === 0) return null;
               return (
                 <div key={type} className="rounded-xl border overflow-hidden" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-                  <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
+                  <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: 'var(--border)' }}>
                     <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{TYPE_LABELS[type] ?? type}</span>
+                    <span className="text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>{stats.byType[type].slugs.length} items</span>
                   </div>
                   <ul className="divide-y" style={{ borderColor: 'var(--border)' }}>
                     {top.map((row, i) => (
-                      <li key={row.slug} className="flex items-center justify-between px-4 py-2.5 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                        <span className="truncate mr-2">{i + 1}. {row.slug}</span>
-                        <span className="font-medium tabular-nums shrink-0" style={{ color: 'var(--accent-500)' }}>{formatNumber(row.views)} views</span>
+                      <li key={row.slug} className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02]" style={{ color: 'var(--text-secondary)' }}>
+                        <span
+                          className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
+                          style={{
+                            backgroundColor: i < 3 ? 'var(--accent-50)' : 'transparent',
+                            color: i < 3 ? 'var(--accent-600)' : 'var(--text-muted)',
+                          }}
+                        >
+                          {i + 1}
+                        </span>
+                        <span className="truncate flex-1 min-w-0">{formatSlug(row.slug)}</span>
+                        <span className="font-medium tabular-nums shrink-0 text-xs" style={{ color: 'var(--accent-500)' }}>
+                          {formatNumber(row.views)}
+                        </span>
+                        {row.upvotes > 0 && (
+                          <span className="tabular-nums shrink-0 text-xs flex items-center gap-0.5" style={{ color: 'var(--text-muted)' }}>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" transform="rotate(-90 12 12)" /></svg>
+                            {formatNumber(row.upvotes)}
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>

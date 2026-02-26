@@ -1,12 +1,14 @@
-import { Metadata } from 'next';
-import { Suspense } from 'react';
 import { SearchPageClient } from '@/app/search/SearchPageClient';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Search — Ratn Labs',
   description: 'Search all blog posts, silly questions, and topics on Ratn Labs. Find articles on system design, Go, AWS, web development, and more.',
+  keywords: ['search', 'blog search', 'find articles', 'system design', 'Go', 'backend engineering'],
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/search' },
   openGraph: {
     title: 'Search — Ratn Labs',
@@ -20,6 +22,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Search — Ratn Labs',
     description: 'Search all blog posts and Q&As on Ratn Labs.',
+    creator: '@ratnesh_maurya',
+    site: '@ratnesh_maurya',
     images: [getStoredOgImageUrl('search')],
   },
   robots: { index: true, follow: true },
@@ -36,9 +40,15 @@ function SearchFallback() {
 }
 
 export default function SearchPage() {
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
+    { name: 'Search', url: 'https://blog.ratnesh-maurya.com/search' },
+  ];
+
   return (
     <>
       <OgImageInBody src={getStoredOgImageUrl('search')} alt="Search — Ratn Labs" />
+      <BreadcrumbStructuredData items={breadcrumbItems} />
       <Suspense fallback={<SearchFallback />}>
         <SearchPageClient />
       </Suspense>

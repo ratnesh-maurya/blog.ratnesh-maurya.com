@@ -1,6 +1,6 @@
-import { Metadata } from 'next';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { AnalyticsDashboard } from '@/components/analytics/dashboard';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Post Analytics — Ratn Labs',
@@ -24,7 +24,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-500)' }}>
               Insights
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 font-serif" style={{ color: 'var(--text-primary)' }}>
               Analytics
             </h1>
             <p className="text-base leading-relaxed max-w-xl mb-4" style={{ color: 'var(--text-secondary)' }}>

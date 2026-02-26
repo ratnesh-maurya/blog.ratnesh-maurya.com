@@ -1,24 +1,25 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { ContentOverviewSection } from '@/components/analytics/content-overview-section';
+import { OverallSection } from '@/components/analytics/overall-section';
+import { PostViewsRangeSection } from '@/components/analytics/post-views-range-section';
+import { SortableSection } from '@/components/analytics/sortable-section';
+import { TodaySection } from '@/components/analytics/today-section';
+import { UtmRangeSection } from '@/components/analytics/utm-range-section';
 import {
-  DndContext,
   closestCenter,
+  DndContext,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
-import { SortableSection } from '@/components/analytics/sortable-section';
-import { OverallSection } from '@/components/analytics/overall-section';
-import { TodaySection } from '@/components/analytics/today-section';
-import { PostViewsRangeSection } from '@/components/analytics/post-views-range-section';
-import { UtmRangeSection } from '@/components/analytics/utm-range-section';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useCallback, useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'analytics-section-order';
-const DEFAULT_ORDER: string[] = ['overall', 'today', 'post-views', 'utm'];
+const DEFAULT_ORDER: string[] = ['overall', 'today', 'content-overview', 'post-views', 'utm'];
 
 function loadOrder(): string[] {
   if (typeof window === 'undefined') return [...DEFAULT_ORDER];
@@ -46,6 +47,7 @@ function saveOrder(order: string[]) {
 const SECTION_TITLES: Record<string, string> = {
   overall: 'Overall analytics',
   today: "Today's analytics",
+  'content-overview': 'Content overview',
   'post-views': 'Post views',
   utm: 'UTM traffic',
 };
@@ -91,6 +93,12 @@ export function AnalyticsDashboard() {
                 return (
                   <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id}>
                     <TodaySection />
+                  </SortableSection>
+                );
+              case 'content-overview':
+                return (
+                  <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id}>
+                    <ContentOverviewSection />
                   </SortableSection>
                 );
               case 'post-views':

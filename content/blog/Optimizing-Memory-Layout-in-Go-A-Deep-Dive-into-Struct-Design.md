@@ -5,7 +5,7 @@ author: Ratnesh Maurya
 date: "2025-01-10"
 category: Golang
 image: "/images/blog/Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design.jpg"
-tags: [ "Golang", "Go Memory Layout"]
+tags: ["Go", "Backend", "System Design"]
 questions: [
   "How to optimize memory layout in Go?",
   "How does struct field ordering affect memory in Go?",

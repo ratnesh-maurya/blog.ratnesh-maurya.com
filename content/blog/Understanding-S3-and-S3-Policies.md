@@ -5,7 +5,7 @@ author: Ratnesh Maurya
 date: "2023-11-23"
 category: AWS
 image: /images/blog/Understanding-S3-and-S3-Policies.jpg
-tags: ["AWS", " Amazon S3", "S3", "S3 Policies" ]
+tags: ["Cloud & DevOps", "Backend"]
 questions: [
   "What is Amazon S3?",
   "How do S3 policies work?",

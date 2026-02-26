@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react';
 
-const ACCENT = '#0d9488'; // teal – works in light and dark
-
 type Tone = 'green' | 'pink' | 'yellow';
 
 function getAccent(_tone: Tone = 'green') {
-  return ACCENT;
+  return 'var(--accent-500)';
 }
 
 export function ArchitectureColumns({
@@ -274,7 +272,7 @@ export function PerformanceRow({
       className="border-b last:border-b-0"
       style={{
         borderColor: 'var(--border)',
-        backgroundColor: improved ? 'rgba(13, 148, 136, 0.06)' : 'transparent',
+        backgroundColor: improved ? 'color-mix(in srgb, var(--accent-500) 6%, transparent)' : 'transparent',
       }}
     >
       <td className="py-3.5 pl-5 pr-4">
@@ -302,7 +300,7 @@ export function PerformanceRow({
         <span
           className="inline-flex items-center justify-end gap-1.5 text-sm font-semibold tabular-nums"
           style={{
-            color: improved ? ACCENT : 'var(--text-primary)',
+            color: improved ? 'var(--accent-500)' : 'var(--text-primary)',
           }}
         >
           {after}

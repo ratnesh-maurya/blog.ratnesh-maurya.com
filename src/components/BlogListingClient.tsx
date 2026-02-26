@@ -1,30 +1,14 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { format } from 'date-fns';
 import { CustomDropdown } from '@/components/CustomDropdown';
 import { ViewCounter } from '@/components/ViewCounter';
-import { BlogPost } from '@/types/blog';
 import { trackBlogCardClick } from '@/lib/analytics';
-
-const categoryAccent: Record<string, { dot: string; badge: string }> = {
-  'AI':          { dot: '#7C3AED', badge: 'rgba(124,58,237,0.12)' },
-  'Backend':     { dot: '#0EA5E9', badge: 'rgba(14,165,233,0.12)' },
-  'Systems':     { dot: '#10B981', badge: 'rgba(16,185,129,0.12)' },
-  'Frontend':    { dot: '#F59E0B', badge: 'rgba(245,158,11,0.12)' },
-  'JavaScript':  { dot: '#F59E0B', badge: 'rgba(245,158,11,0.12)' },
-  'TypeScript':  { dot: '#3B82F6', badge: 'rgba(59,130,246,0.12)' },
-  'DevOps':      { dot: '#EF4444', badge: 'rgba(239,68,68,0.12)' },
-  'Database':    { dot: '#8B5CF6', badge: 'rgba(139,92,246,0.12)' },
-  'Default':     { dot: 'var(--accent-400)', badge: 'var(--accent-50)' },
-};
-
-function getCategoryAccent(category: string) {
-  const key = Object.keys(categoryAccent).find(k => category?.toLowerCase().includes(k.toLowerCase())) ?? 'Default';
-  return categoryAccent[key];
-}
+import { BlogPost } from '@/types/blog';
+import { format } from 'date-fns';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 
 interface BlogListingClientProps {
   blogPosts: BlogPost[];
@@ -39,6 +23,20 @@ interface BlogStats {
   reports?: Record<string, number>;
 }
 
+/* ───── Unique tags across all posts (for the topic nav) ───── */
+function getTopTags(posts: BlogPost[], max = 8): string[] {
+  const freq: Record<string, number> = {};
+  for (const p of posts) {
+    for (const t of p.tags) {
+      freq[t] = (freq[t] || 0) + 1;
+    }
+  }
+  return Object.entries(freq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, max)
+    .map(([tag]) => tag);
+}
+
 export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pageDescription }: BlogListingClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
@@ -47,13 +45,11 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
   const [isLoadingStats, setIsLoadingStats] = useState(true);
   const router = useRouter();
 
-  // Keep internal tag filter in sync with URL-driven initialTag
   useEffect(() => {
     setSelectedTag(initialTag ?? null);
     setSelectedCategory('all');
   }, [initialTag]);
 
-  // Fetch stats from Supabase
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -66,22 +62,15 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
         setIsLoadingStats(false);
       }
     };
-
     fetchStats();
   }, []);
 
-  // Filter and sort posts
   const filteredAndSortedPosts = useMemo(() => {
     let filtered = blogPosts;
-
-    // Filter by category (case-insensitive)
     if (selectedCategory !== 'all') {
       const normCat = selectedCategory.toLowerCase();
       filtered = filtered.filter(post => post.category?.toLowerCase() === normCat);
     }
-
-    // Filter by tag — case-insensitive, and also matches against post.category
-    // so that category-hub URLs (/blog/tag/system-design) work correctly
     if (selectedTag) {
       const normTag = selectedTag.toLowerCase().trim();
       filtered = filtered.filter(post =>
@@ -89,247 +78,222 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
         post.category?.toLowerCase().trim() === normTag
       );
     }
-
     return filtered.sort((a, b) => {
-      if (sortBy === 'date') {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      }
+      if (sortBy === 'date') return new Date(b.date).getTime() - new Date(a.date).getTime();
       return a.title.localeCompare(b.title);
     });
   }, [blogPosts, selectedCategory, selectedTag, sortBy]);
 
-  // Handle tag click
-  const handleTagClick = (e: React.MouseEvent<HTMLButtonElement>, tag: string) => {
+  const handleTagClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>, tag: string) => {
     e.preventDefault();
     e.stopPropagation();
     const nextTag = selectedTag === tag ? null : tag;
     setSelectedTag(nextTag);
-    setSelectedCategory('all'); // Reset category when filtering by tag
-
-    if (nextTag) {
-      const encoded = encodeURIComponent(nextTag.trim());
-      router.push(`/blog?tag=${encoded}`);
-    } else {
-      router.push('/blog');
-    }
+    setSelectedCategory('all');
+    router.push(nextTag ? `/blog?tag=${encodeURIComponent(nextTag.trim())}` : '/blog');
   };
+
+  const topTags = useMemo(() => getTopTags(blogPosts), [blogPosts]);
 
   const resolvedTitle = pageTitle || 'All Blog Posts';
 
   return (
-    <div className="min-h-screen hero-gradient-bg" style={{ color: 'var(--text-primary)' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-24 py-12">
+    <div className="min-h-screen" style={{ color: 'var(--text-primary)', background: 'var(--background)' }}>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
 
-        {/* Page header */}
-        <header className="mb-10">
-          <div className="flex items-start gap-4 mb-2">
-            <div className="hidden sm:block w-1 h-14 rounded-full mt-1 flex-shrink-0"
-              style={{ background: 'linear-gradient(180deg, var(--accent-400) 0%, var(--accent-200) 100%)' }} />
-            <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2"
-                style={{ color: 'var(--text-primary)' }}>
-                {resolvedTitle}
-              </h1>
-              {pageDescription && (
-                <p className="text-base md:text-lg max-w-2xl leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                  {pageDescription}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {selectedTag && (
-            <div className="mt-3 flex items-center gap-2">
-              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>Filtered by tag:</span>
-              <span className="text-sm font-semibold px-2.5 py-0.5 rounded-full"
-                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
-                #{selectedTag}
-              </span>
-              <button
-                onClick={() => { setSelectedTag(null); router.push('/blog'); }}
-                className="text-xs px-2 py-0.5 rounded-full transition-colors"
-                style={{ color: 'var(--text-muted)' }}
-                onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)'}
-              >
-                ✕ Clear
-              </button>
-            </div>
+        {/* ━━━ Header ━━━ */}
+        <header className="mb-8">
+          <h1 className="text-[30px] md:text-[34px] font-bold tracking-tight leading-tight"
+            style={{ color: 'var(--text-primary)' }}>
+            {resolvedTitle}
+          </h1>
+          {pageDescription && (
+            <p className="mt-2 text-[15px] md:text-base leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+              {pageDescription}
+            </p>
           )}
         </header>
 
-        {/* Filtering/Sorting Bar */}
-        <div className="hidden md:flex flex-wrap items-center justify-between gap-4 mb-10 pb-4"
-          style={{ borderBottom: '1px solid var(--border)' }}>
-          <div className="flex items-center gap-6">
-            <div className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              <span className="font-medium" style={{ color: 'var(--text-secondary)' }}>
-                {filteredAndSortedPosts.length}
-              </span>{' '}
-              {filteredAndSortedPosts.length === 1 ? 'post' : 'posts'}
-              {filteredAndSortedPosts.length !== blogPosts.length && (
-                <span> of <span className="font-medium" style={{ color: 'var(--text-secondary)' }}>{blogPosts.length}</span></span>
-              )}
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Sort by:</span>
+        {/* ━━━ Topic Navigation (Medium-style horizontal tabs) ━━━ */}
+        <nav
+          className="medium-topic-nav flex flex-nowrap items-center gap-3 overflow-x-auto pb-3 mb-8 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0"
+          style={{ borderBottom: '1px solid var(--border)', WebkitOverflowScrolling: 'touch' }}
+        >
+          <button
+            onClick={() => { setSelectedTag(null); setSelectedCategory('all'); router.push('/blog'); }}
+            className={`medium-topic-tab flex-shrink-0 whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors ${!selectedTag ? 'medium-topic-tab--active font-semibold' : ''
+              }`}
+            style={!selectedTag
+              ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
+              : { color: 'var(--text-muted)' }
+            }
+          >
+            For you
+          </button>
+          {topTags.map(tag => (
+            <button
+              key={tag}
+              onClick={(e) => handleTagClick(e, tag)}
+              className={`medium-topic-tab flex-shrink-0 whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors ${selectedTag === tag ? 'medium-topic-tab--active font-semibold' : ''
+                }`}
+              style={selectedTag === tag
+                ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
+                : { color: 'var(--text-muted)' }
+              }
+            >
+              {tag}
+            </button>
+          ))}
+
+          {/* Sort control — right side */}
+          <div className="ml-auto hidden md:flex items-center gap-2 pl-4 flex-shrink-0">
             <CustomDropdown
               options={[
-                { value: 'date', label: 'Latest First' },
-                { value: 'title', label: 'Title A-Z' }
+                { value: 'date', label: 'Latest' },
+                { value: 'title', label: 'Title A–Z' }
               ]}
               value={sortBy}
               onChange={(value) => setSortBy(value as 'date' | 'title')}
-              placeholder="Sort by"
+              placeholder="Sort"
             />
           </div>
-        </div>
+        </nav>
 
-        {/* Blog Posts — grid: one featured full-width, then 2 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-          {filteredAndSortedPosts.map((post, index) => {
-            const accent = getCategoryAccent(post.category);
-            const isFeatured = index === 0 && !selectedTag && sortBy === 'date';
+        {/* ━━━ Post List ━━━ */}
+        <div className="flex flex-col">
+          {filteredAndSortedPosts.map((post, index, arr) => {
+            const isLatest = index === 0 && sortBy === 'date' && !selectedTag;
             return (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className={`block group ${isFeatured ? 'md:col-span-2' : ''}`}
-                onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
-              >
-                <article
-                  className="rounded-xl border overflow-hidden blog-card-glass relative"
-                  style={{ borderColor: 'var(--border)' }}
+              <div key={post.slug}>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="group block py-6"
+                  onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
                 >
-                  {/* Category dot accent — left edge */}
-                  <div className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l-xl transition-all duration-200"
-                    style={{ backgroundColor: accent.dot, opacity: 0.6 }} />
+                  <article className="flex gap-5 items-start">
+                    {/* Text side */}
+                    <div className="flex-1 min-w-0">
+                      {/* Author + Latest badge line */}
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0"
+                          style={{ backgroundColor: 'var(--accent-100)', color: 'var(--accent-600)' }}>
+                          {post.author?.charAt(0) || 'R'}
+                        </div>
+                        <span className="text-[13px] font-medium" style={{ color: 'var(--text-primary)' }}>
+                          {post.author || 'Ratnesh Maurya'}
+                        </span>
+                        {isLatest && (
+                          <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full"
+                            style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                            Latest
+                          </span>
+                        )}
+                      </div>
 
-                  <div className="w-full px-5 md:px-7 py-5 md:py-6 flex flex-col justify-between">
-                    {/* Title row */}
-                    <div className="flex items-start justify-between gap-4 mb-2">
-                      <h2
-                        className="text-xl md:text-2xl font-bold leading-snug transition-colors duration-200 flex-1 group-hover:text-[var(--accent-500)]"
-                        style={{ color: 'var(--text-primary)' }}
-                      >
+                      {/* Title */}
+                      <h2 className="text-[20px] sm:text-[22px] md:text-[24px] font-bold leading-snug mb-1 group-hover:underline decoration-1 underline-offset-2"
+                        style={{ color: 'var(--text-primary)' }}>
                         {post.title}
                       </h2>
-                      {isFeatured && (
-                        <span className="flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full self-start"
-                          style={{ backgroundColor: 'var(--gold-100)', color: 'var(--gold-500)' }}>
-                          Latest
-                        </span>
-                      )}
-                      {post.category && (
-                        <span className="flex-shrink-0 hidden md:inline-flex text-xs font-medium px-2.5 py-1 rounded-full items-center gap-1.5"
-                          style={{ backgroundColor: accent.badge, color: accent.dot }}>
-                          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accent.dot }} />
-                          {post.category}
-                        </span>
+
+                      {/* Description — visible on all screen sizes */}
+                      <p className="text-[15px] sm:text-[16px] md:text-[17px] leading-relaxed line-clamp-2 mb-3"
+                        style={{ color: 'var(--text-secondary)' }}>
+                        {post.description}
+                      </p>
+
+                      {/* Meta row */}
+                      <div className="flex items-center gap-1.5 text-[13px] sm:text-[13px]" style={{ color: 'var(--text-muted)' }}>
+                        <time dateTime={post.date}>
+                          {format(new Date(post.date), 'MMM d, yyyy')}
+                        </time>
+                        <span>·</span>
+                        <span>{post.readingTime}</span>
+                        {!isLoadingStats && stats.views[post.slug] != null && (
+                          <>
+                            <span>·</span>
+                            <ViewCounter type="blog" slug={post.slug} showLabel={false} className="text-[12px] sm:text-[13px]" initialCount={stats.views[post.slug] ?? 0} />
+                            <span> views</span>
+                          </>
+                        )}
+
+                        {/* Bookmark icon */}
+                        <button
+                          className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block"
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                          aria-label="Bookmark"
+                        >
+                          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 3H7a2 2 0 00-2 2v16l7-5 7 5V5a2 2 0 00-2-2z" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      {/* Tags row — separate line, hidden on mobile */}
+                      {post.tags.length > 0 && (
+                        <div className="hidden sm:flex items-center gap-1.5 mt-2">
+                          {post.tags.slice(0, 2).map(tag => (
+                            <button
+                              key={tag}
+                              onClick={(e) => handleTagClick(e, tag)}
+                              className="px-2 py-0.5 rounded-full text-xs transition-colors hover:opacity-80"
+                              style={selectedTag === tag
+                                ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
+                                : { backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }
+                              }
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
                       )}
                     </div>
 
-                    {/* Description */}
-                    <p className="mb-4 leading-relaxed line-clamp-2 text-sm md:text-base"
-                      style={{ color: 'var(--text-muted)' }}>
-                      {post.description}
-                    </p>
-
-                    {/* Tags */}
-                    {post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {post.tags.map((tag, tagIndex) => (
-                          <button
-                            key={tag}
-                            onClick={(e) => handleTagClick(e, tag)}
-                            className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full transition-all duration-200${tagIndex >= 3 ? ' hidden sm:inline-block' : ''}`}
-                            style={selectedTag === tag
-                              ? { backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }
-                              : { backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }
-                            }
-                            onMouseEnter={e => {
-                              if (selectedTag !== tag) {
-                                (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--accent-100)';
-                              }
-                            }}
-                            onMouseLeave={e => {
-                              if (selectedTag !== tag) {
-                                (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--accent-50)';
-                              }
-                            }}
-                          >
-                            #{tag}
-                          </button>
-                        ))}
+                    {/* Thumbnail — smaller on mobile */}
+                    {post.image && (
+                      <div className="flex-shrink-0 w-[80px] sm:w-[112px] md:w-[140px] relative rounded overflow-hidden">
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          width={280}
+                          height={187}
+                          className="object-cover w-full h-auto rounded"
+                          sizes="(max-width: 640px) 80px, 140px"
+                        />
                       </div>
                     )}
+                  </article>
+                </Link>
 
-                    {/* Metadata */}
-                    <div className="flex flex-wrap items-center gap-4 text-xs pt-3"
-                      style={{ borderTop: '1px solid var(--border)', color: 'var(--text-muted)' }}>
-                      <time dateTime={post.date} className="flex items-center gap-1.5">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 01-2 2z" />
-                        </svg>
-                        {format(new Date(post.date), 'MMM dd, yyyy')}
-                      </time>
-                      <span className="flex items-center gap-1.5">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {post.readingTime}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                        {isLoadingStats ? '–' : (
-                          <ViewCounter type="blog" slug={post.slug} showLabel={false} className="text-xs" initialCount={stats.views[post.slug] ?? 0} />
-                        )}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                        </svg>
-                        {isLoadingStats ? '–' : `${stats.upvotes[post.slug]?.toLocaleString() || 0} upvotes`}
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              </Link>
+                {/* Divider between posts */}
+                {index < arr.length - 1 && (
+                  <hr className="border-0" style={{ borderTop: '1px solid var(--border)' }} />
+                )}
+              </div>
             );
           })}
         </div>
 
-        {/* No Results */}
+        {/* ━━━ No Results ━━━ */}
         {filteredAndSortedPosts.length === 0 && (
-          <div className="text-center py-16">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--accent-50)' }}>
-              <svg className="w-10 h-10" style={{ color: 'var(--accent-400)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No posts found</h3>
-            <p className="mb-6" style={{ color: 'var(--text-muted)' }}>
-              {selectedCategory === 'all' && !selectedTag
-                ? "No blog posts available yet. Check back soon!"
-                : selectedTag
-                  ? `No posts found with tag "${selectedTag}". Try selecting a different tag.`
-                  : `No posts found in "${selectedCategory}" category. Try selecting a different category.`
-              }
+          <div className="text-center py-20">
+            <p className="text-lg mb-2" style={{ color: 'var(--text-primary)' }}>
+              No stories found
+            </p>
+            <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
+              {selectedTag
+                ? `No posts tagged "${selectedTag}". Try another topic.`
+                : selectedCategory !== 'all'
+                  ? `Nothing in "${selectedCategory}" yet.`
+                  : 'No blog posts available yet. Check back soon!'}
             </p>
             {(selectedCategory !== 'all' || selectedTag) && (
               <button
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setSelectedTag(null);
-                  router.push('/blog');
-                }}
-                className="btn btn-secondary btn-md"
+                onClick={() => { setSelectedCategory('all'); setSelectedTag(null); router.push('/blog'); }}
+                className="text-sm font-medium px-4 py-2 rounded-full transition-colors"
+                style={{ backgroundColor: 'var(--text-primary)', color: 'var(--background)' }}
               >
-                Show All Posts
+                Browse all stories
               </button>
             )}
           </div>

@@ -6,7 +6,7 @@ date: "2023-12-10"
 slug: Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups
 category: AWS
 image: "/images/blog/Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups.jpg"
-tags: [AWS,  SNS, SQS]
+tags: ["System Design", "Backend", "Cloud & DevOps"]
 readTime: "6 min read"
 questions: [
   "What is Amazon SNS?",
