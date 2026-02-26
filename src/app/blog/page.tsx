@@ -45,42 +45,20 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-interface BlogPageProps {
-  searchParams?: Promise<{
-    tag?: string;
-  }>;
-}
-
-export default async function BlogPage({ searchParams }: BlogPageProps) {
+export default async function BlogPage() {
   const blogPosts = await getAllBlogPostsForListing();
-
-  const resolvedSearchParams = await searchParams;
-  const rawTag = resolvedSearchParams?.tag;
-  const selectedTag = rawTag ? decodeURIComponent(rawTag).trim() : null;
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
     { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' }
   ];
 
-  const baseDescription = "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.";
-
-  const pageTitle = selectedTag ? `Posts tagged "${selectedTag}"` : "All Blog Posts";
-  const pageDescription = selectedTag
-    ? `Browse all blog posts tagged "${selectedTag}" from Ratn Labs.`
-    : baseDescription;
-
   return (
     <div className="relative overflow-hidden">
       <OgImageInBody src="/images/blog/building-blog.jpg" alt="All Blog Posts" />
       <BlogListStructuredData posts={blogPosts} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      <BlogListingClient
-        blogPosts={blogPosts}
-        initialTag={selectedTag}
-        pageTitle={pageTitle}
-        pageDescription={pageDescription}
-      />
+      <BlogListingClient blogPosts={blogPosts} />
     </div>
   );
 }

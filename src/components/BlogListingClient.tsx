@@ -7,8 +7,8 @@ import { BlogPost } from '@/types/blog';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface BlogListingClientProps {
   blogPosts: BlogPost[];
@@ -37,18 +37,29 @@ function getTopTags(posts: BlogPost[], max = 8): string[] {
     .map(([tag]) => tag);
 }
 
-export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pageDescription }: BlogListingClientProps) {
+export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageTitle, pageDescription }: BlogListingClientProps) {
+  const searchParams = useSearchParams();
+  const urlTag = searchParams.get('tag');
+  const initialTag = propTag ?? (urlTag ? decodeURIComponent(urlTag).trim() : null);
+
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
   const [sortBy, setSortBy] = useState<'date' | 'title'>('date');
   const [stats, setStats] = useState<BlogStats>({ views: {}, upvotes: {} });
   const [isLoadingStats, setIsLoadingStats] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
-    setSelectedTag(initialTag ?? null);
+    if (propTag != null) return;
+    const tag = searchParams.get('tag');
+    setSelectedTag(tag ? decodeURIComponent(tag).trim() : null);
     setSelectedCategory('all');
-  }, [initialTag]);
+  }, [searchParams, propTag]);
+
+  const updateUrl = useCallback((nextTag: string | null) => {
+    if (propTag != null) return;
+    const url = nextTag ? `/blog?tag=${encodeURIComponent(nextTag.trim())}` : '/blog';
+    window.history.replaceState(null, '', url);
+  }, [propTag]);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -90,12 +101,16 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
     const nextTag = selectedTag === tag ? null : tag;
     setSelectedTag(nextTag);
     setSelectedCategory('all');
-    router.push(nextTag ? `/blog?tag=${encodeURIComponent(nextTag.trim())}` : '/blog');
+    updateUrl(nextTag);
   };
 
   const topTags = useMemo(() => getTopTags(blogPosts), [blogPosts]);
 
-  const resolvedTitle = pageTitle || 'All Blog Posts';
+  const baseDescription = 'Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.';
+  const resolvedTitle = pageTitle ?? (selectedTag ? `Posts tagged "${selectedTag}"` : 'All Blog Posts');
+  const resolvedDescription = pageDescription ?? (selectedTag
+    ? `Browse all blog posts tagged "${selectedTag}" from Ratn Labs.`
+    : baseDescription);
 
   return (
     <div className="min-h-screen" style={{ color: 'var(--text-primary)', background: 'var(--background)' }}>
@@ -107,9 +122,9 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
             style={{ color: 'var(--text-primary)' }}>
             {resolvedTitle}
           </h1>
-          {pageDescription && (
+          {resolvedDescription && (
             <p className="mt-2 text-[15px] md:text-base leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-              {pageDescription}
+              {resolvedDescription}
             </p>
           )}
         </header>
@@ -120,7 +135,7 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
           style={{ borderBottom: '1px solid var(--border)', WebkitOverflowScrolling: 'touch' }}
         >
           <button
-            onClick={() => { setSelectedTag(null); setSelectedCategory('all'); router.push('/blog'); }}
+            onClick={() => { setSelectedTag(null); setSelectedCategory('all'); updateUrl(null); }}
             className={`medium-topic-tab flex-shrink-0 whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors ${!selectedTag ? 'medium-topic-tab--active font-semibold' : ''
               }`}
             style={!selectedTag
@@ -289,7 +304,7 @@ export function BlogListingClient({ blogPosts, initialTag = null, pageTitle, pag
             </p>
             {(selectedCategory !== 'all' || selectedTag) && (
               <button
-                onClick={() => { setSelectedCategory('all'); setSelectedTag(null); router.push('/blog'); }}
+                onClick={() => { setSelectedCategory('all'); setSelectedTag(null); updateUrl(null); }}
                 className="text-sm font-medium px-4 py-2 rounded-full transition-colors"
                 style={{ backgroundColor: 'var(--text-primary)', color: 'var(--background)' }}
               >

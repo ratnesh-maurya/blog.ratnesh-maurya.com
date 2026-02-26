@@ -1,7 +1,7 @@
-import { getAllSillyQuestions } from '@/lib/content';
-import { FAQStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
-import { SillyQuestionsListingClient } from '@/components/SillyQuestionsListingClient';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { SillyQuestionsListingClient } from '@/components/SillyQuestionsListingClient';
+import { BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
+import { getAllSillyQuestionsForListing } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
@@ -60,19 +60,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-interface SillyQuestionsPageProps {
-  searchParams?: Promise<{ category?: string }>;
-}
-
-export default async function SillyQuestionsPage({ searchParams }: SillyQuestionsPageProps) {
-  const questions = await getAllSillyQuestions();
-
-  const resolvedParams = await searchParams;
-  const rawCategory = resolvedParams?.category;
-  // Decode slug back to display label: "css" → "CSS", "javascript" → "JavaScript"
-  const initialCategory = rawCategory
-    ? decodeURIComponent(rawCategory).replace(/-/g, ' ').trim()
-    : null;
+export default async function SillyQuestionsPage() {
+  const questions = await getAllSillyQuestionsForListing();
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
@@ -84,7 +73,7 @@ export default async function SillyQuestionsPage({ searchParams }: SillyQuestion
       <OgImageInBody src={getStoredOgImageUrl('silly-questions')} alt="Silly Questions & Coding Mistakes" />
       <FAQStructuredData questions={questions} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      <SillyQuestionsListingClient questions={questions} initialCategory={initialCategory} />
+      <SillyQuestionsListingClient questions={questions} />
     </>
   );
 }

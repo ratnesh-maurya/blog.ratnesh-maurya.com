@@ -4,11 +4,11 @@ import { ViewCounter } from '@/components/ViewCounter';
 import { SillyQuestion } from '@/types/blog';
 import { format } from 'date-fns';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface SillyQuestionsListingClientProps {
     questions: SillyQuestion[];
-    initialCategory?: string | null;
 }
 
 interface SillyQuestionStats {
@@ -17,10 +17,19 @@ interface SillyQuestionStats {
     reports?: Record<string, number>;
 }
 
-export function SillyQuestionsListingClient({ questions, initialCategory = null }: SillyQuestionsListingClientProps) {
+export function SillyQuestionsListingClient({ questions }: SillyQuestionsListingClientProps) {
+    const searchParams = useSearchParams();
+    const urlCategory = searchParams.get('category');
+    const initialCategory = urlCategory ? decodeURIComponent(urlCategory).replace(/-/g, ' ').trim() : null;
+
     const [stats, setStats] = useState<SillyQuestionStats>({ views: {}, upvotes: {} });
     const [isLoadingStats, setIsLoadingStats] = useState(true);
     const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory);
+
+    useEffect(() => {
+        const cat = searchParams.get('category');
+        setActiveCategory(cat ? decodeURIComponent(cat).replace(/-/g, ' ').trim() : null);
+    }, [searchParams]);
 
     useEffect(() => {
         const fetchStats = async () => {

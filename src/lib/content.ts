@@ -1,13 +1,13 @@
+import { BlogPost, SillyQuestion, TILEntry } from '@/types/blog';
 import fs from 'fs';
-import path from 'path';
 import matter from 'gray-matter';
+import path from 'path';
+import readingTime from 'reading-time';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeStringify from 'rehype-stringify';
 import { remark } from 'remark';
 import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeStringify from 'rehype-stringify';
-import readingTime from 'reading-time';
-import { BlogPost, SillyQuestion, TILEntry } from '@/types/blog';
 import { addIdsToHeadings } from './toc';
 
 export interface TechnicalTermQuestion {
@@ -144,9 +144,35 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   }
 }
 
+export function getAllSillyQuestionsForListing(): SillyQuestion[] {
+  const fileNames = fs.readdirSync(sillyQuestionsDirectory).filter(name => name.endsWith('.md'));
+
+  return fileNames
+    .map((fileName) => {
+      const slug = fileName.replace(/\.md$/, '');
+      try {
+        const fullPath = path.join(sillyQuestionsDirectory, `${slug}.md`);
+        const fileContents = fs.readFileSync(fullPath, 'utf8');
+        const { data, content } = matter(fileContents);
+        return {
+          slug,
+          question: data.question || '',
+          answer: content.substring(0, 500),
+          date: data.date || '',
+          tags: data.tags || [],
+          category: data.category || 'General',
+        } as SillyQuestion;
+      } catch {
+        return null;
+      }
+    })
+    .filter((q): q is SillyQuestion => q !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
 export async function getAllSillyQuestions(): Promise<SillyQuestion[]> {
   const fileNames = fs.readdirSync(sillyQuestionsDirectory).filter(name => name.endsWith('.md'));
-  
+
   const allQuestionsData = await Promise.all(
     fileNames.map(async (fileName) => {
       const slug = fileName.replace(/\.md$/, '');
@@ -164,14 +190,14 @@ export async function getSillyQuestion(slug: string): Promise<SillyQuestion | nu
     const fullPath = path.join(sillyQuestionsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
-    
+
     const processedContent = await remark()
       .use(remarkGfm)
       .use(remarkRehype)
       .use(rehypeHighlight)
       .use(rehypeStringify)
       .process(content);
-    
+
     const answerHtml = processedContent.toString();
 
     return {
