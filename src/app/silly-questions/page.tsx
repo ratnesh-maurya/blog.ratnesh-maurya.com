@@ -2,6 +2,7 @@ import { OgImageInBody } from '@/components/OgImageInBody';
 import { SillyQuestionsListingClient } from '@/components/SillyQuestionsListingClient';
 import { BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
 import { getAllSillyQuestionsForListing } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
@@ -28,6 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [{ name: "Ratnesh Maurya" }],
     alternates: {
       canonical: "https://blog.ratnesh-maurya.com/silly-questions",
+      types: { ...oembedAlternate('/silly-questions') },
     },
     openGraph: {
       title: "Silly Questions & Mistakes | Ratn Labs",

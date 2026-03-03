@@ -3,12 +3,13 @@ import Link from 'next/link';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getPrivacyPolicyContent } from '@/lib/static-content';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Ratn Labs',
   description: 'Privacy policy for Ratn Labs (blog.ratnesh-maurya.com). How we collect, use, and protect your information.',
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/privacy-policy' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/privacy-policy', types: { ...oembedAlternate('/privacy-policy') } },
   openGraph: {
     title: 'Privacy Policy — Ratn Labs',
     description: 'How we collect, use, and protect your information.',

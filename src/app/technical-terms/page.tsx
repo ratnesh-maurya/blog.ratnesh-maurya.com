@@ -2,6 +2,7 @@ import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData, TechnicalTermsStructuredData } from '@/components/StructuredData';
 import { TechnicalTermsSearch } from '@/components/TechnicalTermsSearch';
 import { getAllTechnicalTermsForListing } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Technical Terms — Backend & System Design',
   description: 'Definitions and explanations for technical terms: indexing, clustering, CAP theorem, ACID, replication, and more. Backend and system design reference.',
   keywords: ['technical terms', 'system design', 'indexing', 'clustering', 'CAP theorem', 'ACID', 'replication', 'distributed systems', 'backend glossary'],
-  alternates: { canonical: `${BASE}/technical-terms` },
+  alternates: { canonical: `${BASE}/technical-terms`, types: { ...oembedAlternate('/technical-terms') } },
   openGraph: {
     title: 'Technical Terms — Backend & System Design',
     description: 'Definitions for indexing, clustering, CAP, ACID, replication, and other backend and system design terms.',

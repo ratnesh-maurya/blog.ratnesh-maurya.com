@@ -1,11 +1,12 @@
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { AnalyticsDashboard } from '@/components/analytics/dashboard';
+import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Post Analytics — Ratn Labs',
   description: 'Views, upvotes, and engagement analytics across blog, technical terms, silly questions, and cheatsheets.',
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/analytics' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/analytics', types: { ...oembedAlternate('/analytics') } },
   robots: { index: false, follow: true },
 };
 

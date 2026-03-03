@@ -1,6 +1,7 @@
 import { SearchPageClient } from '@/app/search/SearchPageClient';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Search — Ratn Labs',
   description: 'Search all blog posts, silly questions, and topics on Ratn Labs. Find articles on system design, Go, AWS, web development, and more.',
   keywords: ['search', 'blog search', 'find articles', 'system design', 'Go', 'backend engineering'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/search' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/search', types: { ...oembedAlternate('/search') } },
   openGraph: {
     title: 'Search — Ratn Labs',
     description: 'Search all blog posts and Q&As on Ratn Labs.',

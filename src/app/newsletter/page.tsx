@@ -1,6 +1,7 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getAllBlogPosts } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Newsletter — Ratn Labs',
   description: 'Subscribe to get new articles on system design, Go, AWS, and backend engineering delivered straight to your inbox. No spam, unsubscribe anytime.',
   keywords: ['newsletter', 'backend engineering newsletter', 'system design newsletter', 'Go newsletter', 'developer newsletter'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/newsletter' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/newsletter', types: { ...oembedAlternate('/newsletter') } },
   openGraph: {
     title: 'Newsletter — Ratn Labs',
     description: 'Get new articles on system design, Go, and backend engineering in your inbox.',

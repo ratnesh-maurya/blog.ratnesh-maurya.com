@@ -11,6 +11,7 @@ import { BlogStructuredData, BreadcrumbStructuredData, FAQStructuredData } from 
 import { TableOfContents } from '@/components/TableOfContents';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllBlogPosts, getBlogPost, getBlogPostSlugs } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 import { MDXRemote } from 'next-mdx-remote/rsc';
@@ -59,6 +60,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       languages: {
         'en-US': `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
       },
+      types: { ...oembedAlternate(`/blog/${post.slug}`) },
     },
     openGraph: {
       title: post.title,

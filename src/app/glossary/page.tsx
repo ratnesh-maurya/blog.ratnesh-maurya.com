@@ -1,5 +1,6 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData, GlossaryStructuredData } from '@/components/StructuredData';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { getGlossaryContent } from '@/lib/static-content';
 import { Metadata } from 'next';
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Glossary — Backend & System Design Terms | Ratn Labs',
   description: 'Definitions for common backend engineering, system design, Go, and distributed systems terms. Clear explanations with real-world context.',
   keywords: ['backend glossary', 'system design terms', 'distributed systems glossary', 'Go terms', 'CAP theorem', 'idempotency', 'microservices', 'inode', 'ACID', 'event sourcing'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/glossary' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/glossary', types: { ...oembedAlternate('/glossary') } },
   openGraph: {
     title: 'Glossary — Backend & System Design Terms | Ratn Labs',
     description: 'Clear definitions for common backend, system design, and distributed systems terms.',

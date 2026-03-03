@@ -1,6 +1,7 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getAllBlogPosts, getAllSillyQuestions } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { getTopicsMeta } from '@/lib/static-content';
 import { Metadata } from 'next';
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Topics — Ratn Labs',
   description: 'Browse all topics covered on Ratn Labs: system design, Go, AWS, web development, computer science, and more. Find articles by category.',
   keywords: ['topics', 'categories', 'system design', 'golang', 'AWS', 'web development', 'backend engineering'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/topics' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/topics', types: { ...oembedAlternate('/topics') } },
   openGraph: {
     title: 'Topics — Ratn Labs',
     description: 'Browse all topics covered on Ratn Labs: system design, Go, AWS, web development, and more.',

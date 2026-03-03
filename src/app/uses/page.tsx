@@ -1,5 +1,6 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Uses — Tools & Setup · Ratn Labs',
   description: "The tools, software, hardware, and services Ratnesh Maurya uses daily as a backend engineer. Editor, terminal, cloud services, and dev workflow.",
   keywords: ['developer setup', 'tools', 'VS Code', 'Go tools', 'backend developer workflow', 'developer productivity', 'Ratnesh Maurya uses'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/uses' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/uses', types: { ...oembedAlternate('/uses') } },
   openGraph: {
     title: 'Uses — Tools & Setup · Ratn Labs',
     description: "The tools, software, and hardware I use daily as a backend engineer.",

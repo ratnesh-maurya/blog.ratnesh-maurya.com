@@ -4,6 +4,7 @@ import { SocialShare } from '@/components/SocialShare';
 import { BreadcrumbStructuredData, TechnicalTermFAQStructuredData, TechnicalTermStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllTechnicalTerms, getTechnicalTerm, getTechnicalTermSlugs } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImagePath, getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -30,7 +31,7 @@ export async function generateMetadata({
   return {
     title,
     description: term.description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, types: { ...oembedAlternate(`/technical-terms/${slug}`) } },
     openGraph: {
       title: term.title,
       description: term.description,

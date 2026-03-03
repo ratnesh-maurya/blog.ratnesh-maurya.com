@@ -2,6 +2,7 @@ import { OgImageInBody } from '@/components/OgImageInBody';
 import { PageStatsTracker } from '@/components/PageStatsTracker';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getAllBlogPosts } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   title: 'About — Ratnesh Maurya',
   description: 'Ratnesh Maurya is a backend engineer specialising in system design, distributed systems, and scalable architecture. Based in India, building and writing about what matters in software.',
   keywords: ['Ratnesh Maurya', 'backend engineer', 'system design', 'distributed systems', 'Go', 'TypeScript', 'about'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/about' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/about', types: { ...oembedAlternate('/about') } },
   openGraph: {
     title: 'About — Ratnesh Maurya',
     description: 'Backend engineer specialising in system design, distributed systems, and scalable architecture.',

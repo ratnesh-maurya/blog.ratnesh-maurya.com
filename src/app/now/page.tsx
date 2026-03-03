@@ -1,5 +1,6 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Now — What I\'m Up To | Ratn Labs',
   description: 'What Ratnesh Maurya is working on, learning, reading, and thinking about right now. Updated regularly.',
   keywords: ['now page', 'Ratnesh Maurya now', 'what I am working on', 'current projects'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/now' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/now', types: { ...oembedAlternate('/now') } },
   openGraph: {
     title: 'Now — Ratn Labs',
     description: "What I'm working on, learning, and reading right now.",

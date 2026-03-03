@@ -2,6 +2,7 @@ import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData, TILListStructuredData } from '@/components/StructuredData';
 import { TILListingClient } from '@/components/TILListingClient';
 import { getAllTILEntries } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Today I Learned — Ratn Labs',
   description: 'Short, practical learnings from real engineering work — Go, PostgreSQL, Kubernetes, AWS, Docker, and backend systems.',
   keywords: ['TIL', 'today I learned', 'Go tips', 'Kubernetes tips', 'PostgreSQL tips', 'AWS tips', 'backend engineering', 'developer learnings'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/til' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/til', types: { ...oembedAlternate('/til') } },
   openGraph: {
     title: 'Today I Learned — Ratn Labs',
     description: 'Short, practical learnings from real engineering work.',

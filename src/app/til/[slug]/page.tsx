@@ -4,6 +4,7 @@ import { PostNavigation } from '@/components/PostNavigation';
 import { BreadcrumbStructuredData, TILStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllTILEntries, getTILEntry, getTILSlugs } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 import { Metadata } from 'next';
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: TILPageProps): Promise<Metada
     title: `${entry.title} — TIL | Ratn Labs`,
     description: `Today I Learned: ${entry.title}. A short note on ${entry.category} from Ratnesh Maurya.`,
     keywords: [entry.category, ...entry.tags, 'TIL', 'today I learned'],
-    alternates: { canonical: `https://blog.ratnesh-maurya.com/til/${slug}` },
+    alternates: { canonical: `https://blog.ratnesh-maurya.com/til/${slug}`, types: { ...oembedAlternate(`/til/${slug}`) } },
     openGraph: {
       title: entry.title,
       description: `TIL: ${entry.title}`,

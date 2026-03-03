@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { getAllBlogPosts } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
   return {
     title,
     description,
-    alternates: { canonical: canonicalUrl },
+    alternates: { canonical: canonicalUrl, types: { ...oembedAlternate(`/blog/tag/${tag}`) } },
     openGraph: {
       title,
       description,

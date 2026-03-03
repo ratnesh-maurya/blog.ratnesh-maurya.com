@@ -4,6 +4,7 @@ import { OgImageInBody } from '@/components/OgImageInBody';
 import { SocialShare } from '@/components/SocialShare';
 import { BreadcrumbStructuredData, CheatsheetStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { getCheatsheet, getCheatsheetSlugs } from '@/lib/static-content';
 import { Metadata } from 'next';
@@ -30,7 +31,7 @@ export async function generateMetadata({
     title: `${data.title} | Ratn Labs`,
     description: data.description,
     keywords: data.keywords,
-    alternates: { canonical: url },
+    alternates: { canonical: url, types: { ...oembedAlternate(`/cheatsheets/${slug}`) } },
     openGraph: {
       title: ogTitle,
       url,

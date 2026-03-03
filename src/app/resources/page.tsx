@@ -1,5 +1,6 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData, ResourcesListStructuredData } from '@/components/StructuredData';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Resources — Books, Talks & Tools | Ratn Labs',
   description: 'Curated books, talks, tools, and newsletters for backend engineers — system design, Go, distributed systems, and cloud-native development.',
   keywords: ['backend engineering resources', 'system design books', 'Go books', 'distributed systems resources', 'developer tools', 'engineering reading list'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/resources' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/resources', types: { ...oembedAlternate('/resources') } },
   openGraph: {
     title: 'Resources — Books, Talks & Tools | Ratn Labs',
     description: 'Curated resources for backend engineers — books, talks, tools, and newsletters.',

@@ -5,6 +5,7 @@ import { SocialShare } from '@/components/SocialShare';
 import { SillyQuestionStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllSillyQuestions, getSillyQuestion, getSillyQuestionSlugs } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -53,6 +54,7 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
     category: question.category,
     alternates: {
       canonical: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
+      types: { ...oembedAlternate(`/silly-questions/${question.slug}`) },
     },
     openGraph: {
       title: question.question,

@@ -2,6 +2,7 @@ import { BlogListingClient } from '@/components/BlogListingClient';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getAllBlogPostsForListing } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImagePath } from '@/lib/og';
 import { Metadata } from 'next';
 
@@ -14,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [{ name: "Ratnesh Maurya" }],
     alternates: {
       canonical: "https://blog.ratnesh-maurya.com/blog",
+      types: { ...oembedAlternate('/blog') },
     },
     openGraph: {
       title: "All Blog Posts",

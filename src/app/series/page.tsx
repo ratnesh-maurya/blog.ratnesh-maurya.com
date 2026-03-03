@@ -1,6 +1,7 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData, SeriesListStructuredData } from '@/components/StructuredData';
 import { getAllBlogPosts } from '@/lib/content';
+import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { getSeriesConfig } from '@/lib/static-content';
 import { Metadata } from 'next';
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Series — Learning Paths | Ratn Labs',
   description: 'Grouped reading paths for backend engineering topics — system design, AWS, Go, and more. Read posts in the right order.',
   keywords: ['backend engineering series', 'system design series', 'Go learning path', 'AWS series', 'developer reading path'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/series' },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/series', types: { ...oembedAlternate('/series') } },
   openGraph: {
     title: 'Series — Ratn Labs',
     description: 'Grouped reading paths for backend engineering — system design, AWS, Go.',
