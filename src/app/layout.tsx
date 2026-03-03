@@ -1,5 +1,6 @@
 import { Analytics } from "@/components/Analytics";
 import { AppWrapper } from "@/components/AppWrapper";
+import { OEmbedDiscovery } from "@/components/OEmbedDiscovery";
 import { OrganizationStructuredData, ProfilePageStructuredData, WebsiteStructuredData } from "@/components/StructuredData";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
@@ -137,6 +138,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <OEmbedDiscovery />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif4.variable} antialiased`}>
         {/* Inline theme script — runs synchronously before paint to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

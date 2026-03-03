@@ -2,10 +2,11 @@ import { BlogListingClient } from '@/components/BlogListingClient';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getAllBlogPostsForListing } from '@/lib/content';
+import { getStoredOgImagePath } from '@/lib/og';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const ogImage = '/images/blog/building-blog.jpg';
+  const ogImage = getStoredOgImagePath('blog');
   return {
     title: "All Blog Posts",
     description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
@@ -55,7 +56,7 @@ export default async function BlogPage() {
 
   return (
     <div className="relative overflow-hidden">
-      <OgImageInBody src="/images/blog/building-blog.jpg" alt="All Blog Posts" />
+      <OgImageInBody src={getStoredOgImagePath('blog')} alt="All Blog Posts" />
       <BlogListStructuredData posts={blogPosts} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <BlogListingClient blogPosts={blogPosts} />
