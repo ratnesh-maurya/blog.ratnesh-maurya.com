@@ -310,10 +310,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 )}
 
                 <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
-                  <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
-                    style={{ color: 'var(--text-muted)' }}>
-                    Share this post
-                  </h3>
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <h3 className="text-xs font-semibold uppercase tracking-widest"
+                      style={{ color: 'var(--text-muted)' }}>
+                      Share this post
+                    </h3>
+                    <Link
+                      href={`/utm?${new URLSearchParams({
+                        url: `/blog/${post.slug}`,
+                        title: post.title,
+                        description: post.description || '',
+                      }).toString()}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all duration-200"
+                      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
+                      </svg>
+                      UTM
+                    </Link>
+                  </div>
                   <SocialShare
                     url={`/blog/${post.slug}`}
                     title={post.title}

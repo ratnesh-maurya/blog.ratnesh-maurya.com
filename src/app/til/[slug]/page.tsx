@@ -96,10 +96,26 @@ export default async function TILEntryPage({ params }: TILPageProps) {
                 {format(new Date(entry.date), 'MMMM dd, yyyy')}
               </time>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight leading-snug"
-              style={{ color: 'var(--text-primary)' }}>
-              {entry.title}
-            </h1>
+            <div className="flex items-start justify-between gap-3">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight leading-snug"
+                style={{ color: 'var(--text-primary)' }}>
+                {entry.title}
+              </h1>
+              <Link
+                href={`/utm?${new URLSearchParams({
+                  url: `/til/${slug}`,
+                  title: entry.title,
+                  description: `TIL: ${entry.title}`,
+                }).toString()}`}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all duration-200 whitespace-nowrap"
+                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
+                </svg>
+                UTM
+              </Link>
+            </div>
             <div className="flex flex-wrap gap-1.5 mt-3">
               {entry.tags.map(tag => (
                 <span key={tag} className="text-xs px-2 py-0.5 rounded-md"

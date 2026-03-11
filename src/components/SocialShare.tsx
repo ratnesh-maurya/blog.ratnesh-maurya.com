@@ -37,7 +37,8 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
     })(),
     linkedin: (() => {
       const u = addUtmParams(url, 'linkedin');
-      return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(u)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(description || '')}`;
+      // LinkedIn share-offsite only supports `url`. Extra params may be ignored.
+      return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(u)}`;
     })(),
     facebook: (() => {
       const u = addUtmParams(url, 'facebook');
@@ -58,6 +59,14 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
   };
 
   const urlForCopy = addUtmParams(url, 'copy');
+  const utmBuilderUrl = (() => {
+    const full = url.startsWith('/') ? `${BASE}${url}` : url;
+    const params = new URLSearchParams();
+    params.set('url', full);
+    params.set('title', title);
+    if (description) params.set('description', description);
+    return `/utm?${params.toString()}`;
+  })();
 
   const copyToClipboard = async () => {
     try {
@@ -71,6 +80,10 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
 
   const openShare = (platform: keyof typeof shareLinks) => {
     window.open(shareLinks[platform], '_blank', 'noopener,noreferrer');
+  };
+
+  const openUtmBuilder = () => {
+    window.open(utmBuilderUrl, '_blank', 'noopener,noreferrer');
   };
 
   const btnBase = 'inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium';
@@ -151,6 +164,18 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
         {copied ? <CheckIcon /> : <CopyIcon />}
         {copied ? 'Copied!' : 'Copy link'}
       </button>
+
+      <button
+        onClick={openUtmBuilder}
+        className={btnBase}
+        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
+        aria-label="Open UTM builder"
+      >
+        <UtmIcon />
+        UTM
+      </button>
     </div>
   );
 }
@@ -207,6 +232,14 @@ function CheckIcon() {
   return (
     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+    </svg>
+  );
+}
+
+function UtmIcon() {
+  return (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
     </svg>
   );
 }
