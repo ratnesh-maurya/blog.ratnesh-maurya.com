@@ -5,7 +5,7 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
-  "theme_color": "#0088E6",
+  "theme_color": "#0066CC",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -21,7 +21,8 @@
     {
       "src": "/apple-touch-icon.png",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "categories": ["technology", "education", "blog"]

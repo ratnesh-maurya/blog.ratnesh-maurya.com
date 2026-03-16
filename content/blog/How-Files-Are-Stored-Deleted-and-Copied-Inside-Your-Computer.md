@@ -238,7 +238,7 @@ That's simply removing the reference to the file.
 
 Copying involves many `read()` and `write()` operations, which take time.
 
-* * * * *
+---
 
 Why Deleting Many Files Can Be Slow
 -----------------------------------
@@ -253,7 +253,7 @@ Deleting thousands of small files can take time because:
 
 Even metadata operations add up when repeated many times.
 
-* * * * *
+---
 
 Secure Deletion
 ---------------
@@ -269,7 +269,7 @@ On SSDs:
 
 -   Use drive-level secure erase
 -   Or enable full-disk encryption
-* * * * *
+---
 
 Key Takeaways
 -------------
@@ -281,15 +281,17 @@ Key Takeaways
 -   SSDs and HDDs behave differently.
 -   Secure deletion requires special handling.
 
-* * * * *
+---
 
-Conclusion
-----------
+## What to explore next
 
-File operations look simple from the UI, but internally the operating system and filesystem are managing metadata, block allocation, caching, journaling, and hardware coordination.
+File operations look simple from the UI, but under the surface the OS is managing metadata, block allocation, caching, journaling, and hardware coordination.
 
-The next time a file deletes instantly, you'll know:
+If this interested you, here are some rabbit holes worth going down:
 
-It wasn't magic.
+-   **`strace` on Linux** — run `strace rm file.txt` or `strace cp src dst` to see the actual system calls involved
+-   **Filesystem internals** — look into how ext4 journaling works, or how ZFS and Btrfs use copy-on-write to make snapshots nearly free
+-   **Flash Translation Layer** — how SSDs remap logical blocks to physical NAND pages, and why TRIM exists
+-   **Data recovery tools** — tools like `testdisk` and `photorec` exploit the fact that "deleted" data is still on disk
 
-> written using AI tools
+The next time a file deletes instantly, you'll know — it wasn't magic. It was just a metadata update.

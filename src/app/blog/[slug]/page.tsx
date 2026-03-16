@@ -6,11 +6,12 @@ import { OgImageInBody } from '@/components/OgImageInBody';
 import { PostNavigation } from '@/components/PostNavigation';
 import { ReadingProgress } from '@/components/ReadingProgress';
 import { RelatedPosts } from '@/components/RelatedPosts';
+import { RelatedTerms } from '@/components/RelatedTerms';
 import { SocialShare } from '@/components/SocialShare';
 import { BlogStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
 import { TableOfContents } from '@/components/TableOfContents';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { getAllBlogPosts, getBlogPost, getBlogPostSlugs } from '@/lib/content';
+import { getAllBlogPosts, getBlogPost, getBlogPostSlugs, getAllTechnicalTermsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
@@ -126,7 +127,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const [post, allPosts] = await Promise.all([getBlogPost(slug), getAllBlogPosts()]);
+  const [post, allPosts, allTerms] = await Promise.all([getBlogPost(slug), getAllBlogPosts(), getAllTechnicalTermsForListing()]);
 
   if (!post) {
     notFound();
@@ -385,6 +386,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   currentCategory={post.category}
                   currentTags={post.tags}
                   allPosts={allPosts}
+                />
+
+                <RelatedTerms
+                  terms={allTerms.filter(term => {
+                    const t = term.title.toLowerCase();
+                    return post.tags.some(tag => t.includes(tag.toLowerCase())) ||
+                      t.includes(post.category.toLowerCase()) ||
+                      post.title.toLowerCase().includes(t);
+                  }).slice(0, 8)}
                 />
 
                 {/* Prev / Next navigation */}

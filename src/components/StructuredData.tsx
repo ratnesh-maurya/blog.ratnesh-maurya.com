@@ -822,3 +822,39 @@ export function ResourcesListStructuredData({ sections }: ResourcesListStructure
       dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
   );
 }
+
+interface HowToStep {
+  name: string;
+  text: string;
+  url?: string;
+}
+
+interface HowToStructuredDataProps {
+  name: string;
+  description: string;
+  steps: HowToStep[];
+  totalTime?: string;
+  image?: string;
+}
+
+export function HowToStructuredData({ name, description, steps, totalTime, image }: HowToStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    ...(totalTime && { totalTime }),
+    ...(image && { image }),
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+      ...(step.url && { url: step.url }),
+    })),
+  };
+  return (
+    <script type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+  );
+}

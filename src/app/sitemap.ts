@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const blogUrls = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
+    url: `${baseUrl}/blog/${post.slug}/`,
     lastModified: new Date(post.date),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const questionUrls = sillyQuestions.map((question) => ({
-    url: `${baseUrl}/silly-questions/${question.slug}`,
+    url: `${baseUrl}/silly-questions/${question.slug}/`,
     lastModified: new Date(question.date),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const tagSlug = (tag: string) =>
     encodeURIComponent(tag.trim().toLowerCase().replace(/\s+/g, '-'));
   const tagUrls = Array.from(tagLatestDate.entries()).map(([tag, latestDate]) => ({
-    url: `${baseUrl}/blog/tag/${tagSlug(tag)}`,
+    url: `${baseUrl}/blog/tag/${tagSlug(tag)}/`,
     lastModified: new Date(latestDate),
     changeFrequency: 'weekly' as const,
     priority: 0.75,
@@ -53,30 +53,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticWithOg: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: now, changeFrequency: 'weekly', priority: 1, images: [getStoredOgImageUrl('home')] },
-    { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.9, images: [getStoredOgImageUrl('blog')] },
-    { url: `${baseUrl}/silly-questions`, lastModified: now, changeFrequency: 'weekly', priority: 0.8, images: [getStoredOgImageUrl('silly-questions')] },
-    { url: `${baseUrl}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('about')] },
-    { url: `${baseUrl}/topics`, lastModified: now, changeFrequency: 'weekly', priority: 0.85, images: [getStoredOgImageUrl('topics')] },
-    { url: `${baseUrl}/search`, lastModified: now, changeFrequency: 'weekly', priority: 0.7, images: [getStoredOgImageUrl('search')] },
-    { url: `${baseUrl}/uses`, lastModified: now, changeFrequency: 'monthly', priority: 0.6, images: [getStoredOgImageUrl('uses')] },
-    { url: `${baseUrl}/newsletter`, lastModified: now, changeFrequency: 'monthly', priority: 0.65, images: [getStoredOgImageUrl('newsletter')] },
-    { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3, images: [getStoredOgImageUrl('privacy-policy')] },
-    { url: `${baseUrl}/til`, lastModified: now, changeFrequency: 'weekly', priority: 0.85, images: [getStoredOgImageUrl('til')] },
-    { url: `${baseUrl}/glossary`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('glossary')] },
-    { url: `${baseUrl}/cheatsheets`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('cheatsheets')] },
-    { url: `${baseUrl}/cheatsheets/go`, lastModified: now, changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'go')] },
-    { url: `${baseUrl}/cheatsheets/docker`, lastModified: now, changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'docker')] },
-    { url: `${baseUrl}/cheatsheets/postgres`, lastModified: now, changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'postgres')] },
-    { url: `${baseUrl}/cheatsheets/kubectl`, lastModified: now, changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'kubectl')] },
-    { url: `${baseUrl}/resources`, lastModified: now, changeFrequency: 'monthly', priority: 0.7, images: [getStoredOgImageUrl('resources')] },
-    { url: `${baseUrl}/series`, lastModified: now, changeFrequency: 'weekly', priority: 0.75, images: [getStoredOgImageUrl('series')] },
-    { url: `${baseUrl}/technical-terms`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('technical-terms')] },
-    { url: `${baseUrl}/now`, lastModified: now, changeFrequency: 'monthly', priority: 0.6, images: [getStoredOgImageUrl('now')] },
+    { url: `${baseUrl}/`, lastModified: now, changeFrequency: 'weekly', priority: 1, images: [getStoredOgImageUrl('home')] },
+    { url: `${baseUrl}/blog/`, lastModified: now, changeFrequency: 'weekly', priority: 0.9, images: [getStoredOgImageUrl('blog')] },
+    { url: `${baseUrl}/silly-questions/`, lastModified: now, changeFrequency: 'weekly', priority: 0.8, images: [getStoredOgImageUrl('silly-questions')] },
+    { url: `${baseUrl}/about/`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('about')] },
+    { url: `${baseUrl}/topics/`, lastModified: now, changeFrequency: 'weekly', priority: 0.85, images: [getStoredOgImageUrl('topics')] },
+    { url: `${baseUrl}/search/`, lastModified: now, changeFrequency: 'weekly', priority: 0.7, images: [getStoredOgImageUrl('search')] },
+    { url: `${baseUrl}/newsletter/`, lastModified: now, changeFrequency: 'monthly', priority: 0.65, images: [getStoredOgImageUrl('newsletter')] },
+    { url: `${baseUrl}/privacy-policy/`, lastModified: now, changeFrequency: 'yearly', priority: 0.3, images: [getStoredOgImageUrl('privacy-policy')] },
+    { url: `${baseUrl}/til/`, lastModified: now, changeFrequency: 'weekly', priority: 0.85, images: [getStoredOgImageUrl('til')] },
+    { url: `${baseUrl}/glossary/`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('glossary')] },
+    { url: `${baseUrl}/cheatsheets/`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('cheatsheets')] },
+    { url: `${baseUrl}/cheatsheets/go/`, lastModified: now, changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'go')] },
+    { url: `${baseUrl}/cheatsheets/docker/`, lastModified: now, changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'docker')] },
+    { url: `${baseUrl}/cheatsheets/postgres/`, lastModified: now, changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'postgres')] },
+    { url: `${baseUrl}/cheatsheets/kubectl/`, lastModified: now, changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'kubectl')] },
+    { url: `${baseUrl}/resources/`, lastModified: now, changeFrequency: 'monthly', priority: 0.7, images: [getStoredOgImageUrl('resources')] },
+    { url: `${baseUrl}/series/`, lastModified: now, changeFrequency: 'weekly', priority: 0.75, images: [getStoredOgImageUrl('series')] },
+    { url: `${baseUrl}/technical-terms/`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('technical-terms')] },
   ];
 
   const tilUrls = tilEntries.map((e) => ({
-    url: `${baseUrl}/til/${e.slug}`,
+    url: `${baseUrl}/til/${e.slug}/`,
     lastModified: new Date(e.date),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
@@ -85,7 +83,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const technicalTermSlugs = getTechnicalTermSlugs();
   const technicalTermUrls = technicalTermSlugs.map((slug) => ({
-    url: `${baseUrl}/technical-terms/${slug}`,
+    url: `${baseUrl}/technical-terms/${slug}/`,
     lastModified: now,
     changeFrequency: 'monthly' as const,
     priority: 0.75,

@@ -244,24 +244,6 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
                         </button>
                       </div>
 
-                      {/* Tags row — separate line, hidden on mobile */}
-                      {post.tags.length > 0 && (
-                        <div className="hidden sm:flex items-center gap-1.5 mt-2">
-                          {post.tags.slice(0, 2).map(tag => (
-                            <button
-                              key={tag}
-                              onClick={(e) => handleTagClick(e, tag)}
-                              className="px-2 py-0.5 rounded-full text-xs transition-colors hover:opacity-80"
-                              style={selectedTag === tag
-                                ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
-                                : { backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }
-                              }
-                            >
-                              {tag}
-                            </button>
-                          ))}
-                        </div>
-                      )}
                     </div>
 
                     {/* Thumbnail — smaller on mobile */}

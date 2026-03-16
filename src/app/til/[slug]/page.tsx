@@ -43,6 +43,7 @@ export async function generateMetadata({ params }: TILPageProps): Promise<Metada
       creator: '@ratnesh_maurya',
       images: [getStoredOgImageUrl('til-slug', slug)],
     },
+    robots: { index: true, follow: true },
   };
 }
 

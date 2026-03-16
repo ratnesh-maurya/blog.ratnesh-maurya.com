@@ -4,13 +4,15 @@ import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getAllBlogPosts } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { getNowContent } from '@/lib/static-content';
+import { getUsesContent } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About — Ratnesh Maurya',
   description: 'Ratnesh Maurya is a backend engineer specialising in system design, distributed systems, and scalable architecture. Based in India, building and writing about what matters in software.',
-  keywords: ['Ratnesh Maurya', 'backend engineer', 'system design', 'distributed systems', 'Go', 'TypeScript', 'about'],
+  keywords: ['Ratnesh Maurya', 'backend engineer', 'system design', 'distributed systems', 'Go', 'TypeScript', 'about', 'now', 'uses'],
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/about', types: { ...oembedAlternate('/about') } },
   openGraph: {
     title: 'About — Ratnesh Maurya',
@@ -62,6 +64,8 @@ const socials = [
 export default async function AboutPage() {
   const posts = await getAllBlogPosts();
   const featuredPosts = posts.slice(0, 3);
+  const { lastUpdated, sections: nowSections } = getNowContent();
+  const { sections: usesSections } = getUsesContent();
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
@@ -78,7 +82,6 @@ export default async function AboutPage() {
         <div className="hero-gradient-bg">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
-              {/* Avatar */}
               <div className="relative flex-shrink-0">
                 <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden"
                   style={{ outline: '2px solid var(--accent-200)' }}>
@@ -94,8 +97,6 @@ export default async function AboutPage() {
                   title="Currently at Initializ.ai"
                 />
               </div>
-
-              {/* Info */}
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest mb-2"
                   style={{ color: 'var(--accent-500)' }}>
@@ -106,7 +107,7 @@ export default async function AboutPage() {
                   Ratnesh Maurya
                 </h1>
                 <p className="text-base font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>
-                  Software Engineer · Go &amp; Elixir · Cloud-Native
+                  Software Engineer &middot; Go &amp; Elixir &middot; Cloud-Native
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {socials.map(s => (
@@ -122,23 +123,34 @@ export default async function AboutPage() {
                   <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-200"
                     style={{ borderColor: 'var(--accent-300)', backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
-                    Portfolio →
+                    Portfolio &rarr;
                   </a>
                 </div>
               </div>
             </div>
+
+            {/* In-page nav for sections */}
+            <nav className="mt-10 flex flex-wrap gap-2" aria-label="Page sections">
+              {['Background', 'Now', 'Skills', 'Projects', 'Journey', 'Uses', 'Writing'].map(s => (
+                <a key={s} href={`#${s.toLowerCase()}`}
+                  className="text-xs font-medium px-3 py-1.5 rounded-full border transition-colors"
+                  style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
+                  {s}
+                </a>
+              ))}
+            </nav>
           </div>
         </div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
           {/* Bio */}
-          <section>
+          <section id="background">
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
               style={{ color: 'var(--text-muted)' }}>
               Background
             </h2>
-            <div className="prose-like space-y-4">
+            <div className="space-y-4">
               {[
                 "I'm a passionate Software Development Engineer at Initializ with experience building scalable backend systems and cloud-native applications. I specialize in crafting robust, high-performance solutions that handle thousands of concurrent users.",
                 "My expertise lies in backend development with Go, Elixir, PostgreSQL, Redis, Kubernetes and AWS — focusing on distributed systems, microservices architectures, and secure APIs.",
@@ -158,7 +170,7 @@ export default async function AboutPage() {
                 { label: 'Blog posts', value: posts.length.toString() },
                 { label: 'Topics covered', value: [...new Set(posts.map(p => p.category))].length.toString() },
                 { label: 'Years writing', value: '2+' },
-                { label: 'Open source', value: '∞' },
+                { label: 'Open source', value: '\u221E' },
               ].map(stat => (
                 <div key={stat.label} className="rounded-xl p-5 text-center"
                   style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
@@ -173,8 +185,45 @@ export default async function AboutPage() {
             </div>
           </section>
 
+          {/* Now */}
+          <section id="now">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xs font-semibold uppercase tracking-widest"
+                style={{ color: 'var(--text-muted)' }}>
+                What I&apos;m doing now
+              </h2>
+              <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full"
+                style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}>
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
+                Updated {lastUpdated}
+              </span>
+            </div>
+            <div className="space-y-8">
+              {nowSections.map(section => (
+                <div key={section.heading} className="flex gap-5">
+                  <div className="text-2xl mt-0.5 flex-shrink-0">{section.emoji}</div>
+                  <div>
+                    <h3 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+                      {section.heading}
+                    </h3>
+                    <ul className="space-y-2">
+                      {section.content.map((line, i) => (
+                        <li key={i} className="text-sm leading-relaxed flex gap-2"
+                          style={{ color: 'var(--text-secondary)' }}>
+                          <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: 'var(--accent-400)' }} />
+                          {line}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
           {/* Skills */}
-          <section>
+          <section id="skills">
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
               style={{ color: 'var(--text-muted)' }}>
               Skills & Technologies
@@ -201,7 +250,7 @@ export default async function AboutPage() {
           </section>
 
           {/* Projects */}
-          <section>
+          <section id="projects">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xs font-semibold uppercase tracking-widest"
                 style={{ color: 'var(--text-muted)' }}>
@@ -210,7 +259,7 @@ export default async function AboutPage() {
               <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer"
                 className="text-xs font-semibold"
                 style={{ color: 'var(--accent-500)' }}>
-                See all ↗
+                See all &#8599;
               </a>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -231,7 +280,7 @@ export default async function AboutPage() {
           </section>
 
           {/* Timeline */}
-          <section>
+          <section id="journey">
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
               style={{ color: 'var(--text-muted)' }}>
               Journey
@@ -239,7 +288,6 @@ export default async function AboutPage() {
             <div className="space-y-0">
               {timeline.map((item, i) => (
                 <div key={i} className="flex gap-6">
-                  {/* Line */}
                   <div className="flex flex-col items-center">
                     <div className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
                       style={{ backgroundColor: 'var(--accent-400)' }} />
@@ -266,8 +314,60 @@ export default async function AboutPage() {
             </div>
           </section>
 
+          {/* Uses */}
+          <section id="uses">
+            <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
+              style={{ color: 'var(--text-muted)' }}>
+              Tools & Setup
+            </h2>
+            <div className="space-y-10">
+              {usesSections.map(section => (
+                <div key={section.title}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-xl">{section.emoji}</span>
+                    <h3 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
+                      {section.title}
+                    </h3>
+                  </div>
+                  <div className="space-y-2">
+                    {section.items.map(item => (
+                      <div key={item.name}
+                        className="flex items-start gap-4 p-4 rounded-xl border"
+                        style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                            {item.href ? (
+                              <a href={item.href} target="_blank" rel="noopener noreferrer"
+                                className="text-sm font-semibold transition-colors"
+                                style={{ color: 'var(--text-primary)' }}>
+                                {item.name} &#8599;
+                              </a>
+                            ) : (
+                              <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                                {item.name}
+                              </span>
+                            )}
+                            {item.badge && (
+                              <span className="text-xs px-2 py-0.5 rounded-full font-medium"
+                                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                                {item.badge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                            {item.desc}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
           {/* Featured Posts */}
-          <section>
+          <section id="writing">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xs font-semibold uppercase tracking-widest"
                 style={{ color: 'var(--text-muted)' }}>
@@ -275,7 +375,7 @@ export default async function AboutPage() {
               </h2>
               <Link href="/blog" className="text-xs font-semibold"
                 style={{ color: 'var(--accent-500)' }}>
-                All posts →
+                All posts &rarr;
               </Link>
             </div>
             <div className="space-y-3">
@@ -324,7 +424,6 @@ export default async function AboutPage() {
               </a>
             </div>
           </section>
-
         </div>
       </div>
       <PageStatsTracker type="about" slug="about" />

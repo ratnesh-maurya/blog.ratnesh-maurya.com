@@ -23,28 +23,24 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const outDir = path.join(rootDir, 'public', 'og');
 
-/* Dark theme — deep blue/slate with light text and accent glows */
 const BRAND = {
   bgStart: '#0a0f1a',
   bgMid: '#0f172a',
   bgEnd: '#0c1222',
-  accent: '#3b82f6',
-  accentLight: '#60a5fa',
+  accent: '#0066CC',
+  accentLight: '#5B9BD5',
   coral: '#f97316',
   textPrimary: '#f1f5f9',
   textMuted: '#94a3b8',
   textMid: '#cbd5e1',
   textLow: '#64748b',
   separator: '#475569',
-  dotColor: 'rgba(148,163,184,0.12)',
-  dotOpacity: 0.9,
-  stripeColor: 'rgba(59,130,246,0.06)',
-  stripeWidth: 2,
-  gridLineColor: 'rgba(148,163,184,0.22)',
-  glowColor: 'rgba(59,130,246,0.2)',
-  glowCoral: 'rgba(249,115,22,0.12)',
-  badgeCoralBg: 'rgba(249,115,22,0.15)',
-  badgeCoralBorder: 'rgba(249,115,22,0.35)',
+  dotColor: 'rgba(148,163,184,0.08)',
+  dotOpacity: 0.6,
+  glowColor: 'rgba(0,102,204,0.15)',
+  glowCoral: 'rgba(249,115,22,0.08)',
+  badgeBg: 'rgba(0,102,204,0.12)',
+  badgeBorder: 'rgba(0,102,204,0.3)',
 } as const;
 
 function sanitize(text: string, maxLen: number): string {
@@ -71,14 +67,12 @@ function buildOgElement(
   accent: string = BRAND.accent
 ): React.ReactElement {
 
-  const titleLength = title.length
+  const titleLength = title.length;
 
   const titleFontSize =
-    titleLength > 90 ? 54 :
-      titleLength > 65 ? 60 :
-        68
-
-  const gridSpacing = 48;
+    titleLength > 90 ? 48 :
+      titleLength > 65 ? 56 :
+        64;
 
   return (
     <div
@@ -88,138 +82,126 @@ function buildOgElement(
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        background: `linear-gradient(135deg, ${BRAND.bgStart} 0%, ${BRAND.bgMid} 50%, ${BRAND.bgEnd} 100%)`,
-        padding: '80px',
+        background: `linear-gradient(145deg, ${BRAND.bgStart} 0%, ${BRAND.bgMid} 60%, ${BRAND.bgEnd} 100%)`,
+        padding: '72px 80px',
         position: 'relative',
         fontFamily: 'Inter, system-ui, sans-serif',
       }}
     >
-      {/* Dot grid pattern */}
+      {/* Subtle dot grid */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           backgroundImage: `radial-gradient(circle, ${BRAND.dotColor} 1px, transparent 1px)`,
-          backgroundSize: '32px 32px',
+          backgroundSize: '40px 40px',
           opacity: BRAND.dotOpacity,
         }}
       />
 
-      {/* Diagonal stripes */}
+      {/* Accent glow — top right */}
       <div
         style={{
           position: 'absolute',
-          inset: 0,
-          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 20px, ${BRAND.stripeColor} 20px, ${BRAND.stripeColor} ${20 + BRAND.stripeWidth}px), repeating-linear-gradient(-45deg, transparent, transparent 20px, ${BRAND.stripeColor} 20px, ${BRAND.stripeColor} ${20 + BRAND.stripeWidth}px)`,
-          opacity: 1,
-        }}
-      />
-
-      {/* Grid: vertical + horizontal lines via background (repeating-linear-gradient) */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `repeating-linear-gradient(90deg, ${BRAND.gridLineColor} 0px, ${BRAND.gridLineColor} 1px, transparent 1px, transparent ${gridSpacing}px), repeating-linear-gradient(0deg, ${BRAND.gridLineColor} 0px, ${BRAND.gridLineColor} 1px, transparent 1px, transparent ${gridSpacing}px)`,
-          backgroundSize: '100% 100%',
-        }}
-      />
-
-      {/* Top-right accent glow */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '-180px',
-          right: '-180px',
-          width: '520px',
-          height: '520px',
+          top: '-200px',
+          right: '-100px',
+          width: '600px',
+          height: '600px',
           borderRadius: '50%',
-          background: `radial-gradient(circle, ${BRAND.glowColor} 0%, transparent 65%)`,
+          background: `radial-gradient(circle, ${BRAND.glowColor} 0%, transparent 60%)`,
         }}
       />
 
-      {/* Bottom-left coral glow */}
+      {/* Warm glow — bottom left */}
       <div
         style={{
           position: 'absolute',
-          bottom: '-120px',
-          left: '-120px',
-          width: '380px',
-          height: '380px',
+          bottom: '-150px',
+          left: '-100px',
+          width: '400px',
+          height: '400px',
           borderRadius: '50%',
-          background: `radial-gradient(circle, ${BRAND.glowCoral} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${BRAND.glowCoral} 0%, transparent 65%)`,
         }}
       />
 
-      {/* CONTENT */}
+      {/* Content */}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '28px',
+          gap: '24px',
           position: 'relative',
         }}
       >
+        {/* Breadcrumb line */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            fontSize: '18px',
+            gap: '10px',
+            fontSize: '17px',
             color: BRAND.textLow,
+            letterSpacing: '0.02em',
           }}
         >
-          <span>blog.ratnesh-maurya.com</span>
+          <span style={{ fontWeight: 600, color: BRAND.textMuted }}>RatnLabs</span>
           {breadcrumb && (
             <>
-              <span style={{ color: BRAND.separator }}>›</span>
-              <span style={{ color: BRAND.coral, fontWeight: 600 }}>
+              <span style={{ color: BRAND.separator }}>/</span>
+              <span style={{ color: accent, fontWeight: 600 }}>
                 {breadcrumb}
               </span>
             </>
           )}
         </div>
 
+        {/* Accent bar */}
         <div
           style={{
-            width: '90px',
-            height: '6px',
-            borderRadius: '6px',
+            width: '64px',
+            height: '4px',
+            borderRadius: '4px',
             background: accent,
           }}
         />
 
+        {/* Title */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             fontSize: `${titleFontSize}px`,
             fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-2px',
+            lineHeight: 1.1,
+            letterSpacing: '-0.03em',
             color: BRAND.textPrimary,
-            maxWidth: '900px',
+            maxWidth: '920px',
           }}
         >
           {title}
         </div>
 
+        {/* Subtitle */}
         <div
           style={{
-            fontSize: '26px',
-            fontWeight: 500,
+            fontSize: '24px',
+            fontWeight: 400,
             color: BRAND.textMuted,
-            maxWidth: '760px',
+            maxWidth: '720px',
+            lineHeight: 1.4,
           }}
         >
           {subtitle}
         </div>
       </div>
 
-      {/* Author Badge */}
+      {/* Author badge */}
       <div
         style={{
           display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           position: 'relative',
         }}
       >
@@ -227,31 +209,42 @@ function buildOgElement(
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
-            background: BRAND.badgeCoralBg,
-            border: `1px solid ${BRAND.badgeCoralBorder}`,
+            gap: '10px',
+            background: BRAND.badgeBg,
+            border: `1px solid ${BRAND.badgeBorder}`,
             borderRadius: '100px',
-            padding: '10px 22px',
+            padding: '8px 20px',
           }}
         >
           <div
             style={{
-              width: '10px',
-              height: '10px',
+              width: '8px',
+              height: '8px',
               borderRadius: '50%',
-              background: BRAND.coral,
+              background: accent,
             }}
           />
           <span
             style={{
-              color: BRAND.coral,
-              fontSize: '16px',
+              color: BRAND.accentLight,
+              fontSize: '15px',
               fontWeight: 600,
+              letterSpacing: '0.01em',
             }}
           >
             Ratnesh Maurya
           </span>
         </div>
+
+        <span
+          style={{
+            fontSize: '14px',
+            color: BRAND.textLow,
+            letterSpacing: '0.05em',
+          }}
+        >
+          blog.ratnesh-maurya.com
+        </span>
       </div>
     </div>
   );

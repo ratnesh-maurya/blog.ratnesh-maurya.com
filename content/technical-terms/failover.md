@@ -1,6 +1,6 @@
 ---
 title: Failover
-description: Failover is the automatic or manual switching of operations from a failed primary system to a secondary (standby) system.
+description: Failover is the automatic or manual switching of operations from a failed primary system to a standby replica, ensuring service continuity with minimal downtime.
 questions:
   - What is Failover?
   - When is Failover used?
@@ -9,24 +9,55 @@ questions:
 
 ## Definition
 
-Failover is the automatic or manual switching of operations from a failed primary system to a secondary (standby) system.
+Failover is the process of switching operations from a failed primary system to a secondary (standby) system so that service continues with minimal interruption.
 
-## Core concept
+## How it works
 
-In high-availability setups, a standby server is kept updated and ready. If the primary fails (hardware/network crash), failover redirects traffic to the standby with minimal downtime.
+A failover setup requires at least two components: a **primary** (active) node and a **standby** (passive) node. The standby continuously receives updates from the primary — through streaming replication for databases, or state synchronization for application servers — so it's ready to take over at any moment.
 
-## Use cases
+A **health check mechanism** monitors the primary. This could be a simple TCP probe, an HTTP endpoint (`/healthz`), or a consensus-based system like Patroni or etcd. When the primary fails health checks (misses N consecutive probes), the failover system triggers promotion.
 
-Database clusters (e.g. two-node replication), application servers with hot standby. Ensures continuity of service.
+**Automatic failover** promotes the standby without human intervention. AWS RDS Multi-AZ, PostgreSQL with Patroni, and Redis Sentinel all support this. The DNS record or load balancer is updated to point to the new primary. Clients reconnect automatically (with a brief interruption, typically 10-30 seconds).
+
+**Manual failover** requires an operator to verify the failure and trigger the switch. This is safer (avoids false positives) but slower. Production databases in regulated industries sometimes mandate manual failover to prevent accidental split-brain.
+
+The critical risk during failover is **split-brain**: both nodes believing they're the primary and accepting writes. Fencing mechanisms (STONITH — "Shoot The Other Node In The Head") ensure the old primary is truly dead before the standby is promoted.
+
+## When to use it
+
+- **Database clusters** — PostgreSQL, MySQL, MongoDB replica sets all use failover to maintain write availability when the primary goes down.
+- **Application servers** — Kubernetes restarts failed pods and reschedules them on healthy nodes — a form of automated failover.
+- **DNS failover** — Route 53 health checks detect a failed region and route traffic to the DR region.
+- **Message brokers** — Kafka controller failover elects a new controller broker when the current one crashes.
 
 ## Trade-offs
 
-There is typically a slight delay during failover. If not automatic, it requires detection logic and possibly manual intervention. Proper design is needed to avoid split-brain (see above).
+**Gains:** Near-continuous service availability. Meets SLA uptime commitments (99.99% requires failover to complete in under 4.3 minutes per month). Protects against hardware failures, software crashes, and network issues.
+
+**Costs:** The standby consumes resources (compute, storage, network bandwidth for replication) without serving production traffic. Replication lag means the standby may be slightly behind — transactions committed on the primary but not yet replicated are lost during failover. Failover detection has a latency window (health check interval x failure threshold), during which the service is down.
 
 ## Example
 
-Oracle Data Guard or AWS RDS Multi-AZ use automatic failover: the standby takes over transparently to clients when primary is unreachable[[\[36\]](https://www.ibm.com/docs/en/db2/11.5.x?topic=strategies-failover "High availability through failover")](https://www.ibm.com/docs/en/db2/11.5.x?topic=strategies-failover "High availability through failover").
+PostgreSQL failover with `pg_promote`:
 
-## References
+```sql
+-- On the standby, after detecting primary failure:
+SELECT pg_promote();
+-- Standby becomes the new primary and starts accepting writes
 
-“Failover is the transfer of workload from a primary to a secondary system in the event of a primary failure”[[\[36\]](https://www.ibm.com/docs/en/db2/11.5.x?topic=strategies-failover "High availability through failover")](https://www.ibm.com/docs/en/db2/11.5.x?topic=strategies-failover "High availability through failover").
+-- Application connection string with failover support:
+-- host=primary,standby dbname=mydb target_session_attrs=read-write
+```
+
+AWS RDS Multi-AZ failover is automatic:
+```
+Primary (us-east-1a) fails
+  → RDS detects failure (health check)
+  → Standby (us-east-1b) is promoted
+  → DNS endpoint updates to point to new primary
+  → Total failover time: 60-120 seconds
+```
+
+## Related terms
+
+High availability (HA) is the design goal that failover enables. Split-brain is the failure mode where two nodes both accept writes after an incomplete failover. Leader-follower replication is the replication topology that maintains the standby for failover.

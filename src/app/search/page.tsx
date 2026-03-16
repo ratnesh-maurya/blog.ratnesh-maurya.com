@@ -1,4 +1,4 @@
-import { SearchPageClient } from '@/app/search/SearchPageClient';
+import SearchPageClient from '@/app/search/SearchPageClient';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { oembedAlternate } from '@/lib/oembed';

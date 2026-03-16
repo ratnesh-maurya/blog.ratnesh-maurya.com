@@ -1,6 +1,6 @@
 ---
-title: Understanding S3 and S3 Policies
-description: This blog post explores the fundamentals of Amazon S3, a powerful and versatile object storage service offered by AWS. We'll delve into the key features of S3, discuss S3 policies, and provide practical examples to illustrate how these policies work in real-world scenarios.
+title: "S3 Policies Explained: Bucket Policies vs IAM Policies vs ACLs"
+description: How S3 access control actually works — the difference between bucket policies, IAM policies, and ACLs, with working JSON examples for common scenarios like public read access, encryption enforcement, and user-scoped permissions.
 author: Ratnesh Maurya
 date: "2023-11-23"
 category: AWS
@@ -16,72 +16,46 @@ questions: [
   "What is the difference between S3 bucket policies and IAM policies?",
   "How to configure S3 policies for public access?"
 ]
-
 ---
 
+S3 has three overlapping access control systems — bucket policies, IAM policies, and ACLs — and the interaction between them confuses most people the first time. Here's how each one works, when to use which, and the JSON to copy for the most common scenarios.
 
+## The three access control layers
 
-In the realm of cloud computing, data security remains paramount. Organizations increasingly rely on cloud-based storage solutions like Amazon Simple Storage Service (S3) to store and manage their sensitive data, making robust access control mechanisms crucial. S3, a powerful and versatile object storage service offered by AWS, allows you to store and access data from anywhere in the world. However, with great power comes great responsibility, and it is essential to ensure that only authorized users have access to your S3 data. This is where S3 policies come in.
+Every S3 request is evaluated against all applicable policies. If any of them explicitly deny the request, it's denied. Otherwise, at least one policy must explicitly allow it.
 
-### S3: Your Gateway to Scalable Cloud Storage
+| Mechanism | Attached to | Written by | Best for |
+|-----------|-------------|------------|----------|
+| **Bucket policies** | The S3 bucket | Bucket owner | Cross-account access, public access, IP restrictions |
+| **IAM policies** | IAM users/roles/groups | Account admin | Controlling what your own users and services can do |
+| **ACLs** | Buckets or objects | Object owner | Legacy use only — AWS recommends disabling these |
 
-S3 serves as a cornerstone of cloud storage solutions, offering a highly scalable, durable, and cost-effective platform for storing and accessing data from anywhere in the world. Designed to store large amounts of data, S3 is ideal for storing website content, application data, and backups.
+**The rule of thumb:** Use IAM policies for your own users, bucket policies for external access or bucket-wide rules, and ignore ACLs unless you're dealing with legacy configurations.
 
-### Key Features of S3: A Foundation for Secure Data Management
+## Anatomy of an S3 policy
 
-- Scalability: S3 seamlessly scales to accommodate any amount of data, making it suitable for organizations of all sizes.
-- Durability: S3 replicates data across multiple data centers, ensuring high availability and data protection against failures.
-- Accessibility: S3 data can be accessed from anywhere in the world using a variety of methods, including the S3 API, AWS Command Line Interface (CLI), and AWS Management Console.
-- Security: S3 employs robust security measures, including encryption, access control lists (ACLs), and bucket policies, to safeguard data.
-- Cost-effectiveness: S3 offers a pay-as-you-go pricing model, ensuring that organizations only pay for the storage they use.
+Every policy is a JSON document with these fields:
 
-### S3 Policies: Granular Control for Secure Data Access
+- **Version** — always `"2012-10-17"` (the current policy language version)
+- **Statement** — an array of permission rules, each containing:
+  - **Effect** — `"Allow"` or `"Deny"`
+  - **Principal** — who the rule applies to (`"*"` for everyone, or a specific ARN)
+  - **Action** — which S3 operations (`s3:GetObject`, `s3:PutObject`, etc.)
+  - **Resource** — which bucket/objects (specified as an ARN)
+  - **Condition** (optional) — extra constraints like IP range, encryption type, or request origin
 
-S3 policies, crafted in JSON format, act as detailed instructions that dictate user access to S3 buckets and objects. These policies serve as gatekeepers, meticulously defining which actions, such as reading, writing, or deleting data, are permitted for specific users or groups. By leveraging S3 policies, you can effectively safeguard your data from unauthorized access and ensure compliance with industry regulations.
+## Common policies with working JSON
 
-### Key Components of S3 Policies: Defining Access Permissions
+### Public read-only access
 
-S3 policies are composed of several key elements, each playing a vital role in defining access permissions:
-
-- Version: The policy version identifies the JSON format specification being utilized.
-- Statement: A collection of statements forms the core of an S3 policy, each specifying a set of permissions for accessing S3 resources.
-- Effect: This element determines whether to allow or deny the specified actions.
-- Principal: The principal identifies the AWS account or IAM user to whom the permissions are granted.
-- Action: The action element specifies the S3 action that is being granted or denied, such as `s3:GetObject` for retrieving objects.
-- Resource: This element identifies the S3 resource, such as a bucket or object, to which the action applies.
-- Conditions: Adding Layers of Granularity
-
-S3 policies offer an additional layer of control through conditions. These optional elements further restrict permissions based on specific criteria, such as the origin of an HTTP request or the presence of specific headers. Conditions allow you to tailor access to your S3 resources based on precise requirements.
-
-### Practical Applications of S3 Policies: Securing Your Cloud Storage
-
-S3 policies find numerous applications in managing access to cloud storage:
-
-- Protecting Sensitive Data: By granting only the necessary permissions to users and groups, S3 policies safeguard sensitive data from unauthorized access.
-- Enforcing Compliance: S3 policies play a critical role in ensuring compliance with industry regulations that mandate strict access control measures.
-- Streamlining Access Management: IAM groups can be leveraged to simplify policy management by applying policies to groups instead of individual users.
-- Tailoring Access to Specific Buckets: Bucket-level policies enable granular control over access permissions for specific buckets, while account-level policies address broader access needs.
-
-### Best Practices for Efficient S3 Policy Management
-
-To effectively manage S3 policies and maintain a secure cloud environment, consider these best practices:
-
-- Embrace the Principle of Least Privilege: Grant users only the permissions they need to perform their tasks, minimizing the risk of unauthorized access.
-- Regular Policy Reviews and Audits: Periodically review and audit S3 policies to ensure they align with current security requirements and reflect any changes in user roles or access needs.
-- Leveraging IAM Groups: Create IAM groups to consolidate users with similar permissions, simplifying policy management and reducing administrative overhead.
-- Optimizing Policy Placement: Utilize bucket-level policies for granular control over specific buckets, while account-level policies address broader access needs.
-
-### Examples of S3 Policies
-
-### 1: Granting Read-Only Access to an Anonymous User
-
-This policy grants an anonymous user read-only access to all objects in a bucket named `my-bucket`.
+Makes all objects in a bucket publicly readable. Use this for static website hosting or public assets:
 
 ```json
 {
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Sid": "PublicReadGetObject",
       "Effect": "Allow",
       "Principal": "*",
       "Action": "s3:GetObject",
@@ -91,24 +65,25 @@ This policy grants an anonymous user read-only access to all objects in a bucket
 }
 ```
 
-This policy allows any user to access any object in the my-bucket bucket. The Principal wildcard (_) indicates that any user is allowed to access the objects. The Action s3:GetObject specifies that users can only read objects, not write, delete, or perform any other actions on them. The Resource arn:aws:s3:::my-bucket/_ indicates that this policy applies to all objects in the my-bucket bucket.
+This allows anyone to read objects but not list the bucket contents, upload, or delete. The `/*` in the Resource means all objects inside the bucket.
 
-### 2: Requiring Encryption
+### Deny uploads without encryption
 
-This policy requires all objects uploaded to a bucket named my-bucket to be encrypted using AWS Key Management Service (KMS).
+Forces all uploaded objects to use server-side encryption. Note: this uses `Deny` + a `StringNotEquals` condition, not `Allow`:
 
 ```json
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Effect": "Allow",
+      "Sid": "DenyUnencryptedUploads",
+      "Effect": "Deny",
       "Principal": "*",
       "Action": "s3:PutObject",
       "Resource": "arn:aws:s3:::my-bucket/*",
       "Condition": {
-        "StringEquals": {
-          "s3:serverSideEncryption": "AES256"
+        "StringNotEquals": {
+          "s3:x-amz-server-side-encryption": "AES256"
         }
       }
     }
@@ -116,28 +91,85 @@ This policy requires all objects uploaded to a bucket named my-bucket to be encr
 }
 ```
 
-This policy allows any user to upload objects to the my-bucket bucket, but only if the objects are encrypted using the AES256 encryption algorithm. The Condition element specifies that the s3:serverSideEncryption header must be set to "AES256" in the request to upload an object. If the header is not set or is set to a different value, the request will be denied.
+This is the correct pattern. A common mistake is using `Allow` with a `StringEquals` condition — that permits encrypted uploads but doesn't block unencrypted ones if another policy allows `s3:PutObject`.
 
-### Granting Access to a Specific User
+### Scoped access for a specific IAM user
 
-This policy grants a specific IAM user named my-user read and write access to all objects in a bucket named my-bucket.
+Grants a single user read and write access to a bucket:
 
 ```json
 {
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Sid": "UserReadWrite",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::<my-account-id>:user/my-user"
+        "AWS": "arn:aws:iam::123456789012:user/deploy-bot"
       },
-      "Action": ["s3:GetObject", "s3:PutObject"],
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
       "Resource": "arn:aws:s3:::my-bucket/*"
+    },
+    {
+      "Sid": "UserListBucket",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:user/deploy-bot"
+      },
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::my-bucket"
     }
   ]
 }
 ```
 
-This policy grants the my-user IAM user the ability to read and write objects in the my-bucket bucket. The Principal element specifies that the policy applies to the my-user IAM user in the account with the ID . The Action element specifies that the user is allowed to perform the s3:GetObject and s3:PutObject actions, which allow the user to read and write objects, respectively. The Resource element specifies that this policy applies to all objects in the my-bucket bucket.
+Note the two statements: object-level actions use `my-bucket/*` (objects inside), while `ListBucket` uses `my-bucket` (the bucket itself). Mixing these up is a common source of "Access Denied" errors.
 
-These are just a few examples of S3 policies. There are many other ways to use S3 policies to control access to your S3 resources.
+### Restrict access by IP range
+
+Allows access only from your office or VPN IP range:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "RestrictToOfficeIP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::my-bucket",
+        "arn:aws:s3:::my-bucket/*"
+      ],
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": "203.0.113.0/24"
+        }
+      }
+    }
+  ]
+}
+```
+
+## Bucket policy vs IAM policy: when to use which
+
+| Scenario | Use |
+|----------|-----|
+| Grant another AWS account access to your bucket | Bucket policy (cross-account) |
+| Make a bucket publicly readable | Bucket policy (Principal: `*`) |
+| Control what your CI/CD pipeline can do | IAM policy on the pipeline's IAM role |
+| Restrict access by IP or VPN | Bucket policy with Condition |
+| Give a Lambda function access to a bucket | IAM policy on the Lambda execution role |
+| Deny all public access organization-wide | S3 Block Public Access (account-level setting) |
+
+In general: if the question is "who can access this bucket?", use a bucket policy. If the question is "what can this user/role do?", use an IAM policy.
+
+## Common mistakes
+
+- **Forgetting S3 Block Public Access.** Even if your bucket policy allows public reads, the account-level Block Public Access setting overrides it. Check this first when public access isn't working.
+- **Resource ARN mismatch.** `s3:ListBucket` needs the bucket ARN (`arn:aws:s3:::my-bucket`), while `s3:GetObject` needs the object ARN (`arn:aws:s3:::my-bucket/*`). This trips up almost everyone.
+- **Using ACLs.** AWS recommends disabling ACLs on new buckets (S3 Object Ownership: "Bucket owner enforced"). Bucket policies and IAM policies cover every use case that ACLs used to handle, with better auditability.
+- **Overly broad wildcards.** `"Action": "s3:*"` with `"Resource": "*"` is an admin-level policy. Scope both to the specific actions and bucket you need.
+
+The [AWS Policy Generator](https://awspolicygen.s3.amazonaws.com/policygen.html) can help you build policies interactively if you're not sure about the syntax.

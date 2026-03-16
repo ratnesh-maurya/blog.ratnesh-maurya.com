@@ -1,6 +1,6 @@
 ---
-title: Easily Deploy Your Nanoc Website to S3 with GitHub Actions
-description: Learn how to deploy your Nanoc website to an AWS S3 bucket using GitHub Actions. This step-by-step guide provides detailed instructions for automating your deployment process.
+title: Deploy a Nanoc Static Site to S3 with GitHub Actions
+description: A step-by-step guide to automating Nanoc website deployment to AWS S3 using GitHub Actions, including S3 bucket policy, IAM setup, and the complete workflow YAML.
 author: Ratnesh Maurya
 date: "2024-11-23"
 category: AWS
@@ -18,34 +18,21 @@ questions: [
 ]
 ---
 
+Deploying a static site to S3 manually means running `aws s3 sync` from your laptop every time you make a change. That gets old fast. GitHub Actions can automate the entire flow: push to `main`, and the site builds and deploys itself.
 
-In the ever-evolving realm of web development, streamlining deployment processes has become crucial for maintaining efficiency and ensuring seamless website updates. GitHub Actions, a powerful tool for automating tasks within your GitHub repository, offers an excellent solution for deploying your Nanoc website to an AWS S3 bucket.
+This guide walks through the full setup for a [Nanoc](https://nanoc.app/) site, but the S3 + GitHub Actions pattern works for any static site generator.
 
-This article delves into the intricacies of deploying a Nanoc website to S3 using GitHub Actions, providing a step-by-step guide to help you seamlessly automate your deployment process.
+[Source code on GitHub](https://github.com/ratnesh-maurya/365-Days-of-DevOps/tree/main)
 
-[Repo Link here](https://github.com/ratnesh-maurya/365-Days-of-DevOps/tree/main)
+## What you need before starting
 
-## Prerequisites:
+- An **AWS account** with an S3 bucket configured for static website hosting
+- An **IAM user** with scoped permissions (created in the steps below)
+- A **GitHub repository** containing your Nanoc source code
 
-Before embarking on this deployment journey, ensure you have the following prerequisites in place:
+## Step 1: Configure the S3 bucket policy
 
-1.  **AWS Account and S3 Bucket:** Create an AWS account if you haven't already. Set up an S3 bucket to host your Nanoc website.
-2.  **IAM Credentials:** Generate IAM credentials with the necessary permissions to access the S3 bucket. Refer to the IAM policy provided in the repository for detailed permission requirements.
-3.  **GitHub Repository**: Maintain a GitHub repository containing the source code for your Nanoc website.
-
-Leveraging GitHub Actions for Deployment:
-
-GitHub Actions simplifies the deployment process by automating the following tasks:
-
-1.  Checkout Repository: Retrieves the source code from your GitHub repository.
-2.  Set up Ruby and Nanoc:Installs Ruby, Bundler, Nanoc, and other required gems.
-3.  Build Nanoc Website: Compiles the Nanoc website within the tutorial directory.
-4.  Configure AWS Credentials: Secures AWS credentials for the GitHub Actions workflow using the provided secrets.
-5.  Deploy to S3: Synchronizes the compiled Nanoc website from the tutorial/output/ directory to the specified S3 bucket.
-
-**Step-by-Step Deployment Guide**:
-
-1.  Configure S3 Bucket: Create an S3 bucket to host your Nanoc website. Apply the provided S3 bucket policy to the newly created bucket.
+Your bucket needs a policy that allows public read access to its contents. Apply this to the bucket in the S3 console under Permissions > Bucket Policy:
 
 ```json
 {
@@ -65,7 +52,11 @@ GitHub Actions simplifies the deployment process by automating the following tas
 }
 ```
 
-1.  Create IAM User and Policy: Create an IAM user in your AWS account. Attach the provided IAM user policy to the newly created IAM user.
+Replace `docsite-github-action` with your actual bucket name.
+
+## Step 2: Create a scoped IAM user
+
+Create a dedicated IAM user for GitHub Actions — don't use your root credentials. Attach this policy, which gives the minimum permissions needed for `s3 sync`:
 
 ```json
 {
@@ -96,12 +87,21 @@ GitHub Actions simplifies the deployment process by automating the following tas
 }
 ```
 
-1.  Add Secrets to GitHub Repository:Navigate to the Settings tab in your GitHub repository.Access the Secrets section.Add two secrets:AWS_ACCESS_KEY_ID: Paste your AWS Access Key ID. AWS_SECRET_ACCESS_KEY: Paste your AWS Secret Access Key.
-2.  Deploy Using GitHub Actions: Push the latest changes to your GitHub repository's main branch.GitHub Actions will automatically trigger the deployment workflow.
+## Step 3: Add AWS credentials to GitHub Secrets
+
+In your GitHub repository, go to **Settings > Secrets and variables > Actions** and add two repository secrets:
+
+- `AWS_ACCESS_KEY_ID` — your IAM user's access key
+- `AWS_SECRET_ACCESS_KEY` — the corresponding secret key
+
+These are injected into the workflow at runtime. They never appear in logs.
+
+## Step 4: Create the GitHub Actions workflow
+
+Create `.github/workflows/deploy.yml` in your repository:
 
 ```yaml
-
-  name: Nanoc Compile and Upload to S3
+name: Nanoc Compile and Upload to S3
 
 on:
   push:
@@ -139,13 +139,28 @@ jobs:
 
       - name: Push to S3
         run: aws s3 sync tutorial/output/ s3://docsite-github-action
-
 ```
 
-Conclusion:
+The workflow triggers on every push to `main`. It installs Ruby and Nanoc, compiles the site, and syncs the output directory to your S3 bucket.
 
-Harnessing the power of GitHub Actions for deploying your Nanoc website to S3 streamlines your workflow and ensures consistent, automated updates. By following the provided steps and prerequisites, you can seamlessly deploy your website with ease and efficiency.
+## Alternatives to consider
 
-Remember, the provided S3 bucket policy and IAM user policy are for reference only. You may need to adjust them to fit your specific requirements. Additionally, ensure you have the necessary permissions to create an IAM user and IAM policy in your AWS account.
+This setup works well for simple static sites, but depending on your needs, other approaches might be a better fit:
 
-By leveraging GitHub Actions for Nanoc website deployment, you can focus on developing and enhancing your website while GitHub handles the deployment process seamlessly. Embrace the power of automation and streamline your web development workflow with GitHub Actions.
+| Approach | When to use it |
+|----------|---------------|
+| **S3 + CloudFront** | You need HTTPS and a CDN for global performance |
+| **Vercel / Netlify** | You want zero-config deploys with preview URLs for every PR |
+| **GitHub Pages** | You don't need AWS and want the simplest possible hosting |
+| **AWS Amplify** | You want managed CI/CD with automatic branch deploys on AWS |
+
+S3 alone doesn't give you HTTPS — you'd need CloudFront in front of it for that. If HTTPS and preview deployments matter to you, Vercel or Netlify will save you time.
+
+## Common pitfalls
+
+- **Forgetting to enable static website hosting** on the S3 bucket — without it, S3 serves files as downloads instead of web pages.
+- **Overly broad IAM permissions** — scope the policy to your specific bucket, not `s3:*` on `*`.
+- **Cache invalidation** — `s3 sync` updates files but doesn't invalidate CloudFront caches. If you add CloudFront later, add `aws cloudfront create-invalidation` to the workflow.
+- **Region mismatch** — set `aws-region` in the workflow to match your bucket's region.
+
+The complete workflow YAML and policies are in the [repo](https://github.com/ratnesh-maurya/365-Days-of-DevOps/tree/main).
