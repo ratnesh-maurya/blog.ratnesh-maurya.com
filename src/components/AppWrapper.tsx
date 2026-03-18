@@ -118,14 +118,16 @@ export function AppWrapper({ children }: AppWrapperProps) {
         <Footer />
 
         <FocusTrap isActive={isSearchOpen} onEscape={() => setIsSearchOpen(false)}>
-          <SearchPopup
-            isOpen={isSearchOpen}
-            onClose={() => setIsSearchOpen(false)}
-            blogPosts={blogPosts}
-            sillyQuestions={sillyQuestions}
-            technicalTerms={technicalTerms}
-            tilEntries={tilEntries}
-          />
+          {isSearchOpen && (
+            <SearchPopup
+              isOpen={true}
+              onClose={() => setIsSearchOpen(false)}
+              blogPosts={blogPosts}
+              sillyQuestions={sillyQuestions}
+              technicalTerms={technicalTerms}
+              tilEntries={tilEntries}
+            />
+          )}
         </FocusTrap>
       </div>
     </AccentColorProvider>

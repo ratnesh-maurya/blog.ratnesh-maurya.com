@@ -1,4 +1,4 @@
-import { getAllBlogPosts } from '@/lib/content';
+import { getAllBlogPostsForListing } from '@/lib/content';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
@@ -50,7 +50,9 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const posts = await getAllBlogPosts();
+  // Home page only needs lightweight listing metadata (title/date/category/slug).
+  // Using the listing loader avoids expensive markdown->HTML work during the build.
+  const posts = await getAllBlogPostsForListing();
   const latest = posts.slice(0, 6);
   const featured = posts.slice(0, 3);
 
@@ -95,7 +97,7 @@ export default async function Home() {
         {/* Hero */}
         <section className="pt-24 pb-14 hero-gradient-bg">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl animate-fade-in-up">
+            <div className="max-w-3xl">
               <div
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold tracking-wide mb-6"
                 style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
