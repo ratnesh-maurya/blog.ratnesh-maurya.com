@@ -36,7 +36,11 @@ const TYPE_COLORS: Record<string, string> = {
   about: 'var(--accent-100)',
 };
 
-export function ContentOverviewSection() {
+interface ContentOverviewSectionProps {
+  selectedType: 'all' | StatType;
+}
+
+export function ContentOverviewSection({ selectedType }: ContentOverviewSectionProps) {
   const [stats, setStats] = useState<Awaited<ReturnType<typeof getAllStatsForAnalytics>> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,8 +77,9 @@ export function ContentOverviewSection() {
   if (!stats) return null;
 
   const types = Object.keys(stats.byType) as StatType[];
+  const relevantTypes = selectedType === 'all' ? types : (types.filter((t) => t === selectedType) as StatType[]);
 
-  const summaryData = types
+  const summaryData = relevantTypes
     .map((t) => ({
       name: TYPE_LABELS[t] ?? t,
       type: t,

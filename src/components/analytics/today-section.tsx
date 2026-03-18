@@ -1,6 +1,6 @@
 'use client';
 
-import { getEventsDailyRange } from '@/lib/supabase/stats';
+import { getEventsDailyRange, type EventsDailyRow } from '@/lib/supabase/stats';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 function formatNumber(n: number) {
@@ -11,7 +11,11 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export function TodaySection() {
+interface TodaySectionProps {
+  selectedType: 'all' | import('@/lib/supabase/stats').StatType;
+}
+
+export function TodaySection({ selectedType }: TodaySectionProps) {
   const [daily, setDaily] = useState<Awaited<ReturnType<typeof getEventsDailyRange>>>([]);
   const [utmTotal, setUtmTotal] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,12 +41,17 @@ export function TodaySection() {
     fetchData(selectedDate);
   }, [selectedDate, fetchData]);
 
+  const filteredDaily: EventsDailyRow[] = useMemo(
+    () => (selectedType === 'all' ? daily : daily.filter((e) => e.type === selectedType)),
+    [daily, selectedType]
+  );
+
   const todayViews = useMemo(() => {
-    return daily.filter((e) => e.event_type === 'view').reduce((s, e) => s + e.count, 0);
-  }, [daily]);
+    return filteredDaily.filter((e) => e.event_type === 'view').reduce((s, e) => s + e.count, 0);
+  }, [filteredDaily]);
   const todayUpvotes = useMemo(() => {
-    return daily.filter((e) => e.event_type === 'upvote').reduce((s, e) => s + e.count, 0);
-  }, [daily]);
+    return filteredDaily.filter((e) => e.event_type === 'upvote').reduce((s, e) => s + e.count, 0);
+  }, [filteredDaily]);
 
   const displayDate = new Date(selectedDate + 'T00:00:00').toLocaleDateString(undefined, {
     weekday: 'long', month: 'short', day: 'numeric', year: 'numeric',

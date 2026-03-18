@@ -5,6 +5,7 @@ import { OverallSection } from '@/components/analytics/overall-section';
 import { PostViewsRangeSection } from '@/components/analytics/post-views-range-section';
 import { SortableSection } from '@/components/analytics/sortable-section';
 import { TodaySection } from '@/components/analytics/today-section';
+import { TopInsightsStrip } from '@/components/analytics/top-insights-strip';
 import { UtmRangeSection } from '@/components/analytics/utm-range-section';
 import {
   closestCenter,
@@ -17,6 +18,7 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useCallback, useEffect, useState } from 'react';
+import type { StatType } from '@/lib/supabase/stats';
 
 const STORAGE_KEY = 'analytics-section-order';
 const DEFAULT_ORDER: string[] = ['overall', 'today', 'content-overview', 'post-views', 'utm'];
@@ -52,8 +54,26 @@ const SECTION_TITLES: Record<string, string> = {
   utm: 'UTM traffic',
 };
 
+const SECTION_SUBTITLES: Record<string, string> = {
+  overall: 'Big-picture totals for views, upvotes, and reports across the site.',
+  today: 'Single-day snapshot of views, upvotes, and UTM visits.',
+  'content-overview': 'Content inventory and engagement quality by type.',
+  'post-views': 'Time-series views plus top content leaders for the selected range.',
+  utm: 'Traffic and performance grouped by UTM parameters.',
+};
+
+const TYPE_FILTERS: { id: 'all' | StatType; label: string }[] = [
+  { id: 'all', label: 'All content' },
+  { id: 'blog', label: 'Blog' },
+  { id: 'technical-terms', label: 'Tech terms' },
+  { id: 'silly-questions', label: 'Silly Q' },
+  { id: 'cheatsheets', label: 'Cheatsheets' },
+  { id: 'til', label: 'TIL' },
+];
+
 export function AnalyticsDashboard() {
   const [order, setOrder] = useState<string[]>(DEFAULT_ORDER);
+  const [selectedType, setSelectedType] = useState<'all' | StatType>('all');
 
   useEffect(() => {
     setOrder(loadOrder());
@@ -78,47 +98,75 @@ export function AnalyticsDashboard() {
   );
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={order} strategy={verticalListSortingStrategy}>
-        <div className="space-y-6">
-          {order.map((id) => {
-            switch (id) {
-              case 'overall':
-                return (
-                  <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id}>
-                    <OverallSection />
-                  </SortableSection>
-                );
-              case 'today':
-                return (
-                  <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id}>
-                    <TodaySection />
-                  </SortableSection>
-                );
-              case 'content-overview':
-                return (
-                  <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id}>
-                    <ContentOverviewSection />
-                  </SortableSection>
-                );
-              case 'post-views':
-                return (
-                  <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id}>
-                    <PostViewsRangeSection />
-                  </SortableSection>
-                );
-              case 'utm':
-                return (
-                  <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id}>
-                    <UtmRangeSection />
-                  </SortableSection>
-                );
-              default:
-                return null;
-            }
-          })}
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center gap-3 justify-between">
+        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          Filter by content type to narrow all sections at once.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {TYPE_FILTERS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setSelectedType(f.id)}
+              className="px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+              style={
+                selectedType === f.id
+                  ? { backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }
+                  : { backgroundColor: 'var(--surface)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }
+              }
+            >
+              {f.label}
+            </button>
+          ))}
         </div>
-      </SortableContext>
-    </DndContext>
+      </div>
+
+      <TopInsightsStrip selectedType={selectedType} />
+
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={order} strategy={verticalListSortingStrategy}>
+          <div className="space-y-6">
+            {order.map((id) => {
+              const subtitle = SECTION_SUBTITLES[id] ?? '';
+              switch (id) {
+                case 'overall':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <OverallSection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                case 'today':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <TodaySection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                case 'content-overview':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <ContentOverviewSection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                case 'post-views':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <PostViewsRangeSection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                case 'utm':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <UtmRangeSection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                default:
+                  return null;
+              }
+            })}
+          </div>
+        </SortableContext>
+      </DndContext>
+    </div>
   );
 }

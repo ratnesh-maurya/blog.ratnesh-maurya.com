@@ -265,6 +265,72 @@ These charts show two things:
 
 ---
 
+## Which caching strategy should you pick? (a practical rule-set)
+
+If you only remember one thing from this post, remember this:
+**you pick a caching strategy based on the cost of a stale read and the cost of a slow write.**
+
+Here’s a fast, real-world decision guide:
+
+- **Most read-heavy apps** (catalogs, blogs, dashboards):
+  - Start with **Cache-Aside**.
+  - Add **TTLs** and a plan for **invalidation** if data changes.
+
+- **You want a clean abstraction and centralized caching** (platform/infra owned):
+  - Use **Read-Through** so product code only depends on the cache API.
+
+- **A stale read would be painful** (wallet balances, inventory, “did my payment go through?”):
+  - Prefer **Write-Through** (consistency > speed).
+
+- **Writes are hot and you can tolerate some eventual consistency** (counters, analytics, clickstream):
+  - Consider **Write-Back**, but only with durability guardrails (below).
+
+- **You write lots of data that is rarely read** (imports, ETL, logs):
+  - Use **Write-Around** to avoid polluting the cache.
+
+---
+
+## Two failure modes teams hit in production (and what to do)
+
+Caching rarely fails in obvious ways. It fails with “the DB is melting” or “why is data stale?”.
+Two patterns show up everywhere.
+
+### 1) Cache stampede (thundering herd)
+
+**Symptom:** a hot key expires (or cache restarts), and suddenly thousands of requests miss at once and slam the DB.
+
+**Mitigations:**
+
+- **Request coalescing / single-flight**: only one request recomputes the value; others wait and reuse it.
+- **Stale-while-revalidate**: keep serving a slightly stale value while one background refresh updates it.
+- **Jittered TTLs**: add randomization to expiration times so many keys don’t expire at the same second.
+
+### 2) Hot key / hotspotting
+
+**Symptom:** one key becomes so popular (home feed, trending item, auth config) that a single cache shard or a single DB row gets hammered.
+
+**Mitigations:**
+
+- **Shard the key** (e.g. `trending:v1:0..N`) and merge results.
+- Use a **two-layer cache**: per-instance in-memory (tiny TTL) + shared Redis.
+- **Precompute** or cache at a higher level (edge/CDN) if the data is public.
+
+---
+
+## What to monitor so caching doesn’t become “magic”
+
+Whatever strategy you choose, watch these:
+
+- **Cache hit rate** (overall and by endpoint)
+- **DB QPS** (does caching actually reduce it?)
+- **p95/p99 latency** (cache helps only if tail latency improves)
+- **Eviction rate / memory pressure** (are you constantly evicting hot data?)
+- **Stale reads / correctness signals** (app-specific: inventory mismatches, stale dashboards, etc.)
+
+If you can’t measure these, caching will eventually surprise you.
+
+---
+
 ## Putting it all together (for a newbie)
 
 If you’re just starting with caching:

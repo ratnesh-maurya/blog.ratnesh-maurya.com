@@ -9,12 +9,16 @@ function formatNumber(n: number) {
 
 const CARD_STYLES = [
   { label: 'Footer total views', sub: 'Blog + Technical Terms + Silly Q + Cheatsheets', accent: true },
-  { label: 'All views', sub: 'Across all content types', accent: false },
-  { label: 'Total upvotes', sub: 'All time', accent: false },
-  { label: 'Reports', sub: 'All time', accent: false },
+  { label: 'All views', sub: 'Across all content types (respecting filter above)', accent: false },
+  { label: 'Total upvotes', sub: 'All time (filtered)', accent: false },
+  { label: 'Reports', sub: 'All time (filtered)', accent: false },
 ];
 
-export function OverallSection() {
+interface OverallSectionProps {
+  selectedType: 'all' | StatType;
+}
+
+export function OverallSection({ selectedType }: OverallSectionProps) {
   const [stats, setStats] = useState<Awaited<ReturnType<typeof getAllStatsForAnalytics>> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,9 +55,10 @@ export function OverallSection() {
   if (!stats) return null;
 
   const types = Object.keys(stats.byType) as StatType[];
-  const totalViews = types.reduce((s, t) => s + stats.byType[t].views, 0);
-  const totalUpvotes = types.reduce((s, t) => s + stats.byType[t].upvotes, 0);
-  const totalReports = types.reduce((s, t) => s + stats.byType[t].reports, 0);
+  const relevantTypes = selectedType === 'all' ? types : (types.filter((t) => t === selectedType) as StatType[]);
+  const totalViews = relevantTypes.reduce((s, t) => s + stats.byType[t].views, 0);
+  const totalUpvotes = relevantTypes.reduce((s, t) => s + stats.byType[t].upvotes, 0);
+  const totalReports = relevantTypes.reduce((s, t) => s + stats.byType[t].reports, 0);
   const values = [stats.footerTotal, totalViews, totalUpvotes, totalReports];
 
   return (

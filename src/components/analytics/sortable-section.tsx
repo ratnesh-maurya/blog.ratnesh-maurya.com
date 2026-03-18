@@ -9,9 +9,10 @@ interface SortableSectionProps {
   title: string;
   children: ReactNode;
   rightSlot?: ReactNode;
+  subtitle?: string;
 }
 
-export function SortableSection({ id, title, children, rightSlot }: SortableSectionProps) {
+export function SortableSection({ id, title, children, rightSlot, subtitle }: SortableSectionProps) {
   const {
     attributes,
     listeners,
@@ -59,9 +60,16 @@ export function SortableSection({ id, title, children, rightSlot }: SortableSect
               <circle cx="15" cy="19" r="1.5" />
             </svg>
           </button>
-          <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-            {title}
-          </h2>
+          <div className="flex flex-col">
+            <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+              {title}
+            </h2>
+            {subtitle && (
+              <p className="text-xs mt-0.5 max-w-xl" style={{ color: 'var(--text-muted)' }}>
+                {subtitle}
+              </p>
+            )}
+          </div>
         </div>
         {rightSlot && <div className="flex items-center">{rightSlot}</div>}
       </div>

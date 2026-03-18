@@ -49,7 +49,11 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export function PostViewsRangeSection() {
+interface PostViewsRangeSectionProps {
+  selectedType: 'all' | StatType;
+}
+
+export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionProps) {
   const [daily, setDaily] = useState<EventsDailyRow[]>([]);
   const [stats, setStats] = useState<Awaited<ReturnType<typeof getAllStatsForAnalytics>> | null>(null);
   const [loading, setLoading] = useState(true);
@@ -80,8 +84,13 @@ export function PostViewsRangeSection() {
     fetchData(fromDate, toDate);
   }, [fromDate, toDate, fetchData]);
 
+  const filteredDaily: EventsDailyRow[] = useMemo(
+    () => (selectedType === 'all' ? daily : daily.filter((e) => e.type === selectedType)),
+    [daily, selectedType]
+  );
+
   const viewsByDay = useMemo(() => {
-    const viewEvents = daily.filter((e) => e.event_type === 'view');
+    const viewEvents = filteredDaily.filter((e) => e.event_type === 'view');
     const byDay: Record<string, number> = {};
     for (const e of viewEvents) {
       byDay[e.day] = (byDay[e.day] ?? 0) + e.count;
@@ -89,11 +98,11 @@ export function PostViewsRangeSection() {
     return Object.entries(byDay)
       .map(([day, count]) => ({ day, views: count }))
       .sort((a, b) => a.day.localeCompare(b.day));
-  }, [daily]);
+  }, [filteredDaily]);
 
   const byType = useMemo(() => {
-    const viewEvents = daily.filter((e) => e.event_type === 'view');
-    const upEvents = daily.filter((e) => e.event_type === 'upvote');
+    const viewEvents = filteredDaily.filter((e) => e.event_type === 'view');
+    const upEvents = filteredDaily.filter((e) => e.event_type === 'upvote');
     const byTypeView: Record<string, number> = {};
     const byTypeUp: Record<string, number> = {};
     for (const e of viewEvents) {
@@ -108,7 +117,7 @@ export function PostViewsRangeSection() {
       views: byTypeView[t] ?? 0,
       upvotes: byTypeUp[t] ?? 0,
     }));
-  }, [daily]);
+  }, [filteredDaily]);
 
   if (loading && viewsByDay.length === 0 && byType.length === 0) {
     return (

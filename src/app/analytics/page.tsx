@@ -19,24 +19,41 @@ export default function AnalyticsPage() {
   return (
     <>
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
-        <div className="hero-gradient-bg">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-500)' }}>
-              Insights
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 font-serif" style={{ color: 'var(--text-primary)' }}>
-              Analytics
-            </h1>
-            <p className="text-base leading-relaxed max-w-xl mb-4" style={{ color: 'var(--text-secondary)' }}>
-              Overall and today&apos;s metrics, post views by date range, and UTM traffic. Drag section headers to reorder.
-            </p>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              Each section can have its own date range where applicable.
-            </p>
+      <div className="min-h-screen hero-gradient-bg" style={{ backgroundColor: 'var(--background)' }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-500)' }}>
+                Insights
+              </p>
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 font-serif" style={{ color: 'var(--text-primary)' }}>
+                Analytics dashboard
+              </h1>
+              <p className="text-sm sm:text-base leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
+                See how posts perform over time: overall footprint, today&apos;s stats, content leaders, and UTM-driven sessions.
+                Drag section headers to reorder the layout to match how you think.
+              </p>
+            </div>
+            <div className="w-full lg:w-auto">
+              <div
+                className="rounded-2xl px-4 py-3 text-xs sm:text-sm flex flex-col gap-2 lg:min-w-[220px]"
+                style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+              >
+                <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  How to read this page
+                </p>
+                <ul className="space-y-1 list-disc pl-4" style={{ color: 'var(--text-secondary)' }}>
+                  <li>Use the top cards to check overall health.</li>
+                  <li>Use the date pickers to zoom in on launches.</li>
+                  <li>Use UTM charts to validate campaigns.</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div
+          className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"
+        >
           <AnalyticsDashboard />
         </div>
       </div>
