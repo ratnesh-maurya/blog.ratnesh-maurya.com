@@ -12,11 +12,11 @@ export const metadata: Metadata = {
   title: 'Technical Terms — Backend & System Design',
   description: 'Definitions and explanations for technical terms: indexing, clustering, CAP theorem, ACID, replication, and more. Backend and system design reference.',
   keywords: ['technical terms', 'system design', 'indexing', 'clustering', 'CAP theorem', 'ACID', 'replication', 'distributed systems', 'backend glossary'],
-  alternates: { canonical: `${BASE}/technical-terms`, types: { ...oembedAlternate('/technical-terms') } },
+  alternates: { canonical: `${BASE}/technical-terms/`, types: { ...oembedAlternate('/technical-terms') } },
   openGraph: {
     title: 'Technical Terms — Backend & System Design',
     description: 'Definitions for indexing, clustering, CAP, ACID, replication, and other backend and system design terms.',
-    url: `${BASE}/technical-terms`,
+    url: `${BASE}/technical-terms/`,
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',

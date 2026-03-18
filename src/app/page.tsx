@@ -137,8 +137,8 @@ export default async function Home() {
                 { label: 'About', href: '/about', desc: 'Bio, now & uses' },
               ].map(item => (
                 <Link key={item.href} href={item.href}
-                  className="group rounded-xl border p-4 transition-all duration-200"
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
+                  className="group card card-interactive border-0 p-4 transition-all duration-200 will-change-transform"
+                  style={{ backgroundColor: 'var(--surface)' }}>
                   <p className="text-sm font-semibold group-hover:text-[var(--accent-500)] transition-colors"
                     style={{ color: 'var(--text-primary)' }}>
                     {item.label}

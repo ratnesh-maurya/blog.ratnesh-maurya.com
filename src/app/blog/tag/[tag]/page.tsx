@@ -4,6 +4,7 @@ import { oembedAlternate } from '@/lib/oembed';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { getStoredOgImageUrl } from '@/lib/og';
 
 interface TagPageProps {
   params: Promise<{ tag: string }>;
@@ -22,8 +23,8 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
   const tagLabel = decodeTag(tag);
   const title = `Posts tagged "${tagLabel}"`;
   const description = `Browse all blog posts tagged "${tagLabel}" from Ratn Labs.`;
-  const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${tag}`;
-  const ogImage = '/images/blog/building-blog.jpg';
+  const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${tag}/`;
+  const ogImage = getStoredOgImageUrl('blog-tag', undefined, tag);
 
   return {
     title,
@@ -62,8 +63,11 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 
 export default async function BlogTagPage({ params }: TagPageProps) {
   const { tag } = await params;
-  const blogPosts = await getAllBlogPosts();
   const tagLabel = decodeTag(tag);
+  const blogPosts = await getAllBlogPosts();
+  const filtered = blogPosts.filter((p) =>
+    Array.isArray(p.tags) && p.tags.some((t) => t.trim().toLowerCase() === tagLabel.trim().toLowerCase())
+  );
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
@@ -73,11 +77,11 @@ export default async function BlogTagPage({ params }: TagPageProps) {
 
   return (
     <div className="relative overflow-hidden">
-      <OgImageInBody src="/images/blog/building-blog.jpg" alt={`Posts tagged "${tagLabel}"`} />
-      <BlogListStructuredData posts={blogPosts} />
+      <OgImageInBody src={getStoredOgImageUrl('blog-tag', undefined, tag)} alt={`Posts tagged "${tagLabel}"`} />
+      <BlogListStructuredData posts={filtered} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <BlogListingClient
-        blogPosts={blogPosts}
+        blogPosts={filtered}
         initialTag={tagLabel}
         pageTitle={`Posts tagged "${tagLabel}"`}
         pageDescription={`Articles, deep dives, and write-ups related to "${tagLabel}".`}

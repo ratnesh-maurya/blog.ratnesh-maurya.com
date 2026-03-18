@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   title: 'Today I Learned — Ratn Labs',
   description: 'Short, practical learnings from real engineering work — Go, PostgreSQL, Kubernetes, AWS, Docker, and backend systems.',
   keywords: ['TIL', 'today I learned', 'Go tips', 'Kubernetes tips', 'PostgreSQL tips', 'AWS tips', 'backend engineering', 'developer learnings'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/til', types: { ...oembedAlternate('/til') } },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/til/', types: { ...oembedAlternate('/til') } },
   openGraph: {
     title: 'Today I Learned — Ratn Labs',
     description: 'Short, practical learnings from real engineering work.',
-    url: 'https://blog.ratnesh-maurya.com/til',
+    url: 'https://blog.ratnesh-maurya.com/til/',
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('til'), width: 1200, height: 630, alt: 'Today I Learned' }],

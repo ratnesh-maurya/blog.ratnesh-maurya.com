@@ -14,13 +14,13 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ["blog posts", "web development", "programming", "javascript", "typescript", "react", "nextjs", "technology"],
     authors: [{ name: "Ratnesh Maurya" }],
     alternates: {
-      canonical: "https://blog.ratnesh-maurya.com/blog",
+      canonical: "https://blog.ratnesh-maurya.com/blog/",
       types: { ...oembedAlternate('/blog') },
     },
     openGraph: {
       title: "All Blog Posts",
       description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
-      url: "https://blog.ratnesh-maurya.com/blog",
+      url: "https://blog.ratnesh-maurya.com/blog/",
       siteName: "Ratn Labs",
       type: "website",
       locale: 'en_US',

@@ -1,6 +1,6 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { SillyQuestionsListingClient } from '@/components/SillyQuestionsListingClient';
-import { BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getAllSillyQuestionsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
@@ -73,7 +73,6 @@ export default async function SillyQuestionsPage() {
   return (
     <>
       <OgImageInBody src={getStoredOgImageUrl('silly-questions')} alt="Silly Questions & Coding Mistakes" />
-      <FAQStructuredData questions={questions} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <SillyQuestionsListingClient questions={questions} />
     </>

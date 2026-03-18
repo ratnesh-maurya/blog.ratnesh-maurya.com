@@ -10,8 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '/api/',    // API routes have no crawl value
-          '/_next/', // Next.js build internals
+          '/api/', // API routes have no crawl value
         ],
       },
       // Explicitly allow major search and AI crawlers

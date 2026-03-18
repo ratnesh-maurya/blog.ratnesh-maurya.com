@@ -27,11 +27,11 @@ export async function generateMetadata({ params }: TILPageProps): Promise<Metada
     title: `${entry.title} — TIL | Ratn Labs`,
     description: `Today I Learned: ${entry.title}. A short note on ${entry.category} from Ratnesh Maurya.`,
     keywords: [entry.category, ...entry.tags, 'TIL', 'today I learned'],
-    alternates: { canonical: `https://blog.ratnesh-maurya.com/til/${slug}`, types: { ...oembedAlternate(`/til/${slug}`) } },
+    alternates: { canonical: `https://blog.ratnesh-maurya.com/til/${slug}/`, types: { ...oembedAlternate(`/til/${slug}`) } },
     openGraph: {
       title: entry.title,
       description: `TIL: ${entry.title}`,
-      url: `https://blog.ratnesh-maurya.com/til/${slug}`,
+      url: `https://blog.ratnesh-maurya.com/til/${slug}/`,
       siteName: 'Ratn Labs',
       type: 'article',
       images: [{ url: getStoredOgImageUrl('til-slug', slug), width: 1200, height: 630, alt: entry.title }],

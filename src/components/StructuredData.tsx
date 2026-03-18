@@ -7,6 +7,16 @@ function absoluteOgImageUrl(path: string): string {
   return path.startsWith('http') ? path : `${BLOG_BASE}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
+function withTrailingSlash(url: string): string {
+  if (!url) return url;
+  if (url.endsWith('/')) return url;
+  const [base, hash] = url.split('#');
+  const [path, query] = base.split('?');
+  const normalized = `${path}/`;
+  const rebuilt = query ? `${normalized}?${query}` : normalized;
+  return hash ? `${rebuilt}#${hash}` : rebuilt;
+}
+
 interface BlogStructuredDataProps {
   post: BlogPost;
 }
@@ -49,9 +59,9 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
     dateModified: datePublished,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+      '@id': withTrailingSlash(`https://blog.ratnesh-maurya.com/blog/${post.slug}`),
     },
-    url: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+    url: withTrailingSlash(`https://blog.ratnesh-maurya.com/blog/${post.slug}`),
     keywords: post.tags.join(', '),
     articleSection: post.category,
     wordCount: post.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0).length,
@@ -197,9 +207,10 @@ export function WebsiteStructuredData() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': 'https://blog.ratnesh-maurya.com/#website',
     name: "Ratn Labs",
-    description: 'A blog about web development, programming, and the silly mistakes we all make along the way.',
-    url: 'https://blog.ratnesh-maurya.com',
+    description: 'Systems thinking, backend architecture, and AI engineering. Notes on building scalable software in Go, Elixir, and TypeScript.',
+    url: withTrailingSlash('https://blog.ratnesh-maurya.com'),
     inLanguage: 'en-US',
     author: {
       '@type': 'Person',
@@ -215,12 +226,12 @@ export function WebsiteStructuredData() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://blog.ratnesh-maurya.com/search?q={search_term_string}'
+        urlTemplate: 'https://blog.ratnesh-maurya.com/search/?q={search_term_string}'
       },
       'query-input': 'required name=search_term_string',
     }, {
       '@type': 'ReadAction',
-      target: ['https://blog.ratnesh-maurya.com/blog'],
+      target: [withTrailingSlash('https://blog.ratnesh-maurya.com/blog')],
     }],
   };
 
@@ -349,7 +360,7 @@ export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
     '@type': 'CollectionPage',
     name: 'All Blog Posts — Ratn Labs',
     description: 'Explore articles on web development, backend engineering, system design, and more.',
-    url: 'https://blog.ratnesh-maurya.com/blog',
+    url: withTrailingSlash('https://blog.ratnesh-maurya.com/blog'),
     inLanguage: 'en-US',
     author: {
       '@type': 'Person',
@@ -361,7 +372,7 @@ export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
       itemListElement: posts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+        url: withTrailingSlash(`https://blog.ratnesh-maurya.com/blog/${post.slug}`),
         name: post.title,
         description: post.description,
       })),
@@ -471,7 +482,7 @@ interface TechnicalTermStructuredDataProps {
 }
 
 export function TechnicalTermStructuredData({ title, description, slug, ogImageUrl }: TechnicalTermStructuredDataProps) {
-  const url = `https://blog.ratnesh-maurya.com/technical-terms/${slug}`;
+  const url = withTrailingSlash(`https://blog.ratnesh-maurya.com/technical-terms/${slug}`);
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
@@ -567,7 +578,7 @@ export function TechnicalTermsStructuredData({ terms }: TechnicalTermsStructured
     '@id': 'https://blog.ratnesh-maurya.com/technical-terms#termset',
     name: 'Technical Terms — Backend & System Design',
     description: 'Definitions for indexing, clustering, CAP, ACID, replication, and other backend and system design terms.',
-    url: 'https://blog.ratnesh-maurya.com/technical-terms',
+    url: withTrailingSlash('https://blog.ratnesh-maurya.com/technical-terms'),
     publisher: {
       '@type': 'Person',
       name: 'Ratnesh Maurya',
@@ -578,7 +589,7 @@ export function TechnicalTermsStructuredData({ terms }: TechnicalTermsStructured
       name: t.title,
       description: t.description,
       inDefinedTermSet: 'https://blog.ratnesh-maurya.com/technical-terms#termset',
-      url: `https://blog.ratnesh-maurya.com/technical-terms/${t.slug}`,
+      url: withTrailingSlash(`https://blog.ratnesh-maurya.com/technical-terms/${t.slug}`),
     })),
   };
   return (
@@ -650,7 +661,7 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
     description: `Today I Learned: ${entry.title}. A short engineering note about ${entry.category}.`,
     datePublished: new Date(entry.date).toISOString(),
     dateModified: new Date(entry.date).toISOString(),
-    url: `https://blog.ratnesh-maurya.com/til/${entry.slug}`,
+    url: withTrailingSlash(`https://blog.ratnesh-maurya.com/til/${entry.slug}`),
     keywords: entry.tags.join(', '),
     articleSection: entry.category,
     inLanguage: 'en-US',
@@ -668,7 +679,7 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://blog.ratnesh-maurya.com/til/${entry.slug}`,
+      '@id': withTrailingSlash(`https://blog.ratnesh-maurya.com/til/${entry.slug}`),
     },
     image: {
       '@type': 'ImageObject',
@@ -701,13 +712,13 @@ export function TILListStructuredData({ entries }: TILListStructuredDataProps) {
     '@type': 'ItemList',
     name: 'Today I Learned — Ratn Labs',
     description: 'Short practical learnings from real engineering work — Go, PostgreSQL, Kubernetes, AWS, Docker.',
-    url: 'https://blog.ratnesh-maurya.com/til',
+    url: withTrailingSlash('https://blog.ratnesh-maurya.com/til'),
     numberOfItems: entries.length,
     itemListElement: entries.map((entry, idx) => ({
       '@type': 'ListItem',
       position: idx + 1,
       name: entry.title,
-      url: `https://blog.ratnesh-maurya.com/til/${entry.slug}`,
+      url: withTrailingSlash(`https://blog.ratnesh-maurya.com/til/${entry.slug}`),
       description: `TIL about ${entry.category}: ${entry.title}`,
     })),
   };

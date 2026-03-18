@@ -57,9 +57,9 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       telephone: false,
     },
     alternates: {
-      canonical: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+      canonical: `https://blog.ratnesh-maurya.com/blog/${post.slug}/`,
       languages: {
-        'en-US': `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+        'en-US': `https://blog.ratnesh-maurya.com/blog/${post.slug}/`,
       },
       types: { ...oembedAlternate(`/blog/${post.slug}`) },
     },
@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       modifiedTime: post.date,
       authors: [`https://ratnesh-maurya.com`],
       tags: post.tags,
-      url: `https://blog.ratnesh-maurya.com/blog/${post.slug}`,
+      url: `https://blog.ratnesh-maurya.com/blog/${post.slug}/`,
       siteName: 'Ratn Labs',
       locale: 'en_US',
       countryName: 'India',
