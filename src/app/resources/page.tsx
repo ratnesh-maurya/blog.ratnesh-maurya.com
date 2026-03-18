@@ -5,14 +5,14 @@ import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Resources — Books, Talks & Tools | Ratn Labs',
-  description: 'Curated books, talks, tools, and newsletters for backend engineers — system design, Go, distributed systems, and cloud-native development.',
+  title: 'Resources — Books, Talks & Tools',
+  description: 'Curated books, talks, tools, and newsletters for backend engineers—system design, Go, distributed systems, and cloud-native. Browse the list →',
   keywords: ['backend engineering resources', 'system design books', 'Go books', 'distributed systems resources', 'developer tools', 'engineering reading list'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/resources', types: { ...oembedAlternate('/resources') } },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/resources/', types: { ...oembedAlternate('/resources') } },
   openGraph: {
     title: 'Resources — Books, Talks & Tools | Ratn Labs',
     description: 'Curated resources for backend engineers — books, talks, tools, and newsletters.',
-    url: 'https://blog.ratnesh-maurya.com/resources',
+    url: 'https://blog.ratnesh-maurya.com/resources/',
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('resources'), width: 1200, height: 630, alt: 'Resources — Ratn Labs' }],

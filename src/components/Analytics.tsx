@@ -6,7 +6,6 @@ import Script from 'next/script';
 import {
   GA_MEASUREMENT_ID,
   CLARITY_PROJECT_ID,
-  initGA,
   initClarity,
   trackPageView,
   trackPerformance,
@@ -19,10 +18,7 @@ export function Analytics() {
 
   useEffect(() => {
     if (!isProduction) return;
-    // Track page views on route changes
-    if (GA_MEASUREMENT_ID) {
-      trackPageView(pathname);
-    }
+    if (GA_MEASUREMENT_ID) trackPageView(pathname);
 
     // Track in Clarity
     if (CLARITY_PROJECT_ID && typeof window !== 'undefined' && window.clarity) {
@@ -34,7 +30,6 @@ export function Analytics() {
     if (!isProduction) return;
     // Initialize analytics on mount
     if (GA_MEASUREMENT_ID) {
-      initGA();
       trackPerformance();
       trackEngagement();
     }
@@ -66,7 +61,7 @@ export function Analytics() {
               gtag('js', new Date());
               gtag('config', '${GA_MEASUREMENT_ID}', {
                 page_path: window.location.pathname,
-                send_page_view: true
+                send_page_view: false
               });
             `}
           </Script>

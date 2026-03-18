@@ -13,27 +13,6 @@ declare global {
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
 export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || '';
 
-// Initialize Google Analytics (only in production)
-export const initGA = () => {
-  if (!shouldTrack() || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
-
-  // Create dataLayer if it doesn't exist
-  window.dataLayer = window.dataLayer || [];
-
-  // Define gtag function
-  window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer.push(args);
-  };
-
-  // Configure GA
-  window.gtag('js', new Date());
-  window.gtag('config', GA_MEASUREMENT_ID, {
-    page_title: document.title,
-    page_location: window.location.href,
-    send_page_view: true,
-  });
-};
-
 // Initialize Microsoft Clarity (only in production)
 export const initClarity = () => {
   if (!shouldTrack() || typeof window === 'undefined' || !CLARITY_PROJECT_ID) return;
@@ -50,9 +29,10 @@ export const initClarity = () => {
 export const trackPageView = (url: string, title?: string) => {
   if (!shouldTrack() || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
-  window.gtag('config', GA_MEASUREMENT_ID, {
+  window.gtag('event', 'page_view', {
     page_path: url,
     page_title: title || document.title,
+    page_location: window.location.href,
   });
 };
 

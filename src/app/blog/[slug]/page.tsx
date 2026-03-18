@@ -8,7 +8,7 @@ import { ReadingProgress } from '@/components/ReadingProgress';
 import { RelatedPosts } from '@/components/RelatedPosts';
 import { RelatedTerms } from '@/components/RelatedTerms';
 import { SocialShare } from '@/components/SocialShare';
-import { BlogStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
+import { BlogStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { TableOfContents } from '@/components/TableOfContents';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllBlogPosts, getBlogPost, getBlogPostSlugs, getAllTechnicalTermsForListing } from '@/lib/content';
@@ -144,26 +144,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     { name: post.title, url: `https://blog.ratnesh-maurya.com/blog/${post.slug}` }
   ];
 
-  // Prepare FAQ questions for structured data (if questions exist)
-  // These questions appear in metadata for SEO but are not displayed on the page
-  const faqQuestions = post.questions && post.questions.length > 0
-    ? post.questions.map((question) => {
-      // Create a comprehensive answer that references the blog post
-      const answer = `${post.description} This blog post covers ${post.title.toLowerCase()} in detail, providing insights and explanations on this topic.`;
-      return {
-        question,
-        answer,
-        slug: post.slug,
-      };
-    })
-    : [];
-
   return (
     <>
       <OgImageInBody src={ogImage} alt={post.title} />
       <BlogStructuredData post={post} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      {faqQuestions.length > 0 && <FAQStructuredData questions={faqQuestions} />}
       <ReadingProgress />
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>

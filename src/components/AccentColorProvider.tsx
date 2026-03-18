@@ -84,13 +84,8 @@ export function useAccentColor() {
 }
 
 function applyPalette(paletteId: string) {
-  const palette = ACCENT_PALETTES.find((p) => p.id === paletteId) ?? ACCENT_PALETTES[0];
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  const vars = isDark ? palette.dark : palette.light;
-  const root = document.documentElement;
-  for (const [key, value] of Object.entries(vars)) {
-    root.style.setProperty(key, value);
-  }
+  const palette = ACCENT_PALETTES.find((p) => p.id === paletteId)?.id ?? DEFAULT_ACCENT;
+  document.documentElement.setAttribute('data-accent', palette);
 }
 
 export function AccentColorProvider({ children }: { children: React.ReactNode }) {
@@ -101,15 +96,9 @@ export function AccentColorProvider({ children }: { children: React.ReactNode })
     if (stored && ACCENT_PALETTES.some((p) => p.id === stored)) {
       setAccentIdState(stored);
       applyPalette(stored);
+    } else {
+      applyPalette(DEFAULT_ACCENT);
     }
-  }, []);
-
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      applyPalette(localStorage.getItem(STORAGE_KEY) ?? DEFAULT_ACCENT);
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    return () => observer.disconnect();
   }, []);
 
   const setAccentId = useCallback((id: string) => {

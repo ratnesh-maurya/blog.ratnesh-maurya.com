@@ -4,12 +4,19 @@ import { AccentColorProvider } from '@/components/AccentColorProvider';
 import { FocusTrap, SkipLink, useKeyboardShortcut } from '@/components/AccessibilityUtils';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
-import { MobileMenu } from '@/components/MobileMenu';
-import { SearchPopup } from '@/components/SearchPopup';
 import { UtmTracker } from '@/components/UtmTracker';
 import { BlogPost, SillyQuestion } from '@/types/blog';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+
+const MobileMenu = dynamic(() => import('@/components/MobileMenu').then(m => m.MobileMenu), {
+  ssr: false,
+});
+
+const SearchPopup = dynamic(() => import('@/components/SearchPopup').then(m => m.SearchPopup), {
+  ssr: false,
+});
 
 interface AppWrapperProps {
   children: React.ReactNode;
@@ -29,7 +36,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
   const loadSearchData = useCallback(async () => {
     if (searchDataLoaded) return;
     try {
-      const response = await fetch('/search-data.json');
+      const response = await fetch('/search-data.json', { cache: 'force-cache' });
       if (response.ok) {
         const data = await response.json();
         setBlogPosts(data.blogPosts ?? []);

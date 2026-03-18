@@ -9,8 +9,8 @@ import { Metadata } from 'next';
 export async function generateMetadata(): Promise<Metadata> {
   const ogImage = getStoredOgImagePath('blog');
   return {
-    title: "All Blog Posts",
-    description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
+    title: "Blog — Systems, Backend & AI Engineering",
+    description: "Practical posts on backend engineering, system design, distributed systems, and AI engineering—written from real-world building and debugging. Start with the latest →",
     keywords: ["blog posts", "web development", "programming", "javascript", "typescript", "react", "nextjs", "technology"],
     authors: [{ name: "Ratnesh Maurya" }],
     alternates: {
@@ -18,8 +18,8 @@ export async function generateMetadata(): Promise<Metadata> {
       types: { ...oembedAlternate('/blog') },
     },
     openGraph: {
-      title: "All Blog Posts",
-      description: "Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.",
+      title: "Blog — Ratn Labs",
+      description: "Backend engineering, system design, distributed systems, and AI engineering—practical posts you can use.",
       url: "https://blog.ratnesh-maurya.com/blog/",
       siteName: "Ratn Labs",
       type: "website",

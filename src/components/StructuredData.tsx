@@ -50,9 +50,9 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
       url: 'https://blog.ratnesh-maurya.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://blog.ratnesh-maurya.com/images/logo.png',
-        width: 512,
-        height: 512
+        url: 'https://blog.ratnesh-maurya.com/apple-touch-icon.png',
+        width: 180,
+        height: 180,
       }
     },
     datePublished: datePublished,
@@ -243,44 +243,150 @@ export function WebsiteStructuredData() {
   );
 }
 
-export function OrganizationStructuredData() {
+export function PersonStructuredData() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': 'https://ratnesh-maurya.com/#person',
     name: 'Ratnesh Maurya',
     url: 'https://ratnesh-maurya.com',
     image: 'https://avatars.githubusercontent.com/u/85143283?v=4',
     jobTitle: 'Backend Engineer',
-    description: 'Backend engineer passionate about system design, web development, and sharing knowledge through blogging.',
+    description: 'Backend engineer specialising in system design, distributed systems, and web development. Building scalable backend systems and sharing insights through writing.',
     sameAs: [
       'https://github.com/ratnesh-maurya',
       'https://linkedin.com/in/ratnesh-maurya',
       'https://twitter.com/ratnesh_maurya',
-      'https://blog.ratnesh-maurya.com'
+      'https://blog.ratnesh-maurya.com',
     ],
     knowsAbout: [
       'Backend Development',
       'System Design',
+      'Distributed Systems',
       'Web Development',
       'JavaScript',
       'TypeScript',
+      'Go',
+      'Elixir',
       'Node.js',
       'React',
       'Next.js',
+      'AWS',
+      'Kubernetes',
       'Database Design',
-      'API Development'
+      'API Development',
     ],
-    worksFor: {
-      '@type': 'Organization',
-      name: 'Ratn Labs',
-      url: 'https://blog.ratnesh-maurya.com',
-    }
   };
 
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+export function OrganizationStructuredData() {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': 'https://blog.ratnesh-maurya.com/#organization',
+    name: 'Ratn Labs',
+    url: 'https://blog.ratnesh-maurya.com/',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://blog.ratnesh-maurya.com/apple-touch-icon.png',
+      width: 180,
+      height: 180,
+    },
+    sameAs: [
+      'https://ratnesh-maurya.com',
+      'https://github.com/ratnesh-maurya',
+      'https://linkedin.com/in/ratnesh-maurya',
+      'https://twitter.com/ratnesh_maurya',
+    ],
+    founder: {
+      '@type': 'Person',
+      '@id': 'https://ratnesh-maurya.com/#person',
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+/** Preferred: emit a single `@graph` with your core entities. */
+export function SiteEntitiesStructuredData() {
+  const graph = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': 'https://blog.ratnesh-maurya.com/#organization',
+        name: 'Ratn Labs',
+        url: 'https://blog.ratnesh-maurya.com/',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://blog.ratnesh-maurya.com/apple-touch-icon.png',
+          width: 180,
+          height: 180,
+        },
+        sameAs: [
+          'https://ratnesh-maurya.com',
+          'https://github.com/ratnesh-maurya',
+          'https://linkedin.com/in/ratnesh-maurya',
+          'https://twitter.com/ratnesh_maurya',
+        ],
+        founder: { '@id': 'https://ratnesh-maurya.com/#person' },
+      },
+      {
+        '@type': 'Person',
+        '@id': 'https://ratnesh-maurya.com/#person',
+        name: 'Ratnesh Maurya',
+        url: 'https://ratnesh-maurya.com',
+        image: 'https://avatars.githubusercontent.com/u/85143283?v=4',
+        jobTitle: 'Backend Engineer',
+        sameAs: [
+          'https://github.com/ratnesh-maurya',
+          'https://linkedin.com/in/ratnesh-maurya',
+          'https://twitter.com/ratnesh_maurya',
+          'https://blog.ratnesh-maurya.com',
+        ],
+        worksFor: { '@id': 'https://blog.ratnesh-maurya.com/#organization' },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': 'https://blog.ratnesh-maurya.com/#website',
+        url: 'https://blog.ratnesh-maurya.com/',
+        name: 'Ratn Labs',
+        inLanguage: 'en-US',
+        publisher: { '@id': 'https://blog.ratnesh-maurya.com/#organization' },
+        potentialAction: [
+          {
+            '@type': 'SearchAction',
+            target: {
+              '@type': 'EntryPoint',
+              urlTemplate: 'https://blog.ratnesh-maurya.com/search/?q={search_term_string}',
+            },
+            'query-input': 'required name=search_term_string',
+          },
+          {
+            '@type': 'ReadAction',
+            target: ['https://blog.ratnesh-maurya.com/blog/'],
+          },
+        ],
+      },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
     />
   );
 }

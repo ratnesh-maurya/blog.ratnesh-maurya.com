@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const ogImage = getStoredOgImageUrl('silly-questions');
   return {
     title: "Silly Questions & Coding Mistakes",
-    description: "Common coding mistakes and silly questions every developer encounters. Learn from real debugging experiences, troubleshooting tips, and programming errors. Save time debugging with these practical lessons! 🤦‍♂️",
+    description: "Common coding mistakes and silly questions every developer hits. Learn from real debugging writeups, troubleshooting patterns, and practical fixes. Save time debugging →",
     keywords: [
       "coding mistakes",
       "programming errors",
@@ -28,13 +28,13 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     authors: [{ name: "Ratnesh Maurya" }],
     alternates: {
-      canonical: "https://blog.ratnesh-maurya.com/silly-questions",
+      canonical: "https://blog.ratnesh-maurya.com/silly-questions/",
       types: { ...oembedAlternate('/silly-questions') },
     },
     openGraph: {
       title: "Silly Questions & Mistakes | Ratn Labs",
-      description: "We all make silly mistakes while coding. Here are some of mine, along with the lessons learned. Hopefully, they'll save you some debugging time! 🤦‍♂️",
-      url: "https://blog.ratnesh-maurya.com/silly-questions",
+      description: "We all make silly mistakes while coding. Here are some of mine, with the lessons learned—so you can debug faster.",
+      url: "https://blog.ratnesh-maurya.com/silly-questions/",
       siteName: "Ratn Labs",
       type: "website",
       locale: 'en_US',

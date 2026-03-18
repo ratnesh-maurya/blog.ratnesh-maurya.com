@@ -8,13 +8,13 @@ import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Search — Ratn Labs',
-  description: 'Search all blog posts, silly questions, and topics on Ratn Labs. Find articles on system design, Go, AWS, web development, and more.',
+  description: 'Search across blog posts, technical terms, cheatsheets, TILs, and silly questions. Find system design, Go, AWS, and backend topics fast →',
   keywords: ['search', 'blog search', 'find articles', 'system design', 'Go', 'backend engineering'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/search', types: { ...oembedAlternate('/search') } },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/search/', types: { ...oembedAlternate('/search') } },
   openGraph: {
     title: 'Search — Ratn Labs',
     description: 'Search all blog posts and Q&As on Ratn Labs.',
-    url: 'https://blog.ratnesh-maurya.com/search',
+    url: 'https://blog.ratnesh-maurya.com/search/',
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('search'), width: 1200, height: 630, alt: 'Search — Ratn Labs' }],

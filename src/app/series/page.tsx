@@ -8,14 +8,14 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Series — Learning Paths | Ratn Labs',
-  description: 'Grouped reading paths for backend engineering topics — system design, AWS, Go, and more. Read posts in the right order.',
+  title: 'Series — Learning Paths',
+  description: 'Grouped learning paths for backend engineering topics—system design, AWS, Go, and more. Read posts in the right order →',
   keywords: ['backend engineering series', 'system design series', 'Go learning path', 'AWS series', 'developer reading path'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/series', types: { ...oembedAlternate('/series') } },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/series/', types: { ...oembedAlternate('/series') } },
   openGraph: {
     title: 'Series — Ratn Labs',
     description: 'Grouped reading paths for backend engineering — system design, AWS, Go.',
-    url: 'https://blog.ratnesh-maurya.com/series',
+    url: 'https://blog.ratnesh-maurya.com/series/',
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('series'), width: 1200, height: 630, alt: 'Series — Ratn Labs' }],

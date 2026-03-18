@@ -8,14 +8,14 @@ import { getCheatsheet, getCheatsheetSlugs } from '@/lib/static-content';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Cheatsheets — Go, Docker, PostgreSQL, Kubectl | Ratn Labs',
-  description: 'Quick reference cheatsheets for Go, Docker, PostgreSQL, and Kubernetes kubectl. Commands, syntax, and patterns you need while building.',
+  title: 'Cheatsheets — Go, Docker, PostgreSQL, Kubectl',
+  description: 'Bookmarkable cheatsheets for Go, Docker, PostgreSQL, and kubectl: commands, syntax, and patterns you need while building. Browse the library →',
   keywords: ['Go cheatsheet', 'Docker cheatsheet', 'PostgreSQL cheatsheet', 'kubectl cheatsheet', 'Kubernetes commands', 'Go syntax', 'backend reference'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/cheatsheets', types: { ...oembedAlternate('/cheatsheets') } },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/cheatsheets/', types: { ...oembedAlternate('/cheatsheets') } },
   openGraph: {
     title: 'Cheatsheets — Ratn Labs',
     description: 'Quick reference for Go, Docker, PostgreSQL, and Kubernetes.',
-    url: 'https://blog.ratnesh-maurya.com/cheatsheets',
+    url: 'https://blog.ratnesh-maurya.com/cheatsheets/',
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('cheatsheets'), width: 1200, height: 630, alt: 'Cheatsheets' }],

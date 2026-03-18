@@ -56,7 +56,7 @@
     {
       "slug": "Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design",
       "title": "Optimizing Memory Layout in Go: A Deep Dive into Struct Design",
-      "description": "In Go, struct design can play a significant role in optimizing memory usage, especially when dealing with applications that need to handle a large number of structs. Understanding memory layout and the concept of alignment is crucial for writing efficient code. Let's dive into how struct field ordering impacts memory and how we can improve its design for better performance.",
+      "description": "How Go struct field ordering affects memory usage through alignment and padding, with concrete benchmarks showing the difference across millions of allocations and practical tools to detect wasted space.",
       "tags": [
         "Go",
         "Backend",
@@ -67,8 +67,8 @@
     },
     {
       "slug": "Easily-Deploy-Your-Nanoc-Website-to-S3-with-GitHub-Actions",
-      "title": "Easily Deploy Your Nanoc Website to S3 with GitHub Actions",
-      "description": "Learn how to deploy your Nanoc website to an AWS S3 bucket using GitHub Actions. This step-by-step guide provides detailed instructions for automating your deployment process.",
+      "title": "Deploy a Nanoc Static Site to S3 with GitHub Actions",
+      "description": "A step-by-step guide to automating Nanoc website deployment to AWS S3 using GitHub Actions, including S3 bucket policy, IAM setup, and the complete workflow YAML.",
       "tags": [
         "Cloud & DevOps"
       ],
@@ -77,8 +77,8 @@
     },
     {
       "slug": "Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO",
-      "title": "Architectural Design for a Ride App such as OLA, UBER, RAPIDO",
-      "description": "This blog post explores the design Pattern of a ride app such as OLA, UBER, RAPIDO.",
+      "title": "Architectural Design for a Ride App such as OLA, UBER, RAPIDO",
+      "description": "A microservices architecture breakdown for ride-sharing apps covering service boundaries, communication patterns (REST vs gRPC vs message queues), geo-location tracking, and the trade-offs between monolith-first and microservices approaches.",
       "tags": [
         "System Design",
         "Backend"
@@ -88,8 +88,8 @@
     },
     {
       "slug": "Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups",
-      "title": "Amazon SNS for Cost Reduction and Message Delivery Assurance in Startups",
-      "description": "Amazon Simple Notification Service (SNS) is a fully managed messaging service that enables the reliable and scalable distribution of messages and notifications to a variety of endpoints, including mobile devices, email, SMS, and other AWS services, making it a powerful tool for communication and information dissemination.",
+      "title": "Amazon SNS for Cost Reduction and Message Delivery Assurance in Startups",
+      "description": "How Amazon SNS helps startups cut messaging costs with pay-per-message pricing, automatic retries, dead letter queues, and multi-region delivery — and when SQS or third-party services might be a better fit.",
       "tags": [
         "System Design",
         "Backend",
@@ -100,8 +100,8 @@
     },
     {
       "slug": "Understanding-S3-and-S3-Policies",
-      "title": "Understanding S3 and S3 Policies",
-      "description": "This blog post explores the fundamentals of Amazon S3, a powerful and versatile object storage service offered by AWS. We'll delve into the key features of S3, discuss S3 policies, and provide practical examples to illustrate how these policies work in real-world scenarios.",
+      "title": "S3 Policies Explained: Bucket Policies vs IAM Policies vs ACLs",
+      "description": "How S3 access control actually works — the difference between bucket policies, IAM policies, and ACLs, with working JSON examples for common scenarios like public read access, encryption enforcement, and user-scoped permissions.",
       "tags": [
         "Cloud & DevOps",
         "Backend"
@@ -149,17 +149,17 @@
     {
       "slug": "acid",
       "title": "ACID",
-      "description": "ACID is an acronym for database transaction properties: Atomicity, Consistency, Isolation, Durability."
+      "description": "ACID (Atomicity, Consistency, Isolation, Durability) defines four properties that guarantee database transactions are processed reliably, even during crashes, errors, or concurrent access."
     },
     {
       "slug": "b-tree",
-      "title": "B-tree",
-      "description": "A B-tree is a self-balancing tree data structure that maintains sorted data and allows searches, sequential access, insertions, and deletions in logarithmic…"
+      "title": "B-Tree",
+      "description": "A B-tree is a self-balancing tree data structure that maintains sorted data and allows searches, insertions, and deletions in logarithmic time, forming the foundation of most database indexes."
     },
     {
       "slug": "backpressure",
       "title": "Backpressure",
-      "description": "Backpressure is a technique to prevent system overload by signaling to upstream components to slow down when downstream is overwhelmed."
+      "description": "Backpressure is a flow control mechanism where a slow consumer signals upstream producers to reduce their sending rate, preventing unbounded queue growth and resource exhaustion."
     },
     {
       "slug": "base",
@@ -169,7 +169,7 @@
     {
       "slug": "bloom-filter",
       "title": "Bloom Filter",
-      "description": "A Bloom filter is a space-efficient probabilistic data structure to test whether an element is in a set. It can tell “possibly in set” or “definitely not…"
+      "description": "A Bloom filter is a space-efficient probabilistic data structure that tests set membership, answering \"definitely not in set\" or \"possibly in set\" with tunable false positive rates but zero false negatives."
     },
     {
       "slug": "caching",
@@ -179,12 +179,12 @@
     {
       "slug": "cap-theorem",
       "title": "CAP Theorem",
-      "description": "The CAP theorem (Brewer’s theorem) states that in the presence of a network partition, a distributed data store can only guarantee two of the following three:…"
+      "description": "The CAP theorem states that a distributed data store can guarantee at most two of three properties — Consistency, Availability, and Partition Tolerance — when a network partition occurs."
     },
     {
       "slug": "cdc-change-data-capture",
       "title": "CDC (Change Data Capture)",
-      "description": "CDC is the process of tracking and capturing changes in a database and delivering change events (inserts/updates/deletes) to downstream systems."
+      "description": "CDC is the process of tracking and capturing row-level changes (inserts, updates, deletes) in a database and streaming those change events to downstream systems in near real-time."
     },
     {
       "slug": "checkpointing",
@@ -194,7 +194,7 @@
     {
       "slug": "circuit-breaker",
       "title": "Circuit Breaker",
-      "description": "A circuit breaker is a pattern where a system stops sending requests to a failing service for a period, allowing it to recover and preventing resource…"
+      "description": "A circuit breaker stops sending requests to a failing downstream service after consecutive failures, preventing cascading failures and giving the service time to recover."
     },
     {
       "slug": "clustering",
@@ -204,7 +204,7 @@
     {
       "slug": "columnar-vs-row-storage",
       "title": "Columnar vs Row Storage",
-      "description": "Columnar storage stores data column-by-column (all values of one column together). Row-based storage stores data row-by-row (complete records…"
+      "description": "Columnar storage organizes data by columns (all values of one field together) while row storage groups complete records together, each optimized for different query patterns."
     },
     {
       "slug": "compaction",
@@ -214,7 +214,7 @@
     {
       "slug": "composite-index",
       "title": "Composite Index",
-      "description": "A composite index (multi-column index) indexes multiple columns together in one index. It creates a single B-tree keyed by the tuple of column…"
+      "description": "A composite index (multi-column index) indexes multiple columns together in a single B-tree, optimizing queries that filter or sort on the combined column set while following the leftmost prefix rule."
     },
     {
       "slug": "connection-pooling",
@@ -224,7 +224,7 @@
     {
       "slug": "consensus",
       "title": "Consensus",
-      "description": "Consensus refers to the process whereby a group of distributed nodes agree on a single value or decision. It is critical in systems that need consistency…"
+      "description": "Consensus is the process by which distributed nodes agree on a single value or decision, even when some nodes fail, using algorithms like Raft and Paxos."
     },
     {
       "slug": "consistent-hashing",
@@ -239,7 +239,7 @@
     {
       "slug": "data-lake",
       "title": "Data Lake",
-      "description": "A data lake is a centralized repository that stores large volumes of raw data (structured, semi-structured, unstructured) in its native format, usually in a…"
+      "description": "A data lake is a centralized repository that stores large volumes of raw data in its native format, allowing schema-on-read analysis with tools like Spark, Presto, and Athena."
     },
     {
       "slug": "data-locality",
@@ -249,22 +249,22 @@
     {
       "slug": "data-migration",
       "title": "Data Migration",
-      "description": "Data migration involves moving data between systems or formats (e.g., during an upgrade or platform change)."
+      "description": "Data migration is the process of moving data between storage systems, formats, or schemas, typically during upgrades or platform changes."
     },
     {
       "slug": "data-skew",
       "title": "Data Skew",
-      "description": "Data skew is an uneven distribution of data (or workload) across partitions or nodes. Some partitions get more data/traffic than others."
+      "description": "Data skew is an uneven distribution of data or workload across partitions or nodes, causing hotspots where some partitions handle disproportionate traffic or storage."
     },
     {
       "slug": "data-warehouse",
       "title": "Data Warehouse",
-      "description": "A data warehouse is a centralized repository that stores curated, cleaned, and structured data optimized for queries and reporting, typically in a columnar…"
+      "description": "A data warehouse is a centralized analytical store that holds curated, structured data optimized for complex queries and reporting, separate from operational systems."
     },
     {
       "slug": "deadlock",
       "title": "Deadlock",
-      "description": "A deadlock occurs when two or more transactions block each other indefinitely, each holding a resource the other needs."
+      "description": "A deadlock occurs when two or more transactions permanently block each other, each holding a lock the other needs, creating a circular dependency that can only be resolved by aborting one transaction."
     },
     {
       "slug": "denormalization",
@@ -274,47 +274,47 @@
     {
       "slug": "dirty-read",
       "title": "Dirty Read",
-      "description": "A dirty read is when a transaction reads data written by another uncommitted transaction. If that other transaction rolls back, the reading transaction got…"
+      "description": "A dirty read occurs when a transaction reads data written by another transaction that has not yet committed, risking exposure to data that may be rolled back."
     },
     {
       "slug": "eventual-consistency",
       "title": "Eventual Consistency",
-      "description": "Eventual consistency is a weak consistency model where if no new updates are made, all replicas of data will eventually converge to the same…"
+      "description": "Eventual consistency guarantees that if no new updates are made, all replicas of a data item will converge to the same value over time, trading immediate consistency for higher availability and lower latency."
     },
     {
       "slug": "exactly-once-semantics",
       "title": "Exactly-Once Semantics",
-      "description": "Guarantees that an operation (like processing a message) is performed only once, despite retries and failures."
+      "description": "Exactly-once semantics guarantees that a message or operation is processed once and only once, despite retries, crashes, and network failures."
     },
     {
       "slug": "failover",
       "title": "Failover",
-      "description": "Failover is the automatic or manual switching of operations from a failed primary system to a secondary (standby) system."
+      "description": "Failover is the automatic or manual switching of operations from a failed primary system to a standby replica, ensuring service continuity with minimal downtime."
     },
     {
       "slug": "federation",
       "title": "Federation",
-      "description": "Federation refers to a setup where multiple autonomous databases or services coordinate to respond to queries, often by delegating parts of a query to…"
+      "description": "Federation is an architecture where multiple autonomous databases or services coordinate to answer queries without sharing a single storage layer."
     },
     {
       "slug": "geo-replication",
       "title": "Geo-Replication",
-      "description": "Geo-replication is replicating data across geographically distributed data centers."
+      "description": "Geo-replication copies data across geographically distributed data centers to improve latency, availability, and disaster recovery."
     },
     {
       "slug": "hash-partitioning",
       "title": "Hash Partitioning",
-      "description": "Hash partitioning assigns data to shards by hashing a key and using the hash result to pick a partition."
+      "description": "Hash partitioning distributes data across partitions by applying a hash function to a key, producing uniform distribution for point lookups."
     },
     {
       "slug": "high-availability-ha",
       "title": "High Availability (HA)",
-      "description": "High availability means a system is continuously operational and accessible with minimal downtime (often 99.99% uptime or better)."
+      "description": "High availability means a system is continuously operational with minimal downtime, typically measured as 99.9% to 99.999% uptime through redundancy, automatic failover, and distributed architecture."
     },
     {
       "slug": "horizontal-scaling",
       "title": "Horizontal Scaling",
-      "description": "Horizontal scaling (scale-out) means adding more machines (nodes) to a system to handle increased load."
+      "description": "Horizontal scaling (scale-out) adds more machines to a system to handle increased load, distributing work across nodes rather than upgrading a single server."
     },
     {
       "slug": "hot-partition-hot-shard",
@@ -324,7 +324,7 @@
     {
       "slug": "idempotency",
       "title": "Idempotency",
-      "description": "Idempotency means an operation can be applied multiple times without changing the result beyond the initial application. In distributed systems, it ensures…"
+      "description": "Idempotency means an operation produces the same result whether executed once or multiple times, making retries safe in distributed systems."
     },
     {
       "slug": "indexing",
@@ -339,7 +339,7 @@
     {
       "slug": "load-balancing",
       "title": "Load Balancing",
-      "description": "Load balancing is distributing incoming requests or tasks across multiple servers/resources to optimize performance and avoid overload."
+      "description": "Load balancing distributes incoming network requests across multiple servers to prevent overload, improve response times, and provide fault tolerance through redundancy."
     },
     {
       "slug": "lock-escalation",
@@ -349,7 +349,7 @@
     {
       "slug": "logical-vs-physical-replication",
       "title": "Logical vs Physical Replication",
-      "description": "Logical replication replicates database changes at a logical level (e.g. SQL statements or row change events). Physical replication copies the exact data files…"
+      "description": "Logical replication streams row-level change events (inserts, updates, deletes) while physical replication copies raw WAL bytes, producing a byte-identical standby."
     },
     {
       "slug": "lsm-tree",
@@ -369,7 +369,7 @@
     {
       "slug": "mvcc-multi-version-concurrency-control",
       "title": "MVCC (Multi-Version Concurrency Control)",
-      "description": "MVCC is a concurrency control method that keeps multiple versions of data records to allow non-blocking reads. Instead of locking, transactions see the…"
+      "description": "MVCC allows multiple transactions to read and write data concurrently without blocking each other, by maintaining multiple versions of each row and giving each transaction a consistent snapshot."
     },
     {
       "slug": "normalization",
@@ -379,17 +379,17 @@
     {
       "slug": "optimistic-locking",
       "title": "Optimistic Locking",
-      "description": "Optimistic locking is a concurrency control strategy where a transaction proceeds without locking resources, checking for conflicts only at commit. Typically…"
+      "description": "Optimistic locking allows concurrent transactions to proceed without acquiring locks, detecting conflicts at commit time using version numbers or timestamps and retrying on collision."
     },
     {
       "slug": "pessimistic-locking",
       "title": "Pessimistic Locking",
-      "description": "Pessimistic locking is the strategy of locking data resources before accessing them to prevent conflicts. A transaction acquires locks on rows it will read or…"
+      "description": "Pessimistic locking acquires exclusive locks on data before accessing it, preventing concurrent modifications by blocking other transactions until the lock is released."
     },
     {
       "slug": "phantom-read",
       "title": "Phantom Read",
-      "description": "A phantom read occurs when a transaction re-reads rows matching a condition and finds new rows that were inserted or deleted by another transaction after the…"
+      "description": "A phantom read occurs when a transaction re-executes a query with a range condition and gets a different set of rows because another transaction inserted or deleted matching rows in between."
     },
     {
       "slug": "query-planner-cost-based-optimizer",
@@ -404,7 +404,7 @@
     {
       "slug": "range-partitioning",
       "title": "Range Partitioning",
-      "description": "Range partitioning divides data by ordered key ranges. Each shard holds a contiguous range of key values."
+      "description": "Range partitioning divides data into partitions based on ordered key ranges, keeping contiguous values together for efficient range scans."
     },
     {
       "slug": "read-replicas",
@@ -414,12 +414,12 @@
     {
       "slug": "read-skew",
       "title": "Read Skew",
-      "description": "Read skew is an anomaly where a transaction reads outdated data in one table or column while reading updated related data in another, leading to inconsistency…"
+      "description": "Read skew is a concurrency anomaly where a transaction sees inconsistent data because it reads different rows or tables at different points in time during concurrent modifications."
     },
     {
       "slug": "rebalancing-data-rebalancing",
       "title": "Rebalancing (Data Rebalancing)",
-      "description": "Rebalancing is redistributing data across nodes or partitions to ensure even load and resource utilization."
+      "description": "Rebalancing is redistributing data across nodes or partitions to restore even load after cluster changes or skew."
     },
     {
       "slug": "resharding",
@@ -429,12 +429,12 @@
     {
       "slug": "schema-evolution",
       "title": "Schema Evolution",
-      "description": "Schema evolution refers to managing changes to the database schema over time without disrupting services."
+      "description": "Schema evolution is the practice of modifying a data schema over time while maintaining compatibility with existing readers and writers."
     },
     {
       "slug": "schema-registry",
       "title": "Schema Registry",
-      "description": "A schema registry is a centralized service to store and enforce data schema versions for messages/events (common in streaming systems like Kafka)."
+      "description": "A schema registry is a centralized service that stores, versions, and enforces compatibility of data schemas in event streaming and messaging systems."
     },
     {
       "slug": "secondary-indexes",
@@ -449,12 +449,12 @@
     {
       "slug": "split-brain",
       "title": "Split-Brain",
-      "description": "Split-brain is a failure scenario in clustered systems where network failures cause two (or more) segments of the cluster to believe they are the sole primary…"
+      "description": "Split-brain occurs when a distributed cluster partitions into two or more segments that each believe they are the primary, leading to conflicting writes and data divergence."
     },
     {
       "slug": "strong-consistency",
       "title": "Strong Consistency",
-      "description": "Strong consistency means every read receives the most recent write (or an error). All nodes see the same data at the same time."
+      "description": "Strong consistency guarantees that every read returns the result of the most recent write, so all clients see the same data at the same time regardless of which node they query."
     },
     {
       "slug": "three-phase-commit-3pc",
@@ -464,12 +464,12 @@
     {
       "slug": "throttling-and-rate-limiting",
       "title": "Throttling and Rate Limiting",
-      "description": "Throttling controls resource usage by limiting the rate of requests. Rate limiting enforces a maximum number of requests in a time window."
+      "description": "Throttling controls resource usage by limiting the rate of requests. Rate limiting enforces a maximum number of requests in a time window to protect services from overload and abuse."
     },
     {
       "slug": "time-series-partitioning",
       "title": "Time-Series Partitioning",
-      "description": "Partitioning data by time (e.g., daily/weekly/monthly partitions). Each partition holds data for a time range."
+      "description": "Time-series partitioning divides data into partitions by time intervals, optimizing for append-heavy workloads and time-windowed queries."
     },
     {
       "slug": "two-phase-commit-2pc",
@@ -479,17 +479,17 @@
     {
       "slug": "vertical-scaling",
       "title": "Vertical Scaling",
-      "description": "Vertical scaling (scale-up) is increasing the resources (CPU, RAM, disk) of a single machine."
+      "description": "Vertical scaling (scale-up) increases the capacity of a single machine by adding CPU, RAM, or faster storage, trading simplicity for a hardware ceiling."
     },
     {
       "slug": "write-skew",
       "title": "Write Skew",
-      "description": "Write skew is an anomaly where two concurrent transactions each read overlapping data and then write non-overlapping fields, resulting in an overall invalid…"
+      "description": "Write skew is a concurrency anomaly where two transactions read overlapping data, then write to non-overlapping rows, producing a state that violates an application invariant neither transaction broke individually."
     },
     {
       "slug": "write-ahead-logging-wal",
       "title": "Write-Ahead Logging (WAL)",
-      "description": "Write-Ahead Logging is a technique where changes are first recorded in a log before being applied to the database files. It ensures atomicity and…"
+      "description": "Write-ahead logging (WAL) records all changes to a log file before applying them to the database, guaranteeing atomicity and durability by enabling crash recovery through log replay."
     }
   ],
   "tilEntries": [

@@ -21,6 +21,9 @@ const referenceLinks = [
 const siteLinks = [
   { label: 'About', href: '/about' },
   { label: 'Newsletter', href: '/newsletter' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Editorial Policy', href: '/editorial-policy' },
+  { label: 'Corrections', href: '/corrections' },
   { label: 'Analytics', href: '/analytics' },
   { label: 'Privacy Policy', href: '/privacy-policy' },
   { label: 'RSS Feed', href: '/rss.xml' },

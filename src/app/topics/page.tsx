@@ -9,13 +9,13 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Topics — Ratn Labs',
-  description: 'Browse all topics covered on Ratn Labs: system design, Go, AWS, web development, computer science, and more. Find articles by category.',
+  description: 'Browse topics covered on Ratn Labs: system design, Go, AWS, web development, and more. Jump into categories and tags →',
   keywords: ['topics', 'categories', 'system design', 'golang', 'AWS', 'web development', 'backend engineering'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/topics', types: { ...oembedAlternate('/topics') } },
+  alternates: { canonical: 'https://blog.ratnesh-maurya.com/topics/', types: { ...oembedAlternate('/topics') } },
   openGraph: {
     title: 'Topics — Ratn Labs',
     description: 'Browse all topics covered on Ratn Labs: system design, Go, AWS, web development, and more.',
-    url: 'https://blog.ratnesh-maurya.com/topics',
+    url: 'https://blog.ratnesh-maurya.com/topics/',
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',
