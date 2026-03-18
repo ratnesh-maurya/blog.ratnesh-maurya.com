@@ -231,7 +231,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
         isOpen ? 'visible' : 'invisible pointer-events-none'
       }`}
       style={{
-        backgroundColor: isOpen ? 'rgba(0,0,0,0.5)' : 'transparent',
+        backgroundColor: isOpen ? 'var(--overlay-backdrop)' : 'transparent',
         backdropFilter: isOpen ? 'blur(4px)' : 'none',
         paddingTop: 'clamp(3rem, 8vh, 7rem)',
         paddingInline: '1rem',
@@ -336,7 +336,6 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                   const isBlog = result.type === 'blog';
                   const isQuestion = result.type === 'question';
                   const isTerm = result.type === 'term';
-                  const isTil = result.type === 'til';
                   const post = result.item as BlogPost;
                   const question = result.item as SillyQuestion;
                   const term = result.item as TechnicalTermSearchItem;

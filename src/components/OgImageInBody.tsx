@@ -2,6 +2,8 @@
  * Renders the page's OG image in the body as a hidden img so crawlers can find it.
  * Not visible to users; used for indexing.
  */
+import Image from 'next/image';
+
 interface OgImageInBodyProps {
   src: string;
   alt: string;
@@ -24,12 +26,14 @@ export function OgImageInBody({ src, alt }: OgImageInBodyProps) {
         clipPath: 'inset(50%)',
       }}
     >
-      <img
+      <Image
         src={src}
         alt={alt}
         width={1200}
         height={630}
+        loading="lazy"
         fetchPriority="low"
+        unoptimized
       />
     </div>
   );

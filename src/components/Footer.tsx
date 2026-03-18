@@ -57,7 +57,7 @@ function FooterLinkList({ title, links }: { title: string; links: { label: strin
 
 export function Footer() {
   return (
-    <footer style={{ backgroundColor: 'var(--footer-bg)', borderTop: '1px solid var(--footer-surface)' }}>
+    <footer className="cv-auto" style={{ backgroundColor: 'var(--footer-bg)', borderTop: '1px solid var(--footer-surface)' }}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-14">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">

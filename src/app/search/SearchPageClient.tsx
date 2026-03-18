@@ -2,12 +2,11 @@
 
 import { SearchPopup, TechnicalTermSearchItem, TILSearchItem } from '@/components/SearchPopup';
 import { BlogPost, SillyQuestion } from '@/types/blog';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function SearchPageClient() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [sillyQuestions, setSillyQuestions] = useState<SillyQuestion[]>([]);
   const [technicalTerms, setTechnicalTerms] = useState<TechnicalTermSearchItem[]>([]);
@@ -17,7 +16,7 @@ export default function SearchPageClient() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch('/search-data.json');
+        const res = await fetch('/search-data.json', { cache: 'force-cache' });
         if (res.ok) {
           const data = await res.json();
           setBlogPosts(data.blogPosts ?? []);

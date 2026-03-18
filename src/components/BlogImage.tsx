@@ -87,12 +87,13 @@ export function BlogCardImage({ post, className = "h-48", objectFit = 'contain' 
   if (objectFit === 'contain') {
     const imageSrc = post.image.startsWith('/') ? post.image : `/images/blog/${post.image}`;
     return (
-      <div className={`${className} relative overflow-visible flex items-center justify-center`} style={{ width: 'auto', minWidth: 0, maxHeight: '100%' }}>
-        <img
+      <div className={`${className} relative overflow-hidden flex items-center justify-center`} style={{ minHeight: '160px', width: '100%' }}>
+        <Image
           src={imageSrc}
           alt={post.title}
-          className="max-h-full w-auto object-contain group-hover:scale-105 transition-transform duration-500"
-          style={{ maxHeight: '100%', width: 'auto', height: 'auto' }}
+          fill
+          className="object-contain group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
     );

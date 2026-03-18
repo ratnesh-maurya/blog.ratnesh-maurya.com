@@ -67,6 +67,9 @@
   --muted:            var(--neutral-100);
   --border:           var(--neutral-300);
 
+  /* Overlays */
+  --overlay-backdrop: rgb(0 0 0 / 0.52);
+
   /* Typography */
   --text-primary:   #1C1C1A;
   --text-secondary: #545450;
@@ -215,6 +218,8 @@
   --text-secondary: #94A3B8;
   --text-muted:     #64748B;
   --text-inverse:   #0F172A;
+
+  --overlay-backdrop: rgb(0 0 0 / 0.72);
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
   --shadow-md: 0 4px 8px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.4);
@@ -929,6 +934,13 @@ html, body {
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+@supports (content-visibility: auto) {
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 800px;
+  }
 }
 
 .gradient-primary {

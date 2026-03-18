@@ -41,49 +41,90 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
       : { color: 'var(--text-secondary)' };
 
   return (
-    <div className={`md:hidden fixed top-16 left-0 right-0 z-40 overflow-y-auto transition-all duration-300 ${isOpen ? 'max-h-[calc(100vh-4rem)] opacity-100' : 'max-h-0 opacity-0'}`}>
-      <div className="px-4 pt-2 pb-4 space-y-1 border-t shadow-lg" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-        {mainLinks.map(item => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
-            style={linkStyle(item.href)}
-            onClick={() => { trackNavigation(item.href, 'mobile-menu'); onClose(); }}
-          >
-            {item.label}
-          </Link>
-        ))}
+    <div
+      className={`md:hidden fixed inset-0 z-40 transition-opacity duration-200 ${
+        isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
+      aria-hidden={!isOpen}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute inset-0"
+        aria-label="Close menu backdrop"
+        style={{ backgroundColor: 'var(--overlay-backdrop)', backdropFilter: 'blur(6px)' }}
+      />
 
-        <div className="pt-2 pb-1 px-4">
-          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-            Explore
-          </span>
-        </div>
-
-        {exploreLinks.map(item => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
-            style={linkStyle(item.href)}
-            onClick={() => { trackNavigation(item.href, 'mobile-menu'); onClose(); }}
+      <div
+        className={`fixed top-16 left-0 right-0 overflow-y-auto transition-transform duration-200 ${
+          isOpen ? 'translate-y-0' : '-translate-y-2 pointer-events-none'
+        }`}
+      >
+        <div className="max-w-5xl mx-auto px-3">
+          <div
+            className="rounded-2xl border shadow-xl px-4 pt-3 pb-5 space-y-1"
+            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
           >
-            {item.label}
-          </Link>
-        ))}
+            {mainLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
+                style={linkStyle(item.href)}
+                onClick={() => {
+                  trackNavigation(item.href, 'mobile-menu');
+                  onClose();
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
 
-        <div className="pt-2">
-          <button
-            onClick={() => { onSearchOpen(); onClose(); }}
-            className="w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            Search
-          </button>
+            <div className="pt-3 pb-1 px-3">
+              <span
+                className="text-[11px] font-semibold uppercase tracking-widest"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                Explore
+              </span>
+            </div>
+
+            {exploreLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
+                style={linkStyle(item.href)}
+                onClick={() => {
+                  trackNavigation(item.href, 'mobile-menu');
+                  onClose();
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            <div className="pt-3">
+              <button
+                onClick={() => {
+                  onSearchOpen();
+                  onClose();
+                }}
+                className="w-full text-left px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 flex items-center"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+                Search
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,12 +1,7 @@
 'use client';
 
-import { ContentOverviewSection } from '@/components/analytics/content-overview-section';
-import { OverallSection } from '@/components/analytics/overall-section';
-import { PostViewsRangeSection } from '@/components/analytics/post-views-range-section';
 import { SortableSection } from '@/components/analytics/sortable-section';
-import { TodaySection } from '@/components/analytics/today-section';
 import { TopInsightsStrip } from '@/components/analytics/top-insights-strip';
-import { UtmRangeSection } from '@/components/analytics/utm-range-section';
 import {
   closestCenter,
   DndContext,
@@ -17,11 +12,51 @@ import {
   type DragEndEvent,
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useCallback, useEffect, useState } from 'react';
 import type { StatType } from '@/lib/supabase/stats';
+import dynamic from 'next/dynamic';
+import { useCallback, useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'analytics-section-order';
 const DEFAULT_ORDER: string[] = ['overall', 'today', 'content-overview', 'post-views', 'utm'];
+
+function SectionSkeleton({ rows = 2 }: { rows?: number }) {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: rows }).map((_, i) => (
+        <div
+          key={i}
+          className="rounded-xl border p-5 animate-pulse h-24"
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+        />
+      ))}
+    </div>
+  );
+}
+
+const OverallSection = dynamic(() => import('@/components/analytics/overall-section').then((m) => m.OverallSection), {
+  ssr: false,
+  loading: () => <SectionSkeleton rows={1} />,
+});
+
+const TodaySection = dynamic(() => import('@/components/analytics/today-section').then((m) => m.TodaySection), {
+  ssr: false,
+  loading: () => <SectionSkeleton rows={1} />,
+});
+
+const ContentOverviewSection = dynamic(
+  () => import('@/components/analytics/content-overview-section').then((m) => m.ContentOverviewSection),
+  { ssr: false, loading: () => <SectionSkeleton rows={2} /> }
+);
+
+const PostViewsRangeSection = dynamic(
+  () => import('@/components/analytics/post-views-range-section').then((m) => m.PostViewsRangeSection),
+  { ssr: false, loading: () => <SectionSkeleton rows={3} /> }
+);
+
+const UtmRangeSection = dynamic(() => import('@/components/analytics/utm-range-section').then((m) => m.UtmRangeSection), {
+  ssr: false,
+  loading: () => <SectionSkeleton rows={2} />,
+});
 
 function loadOrder(): string[] {
   if (typeof window === 'undefined') return [...DEFAULT_ORDER];
