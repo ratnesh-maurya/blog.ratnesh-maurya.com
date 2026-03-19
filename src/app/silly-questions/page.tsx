@@ -64,6 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function SillyQuestionsPage() {
   const questions = await getAllSillyQuestionsForListing();
+  const allCategories = Array.from(new Set(questions.map(q => q.category).filter(Boolean)));
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
@@ -74,7 +75,50 @@ export default async function SillyQuestionsPage() {
     <>
       <OgImageInBody src={getStoredOgImageUrl('silly-questions')} alt="Silly Questions & Coding Mistakes" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      <SillyQuestionsListingClient questions={questions} />
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+        <div className="hero-gradient-bg">
+          <div className="page-header max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3"
+              style={{ color: 'var(--accent-500)' }}>
+              Debug Diary
+            </p>
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3"
+              style={{ color: 'var(--text-primary)' }}>
+              Silly Questions &{' '}
+              <span style={{
+                background: 'linear-gradient(135deg, var(--accent-400), var(--accent-600))',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}>
+                Mistakes
+              </span>
+            </h1>
+            <p className="text-lg leading-relaxed max-w-2xl"
+              style={{ color: 'var(--text-muted)' }}>
+              We all make silly mistakes while coding. Here are some of mine, along with the lessons
+              learned — hopefully they&apos;ll save you some debugging time.
+            </p>
+
+            {/* Stats */}
+            <div className="flex flex-wrap items-center gap-3 mt-6 pt-6"
+              style={{ borderTop: '1px solid var(--border)' }}>
+              <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1 rounded-full font-medium"
+                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                {questions.length} questions & answers
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1 rounded-full font-medium"
+                style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)' }}>
+                {allCategories.length} categories
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+          <SillyQuestionsListingClient questions={questions} />
+        </div>
+      </div>
     </>
   );
 }

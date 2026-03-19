@@ -80,10 +80,10 @@ export default async function AboutPage() {
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         {/* Hero */}
         <div className="hero-gradient-bg">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+          <div className="page-header max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
               <div className="relative flex-shrink-0">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden"
+                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-lg"
                   style={{ outline: '2px solid var(--accent-200)' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -102,7 +102,7 @@ export default async function AboutPage() {
                   style={{ color: 'var(--accent-500)' }}>
                   About me
                 </p>
-                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2"
+                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2"
                   style={{ color: 'var(--text-primary)' }}>
                   Ratnesh Maurya
                 </h1>
@@ -112,7 +112,7 @@ export default async function AboutPage() {
                 <div className="flex flex-wrap gap-2">
                   {socials.map(s => (
                     <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-200"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-200 hover:shadow-sm"
                       style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}>
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                         <path d={s.icon} />
@@ -121,7 +121,7 @@ export default async function AboutPage() {
                     </a>
                   ))}
                   <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-200"
+                    className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-200 hover:shadow-sm"
                     style={{ borderColor: 'var(--accent-300)', backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
                     Portfolio &rarr;
                   </a>
@@ -133,7 +133,7 @@ export default async function AboutPage() {
             <nav className="mt-10 flex flex-wrap gap-2" aria-label="Page sections">
               {['Background', 'Now', 'Skills', 'Projects', 'Journey', 'Uses', 'Writing'].map(s => (
                 <a key={s} href={`#${s.toLowerCase()}`}
-                  className="text-xs font-medium px-3 py-1.5 rounded-full border transition-colors"
+                  className="text-xs font-medium px-3 py-1.5 rounded-full border transition-colors hover:shadow-sm"
                   style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
                   {s}
                 </a>
@@ -142,7 +142,7 @@ export default async function AboutPage() {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-16">
 
           {/* Bio */}
           <section id="background">
@@ -150,7 +150,7 @@ export default async function AboutPage() {
               style={{ color: 'var(--text-muted)' }}>
               Background
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-4 max-w-3xl">
               {[
                 "I'm a passionate Software Development Engineer at Initializ with experience building scalable backend systems and cloud-native applications. I specialize in crafting robust, high-performance solutions that handle thousands of concurrent users.",
                 "My expertise lies in backend development with Go, Elixir, PostgreSQL, Redis, Kubernetes and AWS — focusing on distributed systems, microservices architectures, and secure APIs.",
@@ -172,9 +172,9 @@ export default async function AboutPage() {
                 { label: 'Years writing', value: '2+' },
                 { label: 'Open source', value: '\u221E' },
               ].map(stat => (
-                <div key={stat.label} className="rounded-xl p-5 text-center"
+                <div key={stat.label} className="rounded-2xl p-6 text-center transition-shadow duration-200 hover:shadow-md"
                   style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
-                  <div className="text-2xl font-extrabold mb-1" style={{ color: 'var(--accent-500)' }}>
+                  <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--accent-500)' }}>
                     {stat.value}
                   </div>
                   <div className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
@@ -230,7 +230,7 @@ export default async function AboutPage() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {skills.map(group => (
-                <div key={group.group} className="rounded-xl p-5"
+                <div key={group.group} className="rounded-2xl p-5 transition-shadow duration-200 hover:shadow-md"
                   style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
                   <h3 className="text-xs font-semibold uppercase tracking-wider mb-3"
                     style={{ color: 'var(--accent-500)' }}>
@@ -265,9 +265,9 @@ export default async function AboutPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {projects.map(proj => (
                 <a key={proj.name} href={proj.href} target="_blank" rel="noopener noreferrer"
-                  className="project-card flex flex-col gap-1.5 p-4 rounded-xl border transition-all duration-200 group"
+                  className="project-card flex flex-col gap-1.5 p-5 rounded-2xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg group"
                   style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
-                  <span className="text-sm font-semibold transition-colors"
+                  <span className="text-sm font-semibold transition-colors group-hover:text-[var(--accent-500)]"
                     style={{ color: 'var(--text-primary)' }}>
                     {proj.name}
                   </span>
@@ -332,13 +332,13 @@ export default async function AboutPage() {
                   <div className="space-y-2">
                     {section.items.map(item => (
                       <div key={item.name}
-                        className="flex items-start gap-4 p-4 rounded-xl border"
+                        className="flex items-start gap-4 p-4 rounded-2xl border transition-shadow duration-200 hover:shadow-sm"
                         style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                             {item.href ? (
                               <a href={item.href} target="_blank" rel="noopener noreferrer"
-                                className="text-sm font-semibold transition-colors"
+                                className="text-sm font-semibold transition-colors hover:text-[var(--accent-500)]"
                                 style={{ color: 'var(--text-primary)' }}>
                                 {item.name} &#8599;
                               </a>
@@ -381,7 +381,7 @@ export default async function AboutPage() {
             <div className="space-y-3">
               {featuredPosts.map(post => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}
-                  className="flex items-start gap-4 p-4 rounded-xl border transition-all duration-200 group"
+                  className="flex items-start gap-4 p-4 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md group"
                   style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-1"
@@ -405,7 +405,7 @@ export default async function AboutPage() {
           {/* CTA */}
           <section className="rounded-2xl p-8 text-center"
             style={{ backgroundColor: 'var(--accent-50)', border: '1px solid var(--accent-200)' }}>
-            <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
               Let&apos;s connect
             </h2>
             <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
@@ -413,12 +413,12 @@ export default async function AboutPage() {
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <a href="https://linkedin.com/in/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-md"
                 style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}>
                 Connect on LinkedIn
               </a>
               <a href="https://x.com/ratnesh_maurya_" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold border transition-all duration-200"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold border transition-all duration-200 hover:shadow-md"
                 style={{ borderColor: 'var(--accent-300)', backgroundColor: 'transparent', color: 'var(--accent-600)' }}>
                 Follow on X
               </a>

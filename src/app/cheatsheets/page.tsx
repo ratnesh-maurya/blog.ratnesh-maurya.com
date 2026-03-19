@@ -50,22 +50,30 @@ export default function CheatsheetsPage() {
       <CheatsheetsListStructuredData sheets={sheets} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="hero-gradient-bg">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          <div className="page-header max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--accent-500)' }}>
               Quick Reference
             </p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Cheatsheets
             </h1>
-            <p className="text-base leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'var(--text-muted)' }}>
               The commands and syntax I look up most. Bookmarkable quick references for the tools in my daily stack.
             </p>
+
+            {/* Stats */}
+            <div className="flex flex-wrap items-center gap-3 mt-6 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
+              <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1 rounded-full font-medium"
+                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                {sheets.length} cheatsheets
+              </span>
+            </div>
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
           <CheatsheetsListingClient sheets={sheets} />
           <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--border)' }}>
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-4"

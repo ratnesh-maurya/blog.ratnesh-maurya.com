@@ -154,15 +154,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         {/* Back navigation bar */}
-        <div style={{ borderBottom: '1px solid var(--border)' }}>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+        <div className="backdrop-blur-sm" style={{ backgroundColor: 'color-mix(in srgb, var(--background) 85%, transparent)' }}>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-medium transition-colors group"
+              className="inline-flex items-center gap-1.5 text-xs font-medium transition-colors group opacity-70 hover:opacity-100"
               style={{ color: 'var(--text-muted)' }}
               onMouseEnter={undefined}
             >
-              <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               All posts
@@ -182,39 +182,36 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {/* Article Header */}
               <header className="mb-12">
                 {/* Title */}
-                <h1 className="text-[32px] sm:text-4xl lg:text-[42px] font-bold leading-tight tracking-tight mb-6"
+                <h1 className="text-3xl md:text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight mb-6"
                   style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-source-serif, Georgia, serif)', letterSpacing: '-0.02em' }}>
                   {post.title}
                 </h1>
 
-                {/* Metadata row */}
-                <div className="flex flex-wrap items-center gap-5 text-sm mb-6"
+                {/* Author strip + metadata */}
+                <div className="flex flex-wrap items-center gap-3 text-sm mb-8"
                   style={{ color: 'var(--text-muted)' }}>
-                  <time dateTime={post.date} className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    {format(new Date(post.date), 'MMMM d, yyyy')}
-                  </time>
-                  <span className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {post.readingTime}
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://avatars.githubusercontent.com/u/85143283?v=4"
+                    alt="Ratnesh Maurya"
+                    className="w-8 h-8 rounded-full flex-shrink-0 object-cover"
+                  />
+                  <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
                     {post.author}
                   </span>
+                  <span style={{ color: 'var(--border)' }}>·</span>
+                  <time dateTime={post.date}>
+                    {format(new Date(post.date), 'MMM d, yyyy')}
+                  </time>
+                  <span style={{ color: 'var(--border)' }}>·</span>
+                  <span>{post.readingTime}</span>
                 </div>
 
                 {/* Hero image */}
                 {post.image && (
                   <div
-                    className="mt-6 mb-8 overflow-hidden rounded-2xl border"
-                    style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
+                    className="mt-2 mb-10 overflow-hidden rounded-2xl shadow-lg"
+                    style={{ backgroundColor: 'var(--surface)' }}
                   >
                     <BlogImage
                       src={post.image}
@@ -227,10 +224,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </div>
                 )}
 
-                {/* Description */}
+                {/* Description / lede */}
                 {post.description && (
-                  <p className="text-lg md:text-xl leading-relaxed mb-8"
-                    style={{ color: 'var(--text-secondary)', borderLeft: '3px solid var(--accent-300)', paddingLeft: '1rem' }}>
+                  <p className="text-xl leading-relaxed mb-8"
+                    style={{ color: 'var(--text-secondary)' }}>
                     {post.description}
                   </p>
                 )}
@@ -241,7 +238,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-block text-xs font-medium px-3 py-1 rounded-full"
+                        className="inline-block text-xs font-medium px-2.5 py-1 rounded-full transition-colors"
                         style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
                       >
                         #{tag}
@@ -274,9 +271,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <CodeCopyButton />
 
               {/* Footer — Tags & Share */}
-              <div className="mt-16 space-y-8">
+              <div className="mt-20 space-y-10">
                 {post.tags.length > 0 && (
-                  <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+                  <div className="pt-10" style={{ borderTop: '1px solid var(--border)' }}>
                     <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
                       style={{ color: 'var(--text-muted)' }}>
                       Tags
@@ -286,7 +283,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         <Link
                           key={tag}
                           href={`/blog?tag=${tag}`}
-                          className="inline-block text-sm font-medium px-3 py-1.5 rounded-full transition-all duration-200"
+                          className="inline-block text-sm font-medium px-3 py-1.5 rounded-full transition-colors duration-200 hover:brightness-95"
                           style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
                         >
                           #{tag}
@@ -296,7 +293,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </div>
                 )}
 
-                <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+                <div className="pt-10" style={{ borderTop: '1px solid var(--border)' }}>
                   <div className="flex items-center justify-between gap-3 mb-4">
                     <h3 className="text-xs font-semibold uppercase tracking-widest"
                       style={{ color: 'var(--text-muted)' }}>
@@ -335,24 +332,27 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
 
                 {/* Author box — E-E-A-T signal */}
-                <div className="mt-12 pt-8 flex flex-col sm:flex-row items-start gap-4 rounded-xl p-5"
-                  style={{ borderTop: '1px solid var(--border)', backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
+                <div className="mt-14 flex flex-col sm:flex-row items-start gap-5 rounded-2xl p-6"
+                  style={{
+                    background: 'linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--accent-50) 40%, var(--surface)) 100%)',
+                    border: '1px solid var(--border)',
+                  }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://avatars.githubusercontent.com/u/85143283?v=4"
                     alt="Ratnesh Maurya"
-                    className="w-14 h-14 rounded-xl flex-shrink-0 object-cover"
+                    className="w-16 h-16 rounded-2xl flex-shrink-0 object-cover"
                     style={{ outline: '2px solid var(--accent-200)' }}
                   />
                   <div>
-                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
                       <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Ratnesh Maurya</span>
                       <span className="text-xs px-2 py-0.5 rounded-full"
                         style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
                         Software Engineer
                       </span>
                     </div>
-                    <p className="text-xs leading-relaxed mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
                       Backend engineer at Initializ.ai — building scalable systems with Go, Elixir, and Kubernetes.
                       Writing about distributed systems, AWS, and the bugs that cost me hours.
                     </p>

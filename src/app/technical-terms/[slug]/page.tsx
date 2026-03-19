@@ -96,18 +96,20 @@ export default async function TechnicalTermPage({
       )}
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
+          {/* Back navigation */}
           <Link
             href="/technical-terms"
-            className="inline-flex items-center gap-1.5 text-sm mb-8 transition-colors"
+            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent-500)]"
             style={{ color: 'var(--text-muted)' }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Technical Terms
           </Link>
 
-          <div className="rounded-xl overflow-hidden mb-8 w-full" style={{ border: '1px solid var(--border)' }}>
+          {/* OG Image */}
+          <div className="rounded-2xl overflow-hidden mb-10 w-full" style={{ border: '1px solid var(--border)' }}>
             <Image
               src={ogImagePath}
               alt={term.title}
@@ -118,6 +120,22 @@ export default async function TechnicalTermPage({
             />
           </div>
 
+          {/* Title + metadata row */}
+          <header className="mb-10">
+            <h1
+              className="font-extrabold text-3xl md:text-4xl tracking-tight leading-tight mb-4"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              {term.title}
+            </h1>
+            {term.description && (
+              <p className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                {term.description}
+              </p>
+            )}
+          </header>
+
+          {/* Content */}
           <article>
             <div
               className="prose prose-sm max-w-none"
@@ -125,30 +143,25 @@ export default async function TechnicalTermPage({
             />
           </article>
 
+          {/* Prev / Next navigation */}
           <PostNavigation
             prev={prevTerm ? { slug: prevTerm.slug, title: prevTerm.title, href: `/technical-terms/${prevTerm.slug}`, description: prevTerm.description } : null}
             next={nextTerm ? { slug: nextTerm.slug, title: nextTerm.title, href: `/technical-terms/${nextTerm.slug}`, description: nextTerm.description } : null}
           />
 
-          <div className="pt-8 mt-8 space-y-6" style={{ borderTop: '1px solid var(--border)' }}>
-            <div>
-              <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
-                style={{ color: 'var(--text-muted)' }}>
-                Share this definition
-              </h3>
-              <SocialShare
-                url={`/technical-terms/${slug}`}
-                title={term.title}
-                description={term.description}
-              />
-            </div>
-            <Link
-              href="/technical-terms"
-              className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-xl border transition-all duration-200"
-              style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface)' }}
+          {/* Share footer */}
+          <div className="pt-8 mt-12" style={{ borderTop: '1px solid var(--border)' }}>
+            <h3
+              className="text-xs font-semibold uppercase tracking-widest mb-4"
+              style={{ color: 'var(--text-muted)' }}
             >
-              ← All technical terms
-            </Link>
+              Share this definition
+            </h3>
+            <SocialShare
+              url={`/technical-terms/${slug}`}
+              title={term.title}
+              description={term.description}
+            />
           </div>
         </div>
       </div>

@@ -73,59 +73,70 @@ export default async function TILEntryPage({ params }: TILPageProps) {
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <TILStructuredData entry={entry} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-          {/* Back */}
-          <Link href="/til"
-            className="inline-flex items-center gap-1.5 text-sm font-medium mb-8 transition-colors"
-            style={{ color: 'var(--text-muted)' }}>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {/* Back navigation */}
+          <Link
+            href="/til"
+            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent-500)]"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            <svg className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             All TILs
           </Link>
 
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              <span className="text-2xl">{categoryEmoji[entry.category] ?? '💡'}</span>
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
+          <header className="mb-10">
+            {/* Metadata row */}
+            <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+              <span className="inline-flex items-center gap-1.5 font-semibold px-2.5 py-1 rounded-full"
                 style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                <span className="text-sm leading-none">{categoryEmoji[entry.category] ?? '💡'}</span>
                 {entry.category}
               </span>
-              <time className="text-xs ml-auto" style={{ color: 'var(--text-muted)' }}>
+              <span aria-hidden="true" style={{ color: 'var(--border)' }}>·</span>
+              <time dateTime={entry.date}>
                 {format(new Date(entry.date), 'MMMM dd, yyyy')}
               </time>
-            </div>
-            <div className="flex items-start justify-between gap-3">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight leading-snug"
-                style={{ color: 'var(--text-primary)' }}>
-                {entry.title}
-              </h1>
               <Link
                 href={`/utm?${new URLSearchParams({
                   url: `/til/${slug}`,
                   title: entry.title,
                   description: `TIL: ${entry.title}`,
                 }).toString()}`}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all duration-200 whitespace-nowrap"
-                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
+                className="ml-auto inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors hover:border-[var(--accent-400)] hover:text-[var(--text-primary)]"
+                style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
                 </svg>
                 UTM
               </Link>
             </div>
-            <div className="flex flex-wrap gap-1.5 mt-3">
+
+            {/* Title */}
+            <h1
+              className="font-extrabold text-3xl md:text-4xl tracking-tight leading-tight mb-4"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              {entry.title}
+            </h1>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-1.5">
               {entry.tags.map(tag => (
-                <span key={tag} className="text-xs px-2 py-0.5 rounded-md"
-                  style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}>
+                <span
+                  key={tag}
+                  className="text-xs px-2 py-0.5 rounded-md"
+                  style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}
+                >
                   #{tag}
                 </span>
               ))}
             </div>
-          </div>
+          </header>
 
           {/* Content */}
           <article
@@ -138,15 +149,6 @@ export default async function TILEntryPage({ params }: TILPageProps) {
             prev={prevEntry ? { slug: prevEntry.slug, title: prevEntry.title, href: `/til/${prevEntry.slug}`, label: prevEntry.category } : null}
             next={nextEntry ? { slug: nextEntry.slug, title: nextEntry.title, href: `/til/${nextEntry.slug}`, label: nextEntry.category } : null}
           />
-
-          {/* Back to all TILs */}
-          <div className="mt-6">
-            <Link href="/til"
-              className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-xl border transition-all duration-200"
-              style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface)' }}>
-              ← All TIL entries
-            </Link>
-          </div>
         </div>
       </div>
       <ViewIncrementer type="til" slug={slug} />

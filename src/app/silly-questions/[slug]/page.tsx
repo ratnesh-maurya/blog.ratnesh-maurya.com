@@ -119,59 +119,67 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
       <OgImageInBody src={getStoredOgImageUrl('silly-question', question.slug)} alt={question.question} />
       <SillyQuestionStructuredData question={question} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
 
-        {/* Back navigation */}
-        <div style={{ borderBottom: '1px solid var(--border)' }}>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-            <Link
-              href="/silly-questions"
-              className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              All silly questions
-            </Link>
-            <span className="text-xs font-semibold uppercase tracking-widest"
-              style={{ color: 'var(--accent-500)' }}>
-              Debug Diary
-            </span>
-          </div>
-        </div>
+          {/* Back navigation */}
+          <Link
+            href="/silly-questions"
+            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent-500)]"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            <svg className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Silly Questions
+          </Link>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-10 lg:py-16">
           <article>
             {/* Header */}
             <header className="mb-10">
-              {/* Meta row */}
-              <div className="flex flex-wrap items-center gap-3 mb-5">
-                <time dateTime={question.date}
-                  className="flex items-center gap-1.5 text-sm"
-                  style={{ color: 'var(--text-muted)' }}>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  {format(new Date(question.date), 'MMMM d, yyyy')}
-                </time>
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                  style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+              {/* Metadata row */}
+              <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+                <span
+                  className="inline-flex items-center font-semibold px-2.5 py-1 rounded-full"
+                  style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+                >
                   {question.category}
                 </span>
+                <span aria-hidden="true" style={{ color: 'var(--border)' }}>·</span>
+                <time dateTime={question.date}>
+                  {format(new Date(question.date), 'MMMM d, yyyy')}
+                </time>
+                <Link
+                  href={`/utm?${new URLSearchParams({
+                    url: `/silly-questions/${question.slug}`,
+                    title: question.question,
+                    description: `A silly coding mistake: ${question.question}`,
+                  }).toString()}`}
+                  className="ml-auto inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors hover:border-[var(--accent-400)] hover:text-[var(--text-primary)]"
+                  style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
+                  </svg>
+                  UTM
+                </Link>
               </div>
 
-              {/* Question as heading */}
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight mb-5"
-                style={{ color: 'var(--text-primary)' }}>
+              {/* Question title */}
+              <h1
+                className="font-extrabold text-3xl md:text-4xl tracking-tight leading-tight mb-4"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 {question.question}
               </h1>
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {question.tags.map((tag) => (
-                  <span key={tag}
-                    className="text-xs font-medium px-2.5 py-1 rounded-full"
-                    style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                  <span
+                    key={tag}
+                    className="text-xs px-2 py-0.5 rounded-md"
+                    style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}
+                  >
                     #{tag}
                   </span>
                 ))}
@@ -179,26 +187,30 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
             </header>
 
             {/* Answer section */}
-            <div className="rounded-2xl overflow-hidden"
-              style={{ border: '1px solid var(--border)' }}>
-              {/* Answer label */}
-              <div className="px-6 py-3 flex items-center gap-3"
+            <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid var(--border)' }}>
+              <div
+                className="px-5 py-3 flex items-center gap-2.5"
                 style={{
                   background: 'var(--accent-50)',
                   borderBottom: '1px solid var(--border)',
-                }}>
-                <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                  style={{ backgroundColor: 'var(--accent-500)' }}>
+                }}
+              >
+                <div
+                  className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold"
+                  style={{ backgroundColor: 'var(--accent-500)' }}
+                >
                   A
                 </div>
-                <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
+                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
                   The Answer
                 </span>
               </div>
 
               <div className="px-6 sm:px-8 py-8">
-                <div className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: question.answer }} />
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{ __html: question.answer }}
+                />
               </div>
             </div>
 
@@ -206,26 +218,12 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
             <div className="mt-12 space-y-8">
               {/* Share */}
               <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
-                <div className="flex items-center justify-between gap-3 mb-4">
-                  <h3 className="text-xs font-semibold uppercase tracking-widest"
-                    style={{ color: 'var(--text-muted)' }}>
-                    Share this question
-                  </h3>
-                  <Link
-                    href={`/utm?${new URLSearchParams({
-                      url: `/silly-questions/${question.slug}`,
-                      title: question.question,
-                      description: `A silly coding mistake: ${question.question}`,
-                    }).toString()}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all duration-200"
-                    style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
-                    </svg>
-                    UTM
-                  </Link>
-                </div>
+                <h3
+                  className="text-xs font-semibold uppercase tracking-widest mb-4"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  Share this question
+                </h3>
                 <SocialShare
                   url={`/silly-questions/${question.slug}`}
                   title={question.question}
@@ -238,26 +236,6 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
                 prev={prevQuestion ? { slug: prevQuestion.slug, title: prevQuestion.question, href: `/silly-questions/${prevQuestion.slug}`, label: prevQuestion.category } : null}
                 next={nextQuestion ? { slug: nextQuestion.slug, title: nextQuestion.question, href: `/silly-questions/${nextQuestion.slug}`, label: nextQuestion.category } : null}
               />
-
-              {/* CTA */}
-              <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-                  Have you made a similar mistake? We&apos;ve all been there! 😅
-                </p>
-                <Link
-                  href="/silly-questions"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 whitespace-nowrap"
-                  style={{
-                    backgroundColor: 'var(--accent-500)',
-                    color: 'var(--text-inverse)',
-                  }}
-                >
-                  More Silly Questions
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
             </div>
           </article>
         </div>

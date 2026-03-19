@@ -39,10 +39,10 @@ const socialLinks = [
 function FooterLinkList({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
     <div>
-      <h4 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--footer-text-muted)' }}>
+      <h4 className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: 'var(--footer-text-muted)' }}>
         {title}
       </h4>
-      <ul className="space-y-2.5">
+      <ul className="space-y-3">
         {links.map(link => (
           <li key={link.href}>
             <Link href={link.href} className="text-sm transition-colors hover:text-[var(--accent-400)]" style={{ color: 'var(--footer-text-secondary)' }}>
@@ -59,28 +59,28 @@ export function Footer() {
   return (
     <footer className="cv-auto" style={{ backgroundColor: 'var(--footer-bg)', borderTop: '1px solid var(--footer-surface)' }}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-14">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+        <div className="py-16">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-10">
             {/* Brand */}
             <div className="col-span-2 sm:col-span-1">
-              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--footer-text-primary)' }}>
+              <h3 className="text-2xl font-extrabold mb-4" style={{ color: 'var(--footer-text-primary)' }}>
                 Ratn<span style={{ color: 'var(--accent-400)' }}>Labs</span>
               </h3>
-              <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--footer-text-secondary)' }}>
+              <p className="text-base leading-relaxed mb-6" style={{ color: 'var(--footer-text-secondary)' }}>
                 Systems thinking, backend architecture, and AI engineering.
               </p>
-              <div className="flex space-x-2.5">
+              <div className="flex space-x-3">
                 {socialLinks.map(s => (
                   <a
                     key={s.label}
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 hover:text-[var(--accent-400)] hover:bg-[var(--footer-surface-hover)]"
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:text-[var(--accent-400)] hover:bg-[var(--footer-surface-hover)]"
                     style={{ backgroundColor: 'var(--footer-surface)', color: 'var(--footer-text-secondary)' }}
                     aria-label={s.label}
                   >
-                    <svg className="w-4 h-4" fill={s.isStroke ? 'none' : 'currentColor'} stroke={s.isStroke ? 'currentColor' : undefined} strokeWidth={s.isStroke ? 2 : undefined} viewBox="0 0 24 24">
+                    <svg className="w-[18px] h-[18px]" fill={s.isStroke ? 'none' : 'currentColor'} stroke={s.isStroke ? 'currentColor' : undefined} strokeWidth={s.isStroke ? 2 : undefined} viewBox="0 0 24 24">
                       <path d={s.icon} strokeLinecap={s.isStroke ? 'round' : undefined} strokeLinejoin={s.isStroke ? 'round' : undefined} />
                     </svg>
                   </a>
@@ -94,12 +94,12 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="py-6" style={{ borderTop: '1px solid var(--footer-surface)' }}>
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div className="py-8" style={{ borderTop: '1px solid var(--footer-surface)' }}>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-xs" style={{ color: 'var(--footer-text-muted)' }}>
               &copy; {new Date().getFullYear()} Ratnesh Maurya. All rights reserved.
             </p>
-            <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--footer-text-muted)' }}>
+            <div className="flex items-center gap-5 text-xs" style={{ color: 'var(--footer-text-muted)' }}>
               <span>Total Views: <TotalViews /></span>
               <span>Next.js &middot; Tailwind &middot; TypeScript</span>
             </div>

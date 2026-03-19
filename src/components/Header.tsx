@@ -129,23 +129,23 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
           <div className="flex items-center">
             <Link
               href="/"
-              className="text-lg font-bold tracking-tight transition-opacity duration-200 hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="text-xl font-extrabold tracking-tight transition-opacity duration-200 hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2"
               style={{ color: 'var(--text-primary)', outlineColor: 'var(--accent-500)' }}
             >
               Ratn<span style={{ color: 'var(--accent-500)' }}>Labs</span>
             </Link>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1.5">
             <div className="hidden md:flex items-center space-x-1">
               {primaryNav.map(item => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => trackNavigation(item.href, 'navbar')}
-                  className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="px-3.5 py-2 rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2"
                   style={isActiveLink(item.href)
-                    ? { color: 'var(--accent-500)', backgroundColor: 'var(--accent-50)', outlineColor: 'var(--accent-500)' }
-                    : { color: 'var(--text-secondary)', outlineColor: 'var(--accent-500)' }
+                    ? { color: 'var(--accent-500)', borderBottom: '2px solid var(--accent-500)', outlineColor: 'var(--accent-500)' }
+                    : { color: 'var(--text-secondary)', borderBottom: '2px solid transparent', outlineColor: 'var(--accent-500)' }
                   }
                 >
                   {item.label}
@@ -157,10 +157,10 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                   ref={triggerRef}
                   onClick={() => { setMoreOpen(prev => !prev); if (!moreOpen) setFocusIndex(0); }}
                   onKeyDown={handleTriggerKeyDown}
-                  className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 inline-flex items-center gap-1 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="px-3.5 py-2 rounded-md text-sm font-medium transition-all duration-200 inline-flex items-center gap-1 focus-visible:outline-2 focus-visible:outline-offset-2"
                   style={isMoreActive
-                    ? { color: 'var(--accent-500)', backgroundColor: 'var(--accent-50)', outlineColor: 'var(--accent-500)' }
-                    : { color: 'var(--text-secondary)', outlineColor: 'var(--accent-500)' }
+                    ? { color: 'var(--accent-500)', borderBottom: '2px solid var(--accent-500)', outlineColor: 'var(--accent-500)' }
+                    : { color: 'var(--text-secondary)', borderBottom: '2px solid transparent', outlineColor: 'var(--accent-500)' }
                   }
                   aria-expanded={moreOpen}
                   aria-haspopup="true"
@@ -175,7 +175,7 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                 {moreOpen && (
                   <div
                     id="more-menu"
-                    className="absolute right-0 top-full mt-1 w-48 rounded-xl shadow-lg py-1 z-50"
+                    className="absolute right-0 top-full mt-2 w-48 rounded-2xl shadow-xl py-2 z-50 animate-fade-in"
                     style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
                     role="menu"
                     aria-label="More pages"
@@ -187,10 +187,10 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                         href={item.href}
                         onClick={() => { trackNavigation(item.href, 'navbar-more'); closeMenu(); }}
                         onKeyDown={(e) => handleMenuKeyDown(e, index)}
-                        className="block px-4 py-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
+                        className="block px-4 py-2.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
                         style={isActiveLink(item.href)
-                          ? { color: 'var(--accent-500)', backgroundColor: 'var(--accent-50)', outlineColor: 'var(--accent-500)' }
-                          : { color: 'var(--text-secondary)', outlineColor: 'var(--accent-500)' }
+                          ? { color: 'var(--accent-500)', borderLeft: '2px solid var(--accent-500)', outlineColor: 'var(--accent-500)' }
+                          : { color: 'var(--text-secondary)', borderLeft: '2px solid transparent', outlineColor: 'var(--accent-500)' }
                         }
                         role="menuitem"
                         tabIndex={focusIndex === index ? 0 : -1}

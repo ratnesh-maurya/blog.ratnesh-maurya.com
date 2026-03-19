@@ -497,7 +497,7 @@ body {
 .card-elevated { box-shadow: var(--shadow-lg); }
 .card-elevated:hover { box-shadow: var(--shadow-xl); }
 .card-interactive { cursor: pointer; }
-.card-interactive:hover { transform: translateY(-2px) scale(1.01); }
+.card-interactive:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
 .blog-card-glass {
   background: var(--surface);
@@ -539,6 +539,42 @@ body {
 [data-theme="dark"] .resource-card:hover {
   border-color: var(--accent-400) !important;
   box-shadow: 0 0 0 1px var(--accent-400), 0 4px 16px rgb(0 0 0 / 0.3);
+}
+
+/* ─── Magazine Cards ─── */
+.magazine-card {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--surface);
+}
+.magazine-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.magazine-card-image {
+  transition: opacity 0.2s ease;
+}
+.magazine-card:hover .magazine-card-image {
+  opacity: 0.9;
+}
+
+/* ─── Page Header ─── */
+.page-header {
+  padding-top: 2.5rem;
+  padding-bottom: 2rem;
+}
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+@media (min-width: 768px) {
+  .page-header h1 {
+    font-size: 2.75rem;
+  }
 }
 
 /* ─── Topic nav ─── */
@@ -669,7 +705,9 @@ body {
 
 .prose a:hover {
   color: var(--accent-700);
-  text-decoration-color: var(--accent-400);
+  text-decoration-color: var(--accent-500);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 .prose blockquote {
@@ -934,6 +972,39 @@ html, body {
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Content grid — responsive 1→2→3 column layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 640px) {
+  .content-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .content-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Author strip */
+.author-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+.author-avatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 @supports (content-visibility: auto) {

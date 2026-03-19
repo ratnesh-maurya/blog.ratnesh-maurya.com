@@ -3,6 +3,7 @@ import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Ratn Labs — Systems, Backend & AI Engineering',
@@ -49,9 +50,28 @@ export const metadata: Metadata = {
   },
 };
 
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function AuthorAvatar({ name }: { name: string }) {
+  const initials = name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+  return (
+    <div
+      className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
+      style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}
+    >
+      {initials}
+    </div>
+  );
+}
+
 export default async function Home() {
-  // Home page only needs lightweight listing metadata (title/date/category/slug).
-  // Using the listing loader avoids expensive markdown->HTML work during the build.
   const posts = await getAllBlogPostsForListing();
   const featured = posts.slice(0, 3);
   const featuredSlugs = new Set(featured.map((p) => p.slug));
@@ -68,7 +88,7 @@ export default async function Home() {
     },
     {
       q: 'Is this content beginner-friendly?',
-      a: 'Most posts aim for “clear first, deep second”: you’ll find high-level explanations, concrete examples, and links to go further.',
+      a: 'Most posts aim for "clear first, deep second": you\'ll find high-level explanations, concrete examples, and links to go further.',
     },
     {
       q: 'How do I stay updated?',
@@ -96,38 +116,34 @@ export default async function Home() {
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         {/* Hero */}
-        <section className="pt-24 pb-14 hero-gradient-bg">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl">
+        <section className="pt-24 pb-16 hero-gradient-bg">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="max-w-3xl mx-auto">
               <div
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold tracking-wide mb-6"
                 style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
               >
                 <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--accent-500)' }} />
-                Systems, Backend & AI Engineering — in public
+                Systems, Backend & AI Engineering
               </div>
 
               <h1
-                className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05]"
+                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08]"
                 style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}
               >
-                Build systems that <span className="gradient-text-primary">don’t flake</span>.
-                <br />
-                Ship code that <span className="gradient-text-primary">stays shipped</span>.
+                Build systems that{' '}
+                <span className="gradient-text-primary">don&#39;t flake</span>.
               </h1>
 
-              <p className="mt-6 text-lg sm:text-xl leading-relaxed max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
+              <p className="mt-5 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
                 Practical notes on backend architecture, distributed systems, and AI engineering.
-                Deep dives, cheatsheets, and “why did this break?” writeups—built for builders.
-              </p>
-              <p className="mt-4 text-sm sm:text-base leading-relaxed max-w-2xl" style={{ color: 'var(--text-muted)' }}>
-                If you’re here for reliability: you’ll find patterns to build systems that don’t flake—and habits to ship code that stays shipped.
+                Deep dives, cheatsheets, and debugging writeups—built for builders.
               </p>
 
-              <div className="flex flex-wrap gap-3 mt-8">
+              <div className="flex flex-wrap justify-center gap-3 mt-8">
                 <Link
                   href="/blog"
-                  className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-3 rounded-xl transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
                   style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}
                 >
                   Start reading
@@ -135,110 +151,174 @@ export default async function Home() {
                 </Link>
                 <Link
                   href="/newsletter"
-                  className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-3 rounded-xl border transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-xl border transition-colors"
                   style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface)' }}
                 >
                   Get updates
                 </Link>
                 <a
                   href="/feed.xml"
-                  className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-3 rounded-xl border transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-xl border transition-colors"
                   style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface)' }}
                 >
                   RSS
                 </a>
               </div>
-
-              <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                  { k: 'Deep dives', v: 'Architecture + trade-offs' },
-                  { k: 'Cheatsheets', v: 'Fast recall for tools' },
-                  { k: 'Technical terms', v: 'Glossary you’ll actually use' },
-                ].map((item) => (
-                  <div
-                    key={item.k}
-                    className="card p-4 border-0"
-                    style={{ backgroundColor: 'var(--surface)' }}
-                  >
-                    <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{item.k}</p>
-                    <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{item.v}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </section>
 
-        {/* Featured */}
-        <section className="py-14">
+        {/* Featured — Magazine Grid */}
+        <section className="py-16">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-end justify-between gap-4 mb-6">
+            <div className="flex items-end justify-between gap-4 mb-8">
               <div>
                 <h2 className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Featured
                 </h2>
                 <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>
-                  Start here if you’re new.
+                  Start here if you&#39;re new.
                 </p>
               </div>
-              <Link href="/blog" className="text-xs font-semibold" style={{ color: 'var(--accent-500)' }}>
+              <Link href="/blog" className="text-xs font-semibold hover:underline" style={{ color: 'var(--accent-500)' }}>
                 Browse all posts →
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {featured.map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group card card-interactive p-5 border-0"
-                  style={{ backgroundColor: 'var(--surface)' }}
-                >
-                  <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-                    {post.category}
-                  </p>
-                  <h3 className="mt-2 text-base font-semibold leading-snug group-hover:text-[var(--accent-500)] transition-colors" style={{ color: 'var(--text-primary)' }}>
-                    {post.title}
-                  </h3>
-                  <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-                    {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                  </p>
-                </Link>
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featured.map((post, i) => {
+                const isHero = i === 0;
+                return (
+                  <Link
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    className={`group rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg ${
+                      isHero ? 'md:col-span-2 md:row-span-2' : ''
+                    }`}
+                    style={{ backgroundColor: 'var(--surface)' }}
+                  >
+                    {/* Cover image */}
+                    <div className={`relative w-full overflow-hidden ${isHero ? 'aspect-[16/9]' : 'aspect-[16/10]'}`} style={{ backgroundColor: 'var(--surface-muted)' }}>
+                      {post.image ? (
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          sizes={isHero ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'}
+                          className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-3xl font-extrabold" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                            {post.title.charAt(0)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Card body */}
+                    <div className={`p-5 ${isHero ? 'sm:p-6' : ''}`}>
+                      <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
+                        {post.category}
+                      </p>
+                      <h3
+                        className={`mt-2 font-extrabold leading-snug group-hover:text-[var(--accent-500)] transition-colors ${
+                          isHero ? 'text-xl sm:text-2xl' : 'text-base'
+                        }`}
+                        style={{ color: 'var(--text-primary)' }}
+                      >
+                        {post.title}
+                      </h3>
+                      {isHero && post.description && (
+                        <p className="mt-2 text-sm leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
+                          {post.description}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-2 mt-3">
+                        <AuthorAvatar name={post.author} />
+                        <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+                          <span>{post.author}</span>
+                          <span>·</span>
+                          <time>{formatDate(post.date)}</time>
+                          {post.readingTime && (
+                            <>
+                              <span>·</span>
+                              <span>{post.readingTime}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* Latest */}
-        <section className="py-14" style={{ backgroundColor: 'var(--surface-muted)' }}>
+        {/* Latest — Card Grid */}
+        <section className="py-16" style={{ backgroundColor: 'var(--surface-muted)' }}>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-8">
               <h2 className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                 Latest writing
               </h2>
-              <Link href="/blog" className="text-xs font-semibold" style={{ color: 'var(--accent-500)' }}>
+              <Link href="/blog" className="text-xs font-semibold hover:underline" style={{ color: 'var(--accent-500)' }}>
                 All posts →
               </Link>
             </div>
-            <div className="space-y-1">
-              {latest.map(post => (
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {latest.map((post) => (
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="flex items-center justify-between gap-4 px-4 py-3.5 -mx-4 rounded-xl transition-colors group"
-                  style={{ color: 'var(--text-primary)' }}
+                  className="group rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg"
+                  style={{ backgroundColor: 'var(--surface)' }}
                 >
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-[15px] font-medium leading-snug truncate group-hover:text-[var(--accent-500)] transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                  {/* Cover image */}
+                  <div className="relative w-full aspect-[16/10] overflow-hidden" style={{ backgroundColor: 'var(--background)' }}>
+                    {post.image ? (
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-2xl font-extrabold" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                          {post.title.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card body */}
+                  <div className="p-5">
+                    <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
                       {post.category}
                     </p>
+                    <h3
+                      className="mt-2 text-base font-extrabold leading-snug group-hover:text-[var(--accent-500)] transition-colors line-clamp-2"
+                      style={{ color: 'var(--text-primary)' }}
+                    >
+                      {post.title}
+                    </h3>
+                    <div className="flex items-center gap-2 mt-3">
+                      <AuthorAvatar name={post.author} />
+                      <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+                        <time>{formatDate(post.date)}</time>
+                        {post.readingTime && (
+                          <>
+                            <span>·</span>
+                            <span>{post.readingTime}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <time className="text-xs tabular-nums flex-shrink-0" style={{ color: 'var(--text-muted)' }}>
-                    {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                  </time>
                 </Link>
               ))}
             </div>
@@ -248,7 +328,7 @@ export default async function Home() {
         {/* Explore */}
         <section className="py-16">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-end justify-between gap-4 mb-6">
+            <div className="flex items-end justify-between gap-4 mb-8">
               <div>
                 <h2 className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Explore the library
@@ -258,25 +338,26 @@ export default async function Home() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {[
-                { label: 'Blog', href: '/blog', desc: 'Posts & series' },
-                { label: 'Technical Terms', href: '/technical-terms', desc: 'System design glossary' },
-                { label: 'Cheatsheets', href: '/cheatsheets', desc: 'Quick references' },
-                { label: 'TIL', href: '/til', desc: 'Small lessons' },
-                { label: 'Questions', href: '/silly-questions', desc: 'Silly but useful' },
-                { label: 'Resources', href: '/resources', desc: 'Books, tools & talks' },
-              ].map(item => (
+                { label: 'Blog', href: '/blog', desc: 'Posts & series', icon: '📝' },
+                { label: 'Technical Terms', href: '/technical-terms', desc: 'System design glossary', icon: '📖' },
+                { label: 'Cheatsheets', href: '/cheatsheets', desc: 'Quick references', icon: '⚡' },
+                { label: 'TIL', href: '/til', desc: 'Small lessons', icon: '💡' },
+                { label: 'Questions', href: '/silly-questions', desc: 'Silly but useful', icon: '🤔' },
+                { label: 'Resources', href: '/resources', desc: 'Books, tools & talks', icon: '🔗' },
+              ].map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group card card-interactive border-0 p-4 transition-all duration-200 will-change-transform"
-                  style={{ backgroundColor: 'var(--surface)' }}
+                  className="group rounded-2xl border p-5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
                 >
-                  <p className="text-sm font-semibold group-hover:text-[var(--accent-500)] transition-colors" style={{ color: 'var(--text-primary)' }}>
+                  <span className="text-2xl block mb-3">{item.icon}</span>
+                  <p className="text-sm font-bold group-hover:text-[var(--accent-500)] transition-colors" style={{ color: 'var(--text-primary)' }}>
                     {item.label}
                   </p>
-                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                  <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                     {item.desc}
                   </p>
                 </Link>
@@ -291,25 +372,25 @@ export default async function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-[1.2fr,0.8fr] gap-8 items-start">
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                  A quick FAQ
+                  Frequently asked
                 </h2>
-                <div className="mt-6 space-y-4">
+                <div className="mt-6 space-y-3">
                   {faqs.map((f) => (
-                    <div key={f.q} className="card p-5 border-0" style={{ backgroundColor: 'var(--surface)' }}>
+                    <div key={f.q} className="rounded-xl p-5" style={{ backgroundColor: 'var(--surface)' }}>
                       <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{f.q}</p>
-                      <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>{f.a}</p>
+                      <p className="text-sm mt-2 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{f.a}</p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="card p-6 border-0 sticky top-24" style={{ backgroundColor: 'var(--surface)' }}>
+              <div className="rounded-xl p-6 sticky top-24" style={{ backgroundColor: 'var(--surface)' }}>
                 <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                   Get the good stuff
                 </p>
                 <h3 className="mt-3 text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
                   Updates without noise.
                 </h3>
-                <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                   New posts, cheatsheets, and technical terms—delivered occasionally.
                 </p>
                 <div className="mt-5 flex flex-col gap-3">

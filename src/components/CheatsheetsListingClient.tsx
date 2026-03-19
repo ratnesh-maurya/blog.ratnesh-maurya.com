@@ -29,48 +29,51 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
   }, []);
 
   return (
-    <div className="flex flex-col">
-      {sheets.map((sheet, index) => (
-        <div key={sheet.slug}>
-          <Link href={`/cheatsheets/${sheet.slug}`}
-            className="group block py-6">
-            <article className="flex items-start gap-4">
-              <span className="text-3xl flex-shrink-0 mt-0.5">{sheet.emoji}</span>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-[20px] md:text-[22px] font-bold leading-snug mb-1 group-hover:underline decoration-1 underline-offset-2"
-                  style={{ color: 'var(--text-primary)' }}>
-                  {sheet.title}
-                </h2>
-                <p className="text-[15px] mb-3" style={{ color: 'var(--text-secondary)' }}>{sheet.subtitle}</p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {sheets.map((sheet) => (
+        <Link
+          key={sheet.slug}
+          href={`/cheatsheets/${sheet.slug}`}
+          className="group flex flex-col rounded-2xl border p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+        >
+          <div className="flex items-start justify-between mb-4">
+            <span className="text-3xl">{sheet.emoji}</span>
+            {statsLoaded && stats.views[sheet.slug] != null && (
+              <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium"
+                style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}>
+                <ViewCounter type="cheatsheets" slug={sheet.slug} showLabel={false} className="text-xs" initialCount={stats.views[sheet.slug] ?? 0} />
+                <span>views</span>
+              </span>
+            )}
+          </div>
 
-                <div className="flex items-center gap-1 text-[13px] flex-wrap" style={{ color: 'var(--text-muted)' }}>
-                  {statsLoaded && stats.views[sheet.slug] != null && (
-                    <>
-                      <ViewCounter type="cheatsheets" slug={sheet.slug} showLabel={false} className="text-[13px]" initialCount={stats.views[sheet.slug] ?? 0} />
-                      <span> views</span>
-                    </>
-                  )}
-                  {sheet.tags.slice(0, 3).map(tag => (
-                    <span key={tag} className="ml-1.5 px-2 py-0.5 rounded-full text-xs"
-                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
-                      {tag}
-                    </span>
-                  ))}
-                  <span className="ml-auto text-xs font-semibold flex items-center gap-1"
-                    style={{ color: 'var(--accent-500)' }}>
-                    Open
-                    <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-            </article>
-          </Link>
-          {index < sheets.length - 1 && (
-            <hr className="border-0" style={{ borderTop: '1px solid var(--border)' }} />
-          )}
-        </div>
+          <h2 className="text-lg font-extrabold leading-snug mb-1.5 group-hover:text-[var(--accent-500)] transition-colors"
+            style={{ color: 'var(--text-primary)' }}>
+            {sheet.title}
+          </h2>
+          <p className="text-sm leading-relaxed mb-4 flex-1"
+            style={{ color: 'var(--text-secondary)' }}>
+            {sheet.subtitle}
+          </p>
+
+          <div className="flex flex-wrap gap-1.5 mb-4">
+            {sheet.tags.slice(0, 3).map(tag => (
+              <span key={tag} className="px-2 py-0.5 rounded-full text-xs font-medium"
+                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <span className="mt-auto text-xs font-semibold flex items-center gap-1"
+            style={{ color: 'var(--accent-500)' }}>
+            Open cheatsheet
+            <svg className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </Link>
       ))}
     </div>
   );

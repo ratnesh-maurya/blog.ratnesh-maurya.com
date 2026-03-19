@@ -72,41 +72,57 @@ export default async function CheatsheetPage({
       />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
-          <Link href="/cheatsheets" className="inline-flex items-center gap-1.5 text-sm mb-8 transition-colors"
-            style={{ color: 'var(--text-muted)' }}>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {/* Back navigation */}
+          <Link
+            href="/cheatsheets"
+            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent-500)]"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            <svg className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Cheatsheets
           </Link>
 
-          <div className="flex items-center gap-3 mb-10">
-            <span className="text-4xl">{data.emoji ?? '📄'}</span>
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+          {/* Header */}
+          <header className="mb-12">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-4xl leading-none">{data.emoji ?? '📄'}</span>
+              <h1
+                className="font-extrabold text-3xl md:text-4xl tracking-tight leading-tight"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 {displayTitle}
               </h1>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
-                {data.subtitle ?? ''}
-              </p>
             </div>
-          </div>
+            {data.subtitle && (
+              <p className="text-sm mt-2 ml-[52px]" style={{ color: 'var(--text-muted)' }}>
+                {data.subtitle}
+              </p>
+            )}
+          </header>
 
-          <div className="space-y-8">
+          {/* Sections */}
+          <div className="space-y-10">
             {data.sections.map((section) => (
-              <div key={section.title}>
-                <h2 className="text-xs font-semibold uppercase tracking-widest mb-3"
-                  style={{ color: 'var(--text-muted)' }}>
+              <section key={section.title}>
+                <h2
+                  className="text-xs font-semibold uppercase tracking-widest mb-3"
+                  style={{ color: 'var(--text-muted)' }}
+                >
                   {section.title}
                 </h2>
                 <CheatsheetCodeBlock code={section.code} title={section.title} />
-              </div>
+              </section>
             ))}
           </div>
 
-          <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--border)' }}>
-            <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
-              style={{ color: 'var(--text-muted)' }}>
+          {/* Share footer */}
+          <div className="pt-8 mt-12" style={{ borderTop: '1px solid var(--border)' }}>
+            <h3
+              className="text-xs font-semibold uppercase tracking-widest mb-4"
+              style={{ color: 'var(--text-muted)' }}
+            >
               Share this cheatsheet
             </h3>
             <SocialShare

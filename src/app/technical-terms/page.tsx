@@ -47,12 +47,12 @@ export default async function TechnicalTermsPage() {
       <TechnicalTermsStructuredData terms={terms} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="hero-gradient-bg">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          <div className="page-header max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--accent-500)' }}>
               Reference
             </p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Technical{' '}
               <span style={{
@@ -64,18 +64,19 @@ export default async function TechnicalTermsPage() {
                 Terms
               </span>
             </h1>
-            <p className="text-base md:text-lg leading-relaxed max-w-xl mb-6" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'var(--text-muted)' }}>
               Clear definitions and explanations for indexing, databases, distributed systems, and backend concepts — with use cases and trade-offs.
             </p>
-            <div className="flex flex-wrap gap-4 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
-              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
-                <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{terms.length}</span> terms
+            <div className="flex flex-wrap items-center gap-3 mt-6 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
+              <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1 rounded-full font-medium"
+                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                {terms.length} terms
               </span>
             </div>
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
           <TechnicalTermsSearch terms={terms} />
         </div>
       </div>
