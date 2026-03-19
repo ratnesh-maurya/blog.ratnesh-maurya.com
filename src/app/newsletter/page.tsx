@@ -53,16 +53,16 @@ export default async function NewsletterPage() {
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         {/* Hero */}
         <div className="hero-gradient-bg">
-          <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-20 pb-16 text-center">
+          <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--accent-500)' }}>
               Newsletter
             </p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4"
               style={{ color: 'var(--text-primary)' }}>
               Engineering insights,<br />straight to you
             </h1>
-            <p className="text-lg leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-lg leading-relaxed mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
               New articles on system design, Go, AWS, and backend engineering — delivered when something worth reading is ready. No fluff, no weekly filler.
             </p>
 
@@ -79,7 +79,7 @@ export default async function NewsletterPage() {
                 name="email"
                 placeholder="your@email.com"
                 required
-                className="flex-1 px-4 py-3 rounded-xl border text-sm outline-none transition-all duration-200"
+                className="flex-1 px-4 py-3 rounded-xl border text-sm outline-none transition-all duration-200 focus:ring-2 focus:ring-[var(--accent-300)]"
                 style={{
                   backgroundColor: 'var(--surface)',
                   borderColor: 'var(--border)',
@@ -88,7 +88,7 @@ export default async function NewsletterPage() {
               />
               <button
                 type="submit"
-                className="px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 whitespace-nowrap"
+                className="px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 whitespace-nowrap hover:shadow-md"
                 style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}
               >
                 Subscribe free
@@ -101,7 +101,7 @@ export default async function NewsletterPage() {
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-16">
 
           {/* What you'll get */}
           <section>
@@ -109,15 +109,15 @@ export default async function NewsletterPage() {
               style={{ color: 'var(--text-muted)' }}>
               What you&apos;ll receive
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {perks.map(p => (
-                <div key={p.title} className="p-5 rounded-xl border"
+                <div key={p.title} className="p-6 rounded-2xl border transition-shadow duration-200 hover:shadow-md"
                   style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
                   <span className="text-2xl mb-3 block">{p.emoji}</span>
-                  <h3 className="text-sm font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                  <h3 className="text-sm font-bold mb-1.5" style={{ color: 'var(--text-primary)' }}>
                     {p.title}
                   </h3>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                     {p.desc}
                   </p>
                 </div>
@@ -136,10 +136,10 @@ export default async function NewsletterPage() {
                 All posts →
               </Link>
             </div>
-            <div className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {recentPosts.map(post => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}
-                  className="flex items-start gap-4 p-4 rounded-xl border transition-all duration-150 group"
+                  className="flex items-start gap-4 p-4 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md group"
                   style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-0.5"
@@ -163,7 +163,7 @@ export default async function NewsletterPage() {
           {/* Second subscribe CTA */}
           <section className="rounded-2xl p-8 text-center"
             style={{ backgroundColor: 'var(--accent-50)', border: '1px solid var(--accent-200)' }}>
-            <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
               Ready to level up?
             </h2>
             <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
@@ -181,11 +181,11 @@ export default async function NewsletterPage() {
                 name="email"
                 placeholder="your@email.com"
                 required
-                className="flex-1 px-4 py-2.5 rounded-xl border text-sm outline-none"
+                className="flex-1 px-4 py-2.5 rounded-xl border text-sm outline-none focus:ring-2 focus:ring-[var(--accent-300)]"
                 style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
               />
               <button type="submit"
-                className="px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap"
+                className="px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap hover:shadow-md transition-all duration-200"
                 style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}>
                 Subscribe
               </button>

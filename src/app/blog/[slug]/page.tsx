@@ -12,7 +12,7 @@ import { SocialShare } from '@/components/SocialShare';
 import { BlogStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { TableOfContents } from '@/components/TableOfContents';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { getAllBlogPosts, getBlogPost, getBlogPostSlugs, getAllTechnicalTermsForListing } from '@/lib/content';
+import { getAllBlogPosts, getAllTechnicalTermsForListing, getBlogPost, getBlogPostSlugs } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
@@ -153,65 +153,78 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <ReadingProgress />
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
-        {/* Back navigation bar */}
-        <div className="backdrop-blur-sm" style={{ backgroundColor: 'color-mix(in srgb, var(--background) 85%, transparent)' }}>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1.5 text-xs font-medium transition-colors group opacity-70 hover:opacity-100"
-              style={{ color: 'var(--text-muted)' }}
-              onMouseEnter={undefined}
-            >
-              <svg className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              All posts
-            </Link>
-            {post.category && (
-              <span className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: 'var(--accent-500)' }}>
-                {post.category}
-              </span>
-            )}
-          </div>
-        </div>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 lg:py-16">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-sm font-medium mb-8 transition-colors group hover:text-[var(--accent-600)]"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to library
+          </Link>
 
-        <div className="max-w-4xl xl:max-w-[1100px] mx-auto px-4 sm:px-8 lg:px-12 py-10 lg:py-16">
-          <div className="xl:grid xl:grid-cols-[minmax(0,_48rem)_200px] xl:gap-10">
-            <article>
+          <div className="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12 xl:gap-16">
+            <article className="min-w-0">
               {/* Article Header */}
-              <header className="mb-12">
+              <header className="mb-10 lg:mb-14">
+                {/* Tags */}
+                {post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-block text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md"
+                        style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-700)' }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
                 {/* Title */}
-                <h1 className="text-3xl md:text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight mb-6"
-                  style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-source-serif, Georgia, serif)', letterSpacing: '-0.02em' }}>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.15] tracking-tight mb-6"
+                  style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
                   {post.title}
                 </h1>
 
+                {/* Description / lede */}
+                {post.description && (
+                  <p className="text-xl leading-relaxed mb-8 font-medium"
+                    style={{ color: 'var(--text-secondary)' }}>
+                    {post.description}
+                  </p>
+                )}
+
                 {/* Author strip + metadata */}
-                <div className="flex flex-wrap items-center gap-3 text-sm mb-8"
-                  style={{ color: 'var(--text-muted)' }}>
+                <div className="flex items-center gap-3 text-sm pb-8 border-b"
+                  style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://avatars.githubusercontent.com/u/85143283?v=4"
                     alt="Ratnesh Maurya"
-                    className="w-8 h-8 rounded-full flex-shrink-0 object-cover"
+                    className="w-10 h-10 rounded-full flex-shrink-0 object-cover border"
+                    style={{ borderColor: 'var(--border)' }}
                   />
-                  <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                    {post.author}
-                  </span>
-                  <span style={{ color: 'var(--border)' }}>·</span>
-                  <time dateTime={post.date}>
-                    {format(new Date(post.date), 'MMM d, yyyy')}
-                  </time>
-                  <span style={{ color: 'var(--border)' }}>·</span>
-                  <span>{post.readingTime}</span>
+                  <div className="flex flex-col leading-tight">
+                    <span className="font-bold border-b border-transparent hover:border-current transition-colors cursor-pointer" style={{ color: 'var(--text-primary)' }}>
+                      {post.author}
+                    </span>
+                    <span className="flex items-center gap-1.5 mt-0.5" style={{ fontSize: '13px' }}>
+                      <time dateTime={post.date}>{format(new Date(post.date), 'MMMM d, yyyy')}</time>
+                      <span>·</span>
+                      <span>{post.readingTime}</span>
+                    </span>
+                  </div>
                 </div>
 
                 {/* Hero image */}
                 {post.image && (
                   <div
-                    className="mt-2 mb-10 overflow-hidden rounded-2xl shadow-lg"
-                    style={{ backgroundColor: 'var(--surface)' }}
+                    className="mt-10 overflow-hidden rounded-xl shadow-sm border"
+                    style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
                   >
                     <BlogImage
                       src={post.image}
@@ -223,36 +236,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     />
                   </div>
                 )}
-
-                {/* Description / lede */}
-                {post.description && (
-                  <p className="text-xl leading-relaxed mb-8"
-                    style={{ color: 'var(--text-secondary)' }}>
-                    {post.description}
-                  </p>
-                )}
-
-                {/* Tags */}
-                {post.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-block text-xs font-medium px-2.5 py-1 rounded-full transition-colors"
-                        style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
               </header>
 
-              {/* Separator */}
-              <div className="mb-12" style={{ borderTop: '1px solid var(--border)' }} />
-
               {/* Article Content */}
-              <div className="prose max-w-none">
+              <div
+                className="prose prose-lg max-w-none prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:font-medium prose-img:rounded-xl"
+                style={{
+                  '--tw-prose-body': 'var(--text-secondary)',
+                  '--tw-prose-headings': 'var(--text-primary)',
+                  '--tw-prose-links': 'var(--accent-600)',
+                  '--tw-prose-bold': 'var(--text-primary)',
+                  '--tw-prose-code': 'var(--text-primary)',
+                  '--tw-prose-quotes': 'var(--text-secondary)',
+                  '--tw-prose-hr': 'var(--border)',
+                  '--tw-prose-th-borders': 'var(--border)',
+                  '--tw-prose-td-borders': 'var(--border)',
+                } as React.CSSProperties}
+              >
                 {post.format === 'mdx' ? (
                   <MDXRemote
                     source={post.content}
@@ -409,7 +409,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
-                    Back to all posts
+                    Back to library
                   </Link>
                 </div>
               </div>

@@ -58,8 +58,8 @@
   --error:   #B91C1C;
   --info:    #6B7BEE;
 
-  /* Background & Surface */
-  --background:       #FFFFFF;
+  /* Background & Surface — warm paper white */
+  --background:       #F9F8F5;
   --surface:          #FFFFFF;
   --surface-elevated: #FFFFFF;
   --surface-muted:    var(--neutral-100);

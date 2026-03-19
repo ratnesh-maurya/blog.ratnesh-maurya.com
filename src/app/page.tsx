@@ -1,9 +1,9 @@
-import { getAllBlogPostsForListing } from '@/lib/content';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { getAllBlogPostsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Ratn Labs — Systems, Backend & AI Engineering',
@@ -73,9 +73,14 @@ function AuthorAvatar({ name }: { name: string }) {
 
 export default async function Home() {
   const posts = await getAllBlogPostsForListing();
-  const featured = posts.slice(0, 3);
+  const featured = posts.slice(0, 5);
   const featuredSlugs = new Set(featured.map((p) => p.slug));
   const latest = posts.filter((p) => !featuredSlugs.has(p.slug)).slice(0, 6);
+
+  const leftFeatured = featured.slice(0, 2);
+  const centerFeatured = featured.slice(2, 3);
+  const rightFeatured = featured.slice(3, 5);
+  const hasMagazineFeaturedLayout = featured.length >= 3;
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
@@ -185,26 +190,158 @@ export default async function Home() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featured.map((post, i) => {
-                const isHero = i === 0;
-                return (
+            {hasMagazineFeaturedLayout ? (
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[500px]">
+                <div className="flex flex-col gap-6">
+                  {leftFeatured.map((post) => (
+                    <Link
+                      key={post.slug}
+                      href={`/blog/${post.slug}`}
+                      className="group block h-full"
+                    >
+                      <article className="flex flex-col gap-3 h-full border border-[var(--border)] rounded-xl p-3 bg-[var(--surface)] transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-[var(--accent-200)]">
+                        <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--surface-muted)' }}>
+                          {post.image ? (
+                            <Image
+                              src={post.image}
+                              alt={post.title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 25vw"
+                              className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <span className="text-3xl font-extrabold" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                                {post.title.charAt(0)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-[15px] leading-snug transition-colors group-hover:text-[var(--accent-600)]" style={{ color: 'var(--text-primary)' }}>
+                            {post.title}
+                          </h3>
+                          <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                            {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
+                          </p>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="lg:col-span-2">
+                  <div className="h-full">
+                    {centerFeatured.map((post) => (
+                      <Link
+                        key={post.slug}
+                        href={`/blog/${post.slug}`}
+                        className="group block h-full"
+                      >
+                        <article className="flex flex-col gap-4 h-full border border-[var(--border)] rounded-xl p-5 bg-[var(--surface)] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-[var(--accent-200)]">
+                          <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden" style={{ backgroundColor: 'var(--surface-muted)' }}>
+                            {post.image ? (
+                              <Image
+                                src={post.image}
+                                alt={post.title}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 40vw"
+                                className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <span className="text-4xl font-extrabold" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                                  {post.title.charAt(0)}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
+                              {post.category}
+                            </p>
+                            <h3 className="mt-2 font-extrabold text-xl md:text-2xl lg:text-3xl leading-snug transition-colors group-hover:text-[var(--accent-600)]" style={{ color: 'var(--text-primary)' }}>
+                              {post.title}
+                            </h3>
+                            {post.description && (
+                              <p className="mt-2 text-sm leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
+                                {post.description}
+                              </p>
+                            )}
+                            <div className="flex items-center gap-2 mt-3">
+                              <AuthorAvatar name={post.author} />
+                              <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+                                <span>{post.author}</span>
+                                <span>·</span>
+                                <time>{formatDate(post.date)}</time>
+                                {post.readingTime && (
+                                  <>
+                                    <span>·</span>
+                                    <span>{post.readingTime}</span>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-6">
+                  {rightFeatured.map((post) => (
+                    <Link
+                      key={post.slug}
+                      href={`/blog/${post.slug}`}
+                      className="group block h-full"
+                    >
+                      <article className="flex flex-col gap-3 h-full border border-[var(--border)] rounded-xl p-3 bg-[var(--surface)] transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-[var(--accent-200)]">
+                        <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--surface-muted)' }}>
+                          {post.image ? (
+                            <Image
+                              src={post.image}
+                              alt={post.title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 25vw"
+                              className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <span className="text-3xl font-extrabold" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                                {post.title.charAt(0)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-[15px] leading-snug" style={{ color: 'var(--text-primary)' }}>
+                            {post.title}
+                          </h3>
+                          <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                            {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
+                          </p>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {featured.map((post) => (
                   <Link
                     key={post.slug}
                     href={`/blog/${post.slug}`}
-                    className={`group rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg ${
-                      isHero ? 'md:col-span-2 md:row-span-2' : ''
-                    }`}
-                    style={{ backgroundColor: 'var(--surface)' }}
+                    className="group block rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-[var(--accent-200)]"
                   >
-                    {/* Cover image */}
-                    <div className={`relative w-full overflow-hidden ${isHero ? 'aspect-[16/9]' : 'aspect-[16/10]'}`} style={{ backgroundColor: 'var(--surface-muted)' }}>
+                    <div className="relative w-full aspect-[16/10] overflow-hidden" style={{ backgroundColor: 'var(--surface-muted)' }}>
                       {post.image ? (
                         <Image
                           src={post.image}
                           alt={post.title}
                           fill
-                          sizes={isHero ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'}
+                          sizes="(max-width: 768px) 100vw, 33vw"
                           className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                         />
                       ) : (
@@ -215,44 +352,18 @@ export default async function Home() {
                         </div>
                       )}
                     </div>
-
-                    {/* Card body */}
-                    <div className={`p-5 ${isHero ? 'sm:p-6' : ''}`}>
-                      <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
-                        {post.category}
-                      </p>
-                      <h3
-                        className={`mt-2 font-extrabold leading-snug group-hover:text-[var(--accent-500)] transition-colors ${
-                          isHero ? 'text-xl sm:text-2xl' : 'text-base'
-                        }`}
-                        style={{ color: 'var(--text-primary)' }}
-                      >
+                    <div className="p-5">
+                      <h3 className="font-extrabold text-base leading-snug" style={{ color: 'var(--text-primary)' }}>
                         {post.title}
                       </h3>
-                      {isHero && post.description && (
-                        <p className="mt-2 text-sm leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
-                          {post.description}
-                        </p>
-                      )}
-                      <div className="flex items-center gap-2 mt-3">
-                        <AuthorAvatar name={post.author} />
-                        <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
-                          <span>{post.author}</span>
-                          <span>·</span>
-                          <time>{formatDate(post.date)}</time>
-                          {post.readingTime && (
-                            <>
-                              <span>·</span>
-                              <span>{post.readingTime}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
+                      <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                        {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
+                      </p>
                     </div>
                   </Link>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 

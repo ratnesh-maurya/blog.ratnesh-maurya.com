@@ -73,12 +73,12 @@ export default async function TopicsPage() {
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         {/* Header */}
         <div className="hero-gradient-bg">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14 text-center">
+          <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14 text-center">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--accent-500)' }}>
               All topics
             </p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4"
               style={{ color: 'var(--text-primary)' }}>
               Browse by Topic
             </h1>
@@ -89,7 +89,7 @@ export default async function TopicsPage() {
           </div>
         </div>
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-16">
 
           {/* Blog categories */}
           <section>
@@ -107,7 +107,7 @@ export default async function TopicsPage() {
                     <Link
                       key={category}
                       href={`/blog/tag/${tagSlug}`}
-                      className="group flex flex-col p-6 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5"
+                      className="group flex flex-col p-6 rounded-2xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
                       style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
                     >
                       <div className="flex items-start justify-between mb-3">
@@ -155,7 +155,7 @@ export default async function TopicsPage() {
                       <Link
                         key={category}
                         href={`/silly-questions?category=${tagSlug}`}
-                        className="group flex flex-col p-6 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5"
+                        className="group flex flex-col p-6 rounded-2xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
                         style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
                       >
                         <div className="flex items-start justify-between mb-3">
@@ -193,27 +193,30 @@ export default async function TopicsPage() {
               style={{ color: 'var(--text-muted)' }}>
               All Tags
             </h2>
-            <div className="flex flex-wrap gap-2">
-              {allTags.map(tag => {
-                const tagSlug = encodeURIComponent(tag.trim().toLowerCase().replace(/\s+/g, '-'));
-                return (
-                  <Link
-                    key={tag}
-                    href={`/blog/tag/${tagSlug}`}
-                    className="text-sm px-3 py-1.5 rounded-full border font-medium transition-all duration-150"
-                    style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-                  >
-                    #{tag}
-                  </Link>
-                );
-              })}
+            <div className="rounded-2xl border p-6"
+              style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="flex flex-wrap gap-2">
+                {allTags.map(tag => {
+                  const tagSlug = encodeURIComponent(tag.trim().toLowerCase().replace(/\s+/g, '-'));
+                  return (
+                    <Link
+                      key={tag}
+                      href={`/blog/tag/${tagSlug}`}
+                      className="text-sm px-3 py-1.5 rounded-full border font-medium transition-all duration-150 hover:shadow-sm hover:-translate-y-0.5"
+                      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-elevated)', color: 'var(--text-secondary)' }}
+                    >
+                      #{tag}
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </section>
 
           {/* Quick links */}
           <section className="rounded-2xl p-8"
             style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
-            <h2 className="text-base font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: 'var(--text-muted)' }}>
               Quick Navigation
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -223,7 +226,7 @@ export default async function TopicsPage() {
                 { label: 'Search Everything', desc: 'Find by keyword', href: '/search', color: 'var(--surface-muted)', textColor: 'var(--text-secondary)' },
               ].map(item => (
                 <Link key={item.label} href={item.href}
-                  className="flex items-center gap-3 p-4 rounded-xl border transition-all duration-200 group"
+                  className="flex items-center gap-3 p-4 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md group"
                   style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-elevated)' }}>
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: item.color, color: item.textColor }}>
@@ -232,7 +235,7 @@ export default async function TopicsPage() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{item.label}</p>
+                    <p className="text-sm font-semibold group-hover:text-[var(--accent-500)] transition-colors" style={{ color: 'var(--text-primary)' }}>{item.label}</p>
                     <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{item.desc}</p>
                   </div>
                 </Link>

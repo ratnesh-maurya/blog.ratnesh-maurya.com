@@ -92,12 +92,12 @@ export default function ResourcesPage() {
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
 
         <div className="hero-gradient-bg">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--accent-500)' }}>
               Reading List
             </p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Resources
             </h1>
@@ -107,7 +107,7 @@ export default function ResourcesPage() {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-14">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-14">
           {resources.map(section => (
             <section key={section.category}>
               <h2 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-6"
@@ -115,27 +115,31 @@ export default function ResourcesPage() {
                 <span className="text-base">{section.emoji}</span>
                 {section.category}
               </h2>
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {section.items.map(item => (
                   <a key={item.title} href={item.href} target="_blank" rel="noopener noreferrer"
-                    className="resource-card flex gap-4 rounded-xl border p-5 transition-all duration-200 group"
+                    className="resource-card flex flex-col gap-3 rounded-2xl border p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg group"
                     style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
                     <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1.5">
                         <h3 className="text-sm font-bold group-hover:text-[var(--accent-500)] transition-colors"
                           style={{ color: 'var(--text-primary)' }}>
                           {item.title}
                         </h3>
-                        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>by {item.author}</span>
                       </div>
+                      <p className="text-xs font-medium mb-2" style={{ color: 'var(--text-muted)' }}>by {item.author}</p>
                       <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                         {item.desc}
                       </p>
                     </div>
-                    <svg className="w-4 h-4 flex-shrink-0 mt-0.5 transition-transform group-hover:translate-x-0.5"
-                      style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
+                    <div className="flex items-center gap-1 text-xs font-semibold mt-auto pt-2"
+                      style={{ color: 'var(--accent-500)' }}>
+                      Visit
+                      <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </div>
                   </a>
                 ))}
               </div>

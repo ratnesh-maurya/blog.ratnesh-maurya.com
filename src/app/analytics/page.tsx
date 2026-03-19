@@ -20,7 +20,7 @@ export default function AnalyticsPage() {
     <>
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <div className="min-h-screen hero-gradient-bg" style={{ backgroundColor: 'var(--background)' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-500)' }}>
@@ -52,7 +52,7 @@ export default function AnalyticsPage() {
           </div>
         </div>
         <div
-          className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"
+          className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"
         >
           <AnalyticsDashboard />
         </div>

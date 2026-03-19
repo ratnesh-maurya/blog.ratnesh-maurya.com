@@ -73,12 +73,12 @@ export default async function SeriesPage() {
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
 
         <div className="hero-gradient-bg">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--accent-500)' }}>
               Learning Paths
             </p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
               style={{ color: 'var(--text-primary)' }}>
               Series
             </h1>
@@ -98,10 +98,10 @@ export default async function SeriesPage() {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-10">
           {series.map(s => (
             <section key={s.id}
-              className="rounded-2xl border overflow-hidden"
+              className="rounded-2xl border overflow-hidden transition-shadow duration-200 hover:shadow-lg"
               style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
 
               {/* Series header */}
@@ -109,11 +109,12 @@ export default async function SeriesPage() {
                 <div className="flex items-start gap-3">
                   <span className="text-3xl mt-0.5">{s.emoji}</span>
                   <div>
-                    <h2 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                    <h2 className="text-xl font-extrabold tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>
                       {s.title}
                     </h2>
-                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{s.desc}</p>
-                    <span className="text-xs mt-2 inline-block" style={{ color: 'var(--text-muted)' }}>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{s.desc}</p>
+                    <span className="text-xs font-semibold mt-2 inline-block px-2.5 py-0.5 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
                       {s.posts.length} {s.posts.length === 1 ? 'post' : 'posts'}
                     </span>
                   </div>
@@ -126,8 +127,8 @@ export default async function SeriesPage() {
                   <Link key={post.slug} href={`/blog/${post.slug}`}
                     className="flex items-start gap-4 px-6 py-4 transition-colors group"
                     style={{ borderTop: idx > 0 ? '1px solid var(--border)' : undefined }}>
-                    <span className="text-base font-bold flex-shrink-0 w-5 text-right mt-0.5"
-                      style={{ color: 'var(--border)' }}>
+                    <span className="text-base font-bold flex-shrink-0 w-6 text-right mt-0.5"
+                      style={{ color: 'var(--accent-300)' }}>
                       {idx + 1}
                     </span>
                     <div className="flex-1 min-w-0">

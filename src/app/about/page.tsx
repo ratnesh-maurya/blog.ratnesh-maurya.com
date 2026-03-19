@@ -80,7 +80,7 @@ export default async function AboutPage() {
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         {/* Hero */}
         <div className="hero-gradient-bg">
-          <div className="page-header max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+          <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
               <div className="relative flex-shrink-0">
                 <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-lg"
@@ -142,7 +142,7 @@ export default async function AboutPage() {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-16">
 
           {/* Bio */}
           <section id="background">

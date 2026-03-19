@@ -47,7 +47,7 @@ export default async function TechnicalTermsPage() {
       <TechnicalTermsStructuredData terms={terms} />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         <div className="hero-gradient-bg">
-          <div className="page-header max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--accent-500)' }}>
               Reference
@@ -76,7 +76,7 @@ export default async function TechnicalTermsPage() {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
           <TechnicalTermsSearch terms={terms} />
         </div>
       </div>
