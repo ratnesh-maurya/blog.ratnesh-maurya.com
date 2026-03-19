@@ -53,8 +53,9 @@ export default async function Home() {
   // Home page only needs lightweight listing metadata (title/date/category/slug).
   // Using the listing loader avoids expensive markdown->HTML work during the build.
   const posts = await getAllBlogPostsForListing();
-  const latest = posts.slice(0, 6);
   const featured = posts.slice(0, 3);
+  const featuredSlugs = new Set(featured.map((p) => p.slug));
+  const latest = posts.filter((p) => !featuredSlugs.has(p.slug)).slice(0, 6);
 
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
@@ -118,6 +119,9 @@ export default async function Home() {
               <p className="mt-6 text-lg sm:text-xl leading-relaxed max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
                 Practical notes on backend architecture, distributed systems, and AI engineering.
                 Deep dives, cheatsheets, and “why did this break?” writeups—built for builders.
+              </p>
+              <p className="mt-4 text-sm sm:text-base leading-relaxed max-w-2xl" style={{ color: 'var(--text-muted)' }}>
+                If you’re here for reliability: you’ll find patterns to build systems that don’t flake—and habits to ship code that stays shipped.
               </p>
 
               <div className="flex flex-wrap gap-3 mt-8">

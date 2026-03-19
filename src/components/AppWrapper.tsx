@@ -105,11 +105,13 @@ export function AppWrapper({ children }: AppWrapperProps) {
           onSearchOpen={openSearch}
         />
 
-        <MobileMenu
-          isOpen={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
-          onSearchOpen={openSearch}
-        />
+        {isMobileMenuOpen && (
+          <MobileMenu
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+            onSearchOpen={openSearch}
+          />
+        )}
 
         <main id="main-content" className="flex-1 pt-16" style={{ backgroundColor: 'var(--background)' }} role="main">
           {children}
