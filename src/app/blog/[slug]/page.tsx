@@ -1,5 +1,6 @@
 import { BlogImage } from '@/components/BlogImage';
 import { CodeCopyButton } from '@/components/CodeCopyButton';
+import { CopyMarkdownButton } from '@/components/CopyMarkdownButton';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { mdxComponents } from '@/components/mdx';
 import { OgImageInBody } from '@/components/OgImageInBody';
@@ -301,20 +302,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       style={{ color: 'var(--text-muted)' }}>
                       Share this post
                     </h3>
-                    <Link
-                      href={`/utm?${new URLSearchParams({
-                        url: `/blog/${post.slug}`,
-                        title: post.title,
-                        description: post.description || '',
-                      }).toString()}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all duration-200"
-                      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-                    >
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
-                      </svg>
-                      UTM
-                    </Link>
+                    <div className="flex items-center gap-2">
+                      {post.rawContent && (
+                        <CopyMarkdownButton
+                          rawContent={post.rawContent}
+                          title={post.title}
+                          slug={post.slug}
+                          image={post.image}
+                        />
+                      )}
+                      <Link
+                        href={`/utm?${new URLSearchParams({
+                          url: `/blog/${post.slug}`,
+                          title: post.title,
+                          description: post.description || '',
+                        }).toString()}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all duration-200"
+                        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
+                      >
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
+                        </svg>
+                        UTM
+                      </Link>
+                    </div>
                   </div>
                   <SocialShare
                     url={`/blog/${post.slug}`}

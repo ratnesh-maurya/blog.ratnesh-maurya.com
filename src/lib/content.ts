@@ -127,7 +127,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     };
 
     if (resolved.format === 'mdx') {
-      return { ...base, content, format: 'mdx' };
+      return { ...base, content, rawContent: content, format: 'mdx' };
     }
 
     const processedContent = await remark()
@@ -137,7 +137,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       .use(rehypeStringify)
       .process(content);
     const contentHtml = addIdsToHeadings(processedContent.toString());
-    return { ...base, content: contentHtml, format: 'md' };
+    return { ...base, content: contentHtml, rawContent: content, format: 'md' };
   } catch (error) {
     console.error(`Error reading blog post ${slug}:`, error);
     return null;

@@ -1,28 +1,66 @@
 import { getAllBlogPosts } from '@/lib/content';
+import { BlogPost } from '@/types/blog';
+import rehypeStringify from 'rehype-stringify';
+import { remark } from 'remark';
+import remarkGfm from 'remark-gfm';
+import remarkRehype from 'remark-rehype';
 
 export const dynamic = 'force-static';
 export const revalidate = 3600; // Revalidate every hour
 
+const baseUrl = 'https://blog.ratnesh-maurya.com';
+
+/** Strip JSX/MDX component tags so remark can process the plain markdown. */
+function stripMdxComponents(raw: string): string {
+  // Remove self-closing JSX tags: <Component ... />
+  let result = raw.replace(/<[A-Z][A-Za-z]*\b[^>]*\/>/g, '');
+  // Remove opening and closing JSX tags: <Component ...> ... </Component>
+  result = result.replace(/<\/?[A-Z][A-Za-z]*\b[^>]*>/g, '');
+  // Remove import statements
+  result = result.replace(/^import\s.+$/gm, '');
+  return result;
+}
+
+/** Make relative image URLs absolute so they render in feed readers. */
+function absoluteUrls(html: string): string {
+  return html.replace(/(src|href)="(\/(images|og)\/[^"]+)"/g, `$1="${baseUrl}$2"`);
+}
+
+async function getPostHtml(post: BlogPost): Promise<string> {
+  if (post.format === 'md') {
+    // Already rendered HTML
+    return absoluteUrls(post.content);
+  }
+  // MDX: convert raw markdown (stripping components) to HTML
+  const md = stripMdxComponents(post.rawContent || post.content);
+  const result = await remark().use(remarkGfm).use(remarkRehype).use(rehypeStringify).process(md);
+  return absoluteUrls(result.toString());
+}
+
 export async function GET() {
   const posts = await getAllBlogPosts();
-  const baseUrl = 'https://blog.ratnesh-maurya.com';
 
-  const rssItems = posts
-    .map((post) => `
+  const rssItems = (
+    await Promise.all(
+      posts.map(async (post) => {
+        const contentHtml = await getPostHtml(post);
+        return `
       <item>
         <title><![CDATA[${post.title}]]></title>
         <description><![CDATA[${post.description}]]></description>
+        <content:encoded><![CDATA[${contentHtml}]]></content:encoded>
         <link>${baseUrl}/blog/${post.slug}</link>
         <guid>${baseUrl}/blog/${post.slug}</guid>
         <pubDate>${new Date(post.date).toUTCString()}</pubDate>
         <author>ratnesh@ratnesh-maurya.com (${post.author})</author>
         <category>${post.category}</category>
-      </item>
-    `)
-    .join('');
+      </item>`;
+      }),
+    )
+  ).join('');
 
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
-    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
       <channel>
         <title>Ratn Labs</title>
         <description>Systems thinking, backend architecture, and AI engineering. Building scalable systems and sharing technical insights.</description>

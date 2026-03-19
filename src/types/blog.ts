@@ -12,6 +12,8 @@ export interface BlogPost {
   socialImage?: string; // Custom social sharing image
   questions?: string[]; // SEO questions for FAQ structured data (not displayed on page)
   content: string;
+  /** Raw markdown/MDX source before HTML processing. Used for "Copy as Markdown". */
+  rawContent?: string;
   /** When 'mdx', content is raw MDX source; when 'md' or omitted, content is HTML. */
   format?: 'md' | 'mdx';
 }
