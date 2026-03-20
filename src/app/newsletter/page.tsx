@@ -66,34 +66,18 @@ export default async function NewsletterPage() {
               New articles on system design, Go, AWS, and backend engineering — delivered when something worth reading is ready. No fluff, no weekly filler.
             </p>
 
-            {/* Subscribe form */}
-            <form
-              action="https://buttondown.email/api/emails/embed-subscribe/ratnlab"
-              method="post"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-            >
-              <input
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                required
-                className="flex-1 px-4 py-3 rounded-xl border text-sm outline-none transition-all duration-200 focus:ring-2 focus:ring-[var(--accent-300)]"
-                style={{
-                  backgroundColor: 'var(--surface)',
-                  borderColor: 'var(--border)',
-                  color: 'var(--text-primary)',
-                }}
+            {/* Substack embed */}
+            <div className="max-w-md mx-auto w-full">
+              <iframe
+                src="https://ratnlabs.substack.com/embed"
+                width="480"
+                height="150"
+                title="Subscribe to Ratn Labs on Substack"
+                style={{ border: '1px solid #EEE', background: 'white', width: '100%', maxWidth: '480px' }}
+                frameBorder="0"
+                scrolling="no"
               />
-              <button
-                type="submit"
-                className="px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 whitespace-nowrap hover:shadow-md"
-                style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}
-              >
-                Subscribe free
-              </button>
-            </form>
+            </div>
 
             <p className="text-xs mt-3" style={{ color: 'var(--text-muted)' }}>
               No spam. Unsubscribe any time. ~{posts.length} articles published so far.
@@ -169,27 +153,17 @@ export default async function NewsletterPage() {
             <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
               Join engineers who read Ratn Labs for real engineering insights.
             </p>
-            <form
-              action="https://buttondown.email/api/emails/embed-subscribe/ratnlab"
-              method="post"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto"
-            >
-              <input
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                required
-                className="flex-1 px-4 py-2.5 rounded-xl border text-sm outline-none focus:ring-2 focus:ring-[var(--accent-300)]"
-                style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+            <div className="max-w-md mx-auto w-full">
+              <iframe
+                src="https://ratnlabs.substack.com/embed"
+                width="480"
+                height="150"
+                title="Subscribe to Ratn Labs on Substack"
+                style={{ border: '1px solid #EEE', background: 'white', width: '100%', maxWidth: '480px' }}
+                frameBorder="0"
+                scrolling="no"
               />
-              <button type="submit"
-                className="px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap hover:shadow-md transition-all duration-200"
-                style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}>
-                Subscribe
-              </button>
-            </form>
+            </div>
           </section>
 
         </div>
