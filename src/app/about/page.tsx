@@ -173,7 +173,7 @@ export default async function AboutPage() {
                 { label: 'Open source', value: '\u221E' },
               ].map(stat => (
                 <div key={stat.label} className="rounded-2xl p-6 text-center transition-shadow duration-200 hover:shadow-md"
-                  style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
+                  style={{ backgroundColor: 'color-mix(in srgb, var(--accent-50) 40%, var(--surface))', border: '1px solid var(--accent-200)' }}>
                   <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--accent-500)' }}>
                     {stat.value}
                   </div>
@@ -292,7 +292,7 @@ export default async function AboutPage() {
                     <div className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
                       style={{ backgroundColor: 'var(--accent-400)' }} />
                     {i < timeline.length - 1 && (
-                      <div className="w-px flex-1 mt-1" style={{ backgroundColor: 'var(--border)' }} />
+                      <div className="w-px flex-1 mt-1" style={{ backgroundColor: 'var(--accent-200)' }} />
                     )}
                   </div>
                   <div className="pb-10">

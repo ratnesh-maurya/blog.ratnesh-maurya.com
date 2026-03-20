@@ -461,7 +461,7 @@ export default async function Home() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group rounded-2xl border p-5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+                  className="group rounded-2xl border p-5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--accent-300)]"
                   style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
                 >
                   <span className="text-2xl block mb-3">{item.icon}</span>
@@ -494,8 +494,8 @@ export default async function Home() {
                   ))}
                 </div>
               </div>
-              <div className="rounded-xl p-6 sticky top-24" style={{ backgroundColor: 'var(--surface)' }}>
-                <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+              <div className="rounded-xl p-6 sticky top-24" style={{ background: 'linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--accent-50) 50%, var(--surface)) 100%)', border: '1px solid var(--accent-200)' }}>
+                <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
                   Get the good stuff
                 </p>
                 <h3 className="mt-3 text-lg font-bold" style={{ color: 'var(--text-primary)' }}>

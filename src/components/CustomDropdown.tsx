@@ -59,8 +59,9 @@ export function CustomDropdown({
         className="w-full px-4 py-3 text-left rounded-lg border transition-all duration-200 focus:outline-none"
         style={{
           backgroundColor: 'var(--surface)',
-          borderColor: 'var(--border)',
-          color: 'var(--text-primary)'
+          borderColor: isOpen ? 'var(--accent-400)' : 'var(--border)',
+          color: 'var(--text-primary)',
+          boxShadow: isOpen ? '0 0 0 2px color-mix(in srgb, var(--accent-500) 20%, transparent)' : 'none',
         }}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
@@ -86,7 +87,7 @@ export function CustomDropdown({
           className="absolute z-50 w-full mt-1 rounded-lg border shadow-lg max-h-60 overflow-auto"
           style={{
             backgroundColor: 'var(--surface)',
-            borderColor: 'var(--border)'
+            borderColor: 'var(--accent-200)'
           }}
           role="listbox"
         >
