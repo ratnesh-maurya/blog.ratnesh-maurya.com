@@ -49,9 +49,11 @@ function escapeHtmlAttr(value: string): string {
 }
 
 function injectFeaturedImage(contentHtml: string, post: BlogPost): string {
-  if (/<img\b/i.test(contentHtml)) return contentHtml;
   const imageUrl = getFeaturedImageUrl(post);
   if (!imageUrl) return contentHtml;
+  if (contentHtml.includes(`src="${imageUrl}"`) || contentHtml.includes(`src='${imageUrl}'`)) {
+    return contentHtml;
+  }
   const alt = escapeHtmlAttr(post.title || '');
   return `<p><img src="${imageUrl}" alt="${alt}" /></p>${contentHtml}`;
 }
