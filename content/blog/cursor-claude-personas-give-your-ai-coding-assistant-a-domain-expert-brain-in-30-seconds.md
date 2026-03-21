@@ -3,7 +3,7 @@ title: "cursor-claude-personas: Give Your AI Coding Assistant a Domain Expert Br
 description: "A free, open-source collection of 38 role-based AI persona packs for Claude Code, Cursor, and VS Code. Copy one folder into your project and your AI assistant instantly behaves like a seasoned specialist."
 date: "2026-03-21"
 author: "Ratnesh Maurya"
-category: "Tooling & DX"
+category: "Tooling and DX"
 tags: ["AI", "Developer Tools", "Cursor", "Claude"]
 image: "/images/blog/cursor-claude-personas.png"
 featured: false
