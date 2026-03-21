@@ -8,7 +8,11 @@ export default function robots(): MetadataRoute.Robots {
       // This is Generative Engine Optimization (GEO) — block nothing, gain citations.
       {
         userAgent: '*',
-        allow: '/',
+        allow: [
+          '/',
+          '/llms.txt',
+          '/ai.txt',
+        ],
         disallow: [
           '/api/', // API routes have no crawl value
         ],

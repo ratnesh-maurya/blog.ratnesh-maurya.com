@@ -1,0 +1,33 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Ratnesh Maurya",
+  "url": "https://ratnesh-maurya.com",
+  "image": "https://ratnesh-maurya.com/profile.jpg",
+  "jobTitle": "Software Development Engineer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Initializ Pvt. Ltd."
+  },
+  "sameAs": [
+    "https://github.com/ratnesh-maurya",
+    "https://www.linkedin.com/in/ratnesh-maurya"
+  ],
+  "knowsAbout": [
+    "Backend Engineering",
+    "Distributed Systems",
+    "Kubernetes",
+    "PostgreSQL",
+    "Golang",
+    "Elixir",
+    "Cloud Computing",
+    "AI Systems",
+    "RAG Systems"
+  ],
+  "description": "Backend and distributed systems engineer specializing in scalable cloud-native systems, Kubernetes infrastructure, and AI/RAG pipelines.",
+  "email": "ratneshmaurya2311@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "India"
+  }
+}

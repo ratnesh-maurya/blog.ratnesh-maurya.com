@@ -102,7 +102,7 @@ export async function GET() {
         <link>${baseUrl}/blog/${post.slug}</link>
         <guid>${baseUrl}/blog/${post.slug}</guid>
         <pubDate>${new Date(post.date).toUTCString()}</pubDate>
-        <author>ratnesh@ratnesh-maurya.com (${post.author})</author>
+        <author>ratneshmaurya2311@gmail.com (${post.author})</author>
         <category>${post.category}</category>
         ${enclosure}
       </item>`;
@@ -117,8 +117,8 @@ export async function GET() {
         <description>Systems thinking, backend architecture, and AI engineering. Building scalable systems and sharing technical insights.</description>
         <link>${baseUrl}</link>
         <language>en-us</language>
-        <managingEditor>ratnesh@ratnesh-maurya.com (Ratnesh Maurya)</managingEditor>
-        <webMaster>ratnesh@ratnesh-maurya.com (Ratnesh Maurya)</webMaster>
+        <managingEditor>ratneshmaurya2311@gmail.com (Ratnesh Maurya)</managingEditor>
+        <webMaster>ratneshmaurya2311@gmail.com (Ratnesh Maurya)</webMaster>
         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
         <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
         ${rssItems}
