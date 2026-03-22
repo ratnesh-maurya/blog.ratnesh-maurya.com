@@ -105,21 +105,6 @@ export function Footer() {
             </div>
           </div>
         </div>
-
-        <div className="py-5 flex justify-center" style={{ borderTop: '1px solid var(--footer-surface)' }}>
-          <a
-            href="https://www.ontoplist.com/best-technology-blogs/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Best Technology Blogs and Websites to Follow - OnToplist"
-          >
-            <img
-              src="https://www.ontoplist.com/images/ontoplist31.png?id=69bd710955f64"
-              alt="Best Technology Blogs and Websites to Follow - OnToplist.com"
-              style={{ border: '0' }}
-            />
-          </a>
-        </div>
       </div>
     </footer>
   );
