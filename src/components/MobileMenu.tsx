@@ -12,6 +12,7 @@ interface MobileMenuProps {
 
 const mainLinks = [
   { label: 'Blog', href: '/blog' },
+  { label: 'News', href: '/news' },
   { label: 'Questions', href: '/silly-questions' },
   { label: 'Technical Terms', href: '/technical-terms' },
   { label: 'About', href: '/about' },
@@ -59,7 +60,7 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
           <div
             className="rounded-2xl px-3 pt-3 pb-5 space-y-1"
             style={{
-              backgroundColor: 'var(--background)',
+              backgroundColor: 'transparent',
               border: '2px solid var(--nb-border)',
               boxShadow: 'var(--nb-shadow)',
             }}

@@ -70,7 +70,7 @@ export default async function SeriesPage() {
       <OgImageInBody src={getStoredOgImageUrl('series')} alt="Series — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <SeriesListStructuredData series={series.map(s => ({ id: s.id, title: s.title, desc: s.desc, postCount: s.posts.length }))} />
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
 
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
@@ -128,7 +128,7 @@ export default async function SeriesPage() {
               </div>
 
               {/* Post list */}
-              <div style={{ backgroundColor: 'var(--background)' }}>
+              <div style={{ backgroundColor: 'transparent' }}>
                 {s.posts.map((post, idx) => (
                   <Link key={post.slug} href={`/blog/${post.slug}`}
                     className="flex items-start gap-4 px-6 py-4 transition-colors group"

@@ -57,7 +57,7 @@ export default function ContactPage() {
       <OgImageInBody src={getStoredOgImageUrl('home')} alt="Contact — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         <div className="hero-gradient-bg">
           <div className="page-header max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent-500)' }}>

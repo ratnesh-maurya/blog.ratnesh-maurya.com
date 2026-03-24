@@ -1,17 +1,26 @@
-import { MetadataRoute } from 'next';
-import { getAllBlogPosts, getAllSillyQuestions, getAllTILEntries, getTechnicalTermSlugs } from '@/lib/content';
+import { getAllBlogPosts, getAllNewsPosts, getAllSillyQuestions, getAllTILEntries, getTechnicalTermSlugs } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { MetadataRoute } from 'next';
 
 export const dynamic = 'force-static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://blog.ratnesh-maurya.com';
 
-  const [blogPosts, sillyQuestions, tilEntries] = await Promise.all([
+  const [blogPosts, newsPosts, sillyQuestions, tilEntries] = await Promise.all([
     getAllBlogPosts(),
+    getAllNewsPosts(),
     getAllSillyQuestions(),
     getAllTILEntries(),
   ]);
+
+  const newsUrls = newsPosts.map((post) => ({
+    url: `${baseUrl}/news/${post.slug}/`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'daily' as const,
+    priority: 0.85,
+    images: [post.image || getStoredOgImageUrl('home')],
+  }));
 
   const blogUrls = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}/`,
@@ -55,6 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticWithOg: MetadataRoute.Sitemap = [
     { url: `${baseUrl}/`, lastModified: now, changeFrequency: 'weekly', priority: 1, images: [getStoredOgImageUrl('home')] },
     { url: `${baseUrl}/blog/`, lastModified: now, changeFrequency: 'weekly', priority: 0.9, images: [getStoredOgImageUrl('blog')] },
+    { url: `${baseUrl}/news/`, lastModified: now, changeFrequency: 'daily', priority: 0.9, images: [getStoredOgImageUrl('home')] },
     { url: `${baseUrl}/silly-questions/`, lastModified: now, changeFrequency: 'weekly', priority: 0.8, images: [getStoredOgImageUrl('silly-questions')] },
     { url: `${baseUrl}/about/`, lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('about')] },
     { url: `${baseUrl}/topics/`, lastModified: now, changeFrequency: 'weekly', priority: 0.85, images: [getStoredOgImageUrl('topics')] },
@@ -90,5 +100,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: [getStoredOgImageUrl('technical-term', slug)],
   }));
 
-  return [...staticWithOg, ...tilUrls, ...technicalTermUrls, ...tagUrls, ...blogUrls, ...questionUrls];
+  return [...staticWithOg, ...newsUrls, ...tilUrls, ...technicalTermUrls, ...tagUrls, ...blogUrls, ...questionUrls];
 }

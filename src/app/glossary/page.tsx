@@ -35,7 +35,7 @@ export default function GlossaryPage() {
       <OgImageInBody src={getStoredOgImageUrl('glossary')} alt="Glossary — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <GlossaryStructuredData terms={terms} />
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
 
         {/* Header */}
         <div className="hero-gradient-bg">

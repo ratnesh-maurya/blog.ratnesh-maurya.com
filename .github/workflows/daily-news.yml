@@ -1,0 +1,49 @@
+name: Daily AI News Digest
+
+on:
+  schedule:
+    # 18:30 UTC = 00:00IST
+    - cron: '30 18 * * *'
+  # Note: You can run this manually from the Actions tab via workflow_dispatch
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate daily news digest
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TAVILY_NEWS_QUERY: latest AI and software development news, releases, tools, open source, research breakthroughs
+          TAVILY_NEWS_TOPIC: ai-software-development-digest
+          TAVILY_NEWS_TIMEZONE: Asia/Kolkata
+        run: npm run news:fetch
+
+      - name: Commit and push if changed
+        run: |
+          if [ -z "$(git status --porcelain content/news)" ]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]husers.noreply.github.com"
+          git add content/news
+          git commit -m "chore(news): daily tavily digest"
+          git push

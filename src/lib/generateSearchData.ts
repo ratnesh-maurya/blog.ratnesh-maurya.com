@@ -1,14 +1,15 @@
 import fs from 'fs';
 import path from 'path';
-import { getAllBlogPosts, getAllSillyQuestions, getAllTechnicalTerms, getAllTILEntries } from './content';
+import { getAllBlogPosts, getAllNewsPostsForListing, getAllSillyQuestions, getAllTechnicalTerms, getAllTILEntries } from './content';
 
 export async function generateSearchData() {
   try {
-    const [blogPosts, sillyQuestions, technicalTerms, tilEntries] = await Promise.all([
+    const [blogPosts, sillyQuestions, technicalTerms, tilEntries, newsPosts] = await Promise.all([
       getAllBlogPosts(),
       getAllSillyQuestions(),
       getAllTechnicalTerms(),
       getAllTILEntries(),
+      getAllNewsPostsForListing(),
     ]);
 
     const searchData = {
@@ -39,6 +40,13 @@ export async function generateSearchData() {
         tags: entry.tags,
         category: entry.category,
         date: entry.date,
+      })),
+      newsPosts: newsPosts.map((post) => ({
+        slug: post.slug,
+        title: post.title,
+        description: post.description,
+        tags: post.tags,
+        date: post.date,
       })),
     };
 

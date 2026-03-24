@@ -8,7 +8,7 @@ try {
 
 import { execSync } from 'node:child_process';
 import path from 'node:path';
-import { getAllBlogPosts, getAllSillyQuestions, getAllTILEntries, getTechnicalTermSlugs } from '../src/lib/content';
+import { getAllBlogPosts, getAllNewsPosts, getAllSillyQuestions, getAllTILEntries, getTechnicalTermSlugs } from '../src/lib/content';
 import { requestIndexingBatch } from '../src/lib/googleIndexing';
 
 const baseUrl = 'https://blog.ratnesh-maurya.com';
@@ -104,6 +104,14 @@ function collectChangedUrls(changedFiles: string[], allBlogPosts: Awaited<Return
       urls.add(`${baseUrl}/blog`);
     }
 
+    if (file.startsWith('content/news/')) {
+      const match = file.match(/^content\/news\/(.+?)\.md$/);
+      if (match?.[1]) {
+        urls.add(`${baseUrl}/news/${match[1]}`);
+      }
+      urls.add(`${baseUrl}/news`);
+    }
+
     if (file.startsWith('content/silly-questions/')) {
       const match = file.match(/^content\/silly-questions\/(.+?)\.md$/);
       if (match?.[1]) {
@@ -148,6 +156,10 @@ function collectChangedUrls(changedFiles: string[], allBlogPosts: Awaited<Return
     allBlogPosts.forEach(post => urls.add(`${baseUrl}/blog/${post.slug}`));
   }
 
+  if (changedFiles.some(file => file.startsWith('src/app/news/'))) {
+    urls.add(`${baseUrl}/news`);
+  }
+
   if (changedFiles.some(file => file.startsWith('src/app/silly-questions/'))) {
     urls.add(`${baseUrl}/silly-questions`);
   }
@@ -182,6 +194,7 @@ function collectChangedUrls(changedFiles: string[], allBlogPosts: Awaited<Return
 
 function collectAllUrls(
   blogPosts: Awaited<ReturnType<typeof getAllBlogPosts>>,
+  newsPosts: Awaited<ReturnType<typeof getAllNewsPosts>>,
   sillyQuestions: Awaited<ReturnType<typeof getAllSillyQuestions>>,
   tilEntries: Awaited<ReturnType<typeof getAllTILEntries>>,
 ): string[] {
@@ -189,6 +202,7 @@ function collectAllUrls(
   const staticPages = [
     baseUrl,
     `${baseUrl}/blog`,
+    `${baseUrl}/news`,
     `${baseUrl}/silly-questions`,
     `${baseUrl}/til`,
     `${baseUrl}/about`,
@@ -214,6 +228,11 @@ function collectAllUrls(
   // Blog post URLs
   blogPosts.forEach(post => {
     urls.push(`${baseUrl}/blog/${post.slug}`);
+  });
+
+  // News post URLs
+  newsPosts.forEach(post => {
+    urls.push(`${baseUrl}/news/${post.slug}`);
   });
 
   // Silly question URLs
@@ -262,8 +281,9 @@ async function indexAllPosts() {
     const shouldIndexAll = process.argv.includes('--all') || process.env.INDEX_ALL === 'true';
 
     // Get all dynamic content
-    const [blogPosts, sillyQuestions, tilEntries] = await Promise.all([
+    const [blogPosts, newsPosts, sillyQuestions, tilEntries] = await Promise.all([
       getAllBlogPosts(),
+      getAllNewsPosts(),
       getAllSillyQuestions(),
       getAllTILEntries(),
     ]);
@@ -272,7 +292,7 @@ async function indexAllPosts() {
     const relevantChanges = hasRelevantChanges(changedFiles);
 
     const urls = shouldIndexAll
-      ? collectAllUrls(blogPosts, sillyQuestions, tilEntries)
+      ? collectAllUrls(blogPosts, newsPosts, sillyQuestions, tilEntries)
       : collectChangedUrls(changedFiles, blogPosts);
 
     if (!shouldIndexAll) {

@@ -159,7 +159,7 @@ function CustomDropdown({
               onChange={(e) => setQ(e.target.value)}
               placeholder={`Search ${label.toLowerCase()}…`}
               className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
-              style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+              style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
               autoFocus
             />
           </div>
@@ -282,7 +282,7 @@ export default function UtmBuilderPage() {
   const labelBase = 'text-xs font-semibold uppercase tracking-widest';
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+    <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
       <div style={{ borderBottom: '1px solid var(--border)' }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link
@@ -348,7 +348,7 @@ export default function UtmBuilderPage() {
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="/blog/my-post or https://..."
                 className={fieldBase}
-                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+                style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
               />
             </div>
 
@@ -365,7 +365,7 @@ export default function UtmBuilderPage() {
                   onChange={setUtmSource}
                   onCreateOption={(v) => addOption('sources', v)}
                   inputClassName={fieldBase}
-                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
                 />
               </div>
 
@@ -381,7 +381,7 @@ export default function UtmBuilderPage() {
                   onChange={setUtmMedium}
                   onCreateOption={(v) => addOption('mediums', v)}
                   inputClassName={fieldBase}
-                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
                 />
               </div>
 
@@ -397,7 +397,7 @@ export default function UtmBuilderPage() {
                   onChange={setUtmCampaign}
                   onCreateOption={(v) => addOption('campaigns', v)}
                   inputClassName={fieldBase}
-                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
                 />
               </div>
             </div>
@@ -412,7 +412,7 @@ export default function UtmBuilderPage() {
                   onChange={(e) => setUtmContent(e.target.value)}
                   placeholder="e.g. footer_share_button"
                   className={fieldBase}
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+                  style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
                 />
               </div>
               <div>
@@ -424,7 +424,7 @@ export default function UtmBuilderPage() {
                   onChange={(e) => setUtmTerm(e.target.value)}
                   placeholder="e.g. systems_design"
                   className={fieldBase}
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+                  style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
                 />
               </div>
             </div>
@@ -438,7 +438,7 @@ export default function UtmBuilderPage() {
                   value={builtUrl}
                   readOnly
                   className={fieldBase}
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+                  style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
                 />
                 <button
                   type="button"

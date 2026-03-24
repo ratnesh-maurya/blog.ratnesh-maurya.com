@@ -1,5 +1,6 @@
 'use client';
 
+import type { NewsSearchItem } from '@/components/SearchPopup';
 import { SearchPopup, TechnicalTermSearchItem, TILSearchItem } from '@/components/SearchPopup';
 import { BlogPost, SillyQuestion } from '@/types/blog';
 import { useRouter } from 'next/navigation';
@@ -11,6 +12,7 @@ export default function SearchPageClient() {
   const [sillyQuestions, setSillyQuestions] = useState<SillyQuestion[]>([]);
   const [technicalTerms, setTechnicalTerms] = useState<TechnicalTermSearchItem[]>([]);
   const [tilEntries, setTilEntries] = useState<TILSearchItem[]>([]);
+  const [newsPosts, setNewsPosts] = useState<NewsSearchItem[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export default function SearchPageClient() {
           setSillyQuestions(data.sillyQuestions ?? []);
           setTechnicalTerms(data.technicalTerms ?? []);
           setTilEntries(data.tilEntries ?? []);
+          setNewsPosts(data.newsPosts ?? []);
         }
       } catch (e) {
         console.error('Failed to load search data:', e);
@@ -53,6 +56,7 @@ export default function SearchPageClient() {
       sillyQuestions={sillyQuestions}
       technicalTerms={technicalTerms}
       tilEntries={tilEntries}
+      newsPosts={newsPosts}
     />
   );
 }

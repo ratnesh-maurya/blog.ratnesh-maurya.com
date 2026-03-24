@@ -72,7 +72,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
       <OgImageInBody src={getStoredOgImageUrl('til-slug', slug)} alt={entry.title} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <TILStructuredData entry={entry} />
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
           {/* Back navigation */}

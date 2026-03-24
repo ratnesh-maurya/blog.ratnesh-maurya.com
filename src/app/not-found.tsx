@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
-      style={{ backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}>
+      style={{ backgroundColor: 'transparent', color: 'var(--text-primary)' }}>
       <div className="max-w-2xl mx-auto text-center">
 
         {/* 404 */}

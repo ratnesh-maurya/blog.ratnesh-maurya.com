@@ -118,7 +118,7 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
     <>
       <OgImageInBody src={getStoredOgImageUrl('silly-question', question.slug)} alt={question.question} />
       <SillyQuestionStructuredData question={question} />
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
 
           {/* Back navigation */}

@@ -152,7 +152,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <ReadingProgress />
 
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 lg:py-16">
           <Link
             href="/blog"

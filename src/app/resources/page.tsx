@@ -89,7 +89,7 @@ export default function ResourcesPage() {
       <OgImageInBody src={getStoredOgImageUrl('resources')} alt="Resources — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <ResourcesListStructuredData sections={resources} />
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
 
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">

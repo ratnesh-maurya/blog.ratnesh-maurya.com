@@ -45,7 +45,7 @@ export default async function TechnicalTermsPage() {
       <OgImageInBody src={getStoredOgImageUrl('technical-terms')} alt="Technical Terms" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <TechnicalTermsStructuredData terms={terms} />
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
