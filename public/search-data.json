@@ -584,26 +584,5 @@
       "date": "2025-01-10"
     }
   ],
-  "newsPosts": [
-    {
-      "slug": "daily-tech-digest-arms-groundbreaking-chip-ai-security-ramps-up-and-openais-massive-expansion",
-      "title": "Daily Tech Digest: Arm's Groundbreaking Chip, AI Security Ramps Up, and OpenAI's Massive Expansion",
-      "description": "Stay updated with the latest in AI and software development: Arm's 35-year milestone, urgent AI security measures, healthcare AI advancements, and OpenAI's expansion plans.",
-      "tags": [
-        "AI",
-        "artificial intelligence",
-        "software development",
-        "Arm",
-        "chips",
-        "hardware",
-        "AI security",
-        "agentic AI",
-        "OpenAI",
-        "healthcare AI",
-        "tech news",
-        "daily digest"
-      ],
-      "date": "2026-03-25"
-    }
-  ]
+  "newsPosts": []
 }
