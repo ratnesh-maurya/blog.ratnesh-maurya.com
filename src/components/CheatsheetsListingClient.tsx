@@ -30,12 +30,16 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {sheets.map((sheet) => (
+      {sheets.map((sheet, idx) => (
         <Link
           key={sheet.slug}
           href={`/cheatsheets/${sheet.slug}`}
-          className="group flex flex-col rounded-2xl border p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+          className="group flex flex-col rounded-2xl p-6 transition-all duration-150 hover:-translate-y-1"
+          style={{
+            backgroundColor: `var(--nb-card-${idx % 6})`,
+            border: '2px solid var(--nb-border)',
+            boxShadow: 'var(--nb-shadow-sm)',
+          }}
         >
           <div className="flex items-start justify-between mb-4">
             <span className="text-3xl">{sheet.emoji}</span>
@@ -59,8 +63,7 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
 
           <div className="flex flex-wrap gap-1.5 mb-4">
             {sheet.tags.slice(0, 3).map(tag => (
-              <span key={tag} className="px-2 py-0.5 rounded-full text-xs font-medium"
-                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+              <span key={tag} className="nb-badge nb-badge-muted">
                 {tag}
               </span>
             ))}

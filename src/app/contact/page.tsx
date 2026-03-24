@@ -1,5 +1,5 @@
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import type { Metadata } from 'next';
@@ -76,17 +76,17 @@ export default function ContactPage() {
 
           {/* Primary channels */}
           <section>
-            <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
+            <h2 className="nb-section-label mb-6"
               style={{ color: 'var(--text-muted)' }}>
               Primary channels
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {channels.map(ch => (
                 <a key={ch.label} href={ch.href} target="_blank" rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-3 p-6 rounded-2xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg group"
-                  style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+                  className="nb-card flex flex-col items-center gap-3 p-6 transition-all duration-150 hover:-translate-y-1 group"
+                  style={{ backgroundColor: 'var(--nb-card-2)' }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors"
-                    style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                    style={{ backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }}>
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d={ch.icon} />
                     </svg>
@@ -105,8 +105,8 @@ export default function ContactPage() {
 
           {/* For corrections */}
           <section className="rounded-2xl border p-6"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest mb-4"
+            style={{ backgroundColor: 'var(--nb-card-1)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
+            <h2 className="nb-section-label mb-4"
               style={{ color: 'var(--text-muted)' }}>
               For corrections
             </h2>
@@ -114,8 +114,8 @@ export default function ContactPage() {
               If you found an error in a post (typo, broken command, inaccurate claim), please include the URL and what you think should be changed.
               I track corrections publicly.
             </p>
-            <a href="/corrections" className="inline-flex items-center gap-1.5 text-sm font-semibold transition-colors hover:underline"
-              style={{ color: 'var(--accent-500)' }}>
+            <a href="/corrections" className="nb-btn inline-flex items-center gap-1.5 text-sm"
+              style={{ backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }}>
               Read the corrections policy
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

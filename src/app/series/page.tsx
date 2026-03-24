@@ -98,14 +98,21 @@ export default async function SeriesPage() {
           </div>
         </div>
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-10">
-          {series.map(s => (
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-8">
+          {series.map((s, sIdx) => (
             <section key={s.id}
-              className="rounded-2xl border overflow-hidden transition-shadow duration-200 hover:shadow-lg"
-              style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              className="rounded-2xl overflow-hidden"
+              style={{
+                border: '2px solid var(--nb-border)',
+                boxShadow: 'var(--nb-shadow)',
+              }}>
 
-              {/* Series header */}
-              <div className="px-6 pt-6 pb-4" style={{ borderBottom: '1px solid var(--border)' }}>
+              {/* Series header — tinted card bg */}
+              <div className="px-6 pt-6 pb-4"
+                style={{
+                  backgroundColor: `var(--nb-card-${sIdx % 6})`,
+                  borderBottom: '2px solid var(--nb-border)',
+                }}>
                 <div className="flex items-start gap-3">
                   <span className="text-3xl mt-0.5">{s.emoji}</span>
                   <div>
@@ -113,8 +120,7 @@ export default async function SeriesPage() {
                       {s.title}
                     </h2>
                     <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{s.desc}</p>
-                    <span className="text-xs font-semibold mt-2 inline-block px-2.5 py-0.5 rounded-full"
-                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                    <span className="nb-badge nb-badge-muted mt-2 inline-block">
                       {s.posts.length} {s.posts.length === 1 ? 'post' : 'posts'}
                     </span>
                   </div>
@@ -122,21 +128,20 @@ export default async function SeriesPage() {
               </div>
 
               {/* Post list */}
-              <div>
+              <div style={{ backgroundColor: 'var(--background)' }}>
                 {s.posts.map((post, idx) => (
                   <Link key={post.slug} href={`/blog/${post.slug}`}
                     className="flex items-start gap-4 px-6 py-4 transition-colors group"
                     style={{ borderTop: idx > 0 ? '1px solid var(--border)' : undefined }}>
-                    <span className="text-base font-bold flex-shrink-0 w-6 text-right mt-0.5"
-                      style={{ color: 'var(--accent-300)' }}>
+                    <span className="text-base font-black flex-shrink-0 w-6 text-right mt-0.5"
+                      style={{ color: 'var(--text-muted)' }}>
                       {idx + 1}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-wider mb-0.5"
-                        style={{ color: 'var(--accent-500)' }}>
+                      <p className="nb-section-label mb-0.5">
                         {post.category}
                       </p>
-                      <h3 className="text-sm font-semibold leading-snug group-hover:text-[var(--accent-500)] transition-colors"
+                      <h3 className="text-sm font-semibold leading-snug group-hover:underline underline-offset-2 transition-colors"
                         style={{ color: 'var(--text-primary)' }}>
                         {post.title}
                       </h3>

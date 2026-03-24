@@ -90,8 +90,7 @@ export function SillyQuestionsListingClient({ questions }: SillyQuestionsListing
                             <article>
                                 {/* Category + date line */}
                                 <div className="flex items-center gap-2 mb-1.5">
-                                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full"
-                                        style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                                    <span className="nb-badge nb-badge-primary">
                                         {question.category}
                                     </span>
                                     <time dateTime={question.date} className="text-[13px]"
@@ -129,8 +128,7 @@ export function SillyQuestionsListingClient({ questions }: SillyQuestionsListing
 
                                     {/* Tags - first 2 */}
                                     {question.tags.slice(0, 2).map(tag => (
-                                        <span key={tag} className="ml-1.5 px-2 py-0.5 rounded-full text-xs"
-                                            style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                                        <span key={tag} className="nb-badge nb-badge-muted ml-1.5">
                                             {tag}
                                         </span>
                                     ))}

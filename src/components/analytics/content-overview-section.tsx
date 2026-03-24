@@ -58,8 +58,8 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
         {[1, 2].map((i) => (
           <div
             key={i}
-            className="rounded-xl border p-5 animate-pulse h-48"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+            className="nb-card-sm p-5 animate-pulse h-48"
+            style={{ backgroundColor: 'var(--nb-card-5)' }}
           />
         ))}
       </div>
@@ -68,7 +68,7 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
 
   if (error) {
     return (
-      <div className="rounded-xl border p-4" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+      <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
         <p className="text-red-500 text-sm">{error}</p>
       </div>
     );
@@ -102,8 +102,8 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
         {summaryData.slice(0, 4).map((d) => (
           <div
             key={d.type}
-            className="rounded-xl border p-4 transition-shadow hover:shadow-md"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+            className="nb-card-sm p-4"
+            style={{ backgroundColor: 'var(--nb-card-4)' }}
           >
             <p className="text-[11px] font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
               {d.name}
@@ -122,8 +122,8 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Breakdown bar chart */}
         <div
-          className="rounded-xl border p-4 md:p-6"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+          className="nb-card p-4 md:p-6"
+          style={{ backgroundColor: 'var(--nb-card-1)' }}
         >
           <h3 className="text-base font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
             Content by type
@@ -144,8 +144,8 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'var(--surface)',
-                    border: '1px solid var(--border)',
+                    backgroundColor: 'var(--nb-surface-card)',
+                    border: '2px solid var(--nb-border)',
                     borderRadius: '8px',
                     color: 'var(--text-primary)',
                   }}
@@ -163,8 +163,8 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
 
         {/* Engagement table */}
         <div
-          className="rounded-xl border overflow-hidden"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+          className="nb-card overflow-hidden"
+          style={{ backgroundColor: 'var(--nb-surface-card)' }}
         >
           <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
             <h3 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>

@@ -2,6 +2,7 @@
 
 import { SortableSection } from '@/components/analytics/sortable-section';
 import { TopInsightsStrip } from '@/components/analytics/top-insights-strip';
+import type { StatType } from '@/lib/supabase/stats';
 import {
   closestCenter,
   DndContext,
@@ -12,7 +13,6 @@ import {
   type DragEndEvent,
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import type { StatType } from '@/lib/supabase/stats';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -25,8 +25,8 @@ function SectionSkeleton({ rows = 2 }: { rows?: number }) {
       {Array.from({ length: rows }).map((_, i) => (
         <div
           key={i}
-          className="rounded-xl border p-5 animate-pulse h-24"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+          className="nb-card-sm p-5 animate-pulse h-24"
+          style={{ backgroundColor: 'var(--nb-card-5)' }}
         />
       ))}
     </div>
@@ -144,11 +144,20 @@ export function AnalyticsDashboard() {
               key={f.id}
               type="button"
               onClick={() => setSelectedType(f.id)}
-              className="px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+              className="px-3 py-1.5 rounded-full text-xs font-semibold transition-transform"
               style={
                 selectedType === f.id
-                  ? { backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }
-                  : { backgroundColor: 'var(--surface)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }
+                  ? {
+                    backgroundColor: 'var(--nb-badge-bg)',
+                    color: 'var(--nb-badge-text)',
+                    border: '2px solid var(--nb-border)',
+                    boxShadow: 'var(--nb-shadow-sm)',
+                  }
+                  : {
+                    backgroundColor: 'var(--nb-surface-card)',
+                    color: 'var(--text-secondary)',
+                    border: '2px solid var(--nb-border)',
+                  }
               }
             >
               {f.label}

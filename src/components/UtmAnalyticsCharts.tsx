@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
-  BarChart,
   Bar,
+  BarChart,
+  Cell,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  Cell,
 } from 'recharts';
 
 const UTM_CHART_COLORS = [
@@ -111,8 +111,8 @@ export function UtmAnalyticsCharts() {
                 type="date"
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
-                className="rounded-lg border px-3 py-1.5 text-sm"
-                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-primary)' }}
+                className="rounded-lg px-3 py-1.5 text-sm"
+                style={{ border: '2px solid var(--nb-border)', backgroundColor: 'var(--nb-surface-card)', color: 'var(--text-primary)' }}
               />
             </label>
             <label className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -121,15 +121,15 @@ export function UtmAnalyticsCharts() {
                 type="date"
                 value={to}
                 onChange={(e) => setTo(e.target.value)}
-                className="rounded-lg border px-3 py-1.5 text-sm"
-                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-primary)' }}
+                className="rounded-lg px-3 py-1.5 text-sm"
+                style={{ border: '2px solid var(--nb-border)', backgroundColor: 'var(--nb-surface-card)', color: 'var(--text-primary)' }}
               />
             </label>
             <button
               type="button"
               onClick={handleApplyRange}
-              className="rounded-lg px-4 py-2 text-sm font-semibold transition-colors"
-              style={{ backgroundColor: 'var(--accent-500)', color: 'white' }}
+              className="nb-btn text-sm"
+              style={{ backgroundColor: 'var(--nb-card-2)', color: 'var(--text-primary)' }}
             >
               Apply
             </button>
@@ -137,14 +137,14 @@ export function UtmAnalyticsCharts() {
         </div>
 
         {error && (
-          <div className="rounded-xl border p-4 mb-6" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="nb-card-sm p-4 mb-6" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
             <p className="text-red-500">{error}</p>
           </div>
         )}
 
         {data && (
           <>
-            <div className="rounded-xl border p-5 mb-6" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+            <div className="nb-card p-5 mb-6" style={{ backgroundColor: 'var(--nb-card-0)' }}>
               <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
                 Total UTM visits (date range)
               </p>
@@ -157,7 +157,7 @@ export function UtmAnalyticsCharts() {
             </div>
 
             {data.bySource.length > 0 && (
-              <div className="rounded-xl border p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-1)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By UTM Source
                 </h3>
@@ -169,7 +169,7 @@ export function UtmAnalyticsCharts() {
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '1px solid var(--border)',
+                          border: '2px solid var(--nb-border)',
                           borderRadius: '8px',
                           color: 'var(--text-primary)',
                         }}
@@ -188,7 +188,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.byMedium.length > 0 && (
-              <div className="rounded-xl border p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-5)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By UTM Medium
                 </h3>
@@ -200,7 +200,7 @@ export function UtmAnalyticsCharts() {
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '1px solid var(--border)',
+                          border: '2px solid var(--nb-border)',
                           borderRadius: '8px',
                           color: 'var(--text-primary)',
                         }}
@@ -219,7 +219,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.byCampaign.length > 0 && (
-              <div className="rounded-xl border p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-2)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By UTM Campaign
                 </h3>
@@ -231,7 +231,7 @@ export function UtmAnalyticsCharts() {
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '1px solid var(--border)',
+                          border: '2px solid var(--nb-border)',
                           borderRadius: '8px',
                           color: 'var(--text-primary)',
                         }}
@@ -250,7 +250,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.daily.length > 0 && (
-              <div className="rounded-xl border p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-3)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   Visits per day
                 </h3>
@@ -267,7 +267,7 @@ export function UtmAnalyticsCharts() {
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '1px solid var(--border)',
+                          border: '2px solid var(--nb-border)',
                           borderRadius: '8px',
                           color: 'var(--text-primary)',
                         }}
@@ -290,7 +290,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.daily.length > 0 && (
-              <div className="rounded-xl border overflow-hidden" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="nb-card overflow-hidden" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
                 <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
                   <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
                     Daily breakdown
@@ -322,7 +322,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.total === 0 && !loading && (
-              <div className="rounded-xl border p-8 text-center" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="nb-card-sm p-8 text-center" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
                 <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
                   No UTM traffic in this date range. Share links with UTM params (e.g. ?utm_source=twitter&utm_medium=social&utm_campaign=share) to see data here.
                 </p>

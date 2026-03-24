@@ -70,20 +70,21 @@ export default function GlossaryPage() {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-          {terms.map(cat => (
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-14">
+          {terms.map((cat, catIdx) => (
             <section key={cat.category} id={cat.category.toLowerCase().replace(/\s+/g, '-')}>
-              <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
-                style={{ color: 'var(--text-muted)' }}>
-                {cat.category}
-              </h2>
-              <div className="space-y-4">
-                {cat.items.map(item => (
+              <p className="nb-section-label mb-4">{cat.category}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {cat.items.map((item, itemIdx) => (
                   <div key={item.term}
                     id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
-                    className="rounded-xl border p-5"
-                    style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-                    <h3 className="text-base font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+                    className="rounded-xl p-5 transition-all duration-150 hover:-translate-y-0.5"
+                    style={{
+                      backgroundColor: `var(--nb-card-${(catIdx * 3 + itemIdx) % 6})`,
+                      border: '2px solid var(--nb-border)',
+                      boxShadow: 'var(--nb-shadow-sm)',
+                    }}>
+                    <h3 className="text-base font-extrabold mb-2" style={{ color: 'var(--text-primary)' }}>
                       {item.term}
                     </h3>
                     <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>

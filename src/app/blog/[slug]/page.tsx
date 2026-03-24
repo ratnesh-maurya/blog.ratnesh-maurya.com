@@ -156,8 +156,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 lg:py-16">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-medium mb-8 transition-colors group hover:text-[var(--accent-600)]"
-            style={{ color: 'var(--text-secondary)' }}
+            className="nb-btn inline-flex items-center gap-2 text-sm mb-8"
+            style={{ backgroundColor: 'var(--nb-card-0)', color: 'var(--text-primary)' }}
           >
             <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -314,8 +314,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                           title: post.title,
                           description: post.description || '',
                         }).toString()}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all duration-200"
-                        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
+                        className="nb-btn inline-flex items-center gap-1.5 text-xs"
+                        style={{ backgroundColor: 'var(--nb-card-2)', color: 'var(--text-primary)' }}
                       >
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
@@ -403,8 +403,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div className="pt-6 flex items-center justify-between">
                   <Link
                     href="/blog"
-                    className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200"
-                    style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+                    className="nb-btn inline-flex items-center gap-2 text-sm"
+                    style={{ backgroundColor: 'var(--nb-card-0)', color: 'var(--text-primary)' }}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -416,7 +416,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </article>
 
             {/* Table of Contents — right sidebar on xl screens */}
-            <aside className="hidden xl:block self-start sticky top-24">
+            <aside className="hidden xl:block self-start sticky top-24 xl:translate-x-12">
               <TableOfContents />
             </aside>
           </div>

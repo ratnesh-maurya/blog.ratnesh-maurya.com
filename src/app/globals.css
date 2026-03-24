@@ -58,11 +58,11 @@
   --error:   #B91C1C;
   --info:    #6B7BEE;
 
-  /* Background & Surface — warm paper white */
-  --background:       #F9F8F5;
+  /* Background & Surface — warm cream (Neo-Brutalist) */
+  --background:       #FFFEF0;
   --surface:          #FFFFFF;
   --surface-elevated: #FFFFFF;
-  --surface-muted:    var(--neutral-100);
+  --surface-muted:    #F5F4E8;
   --foreground:       #1C1C1A;
   --muted:            var(--neutral-100);
   --border:           var(--neutral-300);
@@ -220,15 +220,15 @@
   --accent-900: #450A0A;
 }
 
-/* ─── Dark theme ─── */
+/* ─── Dark theme — Neo-Brutalist ─── */
 [data-theme="dark"] {
   color-scheme: dark;
 
-  /* Accent — vibrant blue (punchy, not washed-out) */
-  --accent-50:  #0A0A0B;
-  --accent-100: #111218;
-  --accent-200: #1A1E2E;
-  --accent-300: #2A3550;
+  /* Accent — keep blue as default for prose links */
+  --accent-50:  #0A0908;
+  --accent-100: #111009;
+  --accent-200: #1C1A10;
+  --accent-300: #2C2A18;
   --accent-400: #4D9EE8;
   --accent-500: #3B8FE4;
   --accent-600: #60A9F0;
@@ -247,55 +247,56 @@
   --primary-800: var(--accent-800);
   --primary-900: var(--accent-900);
 
-  /* Neutral scale — true neutral, no blue tint */
-  --neutral-50:  #0A0A0B;
-  --neutral-100: #141415;
-  --neutral-200: #1E1E1F;
-  --neutral-300: #2A2A2B;
-  --neutral-400: #3E3E3F;
-  --neutral-500: #6B6B6B;
-  --neutral-600: #A0A0A0;
-  --neutral-700: #C8C8C8;
-  --neutral-800: #EDEDEC;
-  --neutral-900: #EDEDEC;
-  --neutral-950: #F5F5F4;
+  /* Neutral scale — warm dark, not cold grey */
+  --neutral-50:  #0C0B0A;
+  --neutral-100: #161412;
+  --neutral-200: #201E1C;
+  --neutral-300: #2C2A26;
+  --neutral-400: #403E3A;
+  --neutral-500: #6A6660;
+  --neutral-600: #A09890;
+  --neutral-700: #C8C0B8;
+  --neutral-800: #E8E0D8;
+  --neutral-900: #F0E8E0;
+  --neutral-950: #F5F0E8;
 
-  /* Surfaces — true dark, no navy */
-  --background:       #0A0A0B;
-  --surface:          rgb(255 255 255 / 0.05);
-  --surface-elevated: rgb(255 255 255 / 0.08);
-  --surface-muted:    color-mix(in srgb, var(--accent-500) 3%, #141415);
-  --foreground:       #EDEDEC;
-  --muted:            #141415;
-  --border:           color-mix(in srgb, var(--accent-500) 8%, rgb(255 255 255 / 0.10));
+  /* Surfaces — warm dark (Neo-Brutalist) */
+  --background:       #0C0B0A;
+  --surface:          #161412;
+  --surface-elevated: #201E1C;
+  --surface-muted:    #181614;
+  --foreground:       #F0EBE4;
+  --muted:            #181614;
+  --border:           rgba(240, 235, 228, 0.12);
 
-  /* Text — warm gray, no blue cast */
-  --text-primary:   #EDEDEC;
-  --text-secondary: #A0A0A0;
-  --text-muted:     #6B6B6B;
-  --text-inverse:   #0A0A0B;
+  /* Text — warm off-white */
+  --text-primary:   #F0EBE4;
+  --text-secondary: rgba(240, 235, 228, 0.65);
+  --text-muted:     rgba(240, 235, 228, 0.38);
+  --text-inverse:   #0C0B0A;
 
-  --overlay-backdrop: rgb(0 0 0 / 0.76);
+  --overlay-backdrop: rgb(0 0 0 / 0.82);
 
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
-  --shadow-md: 0 4px 8px -2px rgb(0 0 0 / 0.6), 0 2px 4px -2px rgb(0 0 0 / 0.5);
-  --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.7), 0 4px 8px -4px rgb(0 0 0 / 0.6);
-  --shadow-xl: 0 24px 40px -8px rgb(0 0 0 / 0.8), 0 8px 16px -8px rgb(0 0 0 / 0.7);
+  /* No soft shadows in dark neo-brutalism */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
 
-  --card:                 rgb(255 255 255 / 0.05);
-  --card-foreground:      #EDEDEC;
-  --popover:              rgb(255 255 255 / 0.08);
-  --popover-foreground:   #EDEDEC;
-  --primary:              #3B8FE4;
-  --primary-foreground:   #0A0A0B;
-  --secondary:            #141415;
-  --secondary-foreground: #EDEDEC;
-  --accent:               rgb(59 143 228 / 0.16);
-  --accent-foreground:    #60A9F0;
-  --destructive:          #E85454;
-  --destructive-foreground: #0A0A0B;
-  --input:                #1E1E1F;
-  --ring:                 #3B8FE4;
+  --card:                 #161412;
+  --card-foreground:      #F0EBE4;
+  --popover:              #201E1C;
+  --popover-foreground:   #F0EBE4;
+  --primary:              #EA580C;
+  --primary-foreground:   #0C0B0A;
+  --secondary:            #201E1C;
+  --secondary-foreground: #F0EBE4;
+  --accent:               rgba(234, 88, 12, 0.15);
+  --accent-foreground:    #FB923C;
+  --destructive:          #EF4444;
+  --destructive-foreground: #0C0B0A;
+  --input:                #201E1C;
+  --ring:                 #EA580C;
 
   --gold-50:  #150F00;
   --gold-100: #2A1E00;
@@ -453,26 +454,26 @@
   text-decoration-color: var(--accent-500) !important;
 }
 
-/* ─── Header / Navigation ─── */
+/* ─── Header / Navigation — Neo-Brutalist ─── */
 .header-nav {
-  background: color-mix(in srgb, var(--background) 85%, transparent);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  transition: all 0.3s ease;
+  background: var(--background);
+  border-bottom: 2px solid #000000;
+  transition: background 0.2s ease;
   color: var(--text-primary);
 }
 
 [data-theme="dark"] .header-nav {
-  background: color-mix(in srgb, var(--background) 88%, transparent);
+  background: var(--background);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
 }
 
 .header-nav.scrolled {
-  background: color-mix(in srgb, var(--background) 96%, transparent);
-  box-shadow: var(--shadow-sm);
+  background: var(--background);
+  box-shadow: 0 2px 0 0 #000000;
 }
 
 [data-theme="dark"] .header-nav.scrolled {
-  background: color-mix(in srgb, var(--background) 98%, transparent);
+  box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.3);
 }
 
 .header-nav a,
@@ -1203,12 +1204,10 @@ html, body {
 
 .hero-gradient-bg {
   background-color: var(--background);
-  background-image: radial-gradient(ellipse 80% 60% at 50% -10%, var(--accent-50) 0%, transparent 70%);
 }
 
 [data-theme="dark"] .hero-gradient-bg {
   background-color: var(--background);
-  background-image: radial-gradient(ellipse 80% 60% at 50% -10%, color-mix(in srgb, var(--accent-500) 14%, transparent) 0%, transparent 70%);
 }
 
 .coral-gradient-bg {
@@ -1307,4 +1306,251 @@ html, body {
   .prose { max-width: none; }
   .prose h1, .prose h2, .prose h3 { page-break-after: avoid; }
   .prose p, .prose li { orphans: 3; widows: 3; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   NEO-BRUTALIST DESIGN SYSTEM
+   Hard borders · Flat shadows · Vibrant cards · Bold type
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  /* Neo-Brutalist border & shadow tokens */
+  --nb-border:     #000000;
+  --nb-border-w:   2px;
+  --nb-shadow:     4px 4px 0px 0px #000000;
+  --nb-shadow-sm:  2px 2px 0px 0px #000000;
+  --nb-shadow-lg:  6px 6px 0px 0px #000000;
+
+  /* Vibrant card palette — indexed for cycling */
+  --nb-card-0:       #C8FAD0;   /* mint green  */
+  --nb-card-1:       #EDE0FF;   /* lavender    */
+  --nb-card-2:       #FFE4CC;   /* peach       */
+  --nb-card-3:       #FFF9CC;   /* pale yellow */
+  --nb-card-4:       #FFD6EC;   /* blush       */
+  --nb-card-5:       #CCE8FF;   /* sky blue    */
+  --nb-card-featured: #FFE4CC;  /* hero card   */
+
+  /* Vibrant action colors */
+  --nb-orange-v:   #EA580C;
+  --nb-green-v:    #16A34A;
+  --nb-purple-v:   #7C3AED;
+  --nb-yellow-v:   #CA8A04;
+
+  /* Badge/button primary (inverted from bg) */
+  --nb-badge-bg:   #000000;
+  --nb-badge-text: #FFFEF0;
+
+  /* Surface for plain cards (FAQ, etc.) */
+  --nb-surface-card: #FFFFFF;
+}
+
+[data-theme="dark"] {
+  /* Dark neo-brutalist: white borders, white-tinted shadows */
+  --nb-border:    rgba(240, 235, 228, 0.85);
+  --nb-shadow:    4px 4px 0px 0px rgba(240, 235, 228, 0.28);
+  --nb-shadow-sm: 2px 2px 0px 0px rgba(240, 235, 228, 0.28);
+  --nb-shadow-lg: 6px 6px 0px 0px rgba(240, 235, 228, 0.28);
+
+  /* Dark card palette — visible tints above the dark background */
+  --nb-card-0:       #0D2B1A;   /* dark mint   */
+  --nb-card-1:       #1A1035;   /* dark purple */
+  --nb-card-2:       #2B1A0C;   /* dark peach  */
+  --nb-card-3:       #252006;   /* dark yellow */
+  --nb-card-4:       #2A0E1C;   /* dark pink   */
+  --nb-card-5:       #0A1F32;   /* dark blue   */
+  --nb-card-featured: #2B1A0C;  /* dark peach  */
+
+  /* Dark badge/button primary */
+  --nb-badge-bg:   rgba(240, 235, 228, 0.9);
+  --nb-badge-text: #0C0B0A;
+
+  /* Surface for plain cards */
+  --nb-surface-card: #161412;
+}
+
+/* ── Core components ── */
+
+.nb-card {
+  border: var(--nb-border-w) solid var(--nb-border);
+  border-radius: 12px;
+  box-shadow: var(--nb-shadow);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  background: #ffffff;
+}
+.nb-card:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--nb-shadow-sm);
+}
+
+.nb-card-sm {
+  border: var(--nb-border-w) solid var(--nb-border);
+  border-radius: 10px;
+  box-shadow: var(--nb-shadow-sm);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.nb-card-sm:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px 0px var(--nb-border);
+}
+
+.nb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: var(--nb-border-w) solid var(--nb-border);
+  border-radius: 8px;
+  box-shadow: var(--nb-shadow);
+  font-weight: 700;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.875rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
+}
+.nb-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--nb-shadow-sm);
+}
+.nb-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.nb-btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+}
+
+.nb-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--nb-border);
+  border-radius: 9999px;
+  font-weight: 800;
+  font-size: 0.65rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.nb-tag {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid var(--nb-border);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.5rem;
+  line-height: 1.4;
+}
+
+.nb-separator {
+  border: none;
+  border-top: 2px solid #000000;
+}
+
+[data-theme="dark"] .nb-separator {
+  border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+.nb-input {
+  border: 2px solid var(--nb-border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: box-shadow 0.12s ease;
+}
+.nb-input:focus {
+  outline: none;
+  box-shadow: var(--nb-shadow-sm);
+}
+
+/* ── Section header ── */
+.nb-section-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000000;
+}
+[data-theme="dark"] .nb-section-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ── Hover underline on headings ── */
+.nb-title-hover:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* ── Gradient text (orange) ── */
+.nb-gradient-text {
+  background: linear-gradient(135deg, #EA580C 0%, #F97316 50%, #FBBF24 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Dark mode card overrides ── */
+[data-theme="dark"] .nb-card,
+[data-theme="dark"] .nb-card-sm {
+  background: var(--surface);
+  border-color: var(--nb-border);
+  box-shadow: var(--nb-shadow);
+}
+[data-theme="dark"] .nb-card:hover,
+[data-theme="dark"] .nb-card-sm:hover {
+  box-shadow: var(--nb-shadow-sm);
+}
+
+/* ── Nav active pill ── */
+.nb-nav-active {
+  background: #000000 !important;
+  color: #FFFEF0 !important;
+  border-color: #000000 !important;
+}
+[data-theme="dark"] .nb-nav-active {
+  background: rgba(240, 235, 228, 0.9) !important;
+  color: #0C0B0A !important;
+  border-color: rgba(240, 235, 228, 0.9) !important;
+}
+
+/* ── Primary badge (auto-inverts with theme) ── */
+.nb-badge-primary {
+  background-color: var(--nb-badge-bg);
+  color: var(--nb-badge-text);
+  border-color: var(--nb-badge-bg);
+}
+
+/* ── Muted badge (soft fill, works in both themes) ── */
+.nb-badge-muted {
+  background-color: var(--surface);
+  color: var(--text-secondary);
+  border-color: var(--nb-border);
+}
+
+/* ── CTA button — primary (auto-inverts) ── */
+.nb-btn-primary {
+  background-color: var(--nb-badge-bg);
+  color: var(--nb-badge-text);
+  border-color: var(--nb-badge-bg);
+}
+
+/* ── Orange CTA (stays orange in both themes) ── */
+.nb-btn-orange {
+  background-color: #EA580C;
+  color: #FFFEF0;
+  border-color: #000;
+}
+[data-theme="dark"] .nb-btn-orange {
+  border-color: rgba(240, 235, 228, 0.7);
 }

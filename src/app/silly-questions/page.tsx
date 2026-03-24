@@ -103,8 +103,7 @@ export default async function SillyQuestionsPage() {
             {/* Stats */}
             <div className="flex flex-wrap items-center gap-3 mt-6 pt-6"
               style={{ borderTop: '1px solid var(--border)' }}>
-              <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1 rounded-full font-medium"
-                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+              <span className="nb-badge nb-badge-muted">
                 {questions.length} questions & answers
               </span>
               <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1 rounded-full font-medium"

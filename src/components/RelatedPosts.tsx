@@ -30,26 +30,25 @@ export function RelatedPosts({ currentSlug, currentCategory, currentTags, allPos
   if (related.length === 0) return null;
 
   return (
-    <section className="mt-12 pt-8" style={{ borderTop: '1px solid var(--border)' }}
+    <section className="mt-12 pt-8" style={{ borderTop: '2px solid var(--nb-border)' }}
       aria-label="Related posts">
       <h2 className="text-xs font-semibold uppercase tracking-widest mb-4"
         style={{ color: 'var(--text-muted)' }}>
         Related Posts
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {related.map(post => (
+        {related.map((post, i) => (
           <Link key={post.slug} href={`/blog/${post.slug}`}
-            className="group flex flex-col gap-1.5 p-4 rounded-xl border transition-all duration-200"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-            <span className="text-xs font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--accent-500)' }}>
+            className="group nb-card flex flex-col gap-1.5 p-4"
+            style={{ backgroundColor: `var(--nb-card-${i % 6})` }}>
+            <span className="nb-badge nb-badge-muted self-start">
               {post.category}
             </span>
-            <span className="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-[var(--accent-500)] transition-colors"
+            <span className="text-sm font-bold leading-snug line-clamp-2 nb-title-hover"
               style={{ color: 'var(--text-primary)' }}>
               {post.title}
             </span>
-            <span className="text-xs mt-auto pt-1" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-xs mt-auto pt-1 font-semibold" style={{ color: 'var(--text-muted)' }}>
               {post.readingTime}
             </span>
           </Link>

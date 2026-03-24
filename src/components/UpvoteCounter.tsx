@@ -109,7 +109,7 @@ export function UpvoteCounter({
         className={`inline-flex flex-row items-center justify-center gap-1.5 px-3 py-2 border rounded-md transition-all duration-200 disabled:cursor-not-allowed ${className}`}
         style={
           hasUpvoted
-            ? { borderColor: 'var(--accent-400)', backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
+            ? { borderColor: 'var(--nb-border)', backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }
             : { borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }
         }
         title={hasUpvoted ? 'Already upvoted' : 'Upvote this post'}

@@ -16,7 +16,7 @@ interface HeaderProps {
 const primaryNav = [
   { label: 'Blog', href: '/blog' },
   { label: 'Questions', href: '/silly-questions' },
-  { label: 'Technical Terms', href: '/technical-terms' },
+  { label: 'Terms', href: '/technical-terms' },
   { label: 'About', href: '/about' },
 ];
 
@@ -120,63 +120,90 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
   return (
     <nav
       id="navigation"
-      className={`header-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'scrolled backdrop-blur-md shadow-sm' : ''}`}
+      className={`header-nav fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${isScrolled ? 'scrolled' : ''}`}
       role="navigation"
       aria-label="Main navigation"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link
-              href="/"
-              className="text-xl font-extrabold tracking-tight transition-opacity duration-200 hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2"
-              style={{ color: 'var(--text-primary)', outlineColor: 'var(--accent-500)' }}
+
+          {/* ── Logo ── */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 group focus-visible:outline-2 focus-visible:outline-offset-2"
+            style={{ outlineColor: 'var(--accent-500)' }}
+          >
+            <span
+              className="inline-flex w-8 h-8 items-center justify-center rounded-lg flex-shrink-0 transition-transform duration-150 group-hover:scale-95"
+              style={{ backgroundColor: 'var(--text-primary)', border: '2px solid var(--nb-border)' }}
             >
+              <span className="text-xs font-black" style={{ color: 'var(--background)' }}>R</span>
+            </span>
+            <span className="text-lg font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>
               Ratn<span style={{ color: 'var(--accent-500)' }}>Labs</span>
-            </Link>
-          </div>
-          <div className="flex items-center space-x-1.5">
-            <div className="hidden md:flex items-center space-x-1">
+            </span>
+          </Link>
+
+          {/* ── Right section ── */}
+          <div className="flex items-center gap-2">
+
+            {/* Desktop nav */}
+            <div className="hidden md:flex items-center gap-0.5">
               {primaryNav.map(item => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => trackNavigation(item.href, 'navbar')}
-                  className="px-3.5 py-2 rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all duration-150 border-2 focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                    isActiveLink(item.href) ? 'nb-nav-active' : 'border-transparent hover:border-current'
+                  }`}
                   style={isActiveLink(item.href)
-                    ? { color: 'var(--accent-500)', borderBottom: '2px solid var(--accent-500)', outlineColor: 'var(--accent-500)' }
-                    : { color: 'var(--text-secondary)', borderBottom: '2px solid transparent', outlineColor: 'var(--accent-500)' }
+                    ? { outlineColor: 'var(--accent-500)' }
+                    : { color: 'var(--text-primary)', outlineColor: 'var(--accent-500)' }
                   }
                 >
                   {item.label}
                 </Link>
               ))}
 
+              {/* More dropdown */}
               <div className="relative" ref={moreRef}>
                 <button
                   ref={triggerRef}
                   onClick={() => { setMoreOpen(prev => !prev); if (!moreOpen) setFocusIndex(0); }}
                   onKeyDown={handleTriggerKeyDown}
-                  className="px-3.5 py-2 rounded-md text-sm font-medium transition-all duration-200 inline-flex items-center gap-1 focus-visible:outline-2 focus-visible:outline-offset-2"
-                  style={isMoreActive
-                    ? { color: 'var(--accent-500)', borderBottom: '2px solid var(--accent-500)', outlineColor: 'var(--accent-500)' }
-                    : { color: 'var(--text-secondary)', borderBottom: '2px solid transparent', outlineColor: 'var(--accent-500)' }
+                  className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all duration-150 border-2 inline-flex items-center gap-1 focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                    isMoreActive || moreOpen ? 'nb-nav-active' : 'border-transparent hover:border-current'
+                  }`}
+                  style={isMoreActive || moreOpen
+                    ? { outlineColor: 'var(--accent-500)' }
+                    : { color: 'var(--text-primary)', outlineColor: 'var(--accent-500)' }
                   }
                   aria-expanded={moreOpen}
                   aria-haspopup="true"
                   aria-controls="more-menu"
                 >
                   More
-                  <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className={`w-3 h-3 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
 
                 {moreOpen && (
                   <div
                     id="more-menu"
-                    className="absolute right-0 top-full mt-2 w-48 rounded-2xl shadow-xl py-2 z-50 animate-fade-in"
-                    style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
+                    className="absolute right-0 top-full mt-2 w-48 rounded-xl py-1 z-50 overflow-hidden"
+                    style={{
+                      backgroundColor: 'var(--background)',
+                      border: '2px solid var(--nb-border)',
+                      boxShadow: 'var(--nb-shadow)',
+                    }}
                     role="menu"
                     aria-label="More pages"
                   >
@@ -187,11 +214,28 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                         href={item.href}
                         onClick={() => { trackNavigation(item.href, 'navbar-more'); closeMenu(); }}
                         onKeyDown={(e) => handleMenuKeyDown(e, index)}
-                        className="block px-4 py-2.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
+                        className={`block px-4 py-2.5 text-sm font-semibold transition-all duration-100 focus-visible:outline-2 focus-visible:outline-offset-[-2px] ${
+                          isActiveLink(item.href) ? 'nb-nav-active' : ''
+                        }`}
                         style={isActiveLink(item.href)
-                          ? { color: 'var(--accent-500)', borderLeft: '2px solid var(--accent-500)', outlineColor: 'var(--accent-500)' }
-                          : { color: 'var(--text-secondary)', borderLeft: '2px solid transparent', outlineColor: 'var(--accent-500)' }
+                          ? { outlineColor: 'var(--accent-500)' }
+                          : {
+                              color: 'var(--text-primary)',
+                              outlineColor: 'var(--accent-500)',
+                            }
                         }
+                        onMouseEnter={e => {
+                          if (!isActiveLink(item.href)) {
+                            (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--text-primary)';
+                            (e.currentTarget as HTMLElement).style.color = 'var(--background)';
+                          }
+                        }}
+                        onMouseLeave={e => {
+                          if (!isActiveLink(item.href)) {
+                            (e.currentTarget as HTMLElement).style.backgroundColor = '';
+                            (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
+                          }
+                        }}
                         role="menuitem"
                         tabIndex={focusIndex === index ? 0 : -1}
                       >
@@ -203,24 +247,28 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
               </div>
             </div>
 
+            {/* Search + theme toggle */}
             <ClientNavigation onSearchOpen={onSearchOpen} />
 
+            {/* Mobile hamburger */}
             <div className="md:hidden">
               <button
                 onClick={onMobileMenuToggle}
-                className="inline-flex items-center justify-center p-2 rounded-md transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2"
-                style={isMobileMenuOpen
-                  ? { backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)', outlineColor: 'var(--accent-500)' }
-                  : { color: 'var(--text-muted)', outlineColor: 'var(--accent-500)' }
-                }
+                className="inline-flex items-center justify-center p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 border-2"
+                style={{
+                  borderColor: 'var(--nb-border)',
+                  backgroundColor: isMobileMenuOpen ? 'var(--text-primary)' : 'transparent',
+                  color: isMobileMenuOpen ? 'var(--background)' : 'var(--text-primary)',
+                  outlineColor: 'var(--accent-500)',
+                }}
                 aria-expanded={isMobileMenuOpen}
                 aria-label={isMobileMenuOpen ? 'Close main menu' : 'Open main menu'}
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   {isMobileMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
                   ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16" />
                   )}
                 </svg>
               </button>

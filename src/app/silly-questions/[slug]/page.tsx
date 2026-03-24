@@ -138,10 +138,7 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
             <header className="mb-10">
               {/* Metadata row */}
               <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-                <span
-                  className="inline-flex items-center font-semibold px-2.5 py-1 rounded-full"
-                  style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
-                >
+                <span className="nb-badge nb-badge-primary inline-flex items-center">
                   {question.category}
                 </span>
                 <span aria-hidden="true" style={{ color: 'var(--border)' }}>·</span>
@@ -175,11 +172,7 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
               {/* Tags */}
               <div className="flex flex-wrap gap-1.5">
                 {question.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs px-2 py-0.5 rounded-md"
-                    style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}
-                  >
+                  <span key={tag} className="nb-badge nb-badge-muted">
                     #{tag}
                   </span>
                 ))}
@@ -187,12 +180,12 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
             </header>
 
             {/* Answer section */}
-            <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid var(--border)' }}>
+            <div className="rounded-2xl overflow-hidden" style={{ border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
               <div
                 className="px-5 py-3 flex items-center gap-2.5"
                 style={{
-                  background: 'var(--accent-50)',
-                  borderBottom: '1px solid var(--border)',
+                  backgroundColor: 'var(--nb-card-0)',
+                  borderBottom: '2px solid var(--nb-border)',
                 }}
               >
                 <div

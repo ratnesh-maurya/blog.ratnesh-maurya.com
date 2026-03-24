@@ -132,8 +132,7 @@ const ACCENT_PALETTES: AccentPalette[] = [
   },
 ];
 
-const STORAGE_KEY = 'accent-color';
-const DEFAULT_ACCENT = 'blue';
+const DEFAULT_ACCENT = 'orange';
 
 interface AccentColorContextType {
   accentId: string;
@@ -160,19 +159,19 @@ export function AccentColorProvider({ children }: { children: React.ReactNode })
   const [accentId, setAccentIdState] = useState(DEFAULT_ACCENT);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && ACCENT_PALETTES.some((p) => p.id === stored)) {
-      setAccentIdState(stored);
-      applyPalette(stored);
-    } else {
-      applyPalette(DEFAULT_ACCENT);
-    }
+    let initial = DEFAULT_ACCENT;
+    try {
+      const stored = localStorage.getItem('accent_color');
+      if (stored && ACCENT_PALETTES.some(p => p.id === stored)) initial = stored;
+    } catch { /* ignore */ }
+    setAccentIdState(initial);
+    applyPalette(initial);
   }, []);
 
   const setAccentId = useCallback((id: string) => {
     setAccentIdState(id);
-    localStorage.setItem(STORAGE_KEY, id);
     applyPalette(id);
+    try { localStorage.setItem('accent_color', id); } catch { /* ignore */ }
   }, []);
 
   return (

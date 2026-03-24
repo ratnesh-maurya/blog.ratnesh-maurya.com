@@ -22,8 +22,7 @@ export function RelatedTerms({ terms }: RelatedTermsProps) {
           <Link
             key={term.slug}
             href={`/technical-terms/${term.slug}/`}
-            className="text-xs font-medium px-3 py-1.5 rounded-full border transition-colors"
-            style={{ borderColor: 'var(--border)', color: 'var(--accent-600)', backgroundColor: 'var(--accent-50)' }}
+            className="nb-badge nb-badge-primary transition-opacity duration-150 hover:opacity-75"
           >
             {term.title}
           </Link>

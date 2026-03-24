@@ -1,6 +1,19 @@
 {
   "blogPosts": [
     {
+      "slug": "cursor-claude-personas-give-your-ai-coding-assistant-a-domain-expert-brain-in-30-seconds",
+      "title": "cursor-claude-personas: Give Your AI Coding Assistant a Domain Expert Brain in 30 Seconds",
+      "description": "A free, open-source collection of 38 role-based AI persona packs for Claude Code, Cursor, and VS Code. Copy one folder into your project and your AI assistant instantly behaves like a seasoned specialist.",
+      "tags": [
+        "AI",
+        "Developer Tools",
+        "Cursor",
+        "Claude"
+      ],
+      "category": "Tooling and DX",
+      "date": "2026-03-21"
+    },
+    {
       "slug": "Distributed-Caching-Strategies-Architecture",
       "title": "Five Caching Strategies Every Backend Dev Should Know",
       "description": "A beginner-friendly guide to Cache-Aside, Read-Through, Write-Through, Write-Back, and Write-Around, with when to use each.",

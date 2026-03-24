@@ -2,46 +2,155 @@
  * Generate all OG images at build time into public/og/.
  * Uses @vercel/og; no Next server. Run in postbuild.
  */
-import React from 'react';
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
+import React from 'react';
 import { fileURLToPath } from 'url';
 import {
-  getBlogPostSlugs,
   getBlogPostListingMeta,
-  getSillyQuestionSlugs,
+  getBlogPostSlugs,
   getSillyQuestion,
-  getTechnicalTermSlugs,
+  getSillyQuestionSlugs,
   getTechnicalTermListingMeta,
-  getTILSlugs,
+  getTechnicalTermSlugs,
   getTILEntry,
+  getTILSlugs,
 } from '../src/lib/content';
-import { getCheatsheetSlugs, getCheatsheet } from '../src/lib/static-content';
+import { getCheatsheet, getCheatsheetSlugs } from '../src/lib/static-content';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const outDir = path.join(rootDir, 'public', 'og');
 
 const BRAND = {
-  bgStart: '#0a0f1a',
-  bgMid: '#0f172a',
-  bgEnd: '#0c1222',
-  accent: '#0066CC',
-  accentLight: '#5B9BD5',
-  coral: '#f97316',
-  textPrimary: '#f1f5f9',
-  textMuted: '#94a3b8',
-  textMid: '#cbd5e1',
-  textLow: '#64748b',
-  separator: '#475569',
-  dotColor: 'rgba(148,163,184,0.08)',
-  dotOpacity: 0.6,
-  glowColor: 'rgba(0,102,204,0.15)',
-  glowCoral: 'rgba(249,115,22,0.08)',
-  badgeBg: 'rgba(0,102,204,0.12)',
-  badgeBorder: 'rgba(0,102,204,0.3)',
+  textPrimary: '#1f1a14',
+  textMuted: '#4f463b',
+  textMid: '#6b6052',
+  textLow: '#8a7e6f',
+  separator: '#8f8374',
+  displayFont: 'Space Grotesk, Sora, Manrope, Helvetica Neue, sans-serif',
+  bodyFont: 'IBM Plex Sans, Avenir Next, Segoe UI, sans-serif',
 } as const;
+
+const RETRO = {
+  borderColor: '#000000',
+  borderWidth: '2px',
+  radiusCard: '12px',
+  radiusButton: '8px',
+  shadow: '4px 4px 0px 0px #000000',
+  shadowSm: '2px 2px 0px 0px #000000',
+} as const;
+
+type OgThemeName = 'default' | 'blog' | 'cheatsheets' | 'silly' | 'technical-terms' | 'til';
+
+type OgTheme = {
+  bgStart: string;
+  bgMid: string;
+  bgEnd: string;
+  accent: string;
+  accentLight: string;
+  secondaryAccent: string;
+  gridColor: string;
+  beamColor: string;
+  glowColor: string;
+  glowSecondary: string;
+  badgeBg: string;
+  badgeBorder: string;
+  stampText: string;
+};
+
+const THEMES: Record<OgThemeName, OgTheme> = {
+  default: {
+    bgStart: '#fff9ec',
+    bgMid: '#fff4df',
+    bgEnd: '#f6ead4',
+    accent: '#1b6ac9',
+    accentLight: '#2f7dd8',
+    secondaryAccent: '#d18824',
+    gridColor: 'rgba(60, 47, 29, 0.10)',
+    beamColor: 'rgba(27, 106, 201, 0.10)',
+    glowColor: 'rgba(27, 106, 201, 0.16)',
+    glowSecondary: 'rgba(209, 136, 36, 0.14)',
+    badgeBg: 'rgba(27, 106, 201, 0.08)',
+    badgeBorder: 'rgba(27, 106, 201, 0.28)',
+    stampText: 'RATNLABS // RETRO ENGINEERING',
+  },
+  blog: {
+    bgStart: '#f8fbff',
+    bgMid: '#edf6ff',
+    bgEnd: '#e2f0ff',
+    accent: '#005bb5',
+    accentLight: '#0a6ecf',
+    secondaryAccent: '#3f8cff',
+    gridColor: 'rgba(19, 55, 95, 0.10)',
+    beamColor: 'rgba(0, 91, 181, 0.10)',
+    glowColor: 'rgba(0, 91, 181, 0.16)',
+    glowSecondary: 'rgba(63, 140, 255, 0.14)',
+    badgeBg: 'rgba(0, 91, 181, 0.08)',
+    badgeBorder: 'rgba(0, 91, 181, 0.28)',
+    stampText: 'RATNLABS // ENGINEERING JOURNAL',
+  },
+  cheatsheets: {
+    bgStart: '#f7fff8',
+    bgMid: '#ebfaef',
+    bgEnd: '#ddf3e4',
+    accent: '#18794e',
+    accentLight: '#238b5d',
+    secondaryAccent: '#bc8d2f',
+    gridColor: 'rgba(28, 69, 49, 0.10)',
+    beamColor: 'rgba(24, 121, 78, 0.10)',
+    glowColor: 'rgba(24, 121, 78, 0.16)',
+    glowSecondary: 'rgba(188, 141, 47, 0.14)',
+    badgeBg: 'rgba(24, 121, 78, 0.08)',
+    badgeBorder: 'rgba(24, 121, 78, 0.30)',
+    stampText: 'RATNLABS // FIELD REFERENCE',
+  },
+  silly: {
+    bgStart: '#fff8f5',
+    bgMid: '#ffefe8',
+    bgEnd: '#ffe4d8',
+    accent: '#c24d2c',
+    accentLight: '#d35f3d',
+    secondaryAccent: '#cf8d18',
+    gridColor: 'rgba(102, 43, 24, 0.10)',
+    beamColor: 'rgba(194, 77, 44, 0.10)',
+    glowColor: 'rgba(194, 77, 44, 0.15)',
+    glowSecondary: 'rgba(207, 141, 24, 0.14)',
+    badgeBg: 'rgba(194, 77, 44, 0.08)',
+    badgeBorder: 'rgba(194, 77, 44, 0.30)',
+    stampText: 'RATNLABS // BUGS & LESSONS',
+  },
+  'technical-terms': {
+    bgStart: '#fffdf8',
+    bgMid: '#f9f5ec',
+    bgEnd: '#f0eadf',
+    accent: '#a16a0f',
+    accentLight: '#b57919',
+    secondaryAccent: '#4f6fb8',
+    gridColor: 'rgba(62, 50, 30, 0.10)',
+    beamColor: 'rgba(161, 106, 15, 0.10)',
+    glowColor: 'rgba(161, 106, 15, 0.16)',
+    glowSecondary: 'rgba(79, 111, 184, 0.12)',
+    badgeBg: 'rgba(161, 106, 15, 0.08)',
+    badgeBorder: 'rgba(161, 106, 15, 0.28)',
+    stampText: 'RATNLABS // SYSTEMS LEXICON',
+  },
+  til: {
+    bgStart: '#f4fffe',
+    bgMid: '#e9faf9',
+    bgEnd: '#dcf2f0',
+    accent: '#1f7d80',
+    accentLight: '#2e8f92',
+    secondaryAccent: '#cb6e4c',
+    gridColor: 'rgba(25, 72, 74, 0.10)',
+    beamColor: 'rgba(31, 125, 128, 0.10)',
+    glowColor: 'rgba(31, 125, 128, 0.16)',
+    glowSecondary: 'rgba(203, 110, 76, 0.12)',
+    badgeBg: 'rgba(31, 125, 128, 0.08)',
+    badgeBorder: 'rgba(31, 125, 128, 0.28)',
+    stampText: 'RATNLABS // LEARNING LOGBOOK',
+  },
+};
 
 function sanitize(text: string, maxLen: number): string {
   const t = String(text).replace(/^["']|["']$/g, '').trim();
@@ -64,15 +173,16 @@ function buildOgElement(
   title: string,
   subtitle: string,
   breadcrumb?: string,
-  accent: string = BRAND.accent
+  themeName: OgThemeName = 'default'
 ): React.ReactElement {
+  const theme = THEMES[themeName];
 
   const titleLength = title.length;
 
   const titleFontSize =
-    titleLength > 90 ? 48 :
-      titleLength > 65 ? 56 :
-        64;
+    titleLength > 90 ? 56 :
+      titleLength > 65 ? 66 :
+        78;
 
   return (
     <div
@@ -82,37 +192,58 @@ function buildOgElement(
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        background: `linear-gradient(145deg, ${BRAND.bgStart} 0%, ${BRAND.bgMid} 60%, ${BRAND.bgEnd} 100%)`,
-        padding: '72px 80px',
+        background: `linear-gradient(135deg, ${theme.bgStart} 0%, ${theme.bgMid} 52%, ${theme.bgEnd} 100%)`,
+        padding: '64px 72px',
         position: 'relative',
-        fontFamily: 'Inter, system-ui, sans-serif',
+        fontFamily: BRAND.bodyFont,
+        overflow: 'hidden',
+        border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
+        borderRadius: RETRO.radiusCard,
+        boxShadow: RETRO.shadow,
       }}
     >
-      {/* Subtle dot grid */}
+      {/* Structural grid texture */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `radial-gradient(circle, ${BRAND.dotColor} 1px, transparent 1px)`,
-          backgroundSize: '40px 40px',
-          opacity: BRAND.dotOpacity,
+          backgroundImage: `
+            linear-gradient(${theme.gridColor} 1px, transparent 1px),
+            linear-gradient(90deg, ${theme.gridColor} 1px, transparent 1px)
+          `,
+          backgroundSize: '44px 44px',
+          opacity: 0.85,
         }}
       />
 
-      {/* Accent glow — top right */}
+      {/* Energetic diagonal light beam */}
       <div
         style={{
           position: 'absolute',
-          top: '-200px',
-          right: '-100px',
-          width: '600px',
-          height: '600px',
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${BRAND.glowColor} 0%, transparent 60%)`,
+          top: '-120px',
+          right: '-320px',
+          width: '980px',
+          height: '220px',
+          transform: 'rotate(-18deg)',
+          background: `linear-gradient(90deg, transparent 0%, ${theme.beamColor} 55%, transparent 100%)`,
+          filter: 'blur(1px)',
         }}
       />
 
-      {/* Warm glow — bottom left */}
+      {/* Accent glow top-right */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-160px',
+          right: '-90px',
+          width: '520px',
+          height: '520px',
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${theme.glowColor} 0%, transparent 60%)`,
+        }}
+      />
+
+      {/* Warm glow bottom-left */}
       <div
         style={{
           position: 'absolute',
@@ -121,7 +252,44 @@ function buildOgElement(
           width: '400px',
           height: '400px',
           borderRadius: '50%',
-          background: `radial-gradient(circle, ${BRAND.glowCoral} 0%, transparent 65%)`,
+          background: `radial-gradient(circle, ${theme.glowSecondary} 0%, transparent 65%)`,
+        }}
+      />
+
+      {/* Memorable anchor: angled brand stamp */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '26px',
+          right: '-66px',
+          width: '340px',
+          padding: '10px 20px',
+          border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
+          background: 'rgba(255, 250, 241, 0.92)',
+          color: BRAND.textPrimary,
+          fontFamily: BRAND.displayFont,
+          fontWeight: 800,
+          fontSize: '14px',
+          letterSpacing: '0.11em',
+          textAlign: 'center',
+          transform: 'rotate(16deg)',
+          boxShadow: RETRO.shadowSm,
+        }}
+      >
+        {theme.stampText}
+      </div>
+
+      {/* Left timeline bar */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '34px',
+          top: '40px',
+          bottom: '40px',
+          width: '3px',
+          borderRadius: '3px',
+          background: `linear-gradient(180deg, ${theme.accent} 0%, rgba(45, 35, 22, 0.2) 100%)`,
+          opacity: 0.9,
         }}
       />
 
@@ -130,8 +298,10 @@ function buildOgElement(
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
+          gap: '18px',
           position: 'relative',
+          marginLeft: '20px',
+          maxWidth: '1010px',
         }}
       >
         {/* Breadcrumb line */}
@@ -139,60 +309,111 @@ function buildOgElement(
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '10px',
-            fontSize: '17px',
+            gap: '12px',
+            fontSize: '16px',
             color: BRAND.textLow,
-            letterSpacing: '0.02em',
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
           }}
         >
-          <span style={{ fontWeight: 600, color: BRAND.textMuted }}>RatnLabs</span>
+          <span style={{ fontWeight: 700, color: BRAND.textMuted }}>RatnLabs</span>
           {breadcrumb && (
             <>
               <span style={{ color: BRAND.separator }}>/</span>
-              <span style={{ color: accent, fontWeight: 600 }}>
+              <span style={{ color: theme.accent, fontWeight: 700 }}>
                 {breadcrumb}
               </span>
             </>
           )}
         </div>
 
-        {/* Accent bar */}
+        {/* Accent rail */}
         <div
           style={{
-            width: '64px',
-            height: '4px',
-            borderRadius: '4px',
-            background: accent,
+            width: '220px',
+            height: '12px',
+            borderRadius: RETRO.radiusButton,
+            background: `linear-gradient(90deg, ${theme.accent} 0%, ${theme.secondaryAccent} 100%)`,
+            border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
+            boxShadow: RETRO.shadowSm,
           }}
         />
 
-        {/* Title */}
+        {/* Headline panel */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            fontSize: `${titleFontSize}px`,
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: '-0.03em',
-            color: BRAND.textPrimary,
-            maxWidth: '920px',
+            gap: '14px',
+            background: 'rgba(255, 255, 255, 0.6)',
+            border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
+            borderLeft: `12px solid ${theme.accent}`,
+            borderRadius: RETRO.radiusCard,
+            padding: '20px 24px',
+            backdropFilter: 'blur(1px)',
+            boxShadow: RETRO.shadow,
           }}
         >
-          {title}
+          <div
+            style={{
+              fontSize: `${titleFontSize}px`,
+              fontFamily: BRAND.displayFont,
+              fontWeight: 900,
+              lineHeight: 0.97,
+              letterSpacing: '-0.04em',
+              color: BRAND.textPrimary,
+              textWrap: 'balance',
+            }}
+          >
+            {title}
+          </div>
+
+          {/* Subtitle */}
+          <div
+            style={{
+              fontSize: '23px',
+              fontWeight: 600,
+              color: BRAND.textMuted,
+              lineHeight: 1.28,
+              maxWidth: '920px',
+              textWrap: 'pretty',
+            }}
+          >
+            {subtitle}
+          </div>
         </div>
 
-        {/* Subtitle */}
         <div
           style={{
-            fontSize: '24px',
-            fontWeight: 400,
-            color: BRAND.textMuted,
-            maxWidth: '720px',
-            lineHeight: 1.4,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '20px',
           }}
         >
-          {subtitle}
+          <span
+            style={{
+              fontSize: '14px',
+              color: BRAND.textMid,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              fontWeight: 700,
+            }}
+          >
+            Read more at blog.ratnesh-maurya.com
+          </span>
+
+          <span
+            style={{
+              fontSize: '13px',
+              color: BRAND.textLow,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              fontWeight: 700,
+            }}
+          >
+            RatnLabs
+          </span>
         </div>
       </div>
 
@@ -203,6 +424,7 @@ function buildOgElement(
           alignItems: 'center',
           justifyContent: 'space-between',
           position: 'relative',
+          marginLeft: '20px',
         }}
       >
         <div
@@ -210,10 +432,11 @@ function buildOgElement(
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            background: BRAND.badgeBg,
-            border: `1px solid ${BRAND.badgeBorder}`,
-            borderRadius: '100px',
-            padding: '8px 20px',
+            background: theme.badgeBg,
+            border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
+            borderRadius: RETRO.radiusButton,
+            padding: '10px 20px',
+            boxShadow: RETRO.shadowSm,
           }}
         >
           <div
@@ -221,15 +444,17 @@ function buildOgElement(
               width: '8px',
               height: '8px',
               borderRadius: '50%',
-              background: accent,
+              background: theme.accent,
+              border: `1px solid ${RETRO.borderColor}`,
             }}
           />
           <span
             style={{
-              color: BRAND.accentLight,
-              fontSize: '15px',
-              fontWeight: 600,
-              letterSpacing: '0.01em',
+              color: theme.accentLight,
+              fontSize: '14px',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
             }}
           >
             Ratnesh Maurya
@@ -239,13 +464,35 @@ function buildOgElement(
         <span
           style={{
             fontSize: '14px',
-            color: BRAND.textLow,
-            letterSpacing: '0.05em',
+            color: BRAND.textMid,
+            letterSpacing: '0.09em',
+            textTransform: 'uppercase',
           }}
         >
           blog.ratnesh-maurya.com
         </span>
       </div>
+
+      {/* Premium frame */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: '16px',
+          border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
+          opacity: 0.28,
+          pointerEvents: 'none',
+          borderRadius: RETRO.radiusCard,
+        }}
+      />
+
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'repeating-linear-gradient(0deg, rgba(26, 20, 12, 0.015) 0px, rgba(26, 20, 12, 0.015) 1px, transparent 1px, transparent 3px)',
+          pointerEvents: 'none',
+        }}
+      />
     </div>
   );
 }
@@ -265,23 +512,23 @@ async function writePng(dir: string, name: string, element: React.ReactElement):
   }
 }
 
-const SECTION_PAGES: Array<{ path: string; title: string; subtitle: string; breadcrumb?: string }> = [
-  { path: 'home', title: 'Ratn Labs', subtitle: 'Systems, Backend & AI Engineering' },
-  { path: 'blog', title: 'Blog', subtitle: 'Explore posts on systems, backend, and AI engineering.', breadcrumb: 'Blog' },
-  { path: 'silly-questions', title: 'Silly Questions & Mistakes', subtitle: 'Common coding mistakes and lessons learned.', breadcrumb: 'Silly Questions' },
-  { path: 'technical-terms', title: 'Technical Terms', subtitle: 'Definitions for indexing, CAP, ACID, replication, and more.', breadcrumb: 'Technical Terms' },
-  { path: 'til', title: 'TIL', subtitle: 'Today I Learned — short dev notes.', breadcrumb: 'TIL' },
-  { path: 'cheatsheets', title: 'Cheatsheets', subtitle: 'Quick reference for Go, Docker, PostgreSQL, Kubernetes.', breadcrumb: 'Cheatsheets' },
-  { path: 'about', title: 'About', subtitle: 'Backend engineer specialising in system design and scalable architecture.', breadcrumb: 'About' },
-  { path: 'now', title: 'Now', subtitle: "What I'm doing now.", breadcrumb: 'Now' },
-  { path: 'uses', title: 'Uses', subtitle: 'Tools and setup I use.', breadcrumb: 'Uses' },
-  { path: 'topics', title: 'Topics', subtitle: 'Browse by category and tag.', breadcrumb: 'Topics' },
-  { path: 'search', title: 'Search', subtitle: 'Search posts, questions, and terms.', breadcrumb: 'Search' },
-  { path: 'newsletter', title: 'Newsletter', subtitle: 'Subscribe for updates.', breadcrumb: 'Newsletter' },
-  { path: 'privacy-policy', title: 'Privacy Policy', subtitle: 'How we handle your data.', breadcrumb: 'Privacy' },
-  { path: 'resources', title: 'Resources', subtitle: 'Curated tools and links.', breadcrumb: 'Resources' },
-  { path: 'series', title: 'Series', subtitle: 'Multi-part posts.', breadcrumb: 'Series' },
-  { path: 'glossary', title: 'Glossary', subtitle: 'Backend and system design terms.', breadcrumb: 'Glossary' },
+const SECTION_PAGES: Array<{ path: string; title: string; subtitle: string; breadcrumb?: string; theme?: OgThemeName }> = [
+  { path: 'home', title: 'Ratn Labs', subtitle: 'Systems, Backend & AI Engineering', theme: 'default' },
+  { path: 'blog', title: 'Blog', subtitle: 'Explore posts on systems, backend, and AI engineering.', breadcrumb: 'Blog', theme: 'blog' },
+  { path: 'silly-questions', title: 'Silly Questions & Mistakes', subtitle: 'Common coding mistakes and lessons learned.', breadcrumb: 'Silly Questions', theme: 'silly' },
+  { path: 'technical-terms', title: 'Technical Terms', subtitle: 'Definitions for indexing, CAP, ACID, replication, and more.', breadcrumb: 'Technical Terms', theme: 'technical-terms' },
+  { path: 'til', title: 'TIL', subtitle: 'Today I Learned — short dev notes.', breadcrumb: 'TIL', theme: 'til' },
+  { path: 'cheatsheets', title: 'Cheatsheets', subtitle: 'Quick reference for Go, Docker, PostgreSQL, Kubernetes.', breadcrumb: 'Cheatsheets', theme: 'cheatsheets' },
+  { path: 'about', title: 'About', subtitle: 'Backend engineer specialising in system design and scalable architecture.', breadcrumb: 'About', theme: 'default' },
+  { path: 'now', title: 'Now', subtitle: "What I'm doing now.", breadcrumb: 'Now', theme: 'default' },
+  { path: 'uses', title: 'Uses', subtitle: 'Tools and setup I use.', breadcrumb: 'Uses', theme: 'default' },
+  { path: 'topics', title: 'Topics', subtitle: 'Browse by category and tag.', breadcrumb: 'Topics', theme: 'default' },
+  { path: 'search', title: 'Search', subtitle: 'Search posts, questions, and terms.', breadcrumb: 'Search', theme: 'default' },
+  { path: 'newsletter', title: 'Newsletter', subtitle: 'Subscribe for updates.', breadcrumb: 'Newsletter', theme: 'default' },
+  { path: 'privacy-policy', title: 'Privacy Policy', subtitle: 'How we handle your data.', breadcrumb: 'Privacy', theme: 'default' },
+  { path: 'resources', title: 'Resources', subtitle: 'Curated tools and links.', breadcrumb: 'Resources', theme: 'default' },
+  { path: 'series', title: 'Series', subtitle: 'Multi-part posts.', breadcrumb: 'Series', theme: 'default' },
+  { path: 'glossary', title: 'Glossary', subtitle: 'Backend and system design terms.', breadcrumb: 'Glossary', theme: 'technical-terms' },
 ];
 
 async function main() {
@@ -297,7 +544,8 @@ async function main() {
       const el = buildOgElement(
         section.title,
         section.subtitle,
-        section.breadcrumb
+        section.breadcrumb,
+        section.theme ?? 'default'
       );
       const res = new ImageResponse(el, { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();
@@ -321,7 +569,8 @@ async function main() {
       const el = buildOgElement(
         sanitize(post.title, 80),
         sanitize(post.description || 'Ratn Labs', 120),
-        'Blog'
+        'Blog',
+        'blog'
       );
       const res = new ImageResponse(el, { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();
@@ -353,7 +602,8 @@ async function main() {
       const el = buildOgElement(
         `Posts tagged "${tagLabel}"`,
         `Browse blog posts tagged "${tagLabel}" from Ratn Labs.`,
-        'Blog'
+        'Blog',
+        'blog'
       );
       const res = new ImageResponse(el, { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();
@@ -378,7 +628,7 @@ async function main() {
         sanitize(q.question, 80),
         sanitize(q.answer?.replace(/<[^>]*>/g, '').slice(0, 120) || 'Silly question', 120),
         'Silly Questions',
-        '#E8664A'
+        'silly'
       );
       const res = new ImageResponse(el, { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();
@@ -402,7 +652,8 @@ async function main() {
       const el = buildOgElement(
         sanitize(term.title, 80),
         sanitize(term.description || 'Technical term', 120),
-        'Technical Terms'
+        'Technical Terms',
+        'technical-terms'
       );
       const res = new ImageResponse(el, { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();
@@ -429,7 +680,8 @@ async function main() {
       const el = buildOgElement(
         sanitize(entry.title, 80),
         subtitle,
-        'TIL'
+        'TIL',
+        'til'
       );
       const res = new ImageResponse(el, { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();
@@ -454,7 +706,8 @@ async function main() {
       const el = buildOgElement(
         sanitize(title, 80),
         sanitize(data.description || 'Cheatsheet', 120),
-        'Cheatsheets'
+        'Cheatsheets',
+        'cheatsheets'
       );
       const res = new ImageResponse(el, { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();

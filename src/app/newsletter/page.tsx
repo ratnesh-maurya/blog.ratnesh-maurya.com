@@ -94,9 +94,13 @@ export default async function NewsletterPage() {
               What you&apos;ll receive
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {perks.map(p => (
-                <div key={p.title} className="p-6 rounded-2xl border transition-shadow duration-200 hover:shadow-md"
-                  style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+              {perks.map((p, pIdx) => (
+                <div key={p.title} className="p-6 rounded-2xl transition-all duration-150 hover:-translate-y-0.5"
+                  style={{
+                    backgroundColor: `var(--nb-card-${pIdx % 6})`,
+                    border: '2px solid var(--nb-border)',
+                    boxShadow: 'var(--nb-shadow-sm)',
+                  }}>
                   <span className="text-2xl mb-3 block">{p.emoji}</span>
                   <h3 className="text-sm font-bold mb-1.5" style={{ color: 'var(--text-primary)' }}>
                     {p.title}
@@ -121,10 +125,14 @@ export default async function NewsletterPage() {
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {recentPosts.map(post => (
+              {recentPosts.map((post, pIdx) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}
-                  className="flex items-start gap-4 p-4 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md group"
-                  style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+                  className="flex items-start gap-4 p-4 rounded-2xl transition-all duration-150 hover:-translate-y-0.5 group"
+                  style={{
+                    backgroundColor: `var(--nb-card-${pIdx % 6})`,
+                    border: '2px solid var(--nb-border)',
+                    boxShadow: 'var(--nb-shadow-sm)',
+                  }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-0.5"
                       style={{ color: 'var(--accent-500)' }}>
@@ -146,7 +154,7 @@ export default async function NewsletterPage() {
 
           {/* Second subscribe CTA */}
           <section className="rounded-2xl p-8 text-center"
-            style={{ backgroundColor: 'var(--accent-50)', border: '1px solid var(--accent-200)' }}>
+            style={{ backgroundColor: 'var(--nb-card-3)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
             <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
               Ready to level up?
             </h2>

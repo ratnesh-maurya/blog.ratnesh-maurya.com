@@ -1,5 +1,5 @@
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import type { Metadata } from 'next';
@@ -37,7 +37,7 @@ export default function CorrectionsPage() {
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
       <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
-        <div style={{ borderBottom: '1px solid var(--border)' }}>
+        <div style={{ borderBottom: '2px solid var(--nb-border)' }}>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>
               Transparency
@@ -52,7 +52,7 @@ export default function CorrectionsPage() {
         </div>
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-          <section className="card p-6 border-0" style={{ backgroundColor: 'var(--surface)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-0)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               What counts as a correction
             </h2>
@@ -63,7 +63,7 @@ export default function CorrectionsPage() {
             </ul>
           </section>
 
-          <section className="card p-6 border-0" style={{ backgroundColor: 'var(--surface)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-1)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               How to report an issue
             </h2>
@@ -71,13 +71,13 @@ export default function CorrectionsPage() {
               Send the URL, the problematic snippet (quote or screenshot), and what you believe is correct.
             </p>
             <div className="mt-4">
-              <a href="/contact" className="text-sm font-semibold" style={{ color: 'var(--accent-500)' }}>
+              <a href="/contact" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }}>
                 Contact →
               </a>
             </div>
           </section>
 
-          <section className="card p-6 border-0" style={{ backgroundColor: 'var(--surface)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-2)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               How updates are shown
             </h2>
@@ -92,4 +92,3 @@ export default function CorrectionsPage() {
     </>
   );
 }
-

@@ -112,8 +112,9 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
               disabled={!isActive}
               className="w-8 h-8 rounded-lg text-xs font-semibold flex items-center justify-center transition-colors"
               style={{
-                backgroundColor: isSelected ? 'var(--accent-500)' : isActive ? 'var(--accent-50)' : 'transparent',
-                color: isSelected ? '#fff' : isActive ? 'var(--accent-600)' : 'var(--text-muted)',
+                backgroundColor: isSelected ? 'var(--nb-badge-bg)' : isActive ? 'var(--surface)' : 'transparent',
+                color: isSelected ? 'var(--nb-badge-text)' : isActive ? 'var(--text-primary)' : 'var(--text-muted)',
+                border: isActive ? '2px solid var(--nb-border)' : '2px solid transparent',
                 opacity: isActive ? 1 : 0.4,
                 cursor: isActive ? 'pointer' : 'default',
               }}

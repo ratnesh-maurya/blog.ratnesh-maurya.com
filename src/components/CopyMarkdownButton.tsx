@@ -77,22 +77,20 @@ export function CopyMarkdownButton({ rawContent, title, slug, image }: CopyMarkd
   return (
     <button
       onClick={handleCopy}
-      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium"
+      className="nb-btn inline-flex items-center gap-2 text-xs"
       style={
         copied
-          ? { borderColor: 'var(--accent-400)', backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
-          : { borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }
+          ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }
+          : { backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }
       }
       onMouseEnter={(e) => {
         if (!copied) {
-          (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)';
-          (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
+          (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--nb-card-4)';
         }
       }}
       onMouseLeave={(e) => {
         if (!copied) {
-          (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
-          (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
+          (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--nb-card-5)';
         }
       }}
       aria-label="Copy post as Markdown"

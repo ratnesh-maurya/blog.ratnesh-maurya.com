@@ -23,10 +23,10 @@ export default function AnalyticsPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--accent-500)' }}>
+              <p className="nb-section-label mb-2" style={{ color: 'var(--accent-500)' }}>
                 Insights
               </p>
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 font-serif" style={{ color: 'var(--text-primary)' }}>
+              <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
                 Analytics dashboard
               </h1>
               <p className="text-sm sm:text-base leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
@@ -36,8 +36,8 @@ export default function AnalyticsPage() {
             </div>
             <div className="w-full lg:w-auto">
               <div
-                className="rounded-2xl px-4 py-3 text-xs sm:text-sm flex flex-col gap-2 lg:min-w-[220px]"
-                style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+                className="nb-card rounded-2xl px-4 py-3 text-xs sm:text-sm flex flex-col gap-2 lg:min-w-[220px]"
+                style={{ backgroundColor: 'var(--nb-card-3)' }}
               >
                 <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>
                   How to read this page

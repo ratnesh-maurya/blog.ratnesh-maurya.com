@@ -5,12 +5,13 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "postbuild": "tsx scripts/generate-search-data.ts && tsx scripts/index-posts.ts && tsx scripts/build-og-all.tsx && tsx scripts/indexnow-notify.ts",
+    "postbuild": "tsx scripts/generate-search-data.ts && tsx scripts/index-posts.ts && tsx scripts/build-og-all.tsx",
     "start": "next start",
     "lint": "eslint",
     "export": "next build",
     "serve": "npx serve@latest out",
-    "index-posts": "tsx scripts/index-posts.ts"
+    "index-posts": "tsx scripts/index-posts.ts",
+    "index-posts:all": "tsx scripts/index-posts.ts --all"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

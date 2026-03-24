@@ -67,18 +67,18 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
           value={selectedDate}
           max={todayStr()}
           onChange={(e) => setSelectedDate(e.target.value)}
-          className="rounded-lg border px-3 py-1.5 text-sm focus:outline-none focus:ring-2"
+          className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
           style={{
-            backgroundColor: 'var(--surface)',
-            borderColor: 'var(--border)',
+            backgroundColor: 'var(--nb-surface-card)',
+            border: '2px solid var(--nb-border)',
             color: 'var(--text-primary)',
           }}
         />
         {!isToday && (
           <button
             onClick={() => setSelectedDate(todayStr())}
-            className="text-xs font-medium px-3 py-1.5 rounded-lg transition-colors"
-            style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
+            className="text-xs font-semibold px-3 py-1.5 rounded-lg"
+            style={{ backgroundColor: 'var(--nb-card-3)', color: 'var(--text-primary)', border: '2px solid var(--nb-border)' }}
           >
             Back to today
           </button>
@@ -93,20 +93,20 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="rounded-xl border p-5 animate-pulse h-28"
-              style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+              className="nb-card-sm p-5 animate-pulse h-28"
+              style={{ backgroundColor: 'var(--nb-card-5)' }}
             />
           ))}
         </div>
       ) : error ? (
-        <div className="rounded-xl border p-4" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+        <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
           <p className="text-red-500 text-sm">{error}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div
-            className="rounded-xl border p-5 transition-shadow hover:shadow-md"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+            className="nb-card-sm p-5"
+            style={{ backgroundColor: 'var(--nb-card-0)' }}
           >
             <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
               {isToday ? "Today's views" : 'Views'}
@@ -116,8 +116,8 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
             </p>
           </div>
           <div
-            className="rounded-xl border p-5 transition-shadow hover:shadow-md"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+            className="nb-card-sm p-5"
+            style={{ backgroundColor: 'var(--nb-card-1)' }}
           >
             <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
               {isToday ? "Today's upvotes" : 'Upvotes'}
@@ -127,8 +127,8 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
             </p>
           </div>
           <div
-            className="rounded-xl border p-5 transition-shadow hover:shadow-md"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+            className="nb-card-sm p-5"
+            style={{ backgroundColor: 'var(--nb-card-2)' }}
           >
             <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
               {isToday ? "Today's UTM visits" : 'UTM visits'}

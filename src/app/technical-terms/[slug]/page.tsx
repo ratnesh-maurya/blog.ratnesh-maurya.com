@@ -109,7 +109,7 @@ export default async function TechnicalTermPage({
           </Link>
 
           {/* OG Image */}
-          <div className="rounded-2xl overflow-hidden mb-10 w-full" style={{ border: '1px solid var(--border)' }}>
+          <div className="rounded-2xl overflow-hidden mb-10 w-full" style={{ border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
             <Image
               src={ogImagePath}
               alt={term.title}
@@ -150,7 +150,7 @@ export default async function TechnicalTermPage({
           />
 
           {/* Share footer */}
-          <div className="pt-8 mt-12" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="pt-8 mt-12" style={{ borderTop: '2px solid var(--nb-border)' }}>
             <h3
               className="text-xs font-semibold uppercase tracking-widest mb-4"
               style={{ color: 'var(--text-muted)' }}

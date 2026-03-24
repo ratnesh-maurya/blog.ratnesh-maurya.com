@@ -121,8 +121,7 @@ export default async function AboutPage() {
                     </a>
                   ))}
                   <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-200 hover:shadow-sm"
-                    style={{ borderColor: 'var(--accent-300)', backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                    className="nb-badge nb-badge-primary inline-flex items-center gap-1.5 transition-opacity duration-150 hover:opacity-75">
                     Portfolio &rarr;
                   </a>
                 </div>
@@ -172,8 +171,8 @@ export default async function AboutPage() {
                 { label: 'Years writing', value: '2+' },
                 { label: 'Open source', value: '\u221E' },
               ].map(stat => (
-                <div key={stat.label} className="rounded-2xl p-6 text-center transition-shadow duration-200 hover:shadow-md"
-                  style={{ backgroundColor: 'color-mix(in srgb, var(--accent-50) 40%, var(--surface))', border: '1px solid var(--accent-200)' }}>
+                <div key={stat.label} className="rounded-2xl p-6 text-center transition-all duration-150 hover:-translate-y-0.5"
+                  style={{ backgroundColor: 'var(--nb-card-0)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow-sm)' }}>
                   <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--accent-500)' }}>
                     {stat.value}
                   </div>
@@ -348,8 +347,7 @@ export default async function AboutPage() {
                               </span>
                             )}
                             {item.badge && (
-                              <span className="text-xs px-2 py-0.5 rounded-full font-medium"
-                                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+                              <span className="nb-badge nb-badge-primary">
                                 {item.badge}
                               </span>
                             )}
@@ -404,7 +402,7 @@ export default async function AboutPage() {
 
           {/* CTA */}
           <section className="rounded-2xl p-8 text-center"
-            style={{ backgroundColor: 'var(--accent-50)', border: '1px solid var(--accent-200)' }}>
+            style={{ backgroundColor: 'var(--nb-card-1)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
             <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
               Let&apos;s connect
             </h2>
@@ -413,13 +411,11 @@ export default async function AboutPage() {
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <a href="https://linkedin.com/in/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-md"
-                style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}>
+                className="nb-btn nb-btn-primary inline-flex items-center gap-2">
                 Connect on LinkedIn
               </a>
               <a href="https://x.com/ratnesh_maurya_" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold border transition-all duration-200 hover:shadow-md"
-                style={{ borderColor: 'var(--accent-300)', backgroundColor: 'transparent', color: 'var(--accent-600)' }}>
+                className="nb-btn inline-flex items-center gap-2">
                 Follow on X
               </a>
             </div>

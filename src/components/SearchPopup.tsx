@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
 import { BlogPost, SillyQuestion } from '@/types/blog';
-import Link from 'next/link';
 import { format } from 'date-fns';
+import Link from 'next/link';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 export interface TechnicalTermSearchItem {
   slug: string;
@@ -193,8 +193,8 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
         const r = results[selectedIndex];
         const href = r.type === 'blog' ? `/blog/${(r.item as BlogPost).slug}`
           : r.type === 'question' ? `/silly-questions/${(r.item as SillyQuestion).slug}`
-          : r.type === 'term' ? `/technical-terms/${(r.item as TechnicalTermSearchItem).slug}`
-          : `/til/${(r.item as TILSearchItem).slug}`;
+            : r.type === 'term' ? `/technical-terms/${(r.item as TechnicalTermSearchItem).slug}`
+              : `/til/${(r.item as TILSearchItem).slug}`;
         window.location.href = href;
       }
     }
@@ -227,9 +227,8 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-start justify-center transition-all duration-200 ${
-        isOpen ? 'visible' : 'invisible pointer-events-none'
-      }`}
+      className={`fixed inset-0 z-50 flex items-start justify-center transition-all duration-200 ${isOpen ? 'visible' : 'invisible pointer-events-none'
+        }`}
       style={{
         backgroundColor: isOpen ? 'var(--overlay-backdrop)' : 'transparent',
         backdropFilter: isOpen ? 'blur(4px)' : 'none',
@@ -240,12 +239,12 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
       <div
         ref={popupRef}
         data-search-popup
-        className={`w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl transition-all duration-200 ${
-          isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-97 -translate-y-3'
-        }`}
+        className={`w-full max-w-2xl rounded-2xl overflow-hidden transition-all duration-200 ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-97 -translate-y-3'
+          }`}
         style={{
           backgroundColor: 'var(--surface)',
-          border: '1px solid var(--border)',
+          border: '2px solid var(--nb-border)',
+          boxShadow: 'var(--nb-shadow-lg)',
           maxHeight: '80vh',
           display: 'flex',
           flexDirection: 'column',
@@ -253,7 +252,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
       >
         {/* Search input row */}
         <div className="flex items-center gap-3 px-4 py-3.5"
-          style={{ borderBottom: '1px solid var(--border)' }}>
+          style={{ borderBottom: '2px solid var(--nb-border)' }}>
           <svg className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -269,16 +268,16 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
           {query && (
             <button
               onClick={() => setQuery('')}
-              className="flex-shrink-0 text-xs px-1.5 py-0.5 rounded"
-              style={{ color: 'var(--text-muted)', backgroundColor: 'var(--surface-muted)' }}
+              className="nb-btn flex-shrink-0 text-xs px-2 py-1"
+              style={{ color: 'var(--text-secondary)', backgroundColor: 'var(--surface-muted)', boxShadow: 'none' }}
             >
               Clear
             </button>
           )}
           <button
             onClick={onClose}
-            className="flex-shrink-0 text-xs px-2 py-1 rounded-md font-mono transition-colors"
-            style={{ color: 'var(--text-muted)', backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}
+            className="nb-btn flex-shrink-0 text-xs px-2 py-1 font-mono"
+            style={{ color: 'var(--text-secondary)', backgroundColor: 'var(--surface-muted)', boxShadow: 'none' }}
           >
             Esc
           </button>
@@ -286,16 +285,20 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
 
         {/* Filter + sort row */}
         <div className="flex items-center justify-between px-4 py-2 gap-2"
-          style={{ borderBottom: '1px solid var(--border)', backgroundColor: 'var(--surface-muted)' }}>
+          style={{ borderBottom: '2px solid var(--nb-border)', backgroundColor: 'var(--surface-muted)' }}>
           <div className="flex items-center gap-1">
             {filterLabels.map(f => (
               <button
                 key={f.id}
                 onClick={() => setFilterType(f.id)}
-                className="text-xs px-2.5 py-1 rounded-full font-medium transition-all duration-150"
+                className="text-xs px-2.5 py-1 rounded-full font-medium transition-all duration-150 border-2"
                 style={filterType === f.id
-                  ? { backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }
-                  : { backgroundColor: 'transparent', color: 'var(--text-muted)' }
+                  ? {
+                    backgroundColor: 'var(--nb-badge-bg)',
+                    color: 'var(--nb-badge-text)',
+                    borderColor: 'var(--nb-badge-bg)',
+                  }
+                  : { backgroundColor: 'transparent', color: 'var(--text-muted)', borderColor: 'var(--nb-border)' }
                 }
               >
                 {f.label}
@@ -356,7 +359,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                       onClick={onClose}
                       className="flex items-start gap-3 px-3 py-3 rounded-xl mb-1 transition-all duration-100 group"
                       style={isSelected
-                        ? { backgroundColor: 'var(--accent-50)', outline: `1px solid var(--accent-200)` }
+                        ? { backgroundColor: 'var(--surface)', outline: `2px solid var(--nb-border)` }
                         : { backgroundColor: 'transparent' }
                       }
                       onMouseEnter={() => setSelectedIndex(index)}
@@ -437,10 +440,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                 <div className="flex flex-wrap gap-2">
                   {suggestions.categories.map(cat => (
                     <button key={cat} onClick={() => setQuery(cat)}
-                      className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-150"
-                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
-                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--accent-100)'}
-                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--accent-50)'}
+                      className="nb-badge nb-badge-primary transition-opacity duration-150 hover:opacity-75"
                     >
                       {cat}
                     </button>
@@ -469,7 +469,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
 
         {/* Keyboard hint footer */}
         <div className="px-4 py-2.5 flex items-center gap-4"
-          style={{ borderTop: '1px solid var(--border)', backgroundColor: 'var(--surface-muted)' }}>
+          style={{ borderTop: '2px solid var(--nb-border)', backgroundColor: 'var(--surface-muted)' }}>
           {[
             { keys: ['↑', '↓'], label: 'Navigate' },
             { keys: ['↵'], label: 'Open' },
@@ -479,7 +479,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
               {keys.map(k => (
                 <kbd key={k}
                   className="text-xs px-1.5 py-0.5 rounded font-mono"
-                  style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}>
+                  style={{ backgroundColor: 'var(--surface)', border: '2px solid var(--nb-border)', color: 'var(--text-muted)' }}>
                   {k}
                 </kbd>
               ))}

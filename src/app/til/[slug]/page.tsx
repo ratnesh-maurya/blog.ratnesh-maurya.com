@@ -91,8 +91,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
           <header className="mb-10">
             {/* Metadata row */}
             <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-              <span className="inline-flex items-center gap-1.5 font-semibold px-2.5 py-1 rounded-full"
-                style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
+              <span className="nb-badge nb-badge-muted inline-flex items-center gap-1.5">
                 <span className="text-sm leading-none">{categoryEmoji[entry.category] ?? '💡'}</span>
                 {entry.category}
               </span>

@@ -295,7 +295,7 @@ export default function UtmBuilderPage() {
             </svg>
             Back
           </Link>
-          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
+          <span className="nb-badge nb-badge-muted">
             UTM Builder
           </span>
         </div>
@@ -303,8 +303,8 @@ export default function UtmBuilderPage() {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         <div
-          className="rounded-2xl border p-5 sm:p-6"
-          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
+          className="nb-card p-5 sm:p-6"
+          style={{ backgroundColor: 'var(--nb-card-1)' }}
         >
           <div className="flex items-start justify-between gap-4 mb-6">
             <div>
@@ -321,7 +321,7 @@ export default function UtmBuilderPage() {
           </div>
 
           {(initialTitle || initialDescription) && (
-            <div className="mb-6 rounded-xl p-4" style={{ backgroundColor: 'var(--surface-muted)' }}>
+            <div className="mb-6 rounded-xl p-4" style={{ backgroundColor: 'var(--nb-card-3)', border: '2px solid var(--nb-border)' }}>
               <div className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
                 Context
               </div>
@@ -446,9 +446,9 @@ export default function UtmBuilderPage() {
                   disabled={!builtUrl}
                   className="inline-flex items-center gap-2 px-4 rounded-xl border text-sm font-semibold transition-all disabled:opacity-60"
                   style={{
-                    borderColor: copied ? 'var(--accent-400)' : 'var(--border)',
-                    backgroundColor: copied ? 'var(--accent-50)' : 'var(--surface)',
-                    color: copied ? 'var(--accent-500)' : 'var(--text-secondary)',
+                    borderColor: copied ? 'var(--nb-border)' : 'var(--border)',
+                    backgroundColor: copied ? 'var(--nb-badge-bg)' : 'var(--surface)',
+                    color: copied ? 'var(--nb-badge-text)' : 'var(--text-secondary)',
                   }}
                 >
                   {copied ? <CheckIcon /> : <CopyIcon />}

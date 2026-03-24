@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { getAllStatsForAnalytics, type StatType } from '@/lib/supabase/stats';
+import { useEffect, useState } from 'react';
 
 function formatNumber(n: number) {
   return n.toLocaleString();
@@ -36,8 +36,8 @@ export function OverallSection({ selectedType }: OverallSectionProps) {
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="rounded-xl border p-5 animate-pulse h-28"
-            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+            className="nb-card-sm p-5 animate-pulse h-28"
+            style={{ backgroundColor: 'var(--nb-card-5)' }}
           />
         ))}
       </div>
@@ -46,7 +46,7 @@ export function OverallSection({ selectedType }: OverallSectionProps) {
 
   if (error) {
     return (
-      <div className="rounded-xl border p-4" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+      <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
         <p className="text-red-500 text-sm">{error}</p>
       </div>
     );
@@ -66,8 +66,8 @@ export function OverallSection({ selectedType }: OverallSectionProps) {
       {CARD_STYLES.map((style, i) => (
         <div
           key={style.label}
-          className="rounded-xl border p-5 transition-shadow hover:shadow-md"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+          className="nb-card-sm p-5"
+          style={{ backgroundColor: `var(--nb-card-${i % 6})` }}
         >
           <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
             {style.label}

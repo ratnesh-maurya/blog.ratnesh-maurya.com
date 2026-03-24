@@ -86,79 +86,37 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
     window.open(utmBuilderUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const btnBase = 'inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium';
+  const shareButtons = [
+    { key: 'twitter',   label: 'Twitter / X', icon: <TwitterIcon />,  colorIdx: 0 },
+    { key: 'linkedin',  label: 'LinkedIn',     icon: <LinkedInIcon />, colorIdx: 1 },
+    { key: 'facebook',  label: 'Facebook',     icon: <FacebookIcon />, colorIdx: 2 },
+    { key: 'whatsapp',  label: 'WhatsApp',     icon: <WhatsAppIcon />, colorIdx: 3 },
+    { key: 'reddit',    label: 'Reddit',       icon: <RedditIcon />,   colorIdx: 4 },
+    { key: 'hackernews',label: 'HN',           icon: <HackerNewsIcon />, colorIdx: 5 },
+  ] as const;
 
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
-      <button
-        onClick={() => openShare('twitter')}
-        className={btnBase}
-        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
-        aria-label="Share on Twitter"
-      >
-        <TwitterIcon />
-        Twitter / X
-      </button>
-
-      <button
-        onClick={() => openShare('linkedin')}
-        className={btnBase}
-        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
-        aria-label="Share on LinkedIn"
-      >
-        <LinkedInIcon />
-        LinkedIn
-      </button>
-
-      <button
-        onClick={() => openShare('facebook')}
-        className={btnBase}
-        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
-        aria-label="Share on Facebook"
-      >
-        <FacebookIcon />
-        Facebook
-      </button>
-
-      <button
-        onClick={() => openShare('whatsapp')}
-        className={btnBase}
-        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
-        aria-label="Share on WhatsApp"
-      >
-        <WhatsAppIcon />
-        WhatsApp
-      </button>
-
-      <button
-        onClick={() => openShare('reddit')}
-        className={btnBase}
-        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
-        aria-label="Share on Reddit"
-      >
-        <RedditIcon />
-        Reddit
-      </button>
+      {shareButtons.map(({ key, label, icon, colorIdx }) => (
+        <button
+          key={key}
+          onClick={() => openShare(key)}
+          className="nb-btn text-xs font-bold"
+          style={{ backgroundColor: `var(--nb-card-${colorIdx})`, color: 'var(--text-primary)' }}
+          aria-label={`Share on ${label}`}
+        >
+          {icon}
+          {label}
+        </button>
+      ))}
 
       <button
         onClick={copyToClipboard}
-        className={btnBase}
+        className="nb-btn text-xs font-bold"
         style={copied
-          ? { borderColor: 'var(--accent-400)', backgroundColor: 'var(--accent-50)', color: 'var(--accent-500)' }
-          : { borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }
+          ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }
+          : { backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }
         }
-        onMouseEnter={e => { if (!copied) { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; } }}
-        onMouseLeave={e => { if (!copied) { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; } }}
         aria-label="Copy link"
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
@@ -167,10 +125,8 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
 
       <button
         onClick={openUtmBuilder}
-        className={btnBase}
-        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-400)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
+        className="nb-btn text-xs font-bold"
+        style={{ backgroundColor: 'var(--nb-card-0)', color: 'var(--text-primary)' }}
         aria-label="Open UTM builder"
       >
         <UtmIcon />
@@ -232,6 +188,14 @@ function CheckIcon() {
   return (
     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+    </svg>
+  );
+}
+
+function HackerNewsIcon() {
+  return (
+    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.372-.689-.688-1.434L8.699 5.896H6.951z" />
     </svg>
   );
 }

@@ -77,23 +77,24 @@ export function TableOfContents() {
 
   return (
     <nav
-      className="hidden xl:block max-h-[calc(100vh-8rem)] overflow-y-auto pr-2"
+      className="w-full xl:w-[20rem] max-h-[calc(100vh-8rem)] overflow-y-auto pr-2 nb-card p-6"
+      style={{ backgroundColor: 'var(--nb-card-1)' }}
       aria-label="Table of contents"
     >
       <p
-        className="text-[11px] font-semibold uppercase tracking-widest mb-3"
+        className="text-xs font-semibold uppercase tracking-widest mb-4"
         style={{ color: 'var(--text-muted)' }}
       >
         On this page
       </p>
-      <ul className="space-y-0.5">
+      <ul className="space-y-1">
         {headings.map((heading) => (
           <li key={heading.id}>
             <button
               onClick={() => scrollTo(heading.id, heading.text)}
-              className="text-left w-full text-[13px] leading-relaxed py-1 transition-colors duration-150 border-l-2 hover:text-[var(--accent-600)]"
+              className="text-left w-full text-[14px] leading-relaxed py-1.5 transition-colors duration-150 border-l-2 hover:text-[var(--accent-600)]"
               style={{
-                paddingLeft: heading.level === 3 ? '1.25rem' : '0.75rem',
+                paddingLeft: heading.level === 3 ? '1.4rem' : '0.85rem',
                 color: activeId === heading.id ? 'var(--accent-600)' : 'var(--text-muted)',
                 borderColor: activeId === heading.id ? 'var(--accent-500)' : 'transparent',
                 fontWeight: activeId === heading.id ? 600 : 400,
@@ -110,7 +111,7 @@ export function TableOfContents() {
           trackEvent('toc_click', 'Navigation', 'Back to top');
         }}
         className="mt-4 pt-3 text-[11px] font-medium flex items-center gap-1 transition-colors hover:text-[var(--accent-600)]"
-        style={{ color: 'var(--text-muted)', borderTop: '1px solid var(--border)' }}
+        style={{ color: 'var(--text-muted)', borderTop: '2px solid var(--nb-border)' }}
       >
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="18 15 12 9 6 15" />

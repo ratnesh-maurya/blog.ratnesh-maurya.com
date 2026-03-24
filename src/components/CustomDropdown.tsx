@@ -56,12 +56,12 @@ export function CustomDropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 text-left rounded-lg border transition-all duration-200 focus:outline-none"
+        className="w-full px-4 py-3 text-left rounded-lg border-2 transition-all duration-200 focus:outline-none"
         style={{
           backgroundColor: 'var(--surface)',
-          borderColor: isOpen ? 'var(--accent-400)' : 'var(--border)',
+          borderColor: isOpen ? 'var(--nb-border)' : 'var(--nb-border)',
           color: 'var(--text-primary)',
-          boxShadow: isOpen ? '0 0 0 2px color-mix(in srgb, var(--accent-500) 20%, transparent)' : 'none',
+          boxShadow: isOpen ? 'var(--nb-shadow-sm)' : 'none',
         }}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
@@ -84,10 +84,11 @@ export function CustomDropdown({
 
       {isOpen && (
         <div
-          className="absolute z-50 w-full mt-1 rounded-lg border shadow-lg max-h-60 overflow-auto"
+          className="absolute z-50 w-full mt-1 rounded-lg max-h-60 overflow-auto"
           style={{
             backgroundColor: 'var(--surface)',
-            borderColor: 'var(--accent-200)'
+            border: '2px solid var(--nb-border)',
+            boxShadow: 'var(--nb-shadow)'
           }}
           role="listbox"
         >
@@ -99,8 +100,10 @@ export function CustomDropdown({
               className={`w-full px-4 py-3 text-left text-sm transition-colors duration-150 hover:bg-opacity-80 ${option.value === value ? 'font-medium' : ''
                 }`}
               style={{
-                backgroundColor: option.value === value ? 'var(--accent-50)' : 'transparent',
-                color: option.value === value ? 'var(--accent-500)' : 'var(--text-primary)'
+                backgroundColor: option.value === value ? 'var(--surface)' : 'transparent',
+                color: option.value === value ? 'var(--text-primary)' : 'var(--text-primary)',
+                fontWeight: option.value === value ? '700' : undefined,
+                outline: option.value === value ? `2px solid var(--nb-border)` : undefined
               }}
               onMouseEnter={(e) => {
                 if (option.value !== value) {

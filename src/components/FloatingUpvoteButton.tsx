@@ -106,9 +106,9 @@ export function FloatingUpvoteButton({ type, slug }: FloatingUpvoteButtonProps) 
       disabled={hasUpvoted || isUpvoting}
       style={{
         bottom: `${bottomOffset}px`,
-        backgroundColor: hasUpvoted ? 'var(--accent-50)' : 'var(--surface)',
-        borderColor: hasUpvoted ? 'var(--accent-400)' : 'var(--border)',
-        color: hasUpvoted ? 'var(--accent-500)' : 'var(--text-secondary)',
+        backgroundColor: hasUpvoted ? 'var(--nb-badge-bg)' : 'var(--surface)',
+        borderColor: hasUpvoted ? 'var(--nb-border)' : 'var(--border)',
+        color: hasUpvoted ? 'var(--nb-badge-text)' : 'var(--text-secondary)',
         boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
       }}
       className="fixed right-6 z-[100] inline-flex flex-row items-center justify-center gap-2 px-4 py-3 border-2 rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
