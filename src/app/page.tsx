@@ -1,12 +1,12 @@
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
-import { getAllBlogPostsForListing, getAllTechnicalTermsForListing } from '@/lib/content';
+import { getAllBlogPostsForListing, getAllNewsPostsForListing, getAllTechnicalTermsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Ratn Labs — Systems, Backend & AI Engineering',
+  title: 'Ratn Labs - Systems, Backend and AI Engineering',
   description: 'Practical notes on backend architecture, distributed systems, and AI engineering. Browse deep dives, cheatsheets, TILs, and technical terms.',
   keywords: [
     'Ratnesh Maurya', 'backend engineering blog', 'system design', 'AI engineering',
@@ -21,17 +21,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Ratn Labs — Systems, Backend & AI Engineering Blog',
+    title: 'Ratn Labs - Systems, Backend and AI Engineering Blog',
     description: 'Systems thinking, backend architecture, and AI engineering by Ratnesh Maurya.',
     url: 'https://blog.ratnesh-maurya.com',
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',
-    images: [{ url: '/og/home.png', width: 1200, height: 630, alt: 'Ratn Labs — Engineering Blog' }],
+    images: [{ url: '/og/home.png', width: 1200, height: 630, alt: 'Ratn Labs - Engineering Blog' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ratn Labs — Systems, Backend & AI Engineering',
+    title: 'Ratn Labs - Systems, Backend and AI Engineering',
     description: 'Notes on building scalable software in Go, Elixir, and TypeScript.',
     creator: '@ratnesh_maurya',
     site: '@ratnesh_maurya',
@@ -54,29 +54,30 @@ function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-/* Explore library items — bg matches CSS var index for card palette */
 const exploreItems = [
-  { label: 'Blog',            href: '/blog',             desc: 'Posts & series',          emoji: '✍️', colorIdx: 0 },
-  { label: 'Technical Terms', href: '/technical-terms',  desc: 'System design glossary',  emoji: '📖', colorIdx: 1 },
-  { label: 'Cheatsheets',     href: '/cheatsheets',      desc: 'Quick references',         emoji: '⚡', colorIdx: 3 },
-  { label: 'TIL',             href: '/til',              desc: 'Small lessons',            emoji: '💡', colorIdx: 2 },
-  { label: 'Questions',       href: '/silly-questions',  desc: 'Silly but useful',         emoji: '🤔', colorIdx: 4 },
-  { label: 'Resources',       href: '/resources',        desc: 'Books, tools & talks',     emoji: '🔗', colorIdx: 5 },
+  { label: 'Blog', href: '/blog', desc: 'Posts and series', emoji: '✍️', colorIdx: 0 },
+  { label: 'News', href: '/news', desc: 'Daily AI and dev digest', emoji: '🗞️', colorIdx: 2 },
+  { label: 'Technical Terms', href: '/technical-terms', desc: 'System design glossary', emoji: '📖', colorIdx: 1 },
+  { label: 'Cheatsheets', href: '/cheatsheets', desc: 'Quick references', emoji: '⚡', colorIdx: 3 },
+  { label: 'TIL', href: '/til', desc: 'Small lessons', emoji: '💡', colorIdx: 4 },
+  { label: 'Questions', href: '/silly-questions', desc: 'Silly but useful', emoji: '🤔', colorIdx: 4 },
+  { label: 'Resources', href: '/resources', desc: 'Books, tools and talks', emoji: '🔗', colorIdx: 5 },
 ];
 
 export default async function Home() {
-  const [posts, technicalTerms] = await Promise.all([
+  const [posts, technicalTerms, newsPosts] = await Promise.all([
     getAllBlogPostsForListing(),
     getAllTechnicalTermsForListing(),
+    getAllNewsPostsForListing(),
   ]);
+
   const featured = posts.slice(0, 5);
   const featuredSlugs = new Set(featured.map((p) => p.slug));
   const latest = posts.filter((p) => !featuredSlugs.has(p.slug)).slice(0, 6);
 
-  // Latest post (index 0) goes in center; older posts flank left/right
   const centerFeatured = featured.slice(0, 1);
-  const leftFeatured   = featured.slice(1, 3);
-  const rightFeatured  = featured.slice(3, 5);
+  const leftFeatured = featured.slice(1, 3);
+  const rightFeatured = featured.slice(3, 5);
   const hasMagazineLayout = featured.length >= 3;
 
   const breadcrumbItems = [{ name: 'Home', url: 'https://blog.ratnesh-maurya.com' }];
@@ -84,15 +85,15 @@ export default async function Home() {
   const faqs = [
     {
       q: 'What do you write about?',
-      a: 'Backend engineering, distributed systems, system design, developer productivity, and practical AI engineering—written from real-world building and debugging.',
+      a: 'Backend engineering, distributed systems, system design, developer productivity, and practical AI engineering written from real-world building and debugging.',
     },
     {
       q: 'Is this content beginner-friendly?',
-      a: "Most posts aim for 'clear first, deep second': you'll find high-level explanations, concrete examples, and links to go further.",
+      a: "Most posts aim for clear first, deep second. You will find high-level explanations, concrete examples, and links to go further.",
     },
     {
       q: 'How do I stay updated?',
-      a: 'Use the RSS feed or the newsletter page—both are linked below.',
+      a: 'Use the RSS feed or the newsletter page. Both are linked below.',
     },
   ];
 
@@ -114,92 +115,64 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
+        <section className="min-h-[76vh] relative flex items-center justify-center overflow-hidden px-4 sm:px-6">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(980px 440px at 50% -10%, color-mix(in srgb, var(--accent-200) 35%, transparent) 0%, transparent 68%), radial-gradient(700px 380px at 20% 110%, color-mix(in srgb, var(--nb-card-4) 30%, transparent) 0%, transparent 70%)',
+            }}
+          />
 
-        {/* ══════════════════════════════════════
-            HERO
-            ══════════════════════════════════════ */}
-        <section className="pt-28 pb-16" style={{ backgroundColor: 'var(--background)' }}>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
-            <div className="mb-6">
-              <span className="nb-badge nb-badge-primary">
-                Systems · Backend · AI Engineering
-              </span>
-            </div>
+          <div className="relative max-w-4xl w-full text-center">
+            <span className="nb-badge nb-badge-primary">Systems · Backend · AI Engineering</span>
 
             <h1
-              className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.97]"
-              style={{ color: 'var(--text-primary)', letterSpacing: '-0.035em' }}
+              className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.94]"
+              style={{ color: 'var(--text-primary)', letterSpacing: '-0.04em' }}
             >
-              Build systems<br />
-              that{' '}
-              <span
-                className="inline-block px-2 -mx-1 rounded-md"
-                style={{
-                  backgroundColor: 'var(--nb-card-2)',
-                  border: '2px solid var(--nb-border)',
-                  letterSpacing: '-0.03em',
-                }}
-              >
-                don&apos;t flake.
-              </span>
+              Practical engineering
+              <br />
+              for real-world systems
             </h1>
 
             <p
-              className="mt-6 text-lg sm:text-xl leading-relaxed max-w-xl font-medium"
+              className="mt-6 text-lg sm:text-xl leading-relaxed font-medium mx-auto max-w-2xl"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Practical notes on backend architecture, distributed systems, and AI engineering.
-              Deep dives, cheatsheets, and debugging writeups—built for builders.
+              Deep dives, architecture notes, and daily developer news for builders who ship.
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-3 mt-8">
-              <Link href="/blog" className="nb-btn nb-btn-lg nb-btn-primary">
-                Start reading →
+            <div className="mt-9 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+              <Link href="/blog" className="nb-btn nb-btn-primary justify-center" style={{ textDecoration: 'none' }}>
+                Read
               </Link>
-              <Link
-                href="/newsletter"
-                className="nb-btn nb-btn-lg"
-                style={{
-                  backgroundColor: 'var(--background)',
-                  color: 'var(--text-primary)',
-                  borderColor: 'var(--nb-border)',
-                }}
-              >
-                Get updates
+              <Link href="/news" className="nb-btn justify-center" style={{ backgroundColor: 'var(--nb-card-5)', textDecoration: 'none' }}>
+                Daily News
               </Link>
-              <a
-                href="/feed.xml"
-                className="nb-btn nb-btn-lg"
-                style={{
-                  backgroundColor: 'var(--nb-card-3)',
-                  color: 'var(--text-primary)',
-                  borderColor: 'var(--nb-border)',
-                }}
-              >
-                RSS
+              <a href="/feed.xml" className="nb-btn justify-center" style={{ backgroundColor: 'var(--nb-card-2)', textDecoration: 'none' }}>
+                RSS Feed
               </a>
             </div>
 
-            {/* Stats strip */}
-            <div
-              className="flex flex-wrap gap-8 mt-12 pt-8"
-              style={{ borderTop: '2px solid var(--nb-border)' }}
-            >
+            <div className="mt-8 flex flex-wrap justify-center gap-2">
               {[
                 { value: posts.length.toString(), label: 'Posts' },
                 { value: technicalTerms.length.toString(), label: 'Technical Terms' },
-              ].map(stat => (
-                <div key={stat.label}>
-                  <span className="text-3xl font-black" style={{ color: 'var(--text-primary)' }}>
-                    {stat.value}
-                  </span>
-                  <p className="text-sm font-semibold mt-0.5" style={{ color: 'var(--text-muted)' }}>
-                    {stat.label}
-                  </p>
-                </div>
+                { value: newsPosts.length.toString(), label: 'News Digests' },
+              ].map((item, index) => (
+                <span
+                  key={item.label}
+                  className="nb-tag"
+                  style={{
+                    backgroundColor: `var(--nb-card-${(index + 1) % 6 || 5})`,
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  {item.value} {item.label}
+                </span>
               ))}
             </div>
           </div>
@@ -207,17 +180,13 @@ export default async function Home() {
 
         <hr className="nb-separator" />
 
-        {/* ══════════════════════════════════════
-            FEATURED — BENTO GRID
-            ══════════════════════════════════════ */}
-        <section className="py-16" style={{ backgroundColor: 'var(--background)' }}>
+        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
             <div className="flex items-end justify-between gap-4 mb-8">
               <div>
                 <p className="nb-section-label mb-1">Featured</p>
                 <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
-                  Start here if you&apos;re new.
+                  Start here if you are new.
                 </h2>
               </div>
               <Link
@@ -235,8 +204,6 @@ export default async function Home() {
 
             {hasMagazineLayout ? (
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:min-h-[460px]">
-
-                {/* Left column */}
                 <div className="flex flex-col gap-4">
                   {leftFeatured.map((post, i) => (
                     <Link key={post.slug} href={`/blog/${post.slug}`} className="group block flex-1">
@@ -277,7 +244,6 @@ export default async function Home() {
                   ))}
                 </div>
 
-                {/* Center — big hero card */}
                 <div className="lg:col-span-2">
                   {centerFeatured.map((post) => (
                     <Link key={post.slug} href={`/blog/${post.slug}`} className="group block h-full">
@@ -335,7 +301,6 @@ export default async function Home() {
                   ))}
                 </div>
 
-                {/* Right column */}
                 <div className="flex flex-col gap-4">
                   {rightFeatured.map((post, i) => (
                     <Link key={post.slug} href={`/blog/${post.slug}`} className="group block flex-1">
@@ -420,12 +385,8 @@ export default async function Home() {
 
         <hr className="nb-separator" />
 
-        {/* ══════════════════════════════════════
-            LATEST WRITING
-            ══════════════════════════════════════ */}
-        <section className="py-16" style={{ backgroundColor: 'var(--background)' }}>
+        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
             <div className="flex items-end justify-between gap-4 mb-8">
               <div>
                 <p className="nb-section-label mb-1">Latest Writing</p>
@@ -497,12 +458,8 @@ export default async function Home() {
 
         <hr className="nb-separator" />
 
-        {/* ══════════════════════════════════════
-            EXPLORE LIBRARY
-            ══════════════════════════════════════ */}
-        <section className="py-16" style={{ backgroundColor: 'var(--background)' }}>
+        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
             <div className="mb-8">
               <p className="nb-section-label mb-1">Explore the Library</p>
               <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
@@ -536,14 +493,9 @@ export default async function Home() {
 
         <hr className="nb-separator" />
 
-        {/* ══════════════════════════════════════
-            FAQ + NEWSLETTER CTA
-            ══════════════════════════════════════ */}
-        <section className="py-16" style={{ backgroundColor: 'var(--background)' }}>
+        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-8 items-start">
-
-              {/* FAQ */}
               <div>
                 <p className="nb-section-label mb-1">FAQ</p>
                 <h2 className="text-2xl font-black mb-6" style={{ color: 'var(--text-primary)' }}>
@@ -565,7 +517,6 @@ export default async function Home() {
                 </div>
               </div>
 
-              {/* Newsletter CTA */}
               <div className="sticky top-24">
                 <div
                   className="nb-card p-6"
@@ -578,7 +529,7 @@ export default async function Home() {
                     Updates without noise.
                   </h3>
                   <p className="text-sm font-medium mt-2 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                    New posts, cheatsheets, and technical terms—delivered occasionally.
+                    New posts, cheatsheets, and technical terms delivered occasionally.
                   </p>
                   <div className="mt-5 flex flex-col gap-3">
                     <Link
@@ -591,7 +542,7 @@ export default async function Home() {
                       href="/about"
                       className="nb-btn w-full justify-center rounded-xl py-3 text-sm"
                       style={{
-                        backgroundColor: 'var(--background)',
+                        backgroundColor: 'transparent',
                         color: 'var(--text-primary)',
                         borderColor: 'var(--nb-border)',
                       }}

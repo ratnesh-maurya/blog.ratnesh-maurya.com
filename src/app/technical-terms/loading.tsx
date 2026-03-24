@@ -1,6 +1,6 @@
 export default function TermsLoading() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+    <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="animate-pulse mb-10">
           <div className="h-8 rounded-lg w-56 mb-3" style={{ backgroundColor: 'var(--surface-muted)' }} />

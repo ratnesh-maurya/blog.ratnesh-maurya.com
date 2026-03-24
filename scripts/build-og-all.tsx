@@ -9,12 +9,14 @@ import { fileURLToPath } from 'url';
 import {
   getBlogPostListingMeta,
   getBlogPostSlugs,
+  getNewsPostListingMeta,
+  getNewsPostSlugs,
   getSillyQuestion,
   getSillyQuestionSlugs,
   getTechnicalTermListingMeta,
   getTechnicalTermSlugs,
   getTILEntry,
-  getTILSlugs,
+  getTILSlugs
 } from '../src/lib/content';
 import { getCheatsheet, getCheatsheetSlugs } from '../src/lib/static-content';
 
@@ -41,7 +43,7 @@ const RETRO = {
   shadowSm: '2px 2px 0px 0px #000000',
 } as const;
 
-type OgThemeName = 'default' | 'blog' | 'cheatsheets' | 'silly' | 'technical-terms' | 'til';
+type OgThemeName = 'default' | 'blog' | 'news' | 'cheatsheets' | 'silly' | 'technical-terms' | 'til';
 
 type OgTheme = {
   bgStart: string;
@@ -89,6 +91,21 @@ const THEMES: Record<OgThemeName, OgTheme> = {
     badgeBg: 'rgba(0, 91, 181, 0.08)',
     badgeBorder: 'rgba(0, 91, 181, 0.28)',
     stampText: 'RATNLABS // ENGINEERING JOURNAL',
+  },
+  news: {
+    bgStart: '#faf9f8',
+    bgMid: '#f2ece4',
+    bgEnd: '#ebdcd0',
+    accent: '#4a4036',
+    accentLight: '#5c5248',
+    secondaryAccent: '#8a7e6f',
+    gridColor: 'rgba(50, 45, 40, 0.10)',
+    beamColor: 'rgba(74, 64, 54, 0.10)',
+    glowColor: 'rgba(74, 64, 54, 0.16)',
+    glowSecondary: 'rgba(138, 126, 111, 0.14)',
+    badgeBg: 'rgba(74, 64, 54, 0.08)',
+    badgeBorder: 'rgba(74, 64, 54, 0.28)',
+    stampText: 'RATNLABS // DAILY NEWS DIGEST',
   },
   cheatsheets: {
     bgStart: '#f7fff8',
@@ -579,6 +596,31 @@ async function main() {
       process.stdout.write('.');
     } catch (e) {
       console.error(`\nblog/${slug}: ${e instanceof Error ? e.message : e}`);
+    }
+  }
+
+  const newsSlugs = getNewsPostSlugs();
+  for (const slug of newsSlugs) {
+    const post = await getNewsPostListingMeta(slug);
+    if (!post) continue;
+    const dir = path.join('news', slug);
+    const outPath = path.join(outDir, dir + '.png');
+    const outPathDir = path.dirname(outPath);
+    if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
+    try {
+      const el = buildOgElement(
+        sanitize(post.title, 80),
+        sanitize(post.description || 'Ratn Labs', 120),
+        'News',
+        'news'
+      );
+      const res = new ImageResponse(el, { width: 1200, height: 630 });
+      const buf = await res.arrayBuffer();
+      fs.writeFileSync(outPath, Buffer.from(buf));
+      total++;
+      process.stdout.write('.');
+    } catch (e) {
+      console.error(`\nnews/${slug}: ${e instanceof Error ? e.message : e}`);
     }
   }
 

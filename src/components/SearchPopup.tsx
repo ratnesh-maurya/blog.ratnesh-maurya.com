@@ -20,9 +20,17 @@ export interface TILSearchItem {
   date: string;
 }
 
+export interface NewsSearchItem {
+  slug: string;
+  title: string;
+  description: string;
+  tags: string[];
+  date: string;
+}
+
 interface SearchResult {
-  type: 'blog' | 'question' | 'term' | 'til';
-  item: BlogPost | SillyQuestion | TechnicalTermSearchItem | TILSearchItem;
+  type: 'blog' | 'question' | 'term' | 'til' | 'news';
+  item: BlogPost | SillyQuestion | TechnicalTermSearchItem | TILSearchItem | NewsSearchItem;
   score: number;
   matchedFields: string[];
 }
@@ -34,9 +42,10 @@ interface SearchPopupProps {
   sillyQuestions: SillyQuestion[];
   technicalTerms?: TechnicalTermSearchItem[];
   tilEntries?: TILSearchItem[];
+  newsPosts?: NewsSearchItem[];
 }
 
-type FilterType = 'all' | 'blog' | 'question' | 'term' | 'til';
+type FilterType = 'all' | 'blog' | 'question' | 'term' | 'til' | 'news';
 type SortType = 'relevance' | 'date' | 'title';
 
 function searchScore(query: string, text: string): { score: number; matched: boolean } {
@@ -63,6 +72,7 @@ function searchContent(
   sillyQuestions: SillyQuestion[],
   technicalTerms: TechnicalTermSearchItem[],
   tilEntries: TILSearchItem[],
+  newsPosts: NewsSearchItem[],
   filterType: FilterType
 ): SearchResult[] {
   if (!query.trim()) return [];
@@ -132,10 +142,26 @@ function searchContent(
     });
   }
 
+  if (filterType === 'all' || filterType === 'news') {
+    newsPosts.forEach((entry) => {
+      const matchedFields: string[] = [];
+      let totalScore = 0;
+      const t = searchScore(query, entry.title);
+      if (t.matched) { totalScore += t.score * 3; matchedFields.push('title'); }
+      const d = searchScore(query, entry.description);
+      if (d.matched) { totalScore += d.score * 2; matchedFields.push('description'); }
+      entry.tags.forEach((tag) => {
+        const r = searchScore(query, tag);
+        if (r.matched) { totalScore += r.score; if (!matchedFields.includes('tags')) matchedFields.push('tags'); }
+      });
+      if (totalScore > 0) results.push({ type: 'news', item: entry, score: totalScore, matchedFields });
+    });
+  }
+
   return results.sort((a, b) => b.score - a.score).slice(0, 10);
 }
 
-export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, technicalTerms = [], tilEntries = [] }: SearchPopupProps) {
+export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, technicalTerms = [], tilEntries = [], newsPosts = [] }: SearchPopupProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -151,18 +177,33 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
       ...blogPosts.flatMap((p) => p.tags),
       ...sillyQuestions.flatMap((q) => q.tags),
       ...tilEntries.flatMap((e) => e.tags),
+      ...newsPosts.flatMap((n) => n.tags),
     ]));
     return { categories: categories.slice(0, 6), tags: tags.slice(0, 8) };
-  }, [blogPosts, sillyQuestions, tilEntries]);
+  }, [blogPosts, sillyQuestions, tilEntries, newsPosts]);
 
   const getItemDate = (item: SearchResult['item'], type: SearchResult['type']): string =>
-    type === 'blog' ? (item as BlogPost).date : type === 'question' ? (item as SillyQuestion).date : type === 'til' ? (item as TILSearchItem).date : '';
+    type === 'blog'
+      ? (item as BlogPost).date
+      : type === 'question'
+        ? (item as SillyQuestion).date
+        : type === 'til'
+          ? (item as TILSearchItem).date
+          : type === 'news'
+            ? (item as NewsSearchItem).date
+            : '';
 
   const getItemTitle = (item: SearchResult['item'], type: SearchResult['type']): string =>
-    type === 'blog' ? (item as BlogPost).title : type === 'question' ? (item as SillyQuestion).question : (item as TechnicalTermSearchItem | TILSearchItem).title;
+    type === 'blog'
+      ? (item as BlogPost).title
+      : type === 'question'
+        ? (item as SillyQuestion).question
+        : type === 'news'
+          ? (item as NewsSearchItem).title
+          : (item as TechnicalTermSearchItem | TILSearchItem).title;
 
   const sortedResults = useMemo(() => {
-    const r = searchContent(query, blogPosts, sillyQuestions, technicalTerms, tilEntries, filterType);
+    const r = searchContent(query, blogPosts, sillyQuestions, technicalTerms, tilEntries, newsPosts, filterType);
     if (sortType === 'date') return r.sort((a, b) => {
       const da = getItemDate(a.item, a.type);
       const db = getItemDate(b.item, b.type);
@@ -171,7 +212,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
     });
     if (sortType === 'title') return r.sort((a, b) => getItemTitle(a.item, a.type).localeCompare(getItemTitle(b.item, b.type)));
     return r;
-  }, [query, blogPosts, sillyQuestions, technicalTerms, tilEntries, filterType, sortType]);
+  }, [query, blogPosts, sillyQuestions, technicalTerms, tilEntries, newsPosts, filterType, sortType]);
 
 
   useEffect(() => { setResults(sortedResults); setSelectedIndex(0); }, [sortedResults]);
@@ -194,7 +235,8 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
         const href = r.type === 'blog' ? `/blog/${(r.item as BlogPost).slug}`
           : r.type === 'question' ? `/silly-questions/${(r.item as SillyQuestion).slug}`
             : r.type === 'term' ? `/technical-terms/${(r.item as TechnicalTermSearchItem).slug}`
-              : `/til/${(r.item as TILSearchItem).slug}`;
+              : r.type === 'til' ? `/til/${(r.item as TILSearchItem).slug}`
+                : `/news/${(r.item as NewsSearchItem).slug}`;
         window.location.href = href;
       }
     }
@@ -218,8 +260,9 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
   }, [selectedIndex]);
 
   const filterLabels: { id: FilterType; label: string; count: number }[] = [
-    { id: 'all', label: 'All', count: blogPosts.length + sillyQuestions.length + technicalTerms.length + tilEntries.length },
+    { id: 'all', label: 'All', count: blogPosts.length + sillyQuestions.length + technicalTerms.length + tilEntries.length + newsPosts.length },
     { id: 'blog', label: 'Posts', count: blogPosts.length },
+    { id: 'news', label: 'News', count: newsPosts.length },
     { id: 'question', label: 'Questions', count: sillyQuestions.length },
     { id: 'term', label: 'Terms', count: technicalTerms.length },
     { id: 'til', label: 'TIL', count: tilEntries.length },
@@ -259,7 +302,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search posts, tags, questions…"
+            placeholder="Search posts, news, tags, questions…"
             value={query}
             onChange={e => setQuery(e.target.value)}
             className="flex-1 text-base bg-transparent outline-none border-none"
@@ -339,18 +382,52 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                   const isBlog = result.type === 'blog';
                   const isQuestion = result.type === 'question';
                   const isTerm = result.type === 'term';
+                  const isNews = result.type === 'news';
                   const post = result.item as BlogPost;
                   const question = result.item as SillyQuestion;
                   const term = result.item as TechnicalTermSearchItem;
                   const til = result.item as TILSearchItem;
+                  const news = result.item as NewsSearchItem;
                   const title = getItemTitle(result.item, result.type);
-                  const subtitle = isBlog ? post.description : isQuestion ? question.answer?.replace(/<[^>]*>/g, '').substring(0, 120) + '…' : isTerm ? term.description?.substring(0, 120) + '…' : til.description?.substring(0, 120) + '…';
-                  const href = isBlog ? `/blog/${post.slug}` : isQuestion ? `/silly-questions/${question.slug}` : isTerm ? `/technical-terms/${term.slug}` : `/til/${til.slug}`;
-                  const label = isBlog ? (post.category || 'Post') : isQuestion ? 'Question' : isTerm ? 'Term' : 'TIL';
+                  const subtitle = isBlog
+                    ? post.description
+                    : isQuestion
+                      ? question.answer?.replace(/<[^>]*>/g, '').substring(0, 120) + '…'
+                      : isTerm
+                        ? term.description?.substring(0, 120) + '…'
+                        : isNews
+                          ? news.description?.substring(0, 120) + '…'
+                          : til.description?.substring(0, 120) + '…';
+                  const href = isBlog
+                    ? `/blog/${post.slug}`
+                    : isQuestion
+                      ? `/silly-questions/${question.slug}`
+                      : isTerm
+                        ? `/technical-terms/${term.slug}`
+                        : isNews
+                          ? `/news/${news.slug}`
+                          : `/til/${til.slug}`;
+                  const label = isBlog ? (post.category || 'Post') : isQuestion ? 'Question' : isTerm ? 'Term' : isNews ? 'News' : 'TIL';
                   const dateStr = getItemDate(result.item, result.type);
                   const isSelected = index === selectedIndex;
-                  const iconColor = isBlog ? 'var(--accent-50)' : isQuestion ? 'var(--coral-50)' : isTerm ? 'var(--accent-50)' : 'var(--surface-muted)';
-                  const iconTextColor = isBlog ? 'var(--accent-500)' : isQuestion ? 'var(--coral-500)' : isTerm ? 'var(--accent-500)' : 'var(--text-muted)';
+                  const iconColor = isBlog
+                    ? 'var(--accent-50)'
+                    : isQuestion
+                      ? 'var(--coral-50)'
+                      : isTerm
+                        ? 'var(--accent-50)'
+                        : isNews
+                          ? 'var(--nb-card-3)'
+                          : 'var(--surface-muted)';
+                  const iconTextColor = isBlog
+                    ? 'var(--accent-500)'
+                    : isQuestion
+                      ? 'var(--coral-500)'
+                      : isTerm
+                        ? 'var(--accent-500)'
+                        : isNews
+                          ? 'var(--text-primary)'
+                          : 'var(--text-muted)';
 
                   return (
                     <Link
@@ -379,6 +456,10 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                         ) : isTerm ? (
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                          </svg>
+                        ) : isNews ? (
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h8l2 2h4a2 2 0 012 2v10a2 2 0 01-2 2z" />
                           </svg>
                         ) : (
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

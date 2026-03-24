@@ -220,7 +220,7 @@ export function PerformanceComparison({
             <tr
               style={{
                 color: 'var(--text-muted)',
-                backgroundColor: 'var(--background)',
+                backgroundColor: 'transparent',
                 borderBottom: '1px solid var(--border)',
               }}
             >

@@ -77,7 +77,7 @@ export default async function AboutPage() {
       <OgImageInBody src={getStoredOgImageUrl('about')} alt="About — Ratnesh Maurya" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         {/* Hero */}
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">

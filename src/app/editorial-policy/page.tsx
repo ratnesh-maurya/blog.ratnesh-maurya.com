@@ -36,7 +36,7 @@ export default function EditorialPolicyPage() {
       <OgImageInBody src={getStoredOgImageUrl('home')} alt="Editorial Policy — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         <div style={{ borderBottom: '2px solid var(--nb-border)' }}>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>

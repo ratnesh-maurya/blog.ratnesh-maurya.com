@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
       <OgImageInBody src={getStoredOgImageUrl('privacy-policy')} alt="Privacy Policy — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         {/* Header */}
         <div style={{ borderBottom: '2px solid var(--nb-border)' }}>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">

@@ -70,7 +70,7 @@ export default async function TopicsPage() {
       <OgImageInBody src={getStoredOgImageUrl('topics')} alt="Topics — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         {/* Header */}
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14 text-center">

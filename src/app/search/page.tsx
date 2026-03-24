@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Search — Ratn Labs',
-  description: 'Search across blog posts, technical terms, cheatsheets, TILs, and silly questions. Find system design, Go, AWS, and backend topics fast →',
+  description: 'Search across blog posts, daily news digests, technical terms, cheatsheets, TILs, and silly questions. Find system design, Go, AWS, and backend topics fast →',
   keywords: ['search', 'blog search', 'find articles', 'system design', 'Go', 'backend engineering'],
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/search/', types: { ...oembedAlternate('/search') } },
   openGraph: {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 function SearchFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center"
-      style={{ backgroundColor: 'var(--background)' }}>
+      style={{ backgroundColor: 'transparent' }}>
       <div className="inline-block w-8 h-8 rounded-full border-2 border-t-transparent animate-spin"
         style={{ borderColor: 'var(--accent-300)', borderTopColor: 'transparent' }} />
     </div>

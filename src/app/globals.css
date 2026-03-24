@@ -58,11 +58,11 @@
   --error:   #B91C1C;
   --info:    #6B7BEE;
 
-  /* Background & Surface — warm cream (Neo-Brutalist) */
-  --background:       #FFFEF0;
+  /* Background & Surface — accent-aware base so tint appears site-wide */
+  --background:       color-mix(in srgb, var(--accent-50) 32%, #FFFFFF);
   --surface:          #FFFFFF;
   --surface-elevated: #FFFFFF;
-  --surface-muted:    #F5F4E8;
+  --surface-muted:    #F3F5F8;
   --foreground:       #1C1C1A;
   --muted:            var(--neutral-100);
   --border:           var(--neutral-300);
@@ -247,33 +247,33 @@
   --primary-800: var(--accent-800);
   --primary-900: var(--accent-900);
 
-  /* Neutral scale — warm dark, not cold grey */
-  --neutral-50:  #0C0B0A;
-  --neutral-100: #161412;
-  --neutral-200: #201E1C;
-  --neutral-300: #2C2A26;
-  --neutral-400: #403E3A;
-  --neutral-500: #6A6660;
-  --neutral-600: #A09890;
-  --neutral-700: #C8C0B8;
-  --neutral-800: #E8E0D8;
-  --neutral-900: #F0E8E0;
-  --neutral-950: #F5F0E8;
+  /* Neutral scale — deeper charcoal for a darker theme */
+  --neutral-50:  #0A0908;
+  --neutral-100: #121110;
+  --neutral-200: #1C1B1A;
+  --neutral-300: #2E2B29;
+  --neutral-400: #42403D;
+  --neutral-500: #75706B;
+  --neutral-600: #ABA39A;
+  --neutral-700: #CEC6BD;
+  --neutral-800: #E9E2D9;
+  --neutral-900: #F2ECE4;
+  --neutral-950: #F7F2EA;
 
-  /* Surfaces — warm dark (Neo-Brutalist) */
-  --background:       #0C0B0A;
-  --surface:          #161412;
-  --surface-elevated: #201E1C;
-  --surface-muted:    #181614;
+  /* Surfaces — pure dark context */
+  --background:       #000000;
+  --surface:          #0A0A0A;
+  --surface-elevated: #121212;
+  --surface-muted:    #050505;
   --foreground:       #F0EBE4;
-  --muted:            #181614;
+  --muted:            #121110;
   --border:           rgba(240, 235, 228, 0.12);
 
   /* Text — warm off-white */
   --text-primary:   #F0EBE4;
   --text-secondary: rgba(240, 235, 228, 0.65);
   --text-muted:     rgba(240, 235, 228, 0.38);
-  --text-inverse:   #0C0B0A;
+  --text-inverse:   #0A0908;
 
   --overlay-backdrop: rgb(0 0 0 / 0.82);
 
@@ -283,19 +283,19 @@
   --shadow-lg: none;
   --shadow-xl: none;
 
-  --card:                 #161412;
+  --card:                 #0F0E0D;
   --card-foreground:      #F0EBE4;
-  --popover:              #201E1C;
+  --popover:              #171615;
   --popover-foreground:   #F0EBE4;
   --primary:              #EA580C;
-  --primary-foreground:   #0C0B0A;
-  --secondary:            #201E1C;
+  --primary-foreground:   #0A0908;
+  --secondary:            #1C1B1A;
   --secondary-foreground: #F0EBE4;
   --accent:               rgba(234, 88, 12, 0.15);
   --accent-foreground:    #FB923C;
   --destructive:          #EF4444;
-  --destructive-foreground: #0C0B0A;
-  --input:                #201E1C;
+  --destructive-foreground: #0A0908;
+  --input:                #1C1B1A;
   --ring:                 #EA580C;
 
   --gold-50:  #150F00;
@@ -311,9 +311,9 @@
   --coral-400: #C88AB8;
   --coral-500: #D8A4C8;
 
-  --footer-bg:            color-mix(in srgb, var(--accent-500) 4%, #050505);
-  --footer-surface:       color-mix(in srgb, var(--accent-500) 6%, #111112);
-  --footer-surface-hover: color-mix(in srgb, var(--accent-500) 8%, #1A1A1B);
+  --footer-bg:            color-mix(in srgb, var(--accent-500) 4%, #080808);
+  --footer-surface:       color-mix(in srgb, var(--accent-500) 4%, #0F0E0D);
+  --footer-surface-hover: color-mix(in srgb, var(--accent-500) 6%, #151413);
   --footer-text-primary:  #EDEDEC;
   --footer-text-secondary:var(--accent-600);
   --footer-text-muted:    var(--accent-500);
@@ -457,7 +457,7 @@
 /* ─── Header / Navigation — Neo-Brutalist ─── */
 .header-nav {
   background: var(--background);
-  border-bottom: 2px solid #000000;
+  border-bottom: 2px solid color-mix(in srgb, var(--text-primary) 42%, transparent);
   transition: background 0.2s ease;
   color: var(--text-primary);
 }
@@ -469,7 +469,7 @@
 
 .header-nav.scrolled {
   background: var(--background);
-  box-shadow: 0 2px 0 0 #000000;
+  box-shadow: 0 2px 0 0 color-mix(in srgb, var(--text-primary) 32%, transparent);
 }
 
 [data-theme="dark"] .header-nav.scrolled {
@@ -506,12 +506,40 @@ html {
 body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   background-color: var(--background);
+  background-image:
+    radial-gradient(900px 420px at 50% -120px, color-mix(in srgb, var(--accent-200) 28%, transparent) 0%, transparent 72%),
+    radial-gradient(700px 360px at 8% 100%, color-mix(in srgb, var(--accent-100) 22%, transparent) 0%, transparent 75%);
+  background-repeat: no-repeat;
   color: var(--text-primary);
   line-height: 1.6;
   font-feature-settings: "rlig" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app-shell {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(900px 420px at 50% -120px, color-mix(in srgb, var(--accent-200) 28%, transparent) 0%, transparent 72%),
+    radial-gradient(700px 360px at 8% 100%, color-mix(in srgb, var(--accent-100) 22%, transparent) 0%, transparent 75%);
+  background-repeat: no-repeat;
+}
+
+.app-main {
+  background: transparent;
+}
+
+[data-theme="dark"] body {
+  background-image:
+    radial-gradient(900px 420px at 50% -120px, color-mix(in srgb, var(--accent-500) 12%, transparent) 0%, transparent 72%),
+    radial-gradient(700px 360px at 8% 100%, color-mix(in srgb, var(--accent-400) 8%, transparent) 0%, transparent 75%);
+}
+
+[data-theme="dark"] .app-shell {
+  background-image:
+    radial-gradient(900px 420px at 50% -120px, color-mix(in srgb, var(--accent-500) 12%, transparent) 0%, transparent 72%),
+    radial-gradient(700px 360px at 8% 100%, color-mix(in srgb, var(--accent-400) 8%, transparent) 0%, transparent 75%);
 }
 
 /* ─── Film Grain Texture Overlay ─── */
@@ -1315,11 +1343,11 @@ html, body {
 
 :root {
   /* Neo-Brutalist border & shadow tokens */
-  --nb-border:     #000000;
+  --nb-border:     #2B2824;
   --nb-border-w:   2px;
-  --nb-shadow:     4px 4px 0px 0px #000000;
-  --nb-shadow-sm:  2px 2px 0px 0px #000000;
-  --nb-shadow-lg:  6px 6px 0px 0px #000000;
+  --nb-shadow:     4px 4px 0px 0px #2B2824;
+  --nb-shadow-sm:  2px 2px 0px 0px #2B2824;
+  --nb-shadow-lg:  6px 6px 0px 0px #2B2824;
 
   /* Vibrant card palette — indexed for cycling */
   --nb-card-0:       #C8FAD0;   /* mint green  */
@@ -1336,8 +1364,8 @@ html, body {
   --nb-purple-v:   #7C3AED;
   --nb-yellow-v:   #CA8A04;
 
-  /* Badge/button primary (inverted from bg) */
-  --nb-badge-bg:   #000000;
+  /* Badge/button primary follows current accent */
+  --nb-badge-bg:   var(--accent-500);
   --nb-badge-text: #FFFEF0;
 
   /* Surface for plain cards (FAQ, etc.) */
@@ -1360,12 +1388,12 @@ html, body {
   --nb-card-5:       #0A1F32;   /* dark blue   */
   --nb-card-featured: #2B1A0C;  /* dark peach  */
 
-  /* Dark badge/button primary */
-  --nb-badge-bg:   rgba(240, 235, 228, 0.9);
+  /* Dark badge/button primary also follows current accent */
+  --nb-badge-bg:   var(--accent-500);
   --nb-badge-text: #0C0B0A;
 
   /* Surface for plain cards */
-  --nb-surface-card: #161412;
+  --nb-surface-card: #0F0E0D;
 }
 
 /* ── Core components ── */
@@ -1453,7 +1481,7 @@ html, body {
 
 .nb-separator {
   border: none;
-  border-top: 2px solid #000000;
+  border-top: 2px solid var(--nb-border);
 }
 
 [data-theme="dark"] .nb-separator {
@@ -1479,7 +1507,7 @@ html, body {
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #000000;
+  color: color-mix(in srgb, var(--text-primary) 82%, transparent);
 }
 [data-theme="dark"] .nb-section-label {
   color: rgba(255, 255, 255, 0.8);
@@ -1514,14 +1542,14 @@ html, body {
 
 /* ── Nav active pill ── */
 .nb-nav-active {
-  background: #000000 !important;
-  color: #FFFEF0 !important;
-  border-color: #000000 !important;
+  background: var(--nb-badge-bg) !important;
+  color: var(--nb-badge-text) !important;
+  border-color: var(--nb-badge-bg) !important;
 }
 [data-theme="dark"] .nb-nav-active {
-  background: rgba(240, 235, 228, 0.9) !important;
-  color: #0C0B0A !important;
-  border-color: rgba(240, 235, 228, 0.9) !important;
+  background: var(--nb-badge-bg) !important;
+  color: var(--nb-badge-text) !important;
+  border-color: var(--nb-badge-bg) !important;
 }
 
 /* ── Primary badge (auto-inverts with theme) ── */
@@ -1549,7 +1577,7 @@ html, body {
 .nb-btn-orange {
   background-color: #EA580C;
   color: #FFFEF0;
-  border-color: #000;
+  border-color: var(--nb-border);
 }
 [data-theme="dark"] .nb-btn-orange {
   border-color: rgba(240, 235, 228, 0.7);

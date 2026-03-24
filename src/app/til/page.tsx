@@ -44,7 +44,7 @@ export default async function TILPage() {
       <OgImageInBody src={getStoredOgImageUrl('til')} alt="Today I Learned" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <TILListStructuredData entries={entries} />
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
 
         {/* Header */}
         <div className="hero-gradient-bg">

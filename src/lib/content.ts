@@ -1,4 +1,4 @@
-import { BlogPost, SillyQuestion, TILEntry } from '@/types/blog';
+import { BlogPost, NewsPost, SillyQuestion, TILEntry } from '@/types/blog';
 import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
@@ -25,6 +25,7 @@ export interface TechnicalTerm {
 
 const contentDirectory = path.join(process.cwd(), 'content');
 const blogDirectory = path.join(contentDirectory, 'blog');
+const newsDirectory = path.join(contentDirectory, 'news');
 const sillyQuestionsDirectory = path.join(contentDirectory, 'silly-questions');
 const tilDirectory = path.join(contentDirectory, 'til');
 const technicalTermsDirectory = path.join(contentDirectory, 'technical-terms');
@@ -35,6 +36,9 @@ if (!fs.existsSync(blogDirectory)) {
 }
 if (!fs.existsSync(sillyQuestionsDirectory)) {
   fs.mkdirSync(sillyQuestionsDirectory, { recursive: true });
+}
+if (!fs.existsSync(newsDirectory)) {
+  fs.mkdirSync(newsDirectory, { recursive: true });
 }
 if (!fs.existsSync(tilDirectory)) {
   fs.mkdirSync(tilDirectory, { recursive: true });
@@ -56,6 +60,14 @@ function getBlogPostSlugsFromFs(): string[] {
   const mdx = fs.readdirSync(blogDirectory).filter(n => n.endsWith('.mdx')).map(n => n.replace(/\.mdx$/, ''));
   const mdxSet = new Set(mdx);
   return [...mdx, ...md.filter(s => !mdxSet.has(s))];
+}
+
+function getNewsPostSlugsFromFs(): string[] {
+  if (!fs.existsSync(newsDirectory)) return [];
+  return fs
+    .readdirSync(newsDirectory)
+    .filter((name) => name.endsWith('.md'))
+    .map((name) => name.replace(/\.md$/, ''));
 }
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
@@ -100,6 +112,79 @@ export async function getAllBlogPostsForListing(): Promise<BlogPost[]> {
   const allPostsData = await Promise.all(slugs.map(slug => getBlogPostListingMeta(slug)));
   return allPostsData
     .filter((post): post is BlogPost => post !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/** Lightweight listing: frontmatter + reading time only; no markdown→HTML. Use for /news listing page. */
+export async function getNewsPostListingMeta(slug: string): Promise<NewsPost | null> {
+  try {
+    const fullPath = path.join(newsDirectory, `${slug}.md`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
+
+    return {
+      slug,
+      title: data.title || '',
+      description: data.description || '',
+      date: data.date || '',
+      query: data.query || '',
+      tags: data.tags || [],
+      source: data.source || 'tavily-search',
+      image: data.image || '',
+      content: '',
+      rawContent: content,
+    };
+  } catch (error) {
+    console.error(`Error reading news listing meta ${slug}:`, error);
+    return null;
+  }
+}
+
+export async function getAllNewsPostsForListing(): Promise<NewsPost[]> {
+  const slugs = getNewsPostSlugsFromFs();
+  const allPostsData = await Promise.all(slugs.map((slug) => getNewsPostListingMeta(slug)));
+  return allPostsData
+    .filter((post): post is NewsPost => post !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+export async function getNewsPost(slug: string): Promise<NewsPost | null> {
+  try {
+    const fullPath = path.join(newsDirectory, `${slug}.md`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
+
+    const processedContent = await remark()
+      .use(remarkGfm)
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
+      .process(content);
+    const contentHtml = addIdsToHeadings(processedContent.toString());
+
+    return {
+      slug,
+      title: data.title || '',
+      description: data.description || '',
+      date: data.date || '',
+      query: data.query || '',
+      tags: data.tags || [],
+      source: data.source || 'tavily-search',
+      image: data.image || '',
+      content: contentHtml,
+      rawContent: content,
+    };
+  } catch (error) {
+    console.error(`Error reading news post ${slug}:`, error);
+    return null;
+  }
+}
+
+export async function getAllNewsPosts(): Promise<NewsPost[]> {
+  const slugs = getNewsPostSlugsFromFs();
+  const allPostsData = await Promise.all(slugs.map((slug) => getNewsPost(slug)));
+  return allPostsData
+    .filter((post): post is NewsPost => post !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
@@ -261,6 +346,10 @@ export function getTILSlugs(): string[] {
 
 export function getBlogPostSlugs(): string[] {
   return getBlogPostSlugsFromFs();
+}
+
+export function getNewsPostSlugs(): string[] {
+  return getNewsPostSlugsFromFs();
 }
 
 export function getSillyQuestionSlugs(): string[] {

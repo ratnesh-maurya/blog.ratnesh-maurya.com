@@ -37,6 +37,19 @@ export interface TILEntry {
   rawContent: string; // plain markdown for excerpt
 }
 
+export interface NewsPost {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  query: string;
+  tags: string[];
+  source: string;
+  image?: string;
+  content: string; // rendered HTML
+  rawContent?: string; // plain markdown source
+}
+
 export interface BlogMetadata {
   title: string;
   description: string;

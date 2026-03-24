@@ -4,6 +4,7 @@ import { AccentColorProvider } from '@/components/AccentColorProvider';
 import { FocusTrap, SkipLink, useKeyboardShortcut } from '@/components/AccessibilityUtils';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
+import type { NewsSearchItem } from '@/components/SearchPopup';
 import { UtmTracker } from '@/components/UtmTracker';
 import { BlogPost, SillyQuestion } from '@/types/blog';
 import dynamic from 'next/dynamic';
@@ -31,6 +32,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
   const [sillyQuestions, setSillyQuestions] = useState<SillyQuestion[]>([]);
   const [technicalTerms, setTechnicalTerms] = useState<{ slug: string; title: string; description: string }[]>([]);
   const [tilEntries, setTilEntries] = useState<{ slug: string; title: string; description: string; tags: string[]; category: string; date: string }[]>([]);
+  const [newsPosts, setNewsPosts] = useState<NewsSearchItem[]>([]);
   const pathname = usePathname();
 
   const loadSearchData = useCallback(async () => {
@@ -43,6 +45,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
         setSillyQuestions(data.sillyQuestions ?? []);
         setTechnicalTerms(data.technicalTerms ?? []);
         setTilEntries(data.tilEntries ?? []);
+        setNewsPosts(data.newsPosts ?? []);
         setSearchDataLoaded(true);
       }
     } catch (error) {
@@ -92,7 +95,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
 
   return (
     <AccentColorProvider>
-      <div className="min-h-screen flex flex-col transition-colors" style={{ backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}>
+      <div className="app-shell min-h-screen flex flex-col transition-colors" style={{ color: 'var(--text-primary)' }}>
         <UtmTracker />
 
         <SkipLink href="#main-content">Skip to main content</SkipLink>
@@ -113,7 +116,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
           />
         )}
 
-        <main id="main-content" className="flex-1 pt-16" style={{ backgroundColor: 'var(--background)' }} role="main">
+        <main id="main-content" className="app-main flex-1 pt-16" role="main">
           {children}
         </main>
 
@@ -128,6 +131,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
               sillyQuestions={sillyQuestions}
               technicalTerms={technicalTerms}
               tilEntries={tilEntries}
+              newsPosts={newsPosts}
             />
           )}
         </FocusTrap>

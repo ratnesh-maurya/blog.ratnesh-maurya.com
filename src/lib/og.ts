@@ -29,13 +29,17 @@ export function slugifyTagForOg(tag: string): string {
  * All OG images are pre-built to public/og/ and served at /og/...
  */
 export function getStoredOgImagePath(
-  route: 'home' | 'blog' | 'blog-slug' | 'blog-tag' | 'silly-questions' | 'silly-question' | 'technical-terms' | 'technical-term' | 'til' | 'til-slug' | 'cheatsheets' | 'cheatsheet' | 'about' | 'now' | 'uses' | 'topics' | 'search' | 'newsletter' | 'privacy-policy' | 'resources' | 'series' | 'glossary',
+  route: 'home' | 'blog' | 'blog-slug' | 'blog-tag' | 'news' | 'news-slug' | 'silly-questions' | 'silly-question' | 'technical-terms' | 'technical-term' | 'til' | 'til-slug' | 'cheatsheets' | 'cheatsheet' | 'about' | 'now' | 'uses' | 'topics' | 'search' | 'newsletter' | 'privacy-policy' | 'resources' | 'series' | 'glossary',
   slug?: string,
   tag?: string
 ): string {
   switch (route) {
     case 'home':
       return '/og/home.png';
+    case 'news':
+      return '/og/news.png';
+    case 'news-slug':
+      return `/og/news/${slug}.png`;
     case 'blog':
       return '/og/blog.png';
     case 'blog-slug':

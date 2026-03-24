@@ -15,6 +15,7 @@ interface HeaderProps {
 
 const primaryNav = [
   { label: 'Blog', href: '/blog' },
+  { label: 'News', href: '/news' },
   { label: 'Questions', href: '/silly-questions' },
   { label: 'Terms', href: '/technical-terms' },
   { label: 'About', href: '/about' },
@@ -200,7 +201,7 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                     id="more-menu"
                     className="absolute right-0 top-full mt-2 w-48 rounded-xl py-1 z-50 overflow-hidden"
                     style={{
-                      backgroundColor: 'var(--background)',
+                      backgroundColor: 'transparent',
                       border: '2px solid var(--nb-border)',
                       boxShadow: 'var(--nb-shadow)',
                     }}

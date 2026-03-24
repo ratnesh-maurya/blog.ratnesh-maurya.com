@@ -1,4 +1,4 @@
-import { BlogPost, SillyQuestion, TILEntry } from '@/types/blog';
+import { BlogPost, NewsPost, SillyQuestion, TILEntry } from '@/types/blog';
 import { getSocialImageUrl } from './BlogImage';
 
 const BLOG_BASE = 'https://blog.ratnesh-maurya.com';
@@ -483,6 +483,90 @@ export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
         description: post.description,
       })),
     },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+interface NewsListStructuredDataProps {
+  posts: Array<{
+    title: string;
+    description: string;
+    slug: string;
+    date: string;
+  }>;
+}
+
+export function NewsListStructuredData({ posts }: NewsListStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'AI & Software Development News — Ratn Labs',
+    description: 'Daily AI and software development news digests with source links and summaries.',
+    url: withTrailingSlash('https://blog.ratnesh-maurya.com/news'),
+    inLanguage: 'en-US',
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: posts.map((post, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: withTrailingSlash(`https://blog.ratnesh-maurya.com/news/${post.slug}`),
+        name: post.title,
+        description: post.description,
+      })),
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+interface NewsArticleStructuredDataProps {
+  post: NewsPost;
+}
+
+export function NewsArticleStructuredData({ post }: NewsArticleStructuredDataProps) {
+  const image = post.image ? absoluteOgImageUrl(post.image) : absoluteOgImageUrl('/og/home.png');
+  const datePublished = new Date(post.date).toISOString();
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: post.title,
+    description: post.description,
+    image: [image],
+    datePublished,
+    dateModified: datePublished,
+    author: {
+      '@type': 'Person',
+      name: 'Ratnesh Maurya',
+      url: 'https://ratnesh-maurya.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Ratn Labs',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://blog.ratnesh-maurya.com/apple-touch-icon.png',
+      },
+    },
+    articleSection: 'AI News',
+    keywords: post.tags.join(', '),
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': withTrailingSlash(`https://blog.ratnesh-maurya.com/news/${post.slug}`),
+    },
+    url: withTrailingSlash(`https://blog.ratnesh-maurya.com/news/${post.slug}`),
+    isAccessibleForFree: true,
   };
 
   return (
