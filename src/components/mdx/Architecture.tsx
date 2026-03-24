@@ -2,7 +2,13 @@ import type { ReactNode } from 'react';
 
 type Tone = 'green' | 'pink' | 'yellow';
 
-function getAccent(_tone: Tone = 'green') {
+function getAccent(tone: Tone = 'green') {
+  if (tone === 'pink') {
+    return 'var(--pink-500)';
+  }
+  if (tone === 'yellow') {
+    return 'var(--yellow-500)';
+  }
   return 'var(--accent-500)';
 }
 

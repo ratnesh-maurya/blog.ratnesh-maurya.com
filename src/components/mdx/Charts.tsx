@@ -76,7 +76,6 @@ function useIsMounted() {
 export function DemoBarChart() {
   const mounted = useIsMounted();
   const accent = useAccentHex();
-  const CHART_COLORS = [accent, ...CHART_COLORS_TAIL];
 
   if (!mounted) {
     return null;

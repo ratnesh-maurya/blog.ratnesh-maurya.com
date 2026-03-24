@@ -156,7 +156,7 @@ Your task: Use ONLY these provided articles to write a highly formatted, beautif
 Requirements:
 1. **Intro Hook & Global TL;DR**:
    - Start with an engaging, impromptu introduction that captures the overall theme of the day's news.
-   - IMMEDIATELY following the intro, provide a bulleted **"⚡ TL;DR"** section at the very top summarizing the 3-5 biggest news drops in this digest. Format this with a bold `## ⚡ TL;DR` heading and concise, punchy bullet points to give readers an instant bird's-eye view.
+  - IMMEDIATELY following the intro, provide a bulleted **"TL;DR"** section at the very top summarizing the 3-5 biggest news drops in this digest. Format this with a bold ## TL;DR heading and concise, punchy bullet points to give readers an instant bird's-eye view.
 2. **Visual Separation**: Differentiate each topic clearly. Use horizontal rules (---) to separate different news items to maximize the viewing experience.
 3. **Headings**: Use proper markdown headings (## for main news topics).
 4. **Key Takeaways**: For each news item, use blockquotes (> ) to highlight the TL;DR or most important insight.
