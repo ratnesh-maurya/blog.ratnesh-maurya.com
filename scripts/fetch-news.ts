@@ -25,6 +25,7 @@ const model = genAI.getGenerativeModel({
   model: 'gemini-2.5-flash',
   generationConfig: {
     responseMimeType: 'application/json',
+    maxOutputTokens: 16384,
     responseSchema: {
       type: SchemaType.OBJECT,
       properties: {
@@ -55,13 +56,14 @@ interface TavilyResult {
   title: string;
   url: string;
   content: string;
+  raw_content?: string;
   published_date?: string;
   score?: number;
   images?: any[];
 }
 
 // ... helper methods etc
-const DEFAULT_MAX_RESULTS = 10;
+const DEFAULT_MAX_RESULTS = 7;
 const DEFAULT_TIMEZONE = 'Asia/Kolkata';
 const DEFAULT_QUERY = 'AI OR "Software Development" OR "Next.js" OR "React" OR "Cloud Architecture" OR "System Design" OR "TypeScript" OR "Postgres" OR "Go" OR "Rust" language';
 
@@ -101,7 +103,7 @@ async function fetchTavilyNews(query: string, maxResults: number) {
     include_answer: true,
     include_images: true,
     include_image_descriptions: true,
-    include_raw_content: false,
+    include_raw_content: true,
     max_results: maxResults,
     include_domains: [],
     exclude_domains: [],
@@ -141,38 +143,43 @@ async function generateDigestWithGemini(rawResults: TavilyResult[], dateStr: str
       }).join('\n');
     }
 
+    // Prefer raw_content (full article text), fall back to snippet. Cap at 3000 chars per article
+    // to stay within Gemini's context window across all articles.
+    const bodyText = (article.raw_content || article.content || '').slice(0, 3000);
+
     return `
 Article ${i + 1}:
 Title: ${article.title}
 Published: ${article.published_date || 'Unknown'}
 URL: ${article.url}
-Content Fragment: ${article.content}${articleImages}`;
+Content: ${bodyText}${articleImages}`;
   }).join('\n\n');
 
   const prompt = `
-You are an expert tech blogger and editorial designer. I will provide you with a list of recent AI and software development news articles, sorted from latest to oldest.
-Your task: Use ONLY these provided articles to write a highly formatted, beautifully structured daily digest blog post.
+You are an expert tech blogger and editorial designer. I will provide you with a list of recent AI and software development news articles with their FULL content, sorted from latest to oldest.
+Your task: Use ONLY the information present in these articles to write a highly formatted, beautifully structured daily digest blog post. Cover EVERY article provided — do not skip any.
 
 Requirements:
 1. **Intro Hook & Global TL;DR**:
-   - Start with an engaging, impromptu introduction that captures the overall theme of the day's news.
-  - IMMEDIATELY following the intro, provide a bulleted **"TL;DR"** section at the very top summarizing the 3-5 biggest news drops in this digest. Format this with a bold ## TL;DR heading and concise, punchy bullet points to give readers an instant bird's-eye view.
-2. **Visual Separation**: Differentiate each topic clearly. Use horizontal rules (---) to separate different news items to maximize the viewing experience.
-3. **Headings**: Use proper markdown headings (## for main news topics).
-4. **Key Takeaways**: For each news item, use blockquotes (> ) to highlight the TL;DR or most important insight.
-5. **Styling**: Make the formatting pop. Use bold text for companies, technologies, and crucial numbers.
-6. **Images**: Use the EXACT markdown image paths from "Available Images for this article". Place images strategically in the topic section so they look great (ideally right under the ## heading).
-7. **Links**: Provide clear Markdown links to the source articles at the end of each topic section, formatted beautifully (e.g., [🔗 Read full source block](URL)).
-8. Do NOT reinvent or add facts not present in the provided fragments. You can add editorial flow, but stay true to the content.
-9. Output valid Markdown for the 'content' field in your response. DO NOT include any frontmatter in the 'content' string.
+   - Start with an engaging 2-3 sentence introduction that captures the overall theme of the day's news.
+   - IMMEDIATELY following, provide a bulleted **## TL;DR** section listing one punchy bullet per article. Every article must appear here.
+2. **One section per article**: Write a dedicated ## section for EVERY article in the list. Do not merge or skip articles.
+3. **Honest summaries**: Write each section based strictly on the article's provided content. Do NOT invent facts, statistics, or quotes not present in the source. If a detail is unclear, write around it rather than making it up.
+4. **Depth from source**: Each section should be 2-4 paragraphs that synthesize the key points from the article content. Pull specific details, numbers, and quotes that are actually present in the source.
+5. **Visual Separation**: Use horizontal rules (---) between articles.
+6. **Key Takeaways**: Use a blockquote (> ) for the single most important insight per article.
+7. **Styling**: Bold company names, technologies, and key numbers.
+8. **Images**: Use the EXACT image markdown from "Available Images for this article". Place each image right under its ## heading.
+9. **Links**: End each section with [🔗 Read more](URL) linking to the source article URL.
+10. Output valid Markdown. DO NOT include frontmatter in the content string.
 
 Date context: The news is for ${dateStr}.
 
-Here are the articles:
+Here are the ${sortedArticles.length} articles (cover ALL of them):
 ${contextData}
   `;
 
-  console.log('Calling Gemini model gemini-1.5-flash for generation...');
+  console.log(`Calling Gemini gemini-2.5-flash for ${sortedArticles.length} articles...`);
   const result = await model.generateContent(prompt);
   const responseText = result.response.text();
   return JSON.parse(responseText);
