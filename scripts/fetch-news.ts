@@ -26,6 +26,8 @@ const model = genAI.getGenerativeModel({
   generationConfig: {
     responseMimeType: 'application/json',
     maxOutputTokens: 16384,
+    // @ts-ignore — thinkingConfig is valid for gemini-2.5-flash but not yet in SDK types
+    thinkingConfig: { thinkingBudget: 0 },
     responseSchema: {
       type: SchemaType.OBJECT,
       properties: {
