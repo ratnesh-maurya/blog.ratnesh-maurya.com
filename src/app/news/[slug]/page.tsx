@@ -1,5 +1,8 @@
+import { RecentNews } from '@/components/RecentNews';
+import { RelatedPosts } from '@/components/RelatedPosts';
+import { RelatedTerms } from '@/components/RelatedTerms';
 import { BreadcrumbStructuredData, NewsArticleStructuredData } from '@/components/StructuredData';
-import { getAllNewsPosts, getNewsPost, getNewsPostSlugs } from '@/lib/content';
+import { getAllBlogPosts, getAllNewsPosts, getAllTechnicalTermsForListing, getNewsPost, getNewsPostSlugs } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
@@ -70,7 +73,12 @@ export async function generateMetadata({ params }: NewsPostPageProps): Promise<M
 
 export default async function NewsPostPage({ params }: NewsPostPageProps) {
   const { slug } = await params;
-  const [post, allNews] = await Promise.all([getNewsPost(slug), getAllNewsPosts()]);
+  const [post, allNews, allBlogPosts, allTerms] = await Promise.all([
+    getNewsPost(slug),
+    getAllNewsPosts(),
+    getAllBlogPosts(),
+    getAllTechnicalTermsForListing()
+  ]);
 
   if (!post) {
     notFound();
@@ -148,6 +156,10 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </article>
+
+        <RelatedTerms terms={allTerms} count={10} />
+        <RelatedPosts allPosts={allBlogPosts} currentTags={post.tags} />
+        <RecentNews news={allNews} currentSlug={post.slug} count={6} />
 
         <aside
           className="nb-card mt-8 p-6"

@@ -584,5 +584,32 @@
       "date": "2025-01-10"
     }
   ],
-  "newsPosts": []
+  "newsPosts": [
+    {
+      "slug": "ai-accelerates-openais-growth-chinas-open-source-prowess-new-tech-frontiers-march-25-2026-digest",
+      "title": "AI Accelerates: OpenAI's Growth, China's Open-Source Prowess & New Tech Frontiers (March 25, 2026 Digest)",
+      "description": "Catch up on the latest AI news: OpenAI's ambitious hiring plans, China's rising dominance in open-source AI, breakthroughs in AI interpretability, and the surging popularity of agentic AI platforms like OpenClaw. Stay informed on the future of tech.",
+      "tags": [
+        "AI news",
+        "OpenAI",
+        "AI workforce",
+        "China AI",
+        "open-source AI",
+        "DeepSeek",
+        "Alibaba Qwen",
+        "Cognex AI vision",
+        "AI interpretability",
+        "Nature Machine Intelligence",
+        "Neuro-symbolic AI",
+        "OpenClaw",
+        "agentic AI",
+        "AI data centers",
+        "optical microchips",
+        "Baird Capital",
+        "AI investment",
+        "Jeff Bezos AI"
+      ],
+      "date": "2026-03-25"
+    }
+  ]
 }

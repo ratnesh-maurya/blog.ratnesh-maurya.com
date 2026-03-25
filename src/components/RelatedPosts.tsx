@@ -1,30 +1,31 @@
-import Link from 'next/link';
 import { BlogPost } from '@/types/blog';
+import Link from 'next/link';
 
 interface RelatedPostsProps {
-  currentSlug: string;
-  currentCategory: string;
-  currentTags: string[];
+  currentSlug?: string;
+  currentCategory?: string;
+  currentTags?: string[];
   allPosts: BlogPost[];
 }
 
-function scoreRelevance(post: BlogPost, category: string, tags: string[]): number {
+function scoreRelevance(post: BlogPost, category?: string, tags?: string[]): number {
   let score = 0;
-  if (post.category?.toLowerCase() === category?.toLowerCase()) score += 3;
-  const tagLower = tags.map(t => t.toLowerCase());
-  for (const tag of post.tags) {
-    if (tagLower.includes(tag.toLowerCase())) score += 1;
+  if (category && post.category?.toLowerCase() === category?.toLowerCase()) score += 3;
+  if (tags) {
+    const tagLower = tags.map(t => t.toLowerCase());
+    for (const tag of post.tags) {
+      if (tagLower.includes(tag.toLowerCase())) score += 1;
+    }
   }
   return score;
 }
 
 export function RelatedPosts({ currentSlug, currentCategory, currentTags, allPosts }: RelatedPostsProps) {
   const related = allPosts
-    .filter(p => p.slug !== currentSlug)
+    .filter(p => !currentSlug || p.slug !== currentSlug)
     .map(p => ({ post: p, score: scoreRelevance(p, currentCategory, currentTags) }))
-    .filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score || new Date(b.post.date).getTime() - new Date(a.post.date).getTime())
-    .slice(0, 3)
+    .slice(0, 6)
     .map(({ post }) => post);
 
   if (related.length === 0) return null;
@@ -34,9 +35,9 @@ export function RelatedPosts({ currentSlug, currentCategory, currentTags, allPos
       aria-label="Related posts">
       <h2 className="text-xs font-semibold uppercase tracking-widest mb-4"
         style={{ color: 'var(--text-muted)' }}>
-        Related Posts
+        Related & Recent Blogs
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {related.map((post, i) => (
           <Link key={post.slug} href={`/blog/${post.slug}`}
             className="group nb-card flex flex-col gap-1.5 p-4"

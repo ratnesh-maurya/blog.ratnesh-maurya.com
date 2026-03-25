@@ -6,13 +6,14 @@ import { mdxComponents } from '@/components/mdx';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { PostNavigation } from '@/components/PostNavigation';
 import { ReadingProgress } from '@/components/ReadingProgress';
+import { RecentNews } from '@/components/RecentNews';
 import { RelatedPosts } from '@/components/RelatedPosts';
 import { RelatedTerms } from '@/components/RelatedTerms';
 import { SocialShare } from '@/components/SocialShare';
 import { BlogStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { TableOfContents } from '@/components/TableOfContents';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { getAllBlogPosts, getAllTechnicalTermsForListing, getBlogPost, getBlogPostSlugs } from '@/lib/content';
+import { getAllBlogPosts, getAllNewsPosts, getAllTechnicalTermsForListing, getBlogPost, getBlogPostSlugs } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
@@ -128,7 +129,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const [post, allPosts, allTerms] = await Promise.all([getBlogPost(slug), getAllBlogPosts(), getAllTechnicalTermsForListing()]);
+  const [post, allPosts, allTerms, allNews] = await Promise.all([getBlogPost(slug), getAllBlogPosts(), getAllTechnicalTermsForListing(), getAllNewsPosts()]);
 
   if (!post) {
     notFound();
@@ -392,6 +393,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       post.title.toLowerCase().includes(t);
                   }).slice(0, 8)}
                 />
+
+                <RecentNews news={allNews} count={3} />
 
                 {/* Prev / Next navigation */}
                 <PostNavigation

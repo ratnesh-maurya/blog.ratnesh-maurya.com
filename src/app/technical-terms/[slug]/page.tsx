@@ -1,9 +1,11 @@
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { PostNavigation } from '@/components/PostNavigation';
+import { RelatedPosts } from '@/components/RelatedPosts';
+import { RelatedTerms } from '@/components/RelatedTerms';
 import { SocialShare } from '@/components/SocialShare';
 import { BreadcrumbStructuredData, TechnicalTermFAQStructuredData, TechnicalTermStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { getAllTechnicalTerms, getTechnicalTerm, getTechnicalTermSlugs } from '@/lib/content';
+import { getAllBlogPosts, getAllTechnicalTerms, getTechnicalTerm, getTechnicalTermSlugs } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImagePath, getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
@@ -57,9 +59,10 @@ export default async function TechnicalTermPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [term, allTerms] = await Promise.all([
+  const [term, allTerms, allBlogPosts] = await Promise.all([
     getTechnicalTerm(slug),
     getAllTechnicalTerms(),
+    getAllBlogPosts(),
   ]);
   if (!term) notFound();
 
@@ -142,6 +145,10 @@ export default async function TechnicalTermPage({
               dangerouslySetInnerHTML={{ __html: term.content }}
             />
           </article>
+
+          {/* Related components for SEO interlinking */}
+          <RelatedTerms terms={allTerms} currentSlug={slug} />
+          <RelatedPosts allPosts={allBlogPosts} currentTags={[term.title]} />
 
           {/* Prev / Next navigation */}
           <PostNavigation

@@ -36,9 +36,8 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
 
   return (
     <div
-      className={`md:hidden fixed inset-0 z-40 transition-opacity duration-200 ${
-        isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      }`}
+      className={`md:hidden fixed inset-0 z-40 transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
       aria-hidden={!isOpen}
     >
       {/* Backdrop */}
@@ -52,15 +51,14 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
 
       {/* Drawer panel */}
       <div
-        className={`fixed top-16 left-0 right-0 overflow-y-auto transition-transform duration-200 ${
-          isOpen ? 'translate-y-0' : '-translate-y-2 pointer-events-none'
-        }`}
+        className={`fixed top-16 left-0 right-0 overflow-y-auto transition-transform duration-200 ${isOpen ? 'translate-y-0' : '-translate-y-2 pointer-events-none'
+          }`}
       >
         <div className="max-w-5xl mx-auto px-3">
           <div
             className="rounded-2xl px-3 pt-3 pb-5 space-y-1"
             style={{
-              backgroundColor: 'transparent',
+              backgroundColor: 'var(--background)',
               border: '2px solid var(--nb-border)',
               boxShadow: 'var(--nb-shadow)',
             }}
@@ -74,9 +72,9 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
                 style={
                   isActive(item.href)
                     ? {
-                        backgroundColor: 'var(--text-primary)',
-                        color: 'var(--background)',
-                      }
+                      backgroundColor: 'var(--text-primary)',
+                      color: 'var(--background)',
+                    }
                     : { color: 'var(--text-primary)' }
                 }
                 onMouseEnter={e => {
@@ -119,9 +117,9 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
                 style={
                   isActive(item.href)
                     ? {
-                        backgroundColor: 'var(--text-primary)',
-                        color: 'var(--background)',
-                      }
+                      backgroundColor: 'var(--text-primary)',
+                      color: 'var(--background)',
+                    }
                     : { color: 'var(--text-secondary)' }
                 }
                 onMouseEnter={e => {
