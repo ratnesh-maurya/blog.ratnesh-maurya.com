@@ -108,7 +108,7 @@ export default async function SeriesPage() {
               }}>
 
               {/* Series header — tinted card bg */}
-              <div className="px-6 pt-6 pb-4"
+              <div className="on-card px-6 pt-6 pb-4"
                 style={{
                   backgroundColor: `var(--nb-card-${sIdx % 6})`,
                   borderBottom: '2px solid var(--nb-border)',

@@ -81,7 +81,7 @@ export function CopyMarkdownButton({ rawContent, title, slug, image }: CopyMarkd
       style={
         copied
           ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }
-          : { backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }
+          : { backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }
       }
       onMouseEnter={(e) => {
         if (!copied) {

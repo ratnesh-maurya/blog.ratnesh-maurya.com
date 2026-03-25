@@ -82,7 +82,7 @@ export default function EditorialPolicyPage() {
               If something is wrong or outdated, I prefer fixing it quickly and noting the change. See the corrections policy for how updates are tracked.
             </p>
             <div className="mt-4">
-              <a href="/corrections" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }}>
+              <a href="/corrections" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
                 Read the corrections policy →
               </a>
             </div>
@@ -106,7 +106,7 @@ export default function EditorialPolicyPage() {
               If you want to report an issue or suggest an improvement, use the contact page.
             </p>
             <div className="mt-4">
-              <a href="/contact" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }}>
+              <a href="/contact" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
                 Contact →
               </a>
             </div>

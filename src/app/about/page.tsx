@@ -173,10 +173,10 @@ export default async function AboutPage() {
               ].map(stat => (
                 <div key={stat.label} className="rounded-2xl p-6 text-center transition-all duration-150 hover:-translate-y-0.5"
                   style={{ backgroundColor: 'var(--nb-card-0)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow-sm)' }}>
-                  <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--accent-500)' }}>
+                  <div className="text-3xl font-extrabold mb-1" style={{ color: '#1C1C1A' }}>
                     {stat.value}
                   </div>
-                  <div className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+                  <div className="text-xs font-medium" style={{ color: '#545450' }}>
                     {stat.label}
                   </div>
                 </div>
@@ -403,10 +403,10 @@ export default async function AboutPage() {
           {/* CTA */}
           <section className="rounded-2xl p-8 text-center"
             style={{ backgroundColor: 'var(--nb-card-1)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
-            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: '#1C1C1A' }}>
               Let&apos;s connect
             </h2>
-            <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: '#545450' }}>
               I&apos;m always happy to talk about system design, backend engineering, or interesting engineering problems.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
@@ -415,7 +415,7 @@ export default async function AboutPage() {
                 Connect on LinkedIn
               </a>
               <a href="https://x.com/ratnesh_maurya_" target="_blank" rel="noopener noreferrer"
-                className="nb-btn inline-flex items-center gap-2">
+                className="nb-btn inline-flex items-center gap-2" style={{ color: '#1C1C1A' }}>
                 Follow on X
               </a>
             </div>

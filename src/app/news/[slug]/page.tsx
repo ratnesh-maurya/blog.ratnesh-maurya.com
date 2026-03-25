@@ -1,3 +1,4 @@
+import { NewsContent } from '@/components/NewsContent';
 import { RecentNews } from '@/components/RecentNews';
 import { RelatedPosts } from '@/components/RelatedPosts';
 import { RelatedTerms } from '@/components/RelatedTerms';
@@ -8,7 +9,6 @@ import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { CSSProperties } from 'react';
 
 interface NewsPostPageProps {
   params: Promise<{ slug: string }>;
@@ -103,7 +103,7 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
         <Link
           href="/news"
           className="nb-btn inline-flex items-center gap-2 text-sm mb-8"
-          style={{ backgroundColor: 'var(--nb-card-0)', color: 'var(--text-primary)' }}
+          style={{ backgroundColor: 'var(--nb-card-0)', color: '#1C1C1A' }}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -143,18 +143,7 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
             </div>
           </header>
 
-          <div
-            className="prose prose-lg !max-w-none w-full prose-headings:font-bold prose-h2:mt-12 prose-h2:border-b prose-h2:pb-4 prose-h2:border-[var(--nb-border)] prose-a:font-semibold prose-img:rounded-xl prose-img:border prose-img:border-[var(--nb-border)] prose-img:shadow-sm prose-hr:border-[var(--nb-border)] prose-hr:my-12 prose-hr:border-t-2 prose-blockquote:border-l-4 prose-blockquote:border-[var(--accent-500)] prose-blockquote:bg-[var(--surface-muted)] prose-blockquote:py-2 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:font-medium prose-blockquote:text-[var(--text-primary)] prose-blockquote:not-italic"
-            style={{
-              '--tw-prose-body': 'var(--text-secondary)',
-              '--tw-prose-headings': 'var(--text-primary)',
-              '--tw-prose-links': 'var(--accent-600)',
-              '--tw-prose-bold': 'var(--text-primary)',
-              '--tw-prose-code': 'var(--text-primary)',
-              '--tw-prose-hr': 'var(--nb-border)',
-            } as CSSProperties}
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          <NewsContent html={post.content} />
         </article>
 
         <RelatedTerms terms={allTerms} count={10} />

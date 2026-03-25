@@ -102,7 +102,7 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
           key={key}
           onClick={() => openShare(key)}
           className="nb-btn text-xs font-bold"
-          style={{ backgroundColor: `var(--nb-card-${colorIdx})`, color: 'var(--text-primary)' }}
+          style={{ backgroundColor: `var(--nb-card-${colorIdx})`, color: '#1C1C1A' }}
           aria-label={`Share on ${label}`}
         >
           {icon}
@@ -115,7 +115,7 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
         className="nb-btn text-xs font-bold"
         style={copied
           ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }
-          : { backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }
+          : { backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }
         }
         aria-label="Copy link"
       >
@@ -126,7 +126,7 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
       <button
         onClick={openUtmBuilder}
         className="nb-btn text-xs font-bold"
-        style={{ backgroundColor: 'var(--nb-card-0)', color: 'var(--text-primary)' }}
+        style={{ backgroundColor: 'var(--nb-card-0)', color: '#1C1C1A' }}
         aria-label="Open UTM builder"
       >
         <UtmIcon />

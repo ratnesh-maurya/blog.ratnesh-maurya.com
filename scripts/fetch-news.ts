@@ -65,9 +65,10 @@ interface TavilyResult {
 }
 
 // ... helper methods etc
-const DEFAULT_MAX_RESULTS = 7;
+const DEFAULT_MAX_RESULTS = 5;
 const DEFAULT_TIMEZONE = 'Asia/Kolkata';
-const DEFAULT_QUERY = 'AI OR "Software Development" OR "Next.js" OR "React" OR "Cloud Architecture" OR "System Design" OR "TypeScript" OR "Postgres" OR "Go" OR "Rust" language';
+// Focused on tech/AI news — ordered by signal strength so Tavily picks the most relevant results
+const DEFAULT_QUERY = '(OpenAI OR Anthropic OR "Google DeepMind" OR "Meta AI" OR Mistral OR Gemini OR Claude OR GPT OR "AI model" OR LLM OR "AI agent") OR ("software engineering" OR "developer tools" OR "open source release" OR TypeScript OR Rust OR "Go lang" OR "Next.js" OR React OR Vercel OR GitHub) OR ("tech startup" OR "product launch" OR "cloud computing" OR "system design" OR "API" OR "database")';
 
 function toISODateInTimezone(date: Date, tzone: string): string {
   try {
@@ -107,10 +108,16 @@ async function fetchTavilyNews(query: string, maxResults: number) {
     include_image_descriptions: true,
     include_raw_content: true,
     max_results: maxResults,
-    include_domains: [],
+    include_domains: [
+      'techcrunch.com', 'theverge.com', 'wired.com', 'arstechnica.com',
+      'venturebeat.com', 'thenewstack.io', 'infoq.com', 'dev.to',
+      'github.blog', 'openai.com', 'anthropic.com', 'deepmind.google',
+      'huggingface.co', 'hacker-news.firebaseio.com', 'news.ycombinator.com',
+      'zdnet.com', 'engadget.com', 'mit.edu', 'ieee.org', 'arxiv.org',
+    ],
     exclude_domains: [],
     topic: "news",
-    days: 3,
+    days: 2,
   };
 
   const response = await fetch(url, {

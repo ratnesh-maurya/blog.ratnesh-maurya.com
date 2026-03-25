@@ -149,10 +149,10 @@ export default async function Home() {
               <Link href="/blog" className="nb-btn nb-btn-primary justify-center" style={{ textDecoration: 'none' }}>
                 Read
               </Link>
-              <Link href="/news" className="nb-btn justify-center" style={{ backgroundColor: 'var(--nb-card-5)', textDecoration: 'none' }}>
+              <Link href="/news" className="nb-btn justify-center" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A', textDecoration: 'none' }}>
                 Daily News
               </Link>
-              <a href="/feed.xml" className="nb-btn justify-center" style={{ backgroundColor: 'var(--nb-card-2)', textDecoration: 'none' }}>
+              <a href="/feed.xml" className="nb-btn justify-center" style={{ backgroundColor: 'var(--nb-card-2)', color: '#1C1C1A', textDecoration: 'none' }}>
                 RSS Feed
               </a>
             </div>
@@ -168,7 +168,7 @@ export default async function Home() {
                   className="nb-tag"
                   style={{
                     backgroundColor: `var(--nb-card-${(index + 1) % 6 || 5})`,
-                    color: 'var(--text-primary)',
+                    color: '#1C1C1A',
                   }}
                 >
                   {item.value} {item.label}

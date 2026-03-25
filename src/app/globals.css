@@ -53,10 +53,10 @@
   --footer-border:        rgb(255 255 255 / 0.07);
 
   /* Semantic Colors */
-  --success: #0066CC;
-  --warning: #B45309;
-  --error:   #B91C1C;
-  --info:    #6B7BEE;
+  --success: #059669;
+  --warning: #D97706;
+  --error:   #DC2626;
+  --info:    #2563EB;
 
   /* Background & Surface — accent-aware base so tint appears site-wide */
   --background:       color-mix(in srgb, var(--accent-50) 32%, #FFFFFF);
@@ -225,16 +225,16 @@
   color-scheme: dark;
 
   /* Accent — keep blue as default for prose links */
-  --accent-50:  #0A0908;
-  --accent-100: #111009;
-  --accent-200: #1C1A10;
-  --accent-300: #2C2A18;
-  --accent-400: #4D9EE8;
-  --accent-500: #3B8FE4;
-  --accent-600: #60A9F0;
-  --accent-700: #8BC2F5;
-  --accent-800: #B5D9F9;
-  --accent-900: #DDE9F5;
+  --accent-50:  #0A0E1A;
+  --accent-100: #111828;
+  --accent-200: #1C2A40;
+  --accent-300: #1E3A5F;
+  --accent-400: #1D4ED8;
+  --accent-500: #3B82F6;
+  --accent-600: #60A5FA;
+  --accent-700: #93C5FD;
+  --accent-800: #BFDBFE;
+  --accent-900: #DBEAFE;
 
   --primary-50:  var(--accent-50);
   --primary-100: var(--accent-100);
@@ -260,14 +260,14 @@
   --neutral-900: #F2ECE4;
   --neutral-950: #F7F2EA;
 
-  /* Surfaces — pure dark context */
-  --background:       #000000;
-  --surface:          #0A0A0A;
-  --surface-elevated: #121212;
-  --surface-muted:    #050505;
+  /* Surfaces — layered dark with clear depth */
+  --background:       #0A0908;
+  --surface:          #111009;
+  --surface-elevated: #1A1816;
+  --surface-muted:    #070605;
   --foreground:       #F0EBE4;
-  --muted:            #121110;
-  --border:           rgba(240, 235, 228, 0.12);
+  --muted:            #1A1816;
+  --border:           rgba(240, 235, 228, 0.14);
 
   /* Text — warm off-white */
   --text-primary:   #F0EBE4;
@@ -283,33 +283,39 @@
   --shadow-lg: none;
   --shadow-xl: none;
 
-  --card:                 #0F0E0D;
+  --card:                 #161412;
   --card-foreground:      #F0EBE4;
-  --popover:              #171615;
+  --popover:              #1E1C1A;
   --popover-foreground:   #F0EBE4;
-  --primary:              #EA580C;
+  --primary:              #F97316;
   --primary-foreground:   #0A0908;
-  --secondary:            #1C1B1A;
+  --secondary:            #1E1C1A;
   --secondary-foreground: #F0EBE4;
-  --accent:               rgba(234, 88, 12, 0.15);
+  --accent:               rgba(249, 115, 22, 0.18);
   --accent-foreground:    #FB923C;
   --destructive:          #EF4444;
   --destructive-foreground: #0A0908;
-  --input:                #1C1B1A;
-  --ring:                 #EA580C;
+  --input:                #1E1C1A;
+  --ring:                 #F97316;
 
-  --gold-50:  #150F00;
-  --gold-100: #2A1E00;
-  --gold-300: #B88620;
-  --gold-400: #C99A30;
-  --gold-500: #D4A840;
+  --gold-50:  #1A1200;
+  --gold-100: #2E2000;
+  --gold-300: #D4A020;
+  --gold-400: #EAB800;
+  --gold-500: #FBD040;
 
-  --coral-50:  #1A0F18;
-  --coral-100: #2E1A28;
-  --coral-200: #4A2A40;
-  --coral-300: #B070A0;
-  --coral-400: #C88AB8;
-  --coral-500: #D8A4C8;
+  --coral-50:  #1E0A18;
+  --coral-100: #340F28;
+  --coral-200: #541A40;
+  --coral-300: #D060A8;
+  --coral-400: #E880C0;
+  --coral-500: #F5A0D5;
+
+  /* Semantic — vivid on dark backgrounds */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error:   #EF4444;
+  --info:    #60A5FA;
 
   --footer-bg:            color-mix(in srgb, var(--accent-500) 4%, #080808);
   --footer-surface:       color-mix(in srgb, var(--accent-500) 4%, #0F0E0D);
@@ -326,77 +332,77 @@
   --accent-100: #132F23;
   --accent-200: #1E4D38;
   --accent-300: #2D6A4F;
-  --accent-400: #3FA77A;
-  --accent-500: #6BCF9F;
-  --accent-600: #8EDBB6;
-  --accent-700: #B3E8CD;
-  --accent-800: #D1F2E1;
-  --accent-900: #E8F9F0;
+  --accent-400: #16A34A;
+  --accent-500: #22C55E;
+  --accent-600: #4ADE80;
+  --accent-700: #86EFAC;
+  --accent-800: #BBF7D0;
+  --accent-900: #DCFCE7;
 }
 
 [data-theme="dark"][data-accent="purple"] {
   --accent-50:  #13091F;
   --accent-100: #1E103A;
   --accent-200: #2D1B5E;
-  --accent-300: #3E2780;
-  --accent-400: #6748B0;
-  --accent-500: #8B6DC7;
-  --accent-600: #A78BD8;
-  --accent-700: #C3ACE7;
-  --accent-800: #DACEEF;
-  --accent-900: #EDE6F7;
+  --accent-300: #4C1D95;
+  --accent-400: #7C3AED;
+  --accent-500: #8B5CF6;
+  --accent-600: #A78BFA;
+  --accent-700: #C4B5FD;
+  --accent-800: #DDD6FE;
+  --accent-900: #EDE9FE;
 }
 
 [data-theme="dark"][data-accent="rose"] {
   --accent-50:  #1A0A10;
   --accent-100: #2E1220;
   --accent-200: #4A1E35;
-  --accent-300: #6E2B4A;
-  --accent-400: #E04070;
+  --accent-300: #881337;
+  --accent-400: #E11D48;
   --accent-500: #F43F6E;
-  --accent-600: #F76B8A;
-  --accent-700: #FA9AB0;
-  --accent-800: #FCCDD5;
-  --accent-900: #FEE7EB;
+  --accent-600: #FB7185;
+  --accent-700: #FDA4AF;
+  --accent-800: #FECDD3;
+  --accent-900: #FFE4E6;
 }
 
 [data-theme="dark"][data-accent="orange"] {
   --accent-50:  #1A0F08;
   --accent-100: #2E1A0E;
   --accent-200: #4A2A18;
-  --accent-300: #6E3E22;
-  --accent-400: #E07830;
-  --accent-500: #F08C40;
-  --accent-600: #F5A862;
-  --accent-700: #F8C48A;
-  --accent-800: #FBDDB5;
-  --accent-900: #FDF0E0;
+  --accent-300: #7C2D12;
+  --accent-400: #EA580C;
+  --accent-500: #F97316;
+  --accent-600: #FB923C;
+  --accent-700: #FDBA74;
+  --accent-800: #FED7AA;
+  --accent-900: #FFEDD5;
 }
 
 [data-theme="dark"][data-accent="teal"] {
   --accent-50:  #0A1A18;
   --accent-100: #122C28;
-  --accent-200: #1A4640;
-  --accent-300: #256058;
-  --accent-400: #38A89A;
-  --accent-500: #5CC8BC;
-  --accent-600: #80D8CE;
-  --accent-700: #A8E8E0;
-  --accent-800: #CCF2ED;
-  --accent-900: #E8FAF7;
+  --accent-200: #134E4A;
+  --accent-300: #0F766E;
+  --accent-400: #0D9488;
+  --accent-500: #14B8A6;
+  --accent-600: #2DD4BF;
+  --accent-700: #5EEAD4;
+  --accent-800: #99F6E4;
+  --accent-900: #CCFBF1;
 }
 
 [data-theme="dark"][data-accent="red"] {
   --accent-50:  #1A0A0A;
   --accent-100: #2E1212;
   --accent-200: #4A1E1E;
-  --accent-300: #6E2B2B;
-  --accent-400: #E04040;
+  --accent-300: #7F1D1D;
+  --accent-400: #DC2626;
   --accent-500: #EF4444;
-  --accent-600: #F47070;
-  --accent-700: #F8A0A0;
-  --accent-800: #FBCCCC;
-  --accent-900: #FDE8E8;
+  --accent-600: #F87171;
+  --accent-700: #FCA5A5;
+  --accent-800: #FECACA;
+  --accent-900: #FEE2E2;
 }
 
 /* Search popup overrides */
@@ -1056,6 +1062,23 @@ body::after {
 [data-theme="dark"] .prose hr { border-color: color-mix(in srgb, var(--accent-500) 20%, var(--border)); }
 [data-theme="dark"] .prose h2 { border-bottom-color: color-mix(in srgb, var(--accent-500) 15%, var(--border)); }
 
+/* Inside bright nb-cards in dark mode: override elements that hardcode dark values */
+[data-theme="dark"] .nb-card .prose blockquote,
+[data-theme="dark"] .nb-card-sm .prose blockquote {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-left-color: var(--accent-500);
+}
+[data-theme="dark"] .nb-card .prose pre,
+[data-theme="dark"] .nb-card-sm .prose pre {
+  background-color: #1E1C1A;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+}
+[data-theme="dark"] .nb-card .prose code,
+[data-theme="dark"] .nb-card-sm .prose code {
+  background-color: rgba(0, 0, 0, 0.07);
+  color: var(--accent-600);
+}
+
 /* ─── Selection ─── */
 ::selection {
   background-color: var(--accent-100);
@@ -1379,21 +1402,21 @@ html, body {
   --nb-shadow-sm: 2px 2px 0px 0px rgba(240, 235, 228, 0.28);
   --nb-shadow-lg: 6px 6px 0px 0px rgba(240, 235, 228, 0.28);
 
-  /* Dark card palette — visible tints above the dark background */
-  --nb-card-0:       #0D2B1A;   /* dark mint   */
-  --nb-card-1:       #1A1035;   /* dark purple */
-  --nb-card-2:       #2B1A0C;   /* dark peach  */
-  --nb-card-3:       #252006;   /* dark yellow */
-  --nb-card-4:       #2A0E1C;   /* dark pink   */
-  --nb-card-5:       #0A1F32;   /* dark blue   */
-  --nb-card-featured: #2B1A0C;  /* dark peach  */
+  /* Card palette — same vibrant pastels as light mode, bright cards on dark stage */
+  --nb-card-0:       #C8FAD0;   /* mint green  */
+  --nb-card-1:       #EDE0FF;   /* lavender    */
+  --nb-card-2:       #FFE4CC;   /* peach       */
+  --nb-card-3:       #FFF9CC;   /* pale yellow */
+  --nb-card-4:       #FFD6EC;   /* blush       */
+  --nb-card-5:       #CCE8FF;   /* sky blue    */
+  --nb-card-featured: #FFE4CC;  /* hero card   */
 
   /* Dark badge/button primary also follows current accent */
   --nb-badge-bg:   var(--accent-500);
-  --nb-badge-text: #0C0B0A;
+  --nb-badge-text: #FFFEF0;
 
   /* Surface for plain cards */
-  --nb-surface-card: #0F0E0D;
+  --nb-surface-card: #FFFFFF;
 }
 
 /* ── Core components ── */
@@ -1408,6 +1431,57 @@ html, body {
 .nb-card:hover {
   transform: translate(2px, 2px);
   box-shadow: var(--nb-shadow-sm);
+}
+
+/* Dark mode: cards are bright pastels on dark background.
+   Cascade light-theme text/border tokens so all children read correctly
+   — no individual component needs updating, everything inherits from here. */
+[data-theme="dark"] .nb-card,
+[data-theme="dark"] .nb-card-sm {
+  --text-primary:     #1C1C1A;
+  --text-secondary:   #545450;
+  --text-muted:       #8E8E88;
+  --text-inverse:     #FAFAF8;
+  --foreground:       #1C1C1A;
+  /* Swap back to dark neo-brutalist borders & shadows on bright cards */
+  --nb-border:        #2B2824;
+  --nb-shadow:        4px 4px 0px 0px #2B2824;
+  --nb-shadow-sm:     2px 2px 0px 0px #2B2824;
+  --nb-shadow-lg:     6px 6px 0px 0px #2B2824;
+  /* Nested surfaces inside a bright card */
+  --surface:          rgba(255, 255, 255, 0.60);
+  --surface-muted:    rgba(0, 0, 0, 0.06);
+  --surface-elevated: rgba(255, 255, 255, 0.80);
+  --muted:            rgba(0, 0, 0, 0.06);
+  --border:           rgba(0, 0, 0, 0.12);
+  /* Neutral scale for inline code, table headers, etc. */
+  --neutral-100:      #F5F5F1;
+  --neutral-200:      #EFEFEA;
+  --neutral-800:      #3A3A38;
+  --neutral-900:      #1C1C1A;
+}
+
+/* Utility: apply to any element with a var(--nb-card-*) background that isn't .nb-card.
+   Cascades the same light-theme text tokens so children read correctly in dark mode. */
+[data-theme="dark"] .on-card {
+  --text-primary:     #1C1C1A;
+  --text-secondary:   #545450;
+  --text-muted:       #8E8E88;
+  --text-inverse:     #FAFAF8;
+  --foreground:       #1C1C1A;
+  --nb-border:        #2B2824;
+  --nb-shadow:        4px 4px 0px 0px #2B2824;
+  --nb-shadow-sm:     2px 2px 0px 0px #2B2824;
+  --nb-shadow-lg:     6px 6px 0px 0px #2B2824;
+  --surface:          rgba(255, 255, 255, 0.60);
+  --surface-muted:    rgba(0, 0, 0, 0.06);
+  --surface-elevated: rgba(255, 255, 255, 0.80);
+  --muted:            rgba(0, 0, 0, 0.06);
+  --border:           rgba(0, 0, 0, 0.12);
+  --neutral-100:      #F5F5F1;
+  --neutral-200:      #EFEFEA;
+  --neutral-800:      #3A3A38;
+  --neutral-900:      #1C1C1A;
 }
 
 .nb-card-sm {

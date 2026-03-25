@@ -34,7 +34,7 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
         <Link
           key={sheet.slug}
           href={`/cheatsheets/${sheet.slug}`}
-          className="group flex flex-col rounded-2xl p-6 transition-all duration-150 hover:-translate-y-1"
+          className="on-card group flex flex-col rounded-2xl p-6 transition-all duration-150 hover:-translate-y-1"
           style={{
             backgroundColor: `var(--nb-card-${idx % 6})`,
             border: '2px solid var(--nb-border)',

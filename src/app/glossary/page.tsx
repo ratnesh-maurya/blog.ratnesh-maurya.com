@@ -78,7 +78,7 @@ export default function GlossaryPage() {
                 {cat.items.map((item, itemIdx) => (
                   <div key={item.term}
                     id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
-                    className="rounded-xl p-5 transition-all duration-150 hover:-translate-y-0.5"
+                    className="on-card rounded-xl p-5 transition-all duration-150 hover:-translate-y-0.5"
                     style={{
                       backgroundColor: `var(--nb-card-${(catIdx * 3 + itemIdx) % 6})`,
                       border: '2px solid var(--nb-border)',

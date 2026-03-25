@@ -115,7 +115,7 @@ export default function ContactPage() {
               I track corrections publicly.
             </p>
             <a href="/corrections" className="nb-btn inline-flex items-center gap-1.5 text-sm"
-              style={{ backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }}>
+              style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
               Read the corrections policy
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

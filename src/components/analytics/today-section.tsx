@@ -78,7 +78,7 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
           <button
             onClick={() => setSelectedDate(todayStr())}
             className="text-xs font-semibold px-3 py-1.5 rounded-lg"
-            style={{ backgroundColor: 'var(--nb-card-3)', color: 'var(--text-primary)', border: '2px solid var(--nb-border)' }}
+            style={{ backgroundColor: 'var(--nb-card-3)', color: '#1C1C1A', border: '2px solid var(--nb-border)' }}
           >
             Back to today
           </button>

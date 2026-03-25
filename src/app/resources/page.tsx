@@ -118,7 +118,7 @@ export default function ResourcesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {section.items.map((item, iIdx) => (
                   <a key={item.title} href={item.href} target="_blank" rel="noopener noreferrer"
-                    className="resource-card flex flex-col gap-3 rounded-2xl p-5 transition-all duration-150 hover:-translate-y-1 group"
+                    className="on-card resource-card flex flex-col gap-3 rounded-2xl p-5 transition-all duration-150 hover:-translate-y-1 group"
                     style={{
                       backgroundColor: `var(--nb-card-${iIdx % 6})`,
                       border: '2px solid var(--nb-border)',

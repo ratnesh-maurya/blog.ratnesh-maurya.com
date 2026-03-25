@@ -71,7 +71,7 @@ export default function CorrectionsPage() {
               Send the URL, the problematic snippet (quote or screenshot), and what you believe is correct.
             </p>
             <div className="mt-4">
-              <a href="/contact" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }}>
+              <a href="/contact" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
                 Contact →
               </a>
             </div>

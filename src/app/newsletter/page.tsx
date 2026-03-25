@@ -95,7 +95,7 @@ export default async function NewsletterPage() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {perks.map((p, pIdx) => (
-                <div key={p.title} className="p-6 rounded-2xl transition-all duration-150 hover:-translate-y-0.5"
+                <div key={p.title} className="on-card p-6 rounded-2xl transition-all duration-150 hover:-translate-y-0.5"
                   style={{
                     backgroundColor: `var(--nb-card-${pIdx % 6})`,
                     border: '2px solid var(--nb-border)',
@@ -127,7 +127,7 @@ export default async function NewsletterPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {recentPosts.map((post, pIdx) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}
-                  className="flex items-start gap-4 p-4 rounded-2xl transition-all duration-150 hover:-translate-y-0.5 group"
+                  className="on-card flex items-start gap-4 p-4 rounded-2xl transition-all duration-150 hover:-translate-y-0.5 group"
                   style={{
                     backgroundColor: `var(--nb-card-${pIdx % 6})`,
                     border: '2px solid var(--nb-border)',
@@ -153,7 +153,7 @@ export default async function NewsletterPage() {
           </section>
 
           {/* Second subscribe CTA */}
-          <section className="rounded-2xl p-8 text-center"
+          <section className="on-card rounded-2xl p-8 text-center"
             style={{ backgroundColor: 'var(--nb-card-3)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
             <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
               Ready to level up?

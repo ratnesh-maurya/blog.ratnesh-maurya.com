@@ -129,7 +129,7 @@ export function UtmAnalyticsCharts() {
               type="button"
               onClick={handleApplyRange}
               className="nb-btn text-sm"
-              style={{ backgroundColor: 'var(--nb-card-2)', color: 'var(--text-primary)' }}
+              style={{ backgroundColor: 'var(--nb-card-2)', color: '#1C1C1A' }}
             >
               Apply
             </button>

@@ -97,7 +97,7 @@ export default function PrivacyPolicyPage() {
           {/* Bottom nav */}
           <div className="mt-12 pt-8 flex flex-wrap gap-4"
             style={{ borderTop: '2px solid var(--nb-border)' }}>
-            <Link href="/" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: 'var(--text-primary)' }}>
+            <Link href="/" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
               ← Back to blog
             </Link>
           </div>
