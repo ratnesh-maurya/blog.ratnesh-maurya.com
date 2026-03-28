@@ -239,14 +239,17 @@ ${contextData}
         console.log(`Retrying Gemini call (${attempt}/${GEMINI_MAX_ATTEMPTS})...`);
       }
 
-      const result = await withTimeout(model.generateContent(prompt), GEMINI_TIMEOUT_MS);
-      const responseText = result.response.text();
-      const parsed = JSON.parse(responseText);
+      const generationPromise = (async () => {
+        const streamResult = await model.generateContentStream(prompt);
+        let text = '';
+        for await (const chunk of streamResult.stream) {
+          text += chunk.text();
+        }
+        return text;
+      })();
 
-      const finishReason = result.response.candidates?.[0]?.finishReason;
-      if (finishReason !== 'STOP') {
-        throw new Error(`Gemini response incomplete (finishReason: ${finishReason})`);
-      }
+      const responseText = await withTimeout(generationPromise, GEMINI_TIMEOUT_MS);
+      const parsed = JSON.parse(responseText);
 
       if (!isCompleteDigestResponse(parsed)) {
         throw new Error('Gemini response missing required fields or returned empty content');
