@@ -69,7 +69,7 @@ const DEFAULT_MAX_RESULTS = 5;
 const DEFAULT_TIMEZONE = 'Asia/Kolkata';
 const GEMINI_TIMEOUT_MS = 2 * 60 * 1000;
 const GEMINI_MAX_ATTEMPTS = 3;
-const GEMINI_RETRY_DELAY_MS = 2000;
+const GEMINI_BASE_RETRY_DELAY_MS = 2000;
 // Focused on tech/AI news — ordered by signal strength so Tavily picks the most relevant results
 const DEFAULT_QUERY = '(OpenAI OR Anthropic OR "Google DeepMind" OR "Meta AI" OR Mistral OR Gemini OR Claude OR GPT OR "AI model" OR LLM OR "AI agent") OR ("software engineering" OR "developer tools" OR "open source release" OR TypeScript OR Rust OR "Go lang" OR "Next.js" OR React OR Vercel OR GitHub) OR ("tech startup" OR "product launch" OR "cloud computing" OR "system design" OR "API" OR "database")';
 
@@ -101,16 +101,25 @@ function slugify(text: string): string {
 }
 
 function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
-  return await Promise.race([
-    promise,
-    new Promise<T>((_, reject) => {
-      setTimeout(() => reject(new Error(`Gemini response timed out after ${timeoutMs}ms`)), timeoutMs);
-    }),
-  ]);
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<T>((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error(`Gemini response timed out after ${timeoutMs}ms`)), timeoutMs);
+      }),
+    ]);
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
 }
 
 function isCompleteDigestResponse(
@@ -235,7 +244,7 @@ ${contextData}
       const parsed = JSON.parse(responseText);
 
       const finishReason = result.response.candidates?.[0]?.finishReason;
-      if (finishReason && finishReason !== 'STOP') {
+      if (finishReason !== 'STOP') {
         throw new Error(`Gemini response incomplete (finishReason: ${finishReason})`);
       }
 
@@ -249,7 +258,9 @@ ${contextData}
       console.warn(`Gemini digest attempt ${attempt}/${GEMINI_MAX_ATTEMPTS} failed: ${lastError.message}`);
 
       if (attempt < GEMINI_MAX_ATTEMPTS) {
-        await delay(GEMINI_RETRY_DELAY_MS);
+        const failureCount = attempt - 1;
+        const retryDelayMs = GEMINI_BASE_RETRY_DELAY_MS * 2 ** failureCount;
+        await delay(retryDelayMs);
       }
     }
   }
