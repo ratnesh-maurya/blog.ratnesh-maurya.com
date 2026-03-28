@@ -135,7 +135,7 @@ function isCompleteDigestResponse(
     Array.isArray(digest.keywords) &&
     digest.keywords.every((k) => typeof k === 'string') &&
     typeof digest.content === 'string' &&
-    digest.content.trim().length > 0
+    digest.content.includes('END_OF_DIGEST')
   );
 }
 
@@ -223,6 +223,7 @@ Requirements:
 8. **Images**: Use the EXACT image markdown from "Available Images for this article". Place each image right under its ## heading.
 9. **Links**: End each section with [🔗 Read more](URL) linking to the source article URL.
 10. Output valid Markdown. DO NOT include frontmatter in the content string.
+11. **CRITICAL**: You MUST conclude the entire markdown string in the 'content' field with the exact text "END_OF_DIGEST".
 
 Date context: The news is for ${dateStr}.
 
@@ -248,10 +249,21 @@ ${contextData}
         return text;
       })();
 
+      // By default the API might cut JSON short. The `generateContentStream` parses standard chunks but Structured Outputs
+      // under maximum JSON strictness often truncates silently when it thinks it reaches `maxOutputTokens`.
+      // Let's force an even larger timeout and catch the parse error better to see if it drops.
       const responseText = await withTimeout(generationPromise, GEMINI_TIMEOUT_MS);
-      const parsed = JSON.parse(responseText);
+
+      let parsed;
+      try {
+        parsed = JSON.parse(responseText);
+      } catch(e) {
+        throw new Error(`JSON parse failed. Response was truncated: ${responseText.slice(-200)}`);
+      }
 
       if (!isCompleteDigestResponse(parsed)) {
+        console.error('Validation failed. Parsed response keys:', Object.keys(parsed));
+        console.error('Digest ends with:', parsed.content ? parsed.content.slice(-200) : 'no content');
         throw new Error('Gemini response missing required fields or returned empty content');
       }
 
@@ -300,6 +312,7 @@ async function main() {
 
   // Generate content using Gemini
   const llmResponse = await generateDigestWithGemini(results, date);
+  const cleanContent = llmResponse.content.replace(/END_OF_DIGEST/g, '').trim();
   const safeFilename = slugify(llmResponse.title || `daily-digest-${date}`);
   const markdownPath = path.join(newsDir, `${safeFilename}.md`);
 
@@ -315,7 +328,7 @@ source: "tavily"
 
   const finalMarkdown = `${frontmatter}
 
-${llmResponse.content}
+${cleanContent}
 `;
 
   fs.writeFileSync(markdownPath, finalMarkdown, 'utf8');
