@@ -3,7 +3,7 @@ name: Daily AI News Digest
 on:
   schedule:
     # 18:30 UTC = 00:00IST
-    - cron: '30 18 * * *'
+    - cron: '30 22 * * *'
   # Note: You can run this manually from the Actions tab via workflow_dispatch
   workflow_dispatch:
 
