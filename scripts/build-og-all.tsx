@@ -517,11 +517,13 @@ function buildOgElement(
 async function writePng(dir: string, name: string, element: React.ReactElement): Promise<boolean> {
   const { ImageResponse } = await import('@vercel/og');
   const fullDir = path.join(outDir, dir);
+  const outPath = path.join(fullDir, `${name}.png`);
+  if (fs.existsSync(outPath)) return false; // already built — skip
   if (!fs.existsSync(fullDir)) fs.mkdirSync(fullDir, { recursive: true });
   try {
     const res = new ImageResponse(element, { width: 1200, height: 630 });
     const buf = await res.arrayBuffer();
-    fs.writeFileSync(path.join(fullDir, `${name}.png`), Buffer.from(buf));
+    fs.writeFileSync(outPath, Buffer.from(buf));
     return true;
   } catch (e) {
     console.error(`\n${dir}/${name}: ${e instanceof Error ? e.message : e}`);
@@ -555,6 +557,7 @@ async function main() {
 
   for (const section of SECTION_PAGES) {
     const outPath = path.join(outDir, section.path + '.png');
+    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -580,6 +583,7 @@ async function main() {
     if (!post) continue;
     const dir = path.join('blog', slug);
     const outPath = path.join(outDir, dir + '.png');
+    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -605,6 +609,7 @@ async function main() {
     if (!post) continue;
     const dir = path.join('news', slug);
     const outPath = path.join(outDir, dir + '.png');
+    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -638,6 +643,7 @@ async function main() {
     const tagLabel = label.replace(/\b\w/g, (c) => c.toUpperCase());
     const dir = path.join('blog', 'tag', slug);
     const outPath = path.join(outDir, dir + '.png');
+    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -663,6 +669,7 @@ async function main() {
     if (!q) continue;
     const dir = path.join('silly-questions', slug);
     const outPath = path.join(outDir, dir + '.png');
+    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -688,6 +695,7 @@ async function main() {
     if (!term) continue;
     const dir = path.join('technical-terms', slug);
     const outPath = path.join(outDir, dir + '.png');
+    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -713,6 +721,7 @@ async function main() {
     if (!entry) continue;
     const dir = path.join('til', slug);
     const outPath = path.join(outDir, dir + '.png');
+    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -741,6 +750,7 @@ async function main() {
     if (!data) continue;
     const dir = path.join('cheatsheets', slug);
     const outPath = path.join(outDir, dir + '.png');
+    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -761,7 +771,7 @@ async function main() {
     }
   }
 
-  console.log(`\nOG images: ${total} written to public/og/`);
+  console.log(`\nOG images: ${total} new written to public/og/ (- = skipped existing)`);
 }
 
 main().catch((e) => {

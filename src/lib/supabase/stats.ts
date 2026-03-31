@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase/client';
 
-export type StatType = 'blog' | 'silly-questions' | 'til' | 'technical-terms' | 'now' | 'about' | 'cheatsheets';
+export type StatType = 'blog' | 'silly-questions' | 'til' | 'technical-terms' | 'now' | 'about' | 'cheatsheets' | 'news';
 
 const FOOTER_TYPES: StatType[] = ['blog', 'technical-terms', 'silly-questions', 'cheatsheets'];
 

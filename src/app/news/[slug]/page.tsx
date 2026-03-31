@@ -1,8 +1,13 @@
+import { CopyMarkdownButton } from '@/components/CopyMarkdownButton';
 import { NewsContent } from '@/components/NewsContent';
+import { NewsTracker } from '@/components/NewsTracker';
+import { ReadingProgress } from '@/components/ReadingProgress';
 import { RecentNews } from '@/components/RecentNews';
 import { RelatedPosts } from '@/components/RelatedPosts';
 import { RelatedTerms } from '@/components/RelatedTerms';
+import { SocialShare } from '@/components/SocialShare';
 import { BreadcrumbStructuredData, NewsArticleStructuredData } from '@/components/StructuredData';
+import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllBlogPosts, getAllNewsPosts, getAllTechnicalTermsForListing, getNewsPost, getNewsPostSlugs } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
@@ -95,7 +100,9 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
+    <>
+      <ReadingProgress />
+      <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
       <NewsArticleStructuredData post={post} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
@@ -144,6 +151,43 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
           </header>
 
           <NewsContent html={post.content} />
+
+          {/* Share section */}
+          <div className="mt-12 pt-8" style={{ borderTop: '2px solid var(--nb-border)' }}>
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                Share this digest
+              </h3>
+              <div className="flex items-center gap-2">
+                {post.rawContent && (
+                  <CopyMarkdownButton
+                    rawContent={post.rawContent}
+                    title={post.title}
+                    slug={post.slug}
+                  />
+                )}
+                <Link
+                  href={`/utm?${new URLSearchParams({
+                    url: `/news/${post.slug}`,
+                    title: post.title,
+                    description: post.description || '',
+                  }).toString()}`}
+                  className="nb-btn inline-flex items-center gap-1.5 text-xs"
+                  style={{ backgroundColor: 'var(--nb-card-2)', color: '#1C1C1A' }}
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
+                  </svg>
+                  UTM
+                </Link>
+              </div>
+            </div>
+            <SocialShare
+              url={`/news/${post.slug}`}
+              title={post.title}
+              description={post.description}
+            />
+          </div>
         </article>
 
         <RelatedTerms terms={allTerms} count={10} />
@@ -195,5 +239,8 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
         )}
       </div>
     </div>
+      <ViewIncrementer type="news" slug={post.slug} />
+      <NewsTracker slug={post.slug} title={post.title} tags={post.tags} date={post.date} />
+    </>
   );
 }

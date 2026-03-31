@@ -20,9 +20,6 @@
 # production
 /build
 
-# generated at build time (postbuild: build-og-all.tsx)
-/public/og
-
 # misc
 .DS_Store
 *.pem

@@ -7,11 +7,14 @@ export async function POST(request: Request) {
     const utmSource = typeof body?.utm_source === 'string' ? body.utm_source.trim() || null : null;
     const utmMedium = typeof body?.utm_medium === 'string' ? body.utm_medium.trim() || null : null;
     const utmCampaign = typeof body?.utm_campaign === 'string' ? body.utm_campaign.trim() || null : null;
+    const utmContent = typeof body?.utm_content === 'string' ? body.utm_content.trim() || null : null;
+    const utmTerm = typeof body?.utm_term === 'string' ? body.utm_term.trim() || null : null;
+    const ref = typeof body?.ref === 'string' ? body.ref.trim() || null : null;
     const path = typeof body?.path === 'string' ? body.path.trim() || null : null;
 
-    if (!utmSource && !utmMedium && !utmCampaign) {
+    if (!utmSource && !utmMedium && !utmCampaign && !ref) {
       return NextResponse.json(
-        { message: 'At least one of utm_source, utm_medium, utm_campaign is required' },
+        { message: 'At least one of utm_source, utm_medium, utm_campaign, ref is required' },
         { status: 400 }
       );
     }
@@ -21,6 +24,9 @@ export async function POST(request: Request) {
       utm_source: utmSource,
       utm_medium: utmMedium,
       utm_campaign: utmCampaign,
+      utm_content: utmContent,
+      utm_term: utmTerm,
+      ref,
       path,
     });
 

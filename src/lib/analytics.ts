@@ -77,6 +77,27 @@ export const trackBlogView = (slug: string, title: string, category: string) => 
   }, 300000);
 };
 
+// Track news post views
+export const trackNewsView = (slug: string, title: string) => {
+  trackEvent('view_news_post', 'News', title, 1);
+
+  // Track reading progress
+  let readingProgress = 0;
+  const trackProgress = () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = Math.round((scrollTop / scrollHeight) * 100);
+
+    if (progress > readingProgress && progress % 25 === 0) {
+      readingProgress = progress;
+      trackEvent('reading_progress', 'News', `${slug}: ${progress}%`, progress);
+    }
+  };
+
+  window.addEventListener('scroll', trackProgress);
+  setTimeout(() => window.removeEventListener('scroll', trackProgress), 300000);
+};
+
 // Track search queries
 export const trackSearch = (query: string, resultsCount: number) => {
   trackEvent('search', 'Search', query, resultsCount);

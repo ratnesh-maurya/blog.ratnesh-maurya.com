@@ -20,8 +20,16 @@ export function UtmTracker() {
     const utmSource = params.get('utm_source')?.trim() || null;
     const utmMedium = params.get('utm_medium')?.trim() || null;
     const utmCampaign = params.get('utm_campaign')?.trim() || null;
+    const utmContent = params.get('utm_content')?.trim() || null;
+    const utmTerm = params.get('utm_term')?.trim() || null;
 
-    if (!utmSource && !utmMedium && !utmCampaign) return;
+    // ?ref=peerlist, ?ref=hackernews, etc.
+    const ref = params.get('ref')?.trim() || null;
+
+    // Treat ?ref=X as utm_source when no utm_source is present
+    const resolvedSource = utmSource || ref || null;
+
+    if (!resolvedSource && !utmMedium && !utmCampaign && !ref) return;
 
     try {
       const key = `${UTM_SENT_KEY}_${pathname}`;
@@ -31,9 +39,12 @@ export function UtmTracker() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          utm_source: utmSource,
+          utm_source: resolvedSource,
           utm_medium: utmMedium,
           utm_campaign: utmCampaign,
+          utm_content: utmContent,
+          utm_term: utmTerm,
+          ref: ref,
           path: pathname || undefined,
         }),
       }).then((res) => {
