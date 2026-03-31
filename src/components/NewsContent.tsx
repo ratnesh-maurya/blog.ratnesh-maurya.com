@@ -4,12 +4,30 @@ import { CSSProperties, useEffect, useRef } from 'react';
 
 const SMALL_IMAGE_THRESHOLD = 400; // px — treat as logo/icon and use natural width
 
+declare global {
+  interface Window {
+    twttr?: { widgets: { load: (el?: HTMLElement) => void } };
+  }
+}
+
 export function NewsContent({ html }: { html: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = ref.current;
     if (!container) return;
+
+    if (container.querySelector('.twitter-tweet')) {
+      if (window.twttr?.widgets) {
+        window.twttr.widgets.load(container);
+      } else {
+        const script = document.createElement('script');
+        script.src = 'https://platform.twitter.com/widgets.js';
+        script.async = true;
+        script.onload = () => window.twttr?.widgets.load(container);
+        document.body.appendChild(script);
+      }
+    }
 
     const imgs = container.querySelectorAll<HTMLImageElement>('img');
 
