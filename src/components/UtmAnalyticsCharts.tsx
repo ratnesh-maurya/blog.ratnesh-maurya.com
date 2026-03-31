@@ -27,9 +27,13 @@ const UTM_CHART_COLORS = [
 ];
 
 export interface UtmAnalyticsData {
-  bySource: Array<{ source: string; count: number }>;
-  byMedium: Array<{ medium: string; count: number }>;
+  bySource:   Array<{ source: string; count: number }>;
+  byMedium:   Array<{ medium: string; count: number }>;
   byCampaign: Array<{ campaign: string; count: number }>;
+  byContent:  Array<{ content: string; count: number }>;
+  byTerm:     Array<{ term: string; count: number }>;
+  byRef:      Array<{ ref: string; count: number }>;
+  byPath:     Array<{ path: string; count: number }>;
   daily: Array<{ day: string; count: number }>;
   total: number;
   from: string;
@@ -245,6 +249,116 @@ export function UtmAnalyticsCharts() {
                       </Bar>
                     </BarChart>
                   </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+
+            {data.byRef.length > 0 && (
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-3)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                  By Referral (<code>?ref=</code>)
+                </h3>
+                <div className="h-72 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={data.byRef} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                      <XAxis dataKey="ref" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <Tooltip
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '2px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                        formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
+                        labelFormatter={(label) => `Ref: ${label}`}
+                      />
+                      <Bar dataKey="count" name="Visits" radius={[4, 4, 0, 0]}>
+                        {data.byRef.map((_, i) => (
+                          <Cell key={i} fill={UTM_CHART_COLORS[(i + 6) % UTM_CHART_COLORS.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+
+            {data.byContent.length > 0 && (
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-4)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                  By UTM Content
+                </h3>
+                <div className="h-72 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={data.byContent} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                      <XAxis dataKey="content" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <Tooltip
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '2px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                        formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
+                        labelFormatter={(label) => `Content: ${label}`}
+                      />
+                      <Bar dataKey="count" name="Visits" radius={[4, 4, 0, 0]}>
+                        {data.byContent.map((_, i) => (
+                          <Cell key={i} fill={UTM_CHART_COLORS[(i + 7) % UTM_CHART_COLORS.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+
+            {data.byTerm.length > 0 && (
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-0)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                  By UTM Term
+                </h3>
+                <div className="h-72 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={data.byTerm} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                      <XAxis dataKey="term" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <Tooltip
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '2px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                        formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
+                        labelFormatter={(label) => `Term: ${label}`}
+                      />
+                      <Bar dataKey="count" name="Visits" radius={[4, 4, 0, 0]}>
+                        {data.byTerm.map((_, i) => (
+                          <Cell key={i} fill={UTM_CHART_COLORS[(i + 3) % UTM_CHART_COLORS.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+
+            {data.byPath.length > 0 && (
+              <div className="nb-card overflow-hidden mb-8" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
+                <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
+                  <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+                    Top landing pages (by referred traffic)
+                  </h3>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr style={{ backgroundColor: 'var(--surface-muted)' }}>
+                        <th className="text-left px-4 py-2.5 font-semibold" style={{ color: 'var(--text-primary)' }}>Page</th>
+                        <th className="text-right px-4 py-2.5 font-semibold" style={{ color: 'var(--text-primary)' }}>Visits</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.byPath.map((row) => (
+                        <tr key={row.path} className="border-t" style={{ borderColor: 'var(--border)' }}>
+                          <td className="px-4 py-2.5 font-mono text-xs" style={{ color: 'var(--text-secondary)' }}>
+                            {row.path}
+                          </td>
+                          <td className="px-4 py-2.5 text-right font-medium tabular-nums" style={{ color: 'var(--accent-500)' }}>
+                            {formatNumber(row.count)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             )}

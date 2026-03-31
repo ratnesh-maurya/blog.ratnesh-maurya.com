@@ -46,34 +46,34 @@ export async function GET(request: Request) {
       bySource?: Array<{ source: string; count: number }>;
       byMedium?: Array<{ medium: string; count: number }>;
       byCampaign?: Array<{ campaign: string; count: number }>;
+      byContent?: Array<{ content: string; count: number }>;
+      byTerm?: Array<{ term: string; count: number }>;
+      byRef?: Array<{ ref: string; count: number }>;
+      byPath?: Array<{ path: string; count: number }>;
       daily?: Array<{ day: string; count: number }>;
       total?: number;
     } | null;
 
     if (!result) {
       return NextResponse.json({
-        bySource: [],
-        byMedium: [],
-        byCampaign: [],
-        daily: [],
-        total: 0,
-        from,
-        to,
+        bySource: [], byMedium: [], byCampaign: [],
+        byContent: [], byTerm: [], byRef: [], byPath: [],
+        daily: [], total: 0, from, to,
       });
     }
 
-    const bySource = Array.isArray(result.bySource) ? result.bySource : [];
-    const byMedium = Array.isArray(result.byMedium) ? result.byMedium : [];
-    const byCampaign = Array.isArray(result.byCampaign) ? result.byCampaign : [];
-    const daily = Array.isArray(result.daily) ? result.daily.sort((a, b) => a.day.localeCompare(b.day)) : [];
-    const total = typeof result.total === 'number' ? result.total : 0;
-
     return NextResponse.json({
-      bySource,
-      byMedium,
-      byCampaign,
-      daily,
-      total,
+      bySource:   Array.isArray(result.bySource)   ? result.bySource   : [],
+      byMedium:   Array.isArray(result.byMedium)   ? result.byMedium   : [],
+      byCampaign: Array.isArray(result.byCampaign) ? result.byCampaign : [],
+      byContent:  Array.isArray(result.byContent)  ? result.byContent  : [],
+      byTerm:     Array.isArray(result.byTerm)     ? result.byTerm     : [],
+      byRef:      Array.isArray(result.byRef)      ? result.byRef      : [],
+      byPath:     Array.isArray(result.byPath)     ? result.byPath     : [],
+      daily: Array.isArray(result.daily)
+        ? result.daily.sort((a, b) => a.day.localeCompare(b.day))
+        : [],
+      total: typeof result.total === 'number' ? result.total : 0,
       from,
       to,
     });
