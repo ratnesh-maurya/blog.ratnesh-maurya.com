@@ -17,7 +17,7 @@ import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'analytics-section-order';
-const DEFAULT_ORDER: string[] = ['overall', 'today', 'content-overview', 'post-views', 'utm'];
+const DEFAULT_ORDER: string[] = ['overall', 'today', 'funnel', 'sankey', 'content-overview', 'post-views', 'utm'];
 
 function SectionSkeleton({ rows = 2 }: { rows?: number }) {
   return (
@@ -58,6 +58,16 @@ const UtmRangeSection = dynamic(() => import('@/components/analytics/utm-range-s
   loading: () => <SectionSkeleton rows={2} />,
 });
 
+const TrafficFunnelSection = dynamic(
+  () => import('@/components/analytics/traffic-funnel-section').then((m) => m.TrafficFunnelSection),
+  { ssr: false, loading: () => <SectionSkeleton rows={4} /> }
+);
+
+const SankeySection = dynamic(
+  () => import('@/components/analytics/sankey-section').then((m) => m.SankeySection),
+  { ssr: false, loading: () => <SectionSkeleton rows={3} /> }
+);
+
 function loadOrder(): string[] {
   if (typeof window === 'undefined') return [...DEFAULT_ORDER];
   try {
@@ -84,6 +94,8 @@ function saveOrder(order: string[]) {
 const SECTION_TITLES: Record<string, string> = {
   overall: 'Overall analytics',
   today: "Today's analytics",
+  funnel: 'Traffic funnel',
+  sankey: 'Source → Content flow',
   'content-overview': 'Content overview',
   'post-views': 'Post views',
   utm: 'UTM traffic',
@@ -92,6 +104,8 @@ const SECTION_TITLES: Record<string, string> = {
 const SECTION_SUBTITLES: Record<string, string> = {
   overall: 'Big-picture totals for views, upvotes, and reports across the site.',
   today: 'Single-day snapshot of views, upvotes, and UTM visits.',
+  funnel: 'Pick a day and see traffic cascade: total → content type → UTM source → referral → top pages.',
+  sankey: 'Alluvial ribbon flow — where tracked visitors came from and what they read.',
   'content-overview': 'Content inventory and engagement quality by type.',
   'post-views': 'Time-series views plus top content leaders for the selected range.',
   utm: 'Traffic and performance grouped by UTM parameters.',
@@ -196,6 +210,18 @@ export function AnalyticsDashboard() {
                   return (
                     <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
                       <PostViewsRangeSection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                case 'funnel':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <TrafficFunnelSection />
+                    </SortableSection>
+                  );
+                case 'sankey':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <SankeySection />
                     </SortableSection>
                   );
                 case 'utm':
