@@ -46,7 +46,11 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
         onClick={onClose}
         className="absolute inset-0"
         aria-label="Close menu"
-        style={{ backgroundColor: 'var(--overlay-backdrop)' }}
+        style={{
+          backgroundColor: 'var(--overlay-backdrop)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+        }}
       />
 
       {/* Drawer panel */}
@@ -58,7 +62,9 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
           <div
             className="rounded-2xl px-3 pt-3 pb-5 space-y-1"
             style={{
-              backgroundColor: 'var(--background)',
+              backgroundColor: 'color-mix(in srgb, var(--background) 92%, transparent)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
               border: '2px solid var(--nb-border)',
               boxShadow: 'var(--nb-shadow)',
             }}

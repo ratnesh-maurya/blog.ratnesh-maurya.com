@@ -132,7 +132,7 @@ const ACCENT_PALETTES: AccentPalette[] = [
   },
 ];
 
-const DEFAULT_ACCENT = 'orange';
+const DEFAULT_ACCENT = 'blue';
 
 interface AccentColorContextType {
   accentId: string;

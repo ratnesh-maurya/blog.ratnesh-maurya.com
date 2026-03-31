@@ -201,7 +201,9 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                     id="more-menu"
                     className="absolute right-0 top-full mt-2 w-48 rounded-xl py-1 z-50 overflow-hidden"
                     style={{
-                      backgroundColor: 'transparent',
+                      backgroundColor: 'color-mix(in srgb, var(--background) 85%, transparent)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
                       border: '2px solid var(--nb-border)',
                       boxShadow: 'var(--nb-shadow)',
                     }}
