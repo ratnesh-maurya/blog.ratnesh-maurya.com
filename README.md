@@ -2,7 +2,7 @@
 
 A modern, SEO-optimized blog built with Next.js, featuring markdown-based content management and a dedicated "Silly Questions" section for sharing coding mistakes and learnings.
 
-## 🚀 Features
+## 🚀 Features 
 
 - **Modern Design**: Clean, responsive design inspired by Medium
 - **Markdown-Based**: Write blog posts and silly questions in markdown
