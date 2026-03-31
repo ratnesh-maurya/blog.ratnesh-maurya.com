@@ -23,149 +23,70 @@ import { getCheatsheet, getCheatsheetSlugs } from '../src/lib/static-content';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const outDir = path.join(rootDir, 'public', 'og');
+const FORCE_REGENERATE = false;
 
 const BRAND = {
-  textPrimary: '#1f1a14',
-  textMuted: '#4f463b',
-  textMid: '#6b6052',
-  textLow: '#8a7e6f',
-  separator: '#8f8374',
-  displayFont: 'Space Grotesk, Sora, Manrope, Helvetica Neue, sans-serif',
-  bodyFont: 'IBM Plex Sans, Avenir Next, Segoe UI, sans-serif',
-} as const;
-
-const RETRO = {
-  borderColor: '#000000',
-  borderWidth: '2px',
-  radiusCard: '12px',
-  radiusButton: '8px',
-  shadow: '4px 4px 0px 0px #000000',
-  shadowSm: '2px 2px 0px 0px #000000',
+  textPrimary: '#191d23',
+  textMuted: '#444c58',
+  textLow: '#7b8492',
+  cardBg: '#fafaf8',
+  pageBg: '#f4f4f1',
+  divider: '#d5d8de',
+  serifFont: 'Newsreader, "EB Garamond", Georgia, serif',
+  sansFont: 'Inter, "Avenir Next", "Segoe UI", sans-serif',
 } as const;
 
 type OgThemeName = 'default' | 'blog' | 'news' | 'cheatsheets' | 'silly' | 'technical-terms' | 'til';
 
 type OgTheme = {
-  bgStart: string;
-  bgMid: string;
-  bgEnd: string;
   accent: string;
-  accentLight: string;
-  secondaryAccent: string;
-  gridColor: string;
-  beamColor: string;
-  glowColor: string;
-  glowSecondary: string;
-  badgeBg: string;
-  badgeBorder: string;
-  stampText: string;
+  panelBase: string;
+  panelOverlay: string;
+  stickerBorder: string;
 };
 
 const THEMES: Record<OgThemeName, OgTheme> = {
   default: {
-    bgStart: '#fff9ec',
-    bgMid: '#fff4df',
-    bgEnd: '#f6ead4',
-    accent: '#1b6ac9',
-    accentLight: '#2f7dd8',
-    secondaryAccent: '#d18824',
-    gridColor: 'rgba(60, 47, 29, 0.10)',
-    beamColor: 'rgba(27, 106, 201, 0.10)',
-    glowColor: 'rgba(27, 106, 201, 0.16)',
-    glowSecondary: 'rgba(209, 136, 36, 0.14)',
-    badgeBg: 'rgba(27, 106, 201, 0.08)',
-    badgeBorder: 'rgba(27, 106, 201, 0.28)',
-    stampText: 'RATNLABS // RETRO ENGINEERING',
+    accent: '#4a6f8e',
+    panelBase: '#dde5ec',
+    panelOverlay: 'rgba(111, 138, 164, 0.12)',
+    stickerBorder: '#c5cfdb',
   },
   blog: {
-    bgStart: '#f8fbff',
-    bgMid: '#edf6ff',
-    bgEnd: '#e2f0ff',
-    accent: '#005bb5',
-    accentLight: '#0a6ecf',
-    secondaryAccent: '#3f8cff',
-    gridColor: 'rgba(19, 55, 95, 0.10)',
-    beamColor: 'rgba(0, 91, 181, 0.10)',
-    glowColor: 'rgba(0, 91, 181, 0.16)',
-    glowSecondary: 'rgba(63, 140, 255, 0.14)',
-    badgeBg: 'rgba(0, 91, 181, 0.08)',
-    badgeBorder: 'rgba(0, 91, 181, 0.28)',
-    stampText: 'RATNLABS // ENGINEERING JOURNAL',
+    accent: '#2f5f86',
+    panelBase: '#dce8f3',
+    panelOverlay: 'rgba(52, 103, 146, 0.12)',
+    stickerBorder: '#cad8e6',
   },
   news: {
-    bgStart: '#faf9f8',
-    bgMid: '#f2ece4',
-    bgEnd: '#ebdcd0',
-    accent: '#4a4036',
-    accentLight: '#5c5248',
-    secondaryAccent: '#8a7e6f',
-    gridColor: 'rgba(50, 45, 40, 0.10)',
-    beamColor: 'rgba(74, 64, 54, 0.10)',
-    glowColor: 'rgba(74, 64, 54, 0.16)',
-    glowSecondary: 'rgba(138, 126, 111, 0.14)',
-    badgeBg: 'rgba(74, 64, 54, 0.08)',
-    badgeBorder: 'rgba(74, 64, 54, 0.28)',
-    stampText: 'RATNLABS // DAILY NEWS DIGEST',
+    accent: '#3f566c',
+    panelBase: '#dce2e8',
+    panelOverlay: 'rgba(61, 88, 112, 0.12)',
+    stickerBorder: '#c8d0d8',
   },
   cheatsheets: {
-    bgStart: '#f7fff8',
-    bgMid: '#ebfaef',
-    bgEnd: '#ddf3e4',
-    accent: '#18794e',
-    accentLight: '#238b5d',
-    secondaryAccent: '#bc8d2f',
-    gridColor: 'rgba(28, 69, 49, 0.10)',
-    beamColor: 'rgba(24, 121, 78, 0.10)',
-    glowColor: 'rgba(24, 121, 78, 0.16)',
-    glowSecondary: 'rgba(188, 141, 47, 0.14)',
-    badgeBg: 'rgba(24, 121, 78, 0.08)',
-    badgeBorder: 'rgba(24, 121, 78, 0.30)',
-    stampText: 'RATNLABS // FIELD REFERENCE',
+    accent: '#4f6f57',
+    panelBase: '#dce8df',
+    panelOverlay: 'rgba(66, 108, 78, 0.14)',
+    stickerBorder: '#c7d8cd',
   },
   silly: {
-    bgStart: '#fff8f5',
-    bgMid: '#ffefe8',
-    bgEnd: '#ffe4d8',
-    accent: '#c24d2c',
-    accentLight: '#d35f3d',
-    secondaryAccent: '#cf8d18',
-    gridColor: 'rgba(102, 43, 24, 0.10)',
-    beamColor: 'rgba(194, 77, 44, 0.10)',
-    glowColor: 'rgba(194, 77, 44, 0.15)',
-    glowSecondary: 'rgba(207, 141, 24, 0.14)',
-    badgeBg: 'rgba(194, 77, 44, 0.08)',
-    badgeBorder: 'rgba(194, 77, 44, 0.30)',
-    stampText: 'RATNLABS // BUGS & LESSONS',
+    accent: '#8a5d56',
+    panelBase: '#ebdfdc',
+    panelOverlay: 'rgba(130, 87, 80, 0.14)',
+    stickerBorder: '#decfcb',
   },
   'technical-terms': {
-    bgStart: '#fffdf8',
-    bgMid: '#f9f5ec',
-    bgEnd: '#f0eadf',
-    accent: '#a16a0f',
-    accentLight: '#b57919',
-    secondaryAccent: '#4f6fb8',
-    gridColor: 'rgba(62, 50, 30, 0.10)',
-    beamColor: 'rgba(161, 106, 15, 0.10)',
-    glowColor: 'rgba(161, 106, 15, 0.16)',
-    glowSecondary: 'rgba(79, 111, 184, 0.12)',
-    badgeBg: 'rgba(161, 106, 15, 0.08)',
-    badgeBorder: 'rgba(161, 106, 15, 0.28)',
-    stampText: 'RATNLABS // SYSTEMS LEXICON',
+    accent: '#8a6b3f',
+    panelBase: '#eae3d8',
+    panelOverlay: 'rgba(126, 98, 56, 0.14)',
+    stickerBorder: '#ddd2c1',
   },
   til: {
-    bgStart: '#f4fffe',
-    bgMid: '#e9faf9',
-    bgEnd: '#dcf2f0',
-    accent: '#1f7d80',
-    accentLight: '#2e8f92',
-    secondaryAccent: '#cb6e4c',
-    gridColor: 'rgba(25, 72, 74, 0.10)',
-    beamColor: 'rgba(31, 125, 128, 0.10)',
-    glowColor: 'rgba(31, 125, 128, 0.16)',
-    glowSecondary: 'rgba(203, 110, 76, 0.12)',
-    badgeBg: 'rgba(31, 125, 128, 0.08)',
-    badgeBorder: 'rgba(31, 125, 128, 0.28)',
-    stampText: 'RATNLABS // LEARNING LOGBOOK',
+    accent: '#2f706f',
+    panelBase: '#d9e7e5',
+    panelOverlay: 'rgba(45, 101, 100, 0.14)',
+    stickerBorder: '#c7d8d5',
   },
 };
 
@@ -190,16 +111,19 @@ function buildOgElement(
   title: string,
   subtitle: string,
   breadcrumb?: string,
-  themeName: OgThemeName = 'default'
+  themeName: OgThemeName = 'default',
+  options?: { squareSafe?: boolean }
 ): React.ReactElement {
   const theme = THEMES[themeName];
 
   const titleLength = title.length;
 
   const titleFontSize =
-    titleLength > 90 ? 56 :
-      titleLength > 65 ? 66 :
-        78;
+    titleLength > 90 ? 54 :
+      titleLength > 68 ? 62 :
+        72;
+
+  const subtitleFontSize = options?.squareSafe ? '22px' : '24px';
 
   return (
     <div
@@ -207,309 +131,146 @@ function buildOgElement(
         width: '1200px',
         height: '630px',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        background: `linear-gradient(135deg, ${theme.bgStart} 0%, ${theme.bgMid} 52%, ${theme.bgEnd} 100%)`,
-        padding: '64px 72px',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: `linear-gradient(142deg, #f9fbff 0%, ${theme.panelBase} 62%, #edf1f7 100%)`,
+        padding: '26px',
         position: 'relative',
-        fontFamily: BRAND.bodyFont,
+        fontFamily: BRAND.sansFont,
         overflow: 'hidden',
-        border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
-        borderRadius: RETRO.radiusCard,
-        boxShadow: RETRO.shadow,
+        border: '1px solid #e6ebf3',
       }}
     >
-      {/* Structural grid texture */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-110px',
+          right: '-70px',
+          width: '360px',
+          height: '360px',
+          borderRadius: '50%',
+          background: theme.panelOverlay,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '-130px',
+          left: '-90px',
+          width: '420px',
+          height: '420px',
+          borderRadius: '50%',
+          background: 'rgba(255,255,255,0.52)',
+        }}
+      />
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `
-            linear-gradient(${theme.gridColor} 1px, transparent 1px),
-            linear-gradient(90deg, ${theme.gridColor} 1px, transparent 1px)
-          `,
-          backgroundSize: '44px 44px',
-          opacity: 0.85,
+          background:
+            'linear-gradient(115deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 48%), repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 2px, transparent 2px, transparent 12px)',
         }}
       />
 
-      {/* Energetic diagonal light beam */}
       <div
         style={{
-          position: 'absolute',
-          top: '-120px',
-          right: '-320px',
-          width: '980px',
-          height: '220px',
-          transform: 'rotate(-18deg)',
-          background: `linear-gradient(90deg, transparent 0%, ${theme.beamColor} 55%, transparent 100%)`,
-          filter: 'blur(1px)',
-        }}
-      />
-
-      {/* Accent glow top-right */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '-160px',
-          right: '-90px',
-          width: '520px',
-          height: '520px',
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${theme.glowColor} 0%, transparent 60%)`,
-        }}
-      />
-
-      {/* Warm glow bottom-left */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '-150px',
-          left: '-100px',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${theme.glowSecondary} 0%, transparent 65%)`,
-        }}
-      />
-
-      {/* Memorable anchor: angled brand stamp */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '26px',
-          right: '-66px',
-          width: '340px',
-          padding: '10px 20px',
-          border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
-          background: 'rgba(255, 250, 241, 0.92)',
-          color: BRAND.textPrimary,
-          fontFamily: BRAND.displayFont,
-          fontWeight: 800,
-          fontSize: '14px',
-          letterSpacing: '0.11em',
-          textAlign: 'center',
-          transform: 'rotate(16deg)',
-          boxShadow: RETRO.shadowSm,
-        }}
-      >
-        {theme.stampText}
-      </div>
-
-      {/* Left timeline bar */}
-      <div
-        style={{
-          position: 'absolute',
-          left: '34px',
-          top: '40px',
-          bottom: '40px',
-          width: '3px',
-          borderRadius: '3px',
-          background: `linear-gradient(180deg, ${theme.accent} 0%, rgba(45, 35, 22, 0.2) 100%)`,
-          opacity: 0.9,
-        }}
-      />
-
-      {/* Content */}
-      <div
-        style={{
+          width: options?.squareSafe ? '560px' : '940px',
+          height: options?.squareSafe ? '560px' : '540px',
+          background: 'rgba(255,255,255,0.58)',
+          border: '1px solid rgba(255,255,255,0.88)',
+          borderRadius: '42px',
+          boxShadow: '0 22px 50px rgba(60, 82, 110, 0.18)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '18px',
           position: 'relative',
-          marginLeft: '20px',
-          maxWidth: '1010px',
+          padding: options?.squareSafe ? '32px 34px' : '32px 40px',
+          backdropFilter: 'blur(16px)',
         }}
       >
-        {/* Breadcrumb line */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
-            fontSize: '16px',
-            color: BRAND.textLow,
-            letterSpacing: '0.06em',
+            justifyContent: 'flex-start',
+            fontSize: '12px',
+            letterSpacing: '0.18em',
             textTransform: 'uppercase',
+            color: BRAND.textLow,
+            borderBottom: `1px solid ${BRAND.divider}`,
+            paddingBottom: '14px',
           }}
         >
-          <span style={{ fontWeight: 700, color: BRAND.textMuted }}>RatnLabs</span>
-          {breadcrumb && (
-            <>
-              <span style={{ color: BRAND.separator }}>/</span>
-              <span style={{ color: theme.accent, fontWeight: 700 }}>
-                {breadcrumb}
-              </span>
-            </>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span
+              style={{
+                width: '9px',
+                height: '9px',
+                borderRadius: '50%',
+                background: theme.accent,
+              }}
+            />
+            <span style={{ fontWeight: 700 }}>OG Image</span>
+          </div>
         </div>
 
-        {/* Accent rail */}
-        <div
-          style={{
-            width: '220px',
-            height: '12px',
-            borderRadius: RETRO.radiusButton,
-            background: `linear-gradient(90deg, ${theme.accent} 0%, ${theme.secondaryAccent} 100%)`,
-            border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
-            boxShadow: RETRO.shadowSm,
-          }}
-        />
-
-        {/* Headline panel */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '14px',
-            background: 'rgba(255, 255, 255, 0.6)',
-            border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
-            borderLeft: `12px solid ${theme.accent}`,
-            borderRadius: RETRO.radiusCard,
-            padding: '20px 24px',
-            backdropFilter: 'blur(1px)',
-            boxShadow: RETRO.shadow,
+            marginTop: options?.squareSafe ? '20px' : '30px',
+            gap: options?.squareSafe ? '14px' : '16px',
+            flex: 1,
           }}
         >
           <div
             style={{
+              fontSize: '13px',
+              letterSpacing: '0.20em',
+              textTransform: 'uppercase',
+              color: theme.accent,
+              fontWeight: 600,
+            }}
+          >
+            {breadcrumb ?? 'Category'}
+          </div>
+          <div
+            style={{
               fontSize: `${titleFontSize}px`,
-              fontFamily: BRAND.displayFont,
-              fontWeight: 900,
-              lineHeight: 0.97,
-              letterSpacing: '-0.04em',
+              fontFamily: BRAND.serifFont,
+              fontWeight: 700,
+              lineHeight: 1.03,
               color: BRAND.textPrimary,
+              letterSpacing: '-0.015em',
               textWrap: 'balance',
             }}
           >
             {title}
           </div>
-
-          {/* Subtitle */}
           <div
             style={{
-              fontSize: '23px',
-              fontWeight: 600,
+              fontSize: subtitleFontSize,
               color: BRAND.textMuted,
-              lineHeight: 1.28,
-              maxWidth: '920px',
+              lineHeight: 1.3,
+              maxWidth: options?.squareSafe ? '100%' : '88%',
               textWrap: 'pretty',
             }}
           >
             {subtitle}
           </div>
         </div>
-
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '20px',
-          }}
-        >
-          <span
-            style={{
-              fontSize: '14px',
-              color: BRAND.textMid,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              fontWeight: 700,
-            }}
-          >
-            Read more at blog.ratnesh-maurya.com
-          </span>
-
-          <span
-            style={{
-              fontSize: '13px',
-              color: BRAND.textLow,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              fontWeight: 700,
-            }}
-          >
-            RatnLabs
-          </span>
-        </div>
-      </div>
-
-      {/* Author badge */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          position: 'relative',
-          marginLeft: '20px',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            background: theme.badgeBg,
-            border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
-            borderRadius: RETRO.radiusButton,
-            padding: '10px 20px',
-            boxShadow: RETRO.shadowSm,
-          }}
-        >
-          <div
-            style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              background: theme.accent,
-              border: `1px solid ${RETRO.borderColor}`,
-            }}
-          />
-          <span
-            style={{
-              color: theme.accentLight,
-              fontSize: '14px',
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}
-          >
-            Ratnesh Maurya
-          </span>
-        </div>
-
-        <span
-          style={{
-            fontSize: '14px',
-            color: BRAND.textMid,
-            letterSpacing: '0.09em',
+            fontSize: '11px',
+            letterSpacing: '0.20em',
             textTransform: 'uppercase',
+            color: BRAND.textLow,
+            borderTop: `1px solid ${BRAND.divider}`,
+            paddingTop: '12px',
           }}
         >
-          blog.ratnesh-maurya.com
-        </span>
+          Ratnesh Maurya / blog.ratnesh-maurya.com
+        </div>
       </div>
-
-      {/* Premium frame */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: '16px',
-          border: `${RETRO.borderWidth} solid ${RETRO.borderColor}`,
-          opacity: 0.28,
-          pointerEvents: 'none',
-          borderRadius: RETRO.radiusCard,
-        }}
-      />
-
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'repeating-linear-gradient(0deg, rgba(26, 20, 12, 0.015) 0px, rgba(26, 20, 12, 0.015) 1px, transparent 1px, transparent 3px)',
-          pointerEvents: 'none',
-        }}
-      />
     </div>
   );
 }
@@ -557,7 +318,7 @@ async function main() {
 
   for (const section of SECTION_PAGES) {
     const outPath = path.join(outDir, section.path + '.png');
-    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
+    if (!FORCE_REGENERATE && fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -565,7 +326,8 @@ async function main() {
         section.title,
         section.subtitle,
         section.breadcrumb,
-        section.theme ?? 'default'
+        section.theme ?? 'default',
+        { squareSafe: true }
       );
       const res = new ImageResponse(el, { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();
@@ -583,7 +345,7 @@ async function main() {
     if (!post) continue;
     const dir = path.join('blog', slug);
     const outPath = path.join(outDir, dir + '.png');
-    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
+    if (!FORCE_REGENERATE && fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -609,7 +371,7 @@ async function main() {
     if (!post) continue;
     const dir = path.join('news', slug);
     const outPath = path.join(outDir, dir + '.png');
-    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
+    if (!FORCE_REGENERATE && fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -643,7 +405,7 @@ async function main() {
     const tagLabel = label.replace(/\b\w/g, (c) => c.toUpperCase());
     const dir = path.join('blog', 'tag', slug);
     const outPath = path.join(outDir, dir + '.png');
-    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
+    if (!FORCE_REGENERATE && fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -669,7 +431,7 @@ async function main() {
     if (!q) continue;
     const dir = path.join('silly-questions', slug);
     const outPath = path.join(outDir, dir + '.png');
-    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
+    if (!FORCE_REGENERATE && fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -695,7 +457,7 @@ async function main() {
     if (!term) continue;
     const dir = path.join('technical-terms', slug);
     const outPath = path.join(outDir, dir + '.png');
-    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
+    if (!FORCE_REGENERATE && fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -721,7 +483,7 @@ async function main() {
     if (!entry) continue;
     const dir = path.join('til', slug);
     const outPath = path.join(outDir, dir + '.png');
-    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
+    if (!FORCE_REGENERATE && fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
@@ -750,7 +512,7 @@ async function main() {
     if (!data) continue;
     const dir = path.join('cheatsheets', slug);
     const outPath = path.join(outDir, dir + '.png');
-    if (fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
+    if (!FORCE_REGENERATE && fs.existsSync(outPath)) { process.stdout.write('-'); continue; }
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
