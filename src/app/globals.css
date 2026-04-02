@@ -139,6 +139,27 @@
   --pwa-accent: #33A3FF;
   --pwa-background: var(--accent-50);
   --pwa-surface: var(--accent-50);
+
+  /* ── Liquid Glass Material ── */
+  --glass-blur:         16px;
+  --glass-blur-sm:      10px;
+  --glass-blur-lg:      28px;
+  --glass-saturate:     160%;
+
+  /* Glass surfaces — light mode */
+  --glass-bg:           rgba(255, 255, 255, 0.70);
+  --glass-bg-hover:     rgba(255, 255, 255, 0.85);
+  --glass-bg-subtle:    rgba(255, 255, 255, 0.48);
+
+  /* Glass borders */
+  --glass-border:       rgba(255, 255, 255, 0.55);
+  --glass-border-outer: rgba(0, 0, 0, 0.07);
+
+  /* Glass shadows — diffuse, specular-lit (no harsh offset) */
+  --glass-shadow-sm:    0 2px 10px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.65);
+  --glass-shadow:       0 4px 24px rgba(0,0,0,0.09), 0 2px 6px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.65);
+  --glass-shadow-hover: 0 12px 40px rgba(0,0,0,0.13), 0 4px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.80);
+  --glass-shadow-lg:    0 20px 56px rgba(0,0,0,0.14), 0 8px 20px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.75);
 }
 
 /* ─── Accent palettes (attribute-driven, avoids large inline JS) ─── */
@@ -324,6 +345,17 @@
   --footer-text-secondary:var(--accent-600);
   --footer-text-muted:    var(--accent-500);
   --footer-border:        color-mix(in srgb, var(--accent-500) 10%, rgb(255 255 255 / 0.08));
+
+  /* ── Liquid Glass — dark mode overrides ── */
+  --glass-bg:           rgba(18, 16, 14, 0.68);
+  --glass-bg-hover:     rgba(26, 24, 22, 0.80);
+  --glass-bg-subtle:    rgba(18, 16, 14, 0.42);
+  --glass-border:       rgba(255, 255, 255, 0.11);
+  --glass-border-outer: rgba(0, 0, 0, 0.55);
+  --glass-shadow-sm:    0 2px 10px rgba(0,0,0,0.38), 0 1px 3px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.07);
+  --glass-shadow:       0 4px 24px rgba(0,0,0,0.48), 0 2px 6px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.07);
+  --glass-shadow-hover: 0 12px 40px rgba(0,0,0,0.58), 0 4px 12px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.10);
+  --glass-shadow-lg:    0 20px 56px rgba(0,0,0,0.64), 0 8px 20px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
 /* Dark theme accent overrides */
@@ -460,26 +492,33 @@
   text-decoration-color: var(--accent-500) !important;
 }
 
-/* ─── Header / Navigation — Neo-Brutalist ─── */
+/* ─── Header / Navigation — Liquid Glass ─── */
 .header-nav {
-  background: var(--background);
-  border-bottom: 2px solid color-mix(in srgb, var(--text-primary) 42%, transparent);
-  transition: background 0.2s ease;
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
   color: var(--text-primary);
 }
 
 [data-theme="dark"] .header-nav {
-  background: var(--background);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+  background: rgba(10, 9, 8, 0.68);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 20px rgba(0,0,0,0.45);
 }
 
 .header-nav.scrolled {
-  background: var(--background);
-  box-shadow: 0 2px 0 0 color-mix(in srgb, var(--text-primary) 32%, transparent);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05), 0 6px 28px rgba(0,0,0,0.09);
 }
 
 [data-theme="dark"] .header-nav.scrolled {
-  box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.3);
+  background: rgba(10, 9, 8, 0.84);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.07), 0 6px 28px rgba(0,0,0,0.56);
 }
 
 .header-nav a,
@@ -513,9 +552,11 @@ body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   background-color: var(--background);
   background-image:
-    radial-gradient(900px 420px at 50% -120px, color-mix(in srgb, var(--accent-200) 28%, transparent) 0%, transparent 72%),
-    radial-gradient(700px 360px at 8% 100%, color-mix(in srgb, var(--accent-100) 22%, transparent) 0%, transparent 75%);
+    radial-gradient(900px 560px at 50% -80px,  color-mix(in srgb, var(--accent-200) 52%, transparent) 0%, transparent 68%),
+    radial-gradient(700px 420px at 8%  100%,   color-mix(in srgb, var(--accent-100) 40%, transparent) 0%, transparent 72%),
+    radial-gradient(500px 420px at 92%  60%,   color-mix(in srgb, var(--accent-300) 20%, transparent) 0%, transparent 70%);
   background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   font-feature-settings: "rlig" 1, "calt" 1;
@@ -527,9 +568,11 @@ body {
 .app-shell {
   background-color: var(--background);
   background-image:
-    radial-gradient(900px 420px at 50% -120px, color-mix(in srgb, var(--accent-200) 28%, transparent) 0%, transparent 72%),
-    radial-gradient(700px 360px at 8% 100%, color-mix(in srgb, var(--accent-100) 22%, transparent) 0%, transparent 75%);
+    radial-gradient(900px 560px at 50% -80px,  color-mix(in srgb, var(--accent-200) 52%, transparent) 0%, transparent 68%),
+    radial-gradient(700px 420px at 8%  100%,   color-mix(in srgb, var(--accent-100) 40%, transparent) 0%, transparent 72%),
+    radial-gradient(500px 420px at 92%  60%,   color-mix(in srgb, var(--accent-300) 20%, transparent) 0%, transparent 70%);
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .app-main {
@@ -538,14 +581,16 @@ body {
 
 [data-theme="dark"] body {
   background-image:
-    radial-gradient(900px 420px at 50% -120px, color-mix(in srgb, var(--accent-500) 12%, transparent) 0%, transparent 72%),
-    radial-gradient(700px 360px at 8% 100%, color-mix(in srgb, var(--accent-400) 8%, transparent) 0%, transparent 75%);
+    radial-gradient(900px 560px at 50% -80px,  color-mix(in srgb, var(--accent-500) 22%, transparent) 0%, transparent 68%),
+    radial-gradient(700px 420px at 8%  100%,   color-mix(in srgb, var(--accent-400) 16%, transparent) 0%, transparent 72%),
+    radial-gradient(500px 420px at 92%  60%,   color-mix(in srgb, var(--accent-600) 10%, transparent) 0%, transparent 70%);
 }
 
 [data-theme="dark"] .app-shell {
   background-image:
-    radial-gradient(900px 420px at 50% -120px, color-mix(in srgb, var(--accent-500) 12%, transparent) 0%, transparent 72%),
-    radial-gradient(700px 360px at 8% 100%, color-mix(in srgb, var(--accent-400) 8%, transparent) 0%, transparent 75%);
+    radial-gradient(900px 560px at 50% -80px,  color-mix(in srgb, var(--accent-500) 22%, transparent) 0%, transparent 68%),
+    radial-gradient(700px 420px at 8%  100%,   color-mix(in srgb, var(--accent-400) 16%, transparent) 0%, transparent 72%),
+    radial-gradient(500px 420px at 92%  60%,   color-mix(in srgb, var(--accent-600) 10%, transparent) 0%, transparent 70%);
 }
 
 /* ─── Film Grain Texture Overlay ─── */
@@ -667,28 +712,32 @@ body::after {
 .card-interactive:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
 .blog-card-glass {
-  background: var(--surface);
-  border-color: var(--border);
-  box-shadow: var(--shadow-sm);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-saturate));
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow-sm);
+  border-radius: 16px;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .blog-card-glass:hover {
-  border-color: var(--accent-200);
-  box-shadow: var(--shadow-md);
+  border-color: color-mix(in srgb, var(--accent-300) 70%, rgba(255,255,255,0.6));
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-2px);
 }
 
 [data-theme="dark"] .blog-card-glass {
-  background: var(--surface);
-  border-color: var(--border);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
-  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow-sm);
+  transition: background-color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 [data-theme="dark"] .blog-card-glass:hover {
-  background: var(--surface-elevated);
-  border-color: var(--accent-500);
-  box-shadow: 0 0 0 1px var(--accent-500), 0 0 24px color-mix(in srgb, var(--accent-500) 15%, transparent), 0 4px 16px rgb(0 0 0 / 0.4);
+  background: var(--glass-bg-hover);
+  border-color: color-mix(in srgb, var(--accent-500) 60%, rgba(255,255,255,0.1));
+  box-shadow: var(--glass-shadow-hover), 0 0 20px color-mix(in srgb, var(--accent-500) 12%, transparent);
 }
 
 /* Shared card hover pattern */
@@ -1360,26 +1409,26 @@ html, body {
 }
 
 /* ══════════════════════════════════════════════════════════
-   NEO-BRUTALIST DESIGN SYSTEM
-   Hard borders · Flat shadows · Vibrant cards · Bold type
+   LIQUID GLASS DESIGN SYSTEM
+   Frosted glass · Diffuse shadows · Vibrant translucent cards
    ══════════════════════════════════════════════════════════ */
 
 :root {
-  /* Neo-Brutalist border & shadow tokens */
-  --nb-border:     #2B2824;
-  --nb-border-w:   2px;
-  --nb-shadow:     4px 4px 0px 0px #2B2824;
-  --nb-shadow-sm:  2px 2px 0px 0px #2B2824;
-  --nb-shadow-lg:  6px 6px 0px 0px #2B2824;
+  /* Glass border & shadow tokens */
+  --nb-border:     rgba(255, 255, 255, 0.52);
+  --nb-border-w:   1px;
+  --nb-shadow:     var(--glass-shadow);
+  --nb-shadow-sm:  var(--glass-shadow-sm);
+  --nb-shadow-lg:  var(--glass-shadow-lg);
 
-  /* Vibrant card palette — indexed for cycling */
-  --nb-card-0:       #C8FAD0;   /* mint green  */
-  --nb-card-1:       #EDE0FF;   /* lavender    */
-  --nb-card-2:       #FFE4CC;   /* peach       */
-  --nb-card-3:       #FFF9CC;   /* pale yellow */
-  --nb-card-4:       #FFD6EC;   /* blush       */
-  --nb-card-5:       #CCE8FF;   /* sky blue    */
-  --nb-card-featured: #FFE4CC;  /* hero card   */
+  /* Vibrant translucent card palette — indexed for cycling */
+  --nb-card-0:       rgba(200, 250, 208, 0.82);   /* mint green  */
+  --nb-card-1:       rgba(237, 224, 255, 0.82);   /* lavender    */
+  --nb-card-2:       rgba(255, 228, 204, 0.82);   /* peach       */
+  --nb-card-3:       rgba(255, 249, 204, 0.82);   /* pale yellow */
+  --nb-card-4:       rgba(255, 214, 236, 0.82);   /* blush       */
+  --nb-card-5:       rgba(204, 232, 255, 0.82);   /* sky blue    */
+  --nb-card-featured: rgba(255, 228, 204, 0.82);  /* hero card   */
 
   /* Vibrant action colors */
   --nb-orange-v:   #EA580C;
@@ -1392,45 +1441,48 @@ html, body {
   --nb-badge-text: #FFFEF0;
 
   /* Surface for plain cards (FAQ, etc.) */
-  --nb-surface-card: #FFFFFF;
+  --nb-surface-card: rgba(255, 255, 255, 0.78);
 }
 
 [data-theme="dark"] {
-  /* Dark neo-brutalist: white borders, white-tinted shadows */
-  --nb-border:    rgba(240, 235, 228, 0.85);
-  --nb-shadow:    4px 4px 0px 0px rgba(240, 235, 228, 0.28);
-  --nb-shadow-sm: 2px 2px 0px 0px rgba(240, 235, 228, 0.28);
-  --nb-shadow-lg: 6px 6px 0px 0px rgba(240, 235, 228, 0.28);
+  /* Dark glass borders & shadows */
+  --nb-border:    rgba(255, 255, 255, 0.13);
+  --nb-shadow:    var(--glass-shadow);
+  --nb-shadow-sm: var(--glass-shadow-sm);
+  --nb-shadow-lg: var(--glass-shadow-lg);
 
-  /* Card palette — same vibrant pastels as light mode, bright cards on dark stage */
-  --nb-card-0:       #C8FAD0;   /* mint green  */
-  --nb-card-1:       #EDE0FF;   /* lavender    */
-  --nb-card-2:       #FFE4CC;   /* peach       */
-  --nb-card-3:       #FFF9CC;   /* pale yellow */
-  --nb-card-4:       #FFD6EC;   /* blush       */
-  --nb-card-5:       #CCE8FF;   /* sky blue    */
-  --nb-card-featured: #FFE4CC;  /* hero card   */
+  /* Card palette — same vibrant pastels, translucent on dark stage */
+  --nb-card-0:       rgba(200, 250, 208, 0.82);   /* mint green  */
+  --nb-card-1:       rgba(237, 224, 255, 0.82);   /* lavender    */
+  --nb-card-2:       rgba(255, 228, 204, 0.82);   /* peach       */
+  --nb-card-3:       rgba(255, 249, 204, 0.82);   /* pale yellow */
+  --nb-card-4:       rgba(255, 214, 236, 0.82);   /* blush       */
+  --nb-card-5:       rgba(204, 232, 255, 0.82);   /* sky blue    */
+  --nb-card-featured: rgba(255, 228, 204, 0.82);  /* hero card   */
 
   /* Dark badge/button primary also follows current accent */
   --nb-badge-bg:   var(--accent-500);
   --nb-badge-text: #FFFEF0;
 
   /* Surface for plain cards */
-  --nb-surface-card: #FFFFFF;
+  --nb-surface-card: rgba(255, 255, 255, 0.07);
 }
 
 /* ── Core components ── */
 
 .nb-card {
   border: var(--nb-border-w) solid var(--nb-border);
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: var(--nb-shadow);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-saturate));
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
   background: #ffffff;
 }
 .nb-card:hover {
-  transform: translate(2px, 2px);
-  box-shadow: var(--nb-shadow-sm);
+  transform: translateY(-3px);
+  box-shadow: var(--glass-shadow-hover);
+  border-color: color-mix(in srgb, var(--accent-300) 70%, rgba(255,255,255,0.6));
 }
 
 /* Dark mode: cards are bright pastels on dark background.
@@ -1443,11 +1495,11 @@ html, body {
   --text-muted:       #8E8E88;
   --text-inverse:     #FAFAF8;
   --foreground:       #1C1C1A;
-  /* Swap back to dark neo-brutalist borders & shadows on bright cards */
-  --nb-border:        #2B2824;
-  --nb-shadow:        4px 4px 0px 0px #2B2824;
-  --nb-shadow-sm:     2px 2px 0px 0px #2B2824;
-  --nb-shadow-lg:     6px 6px 0px 0px #2B2824;
+  /* On bright translucent cards: use subtle dark border, not white */
+  --nb-border:        rgba(0, 0, 0, 0.14);
+  --nb-shadow:        var(--glass-shadow);
+  --nb-shadow-sm:     var(--glass-shadow-sm);
+  --nb-shadow-lg:     var(--glass-shadow-lg);
   /* Nested surfaces inside a bright card */
   --surface:          rgba(255, 255, 255, 0.60);
   --surface-muted:    rgba(0, 0, 0, 0.06);
@@ -1469,10 +1521,10 @@ html, body {
   --text-muted:       #8E8E88;
   --text-inverse:     #FAFAF8;
   --foreground:       #1C1C1A;
-  --nb-border:        #2B2824;
-  --nb-shadow:        4px 4px 0px 0px #2B2824;
-  --nb-shadow-sm:     2px 2px 0px 0px #2B2824;
-  --nb-shadow-lg:     6px 6px 0px 0px #2B2824;
+  --nb-border:        rgba(0, 0, 0, 0.14);
+  --nb-shadow:        var(--glass-shadow);
+  --nb-shadow-sm:     var(--glass-shadow-sm);
+  --nb-shadow-lg:     var(--glass-shadow-lg);
   --surface:          rgba(255, 255, 255, 0.60);
   --surface-muted:    rgba(0, 0, 0, 0.06);
   --surface-elevated: rgba(255, 255, 255, 0.80);
@@ -1486,13 +1538,15 @@ html, body {
 
 .nb-card-sm {
   border: var(--nb-border-w) solid var(--nb-border);
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: var(--nb-shadow-sm);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-saturate));
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 .nb-card-sm:hover {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px 0px var(--nb-border);
+  transform: translateY(-2px);
+  box-shadow: var(--glass-shadow);
 }
 
 .nb-btn {
@@ -1500,37 +1554,39 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  border: var(--nb-border-w) solid var(--nb-border);
-  border-radius: 8px;
-  box-shadow: var(--nb-shadow);
+  border: 1px solid var(--nb-border);
+  border-radius: 10px;
+  box-shadow: var(--glass-shadow-sm);
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-saturate));
   font-weight: 700;
   padding: 0.6rem 1.2rem;
   font-size: 0.875rem;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
   cursor: pointer;
   text-decoration: none;
   line-height: 1;
 }
 .nb-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: var(--nb-shadow-sm);
+  transform: translateY(-1px);
+  box-shadow: var(--glass-shadow);
 }
 .nb-btn:active {
-  transform: translate(4px, 4px);
-  box-shadow: none;
+  transform: scale(0.98);
+  box-shadow: var(--glass-shadow-sm);
 }
 
 .nb-btn-lg {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .nb-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--nb-border);
+  border: 1px solid var(--nb-border);
   border-radius: 9999px;
   font-weight: 800;
   font-size: 0.65rem;
@@ -1544,8 +1600,8 @@ html, body {
 .nb-tag {
   display: inline-flex;
   align-items: center;
-  border: 2px solid var(--nb-border);
-  border-radius: 6px;
+  border: 1px solid var(--nb-border);
+  border-radius: 8px;
   font-weight: 700;
   font-size: 0.7rem;
   letter-spacing: 0.04em;
@@ -1555,24 +1611,27 @@ html, body {
 
 .nb-separator {
   border: none;
-  border-top: 2px solid var(--nb-border);
+  border-top: 1px solid var(--nb-border);
 }
 
 [data-theme="dark"] .nb-separator {
-  border-top-color: rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.10);
 }
 
 .nb-input {
-  border: 2px solid var(--nb-border);
-  border-radius: 8px;
-  background: var(--surface);
+  border: 1px solid var(--nb-border);
+  border-radius: 10px;
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
   color: var(--text-primary);
   font-weight: 500;
-  transition: box-shadow 0.12s ease;
+  transition: box-shadow 0.18s ease, border-color 0.18s ease;
 }
 .nb-input:focus {
   outline: none;
-  box-shadow: var(--nb-shadow-sm);
+  border-color: color-mix(in srgb, var(--accent-400) 70%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-400) 20%, transparent);
 }
 
 /* ── Section header ── */
@@ -1605,25 +1664,27 @@ html, body {
 /* ── Dark mode card overrides ── */
 [data-theme="dark"] .nb-card,
 [data-theme="dark"] .nb-card-sm {
-  background: var(--surface);
+  background: var(--glass-bg);
   border-color: var(--nb-border);
-  box-shadow: var(--nb-shadow);
+  box-shadow: var(--glass-shadow);
 }
 [data-theme="dark"] .nb-card:hover,
 [data-theme="dark"] .nb-card-sm:hover {
-  box-shadow: var(--nb-shadow-sm);
+  box-shadow: var(--glass-shadow-hover);
 }
 
-/* ── Nav active pill ── */
+/* ── Nav active pill — glass accent ── */
 .nb-nav-active {
-  background: var(--nb-badge-bg) !important;
-  color: var(--nb-badge-text) !important;
-  border-color: var(--nb-badge-bg) !important;
+  background: color-mix(in srgb, var(--accent-500) 92%, transparent) !important;
+  color: #FFFEF0 !important;
+  border-color: color-mix(in srgb, var(--accent-400) 60%, rgba(255,255,255,0.5)) !important;
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--accent-500) 30%, transparent), inset 0 1px 0 rgba(255,255,255,0.25) !important;
 }
 [data-theme="dark"] .nb-nav-active {
-  background: var(--nb-badge-bg) !important;
-  color: var(--nb-badge-text) !important;
-  border-color: var(--nb-badge-bg) !important;
+  background: color-mix(in srgb, var(--accent-500) 90%, transparent) !important;
+  color: #FFFEF0 !important;
+  border-color: color-mix(in srgb, var(--accent-400) 40%, rgba(255,255,255,0.12)) !important;
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent-500) 40%, transparent), inset 0 1px 0 rgba(255,255,255,0.15) !important;
 }
 
 /* ── Primary badge (auto-inverts with theme) ── */
@@ -1651,8 +1712,13 @@ html, body {
 .nb-btn-orange {
   background-color: #EA580C;
   color: #FFFEF0;
-  border-color: var(--nb-border);
+  border-color: rgba(234, 88, 12, 0.6);
+  box-shadow: 0 4px 20px rgba(234, 88, 12, 0.28), 0 1px 4px rgba(234, 88, 12, 0.20), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+.nb-btn-orange:hover {
+  box-shadow: 0 8px 32px rgba(234, 88, 12, 0.38), 0 2px 6px rgba(234, 88, 12, 0.28), inset 0 1px 0 rgba(255,255,255,0.30);
 }
 [data-theme="dark"] .nb-btn-orange {
-  border-color: rgba(240, 235, 228, 0.7);
+  border-color: rgba(255, 144, 50, 0.4);
+  box-shadow: 0 4px 20px rgba(234, 88, 12, 0.35), 0 1px 4px rgba(234, 88, 12, 0.25), inset 0 1px 0 rgba(255,255,255,0.20);
 }

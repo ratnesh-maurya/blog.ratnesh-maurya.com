@@ -87,7 +87,8 @@ export function Footer() {
     <footer
       style={{
         backgroundColor: 'var(--footer-bg)',
-        borderTop: '2px solid var(--nb-border)',
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
       }}
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,7 +102,7 @@ export function Footer() {
               <div className="flex items-center gap-2 mb-4">
                 <span
                   className="inline-flex w-8 h-8 items-center justify-center rounded-lg flex-shrink-0"
-                  style={{ backgroundColor: 'var(--footer-surface)', border: '2px solid var(--footer-border)' }}
+                  style={{ backgroundColor: 'var(--footer-surface)', border: '1px solid var(--footer-border)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}
                 >
                   <span className="text-xs font-black" style={{ color: 'var(--footer-text-primary)' }}>R</span>
                 </span>
@@ -125,7 +126,8 @@ export function Footer() {
                     className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-150 hover:scale-95"
                     style={{
                       backgroundColor: 'var(--footer-surface)',
-                      border: '2px solid var(--footer-border)',
+                      border: '1px solid var(--footer-border)',
+                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
                       color: 'var(--footer-text-secondary)',
                     }}
                     onMouseEnter={e => {

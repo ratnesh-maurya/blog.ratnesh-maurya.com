@@ -136,7 +136,7 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
           >
             <span
               className="inline-flex w-8 h-8 items-center justify-center rounded-lg flex-shrink-0 transition-transform duration-150 group-hover:scale-95"
-              style={{ backgroundColor: 'var(--text-primary)', border: '2px solid var(--nb-border)' }}
+              style={{ backgroundColor: 'var(--accent-500)', border: '1px solid rgba(255,255,255,0.3)', boxShadow: '0 2px 8px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25)' }}
             >
               <span className="text-xs font-black" style={{ color: 'var(--background)' }}>R</span>
             </span>
@@ -201,11 +201,11 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                     id="more-menu"
                     className="absolute right-0 top-full mt-2 w-48 rounded-xl py-1 z-50 overflow-hidden"
                     style={{
-                      backgroundColor: 'color-mix(in srgb, var(--background) 85%, transparent)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '2px solid var(--nb-border)',
-                      boxShadow: 'var(--nb-shadow)',
+                      backgroundColor: 'var(--glass-bg)',
+                      backdropFilter: 'blur(24px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                      border: '1px solid var(--glass-border)',
+                      boxShadow: 'var(--glass-shadow-lg)',
                     }}
                     role="menu"
                     aria-label="More pages"
@@ -229,8 +229,8 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                         }
                         onMouseEnter={e => {
                           if (!isActiveLink(item.href)) {
-                            (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--text-primary)';
-                            (e.currentTarget as HTMLElement).style.color = 'var(--background)';
+                            (e.currentTarget as HTMLElement).style.backgroundColor = 'color-mix(in srgb, var(--accent-500) 12%, transparent)';
+                            (e.currentTarget as HTMLElement).style.color = 'var(--accent-600)';
                           }
                         }}
                         onMouseLeave={e => {
@@ -259,10 +259,13 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                 onClick={onMobileMenuToggle}
                 className="inline-flex items-center justify-center p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 border-2"
                 style={{
-                  borderColor: 'var(--nb-border)',
-                  backgroundColor: isMobileMenuOpen ? 'var(--text-primary)' : 'transparent',
-                  color: isMobileMenuOpen ? 'var(--background)' : 'var(--text-primary)',
+                  borderColor: 'var(--glass-border)',
+                  backgroundColor: isMobileMenuOpen ? 'var(--accent-500)' : 'var(--glass-bg-subtle)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  color: isMobileMenuOpen ? '#FFFEF0' : 'var(--text-primary)',
                   outlineColor: 'var(--accent-500)',
+                  boxShadow: 'var(--glass-shadow-sm)',
                 }}
                 aria-expanded={isMobileMenuOpen}
                 aria-label={isMobileMenuOpen ? 'Close main menu' : 'Open main menu'}

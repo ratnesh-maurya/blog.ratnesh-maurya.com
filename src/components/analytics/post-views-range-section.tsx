@@ -146,7 +146,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
           max={toDate}
           onChange={(e) => setFromDate(e.target.value)}
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
-          style={{ backgroundColor: 'var(--nb-surface-card)', border: '2px solid var(--nb-border)', color: 'var(--text-primary)' }}
+          style={{ backgroundColor: 'var(--nb-surface-card)', border: '1px solid var(--nb-border)', color: 'var(--text-primary)' }}
         />
         <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>To</label>
         <input
@@ -156,12 +156,12 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
           max={todayStr()}
           onChange={(e) => setToDate(e.target.value)}
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
-          style={{ backgroundColor: 'var(--nb-surface-card)', border: '2px solid var(--nb-border)', color: 'var(--text-primary)' }}
+          style={{ backgroundColor: 'var(--nb-surface-card)', border: '1px solid var(--nb-border)', color: 'var(--text-primary)' }}
         />
         <button
           onClick={() => { setFromDate(getDefaultRange().from); setToDate(getDefaultRange().to); }}
           className="text-xs font-semibold px-3 py-1.5 rounded-lg"
-          style={{ backgroundColor: 'var(--nb-card-3)', color: '#1C1C1A', border: '2px solid var(--nb-border)' }}
+          style={{ backgroundColor: 'var(--nb-card-3)', color: '#1C1C1A', border: '1px solid var(--nb-border)' }}
         >
           Last 30 days
         </button>
@@ -183,7 +183,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
                 />
                 <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: 'var(--nb-surface-card)', border: '2px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                  contentStyle={{ backgroundColor: 'var(--nb-surface-card)', border: '1px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
                   formatter={(value: number | undefined) => [formatNumber(value ?? 0), 'Views']}
                   labelFormatter={(d) => new Date(d).toLocaleDateString()}
                 />
@@ -205,7 +205,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
                 <XAxis dataKey="name" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                 <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: 'var(--nb-surface-card)', border: '2px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                  contentStyle={{ backgroundColor: 'var(--nb-surface-card)', border: '1px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
                   formatter={(value: number | undefined) => [formatNumber(value ?? 0)]}
                 />
                 <Legend />

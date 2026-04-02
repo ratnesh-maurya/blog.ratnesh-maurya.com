@@ -114,7 +114,7 @@ function SmallCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
       onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
     >
       <article className="nb-card flex flex-col gap-3 h-full p-3" style={{ backgroundColor: `var(--nb-card-${colorIdx % 6})` }}>
-        <div className="rounded-lg overflow-hidden" style={{ border: '2px solid var(--nb-border)' }}>
+        <div className="rounded-lg overflow-hidden" style={{ border: '1px solid var(--nb-border)' }}>
           <CoverImage
             post={post}
             sizes="(max-width: 768px) 100vw, 25vw"
@@ -149,7 +149,7 @@ function HeroCard({ post, stats, isLoadingStats }: {
       onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
     >
       <article className="nb-card flex flex-col gap-4 h-full p-5" style={{ backgroundColor: 'var(--nb-card-featured)' }}>
-        <div className="rounded-xl overflow-hidden" style={{ border: '2px solid var(--nb-border)' }}>
+        <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--nb-border)' }}>
           <CoverImage
             post={post}
             sizes="(max-width: 768px) 100vw, 40vw"
@@ -195,7 +195,7 @@ function GridCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
         className="nb-card flex flex-col gap-3 h-full"
         style={{ backgroundColor: `var(--nb-card-${colorIdx % 6})` }}
       >
-        <div className="rounded-t-[10px] overflow-hidden" style={{ borderBottom: '2px solid var(--nb-border)' }}>
+        <div className="rounded-t-[10px] overflow-hidden" style={{ borderBottom: '1px solid var(--nb-border)' }}>
           <CoverImage
             post={post}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -331,7 +331,7 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
         {/* ━━━ Topic Navigation ━━━ */}
         <nav
           className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0"
-          style={{ borderBottom: '2px solid var(--nb-border)', WebkitOverflowScrolling: 'touch' }}
+          style={{ borderBottom: '1px solid var(--nb-border)', WebkitOverflowScrolling: 'touch' }}
         >
           <button
             onClick={() => { setSelectedTag(null); setSelectedCategory('all'); updateUrl(null); }}

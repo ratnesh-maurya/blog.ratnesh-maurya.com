@@ -145,7 +145,7 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
                 <Tooltip
                   contentStyle={{
                     backgroundColor: 'var(--nb-surface-card)',
-                    border: '2px solid var(--nb-border)',
+                    border: '1px solid var(--nb-border)',
                     borderRadius: '8px',
                     color: 'var(--text-primary)',
                   }}

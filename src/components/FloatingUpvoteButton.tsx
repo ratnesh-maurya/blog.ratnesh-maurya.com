@@ -106,12 +106,20 @@ export function FloatingUpvoteButton({ type, slug }: FloatingUpvoteButtonProps) 
       disabled={hasUpvoted || isUpvoting}
       style={{
         bottom: `${bottomOffset}px`,
-        backgroundColor: hasUpvoted ? 'var(--nb-badge-bg)' : 'var(--surface)',
-        borderColor: hasUpvoted ? 'var(--nb-border)' : 'var(--border)',
-        color: hasUpvoted ? 'var(--nb-badge-text)' : 'var(--text-secondary)',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+        backgroundColor: hasUpvoted
+          ? 'color-mix(in srgb, var(--accent-500) 90%, transparent)'
+          : 'var(--glass-bg)',
+        backdropFilter: 'blur(20px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+        borderColor: hasUpvoted
+          ? 'color-mix(in srgb, var(--accent-400) 60%, rgba(255,255,255,0.4))'
+          : 'var(--glass-border)',
+        color: hasUpvoted ? '#FFFEF0' : 'var(--text-secondary)',
+        boxShadow: hasUpvoted
+          ? '0 8px 28px color-mix(in srgb, var(--accent-500) 35%, transparent), var(--glass-shadow)'
+          : 'var(--glass-shadow)',
       }}
-      className="fixed right-6 z-[100] inline-flex flex-row items-center justify-center gap-2 px-4 py-3 border-2 rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
+      className="fixed right-6 z-[100] inline-flex flex-row items-center justify-center gap-2 px-4 py-3 border rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
       title={hasUpvoted ? 'Already upvoted' : 'Upvote this post'}
     >
       <svg

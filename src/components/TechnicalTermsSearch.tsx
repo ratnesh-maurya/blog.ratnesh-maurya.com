@@ -114,7 +114,7 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
               style={{
                 backgroundColor: isSelected ? 'var(--nb-badge-bg)' : isActive ? 'var(--surface)' : 'transparent',
                 color: isSelected ? 'var(--nb-badge-text)' : isActive ? 'var(--text-primary)' : 'var(--text-muted)',
-                border: isActive ? '2px solid var(--nb-border)' : '2px solid transparent',
+                border: isActive ? '1px solid var(--nb-border)' : '1px solid transparent',
                 opacity: isActive ? 1 : 0.4,
                 cursor: isActive ? 'pointer' : 'default',
               }}

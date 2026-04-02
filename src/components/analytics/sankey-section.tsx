@@ -82,13 +82,13 @@ export function SankeySection() {
                 ? {
                     backgroundColor: 'var(--nb-badge-bg)',
                     color: 'var(--nb-badge-text)',
-                    border: '2px solid var(--nb-border)',
+                    border: '1px solid var(--nb-border)',
                     boxShadow: 'var(--nb-shadow-sm)',
                   }
                 : {
                     backgroundColor: 'var(--nb-surface-card)',
                     color: 'var(--text-secondary)',
-                    border: '2px solid var(--nb-border)',
+                    border: '1px solid var(--nb-border)',
                   }
             }
           >

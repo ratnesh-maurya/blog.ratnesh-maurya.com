@@ -56,9 +56,11 @@ export function CustomDropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 text-left rounded-lg border-2 transition-all duration-200 focus:outline-none"
+        className="w-full px-4 py-3 text-left rounded-lg border transition-all duration-200 focus:outline-none"
         style={{
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--glass-bg)',
+            backdropFilter: 'blur(20px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(160%)',
           borderColor: isOpen ? 'var(--nb-border)' : 'var(--nb-border)',
           color: 'var(--text-primary)',
           boxShadow: isOpen ? 'var(--nb-shadow-sm)' : 'none',
@@ -86,8 +88,10 @@ export function CustomDropdown({
         <div
           className="absolute z-50 w-full mt-1 rounded-lg max-h-60 overflow-auto"
           style={{
-            backgroundColor: 'var(--surface)',
-            border: '2px solid var(--nb-border)',
+            backgroundColor: 'var(--glass-bg)',
+            backdropFilter: 'blur(20px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+            border: '1px solid var(--nb-border)',
             boxShadow: 'var(--nb-shadow)'
           }}
           role="listbox"
@@ -103,7 +107,7 @@ export function CustomDropdown({
                 backgroundColor: option.value === value ? 'var(--surface)' : 'transparent',
                 color: option.value === value ? 'var(--text-primary)' : 'var(--text-primary)',
                 fontWeight: option.value === value ? '700' : undefined,
-                outline: option.value === value ? `2px solid var(--nb-border)` : undefined
+                outline: option.value === value ? `1px solid var(--nb-border)` : undefined
               }}
               onMouseEnter={(e) => {
                 if (option.value !== value) {

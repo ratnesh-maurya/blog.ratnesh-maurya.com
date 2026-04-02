@@ -285,9 +285,11 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
         className={`w-full max-w-2xl rounded-2xl overflow-hidden transition-all duration-200 ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-97 -translate-y-3'
           }`}
         style={{
-          backgroundColor: 'var(--surface)',
-          border: '2px solid var(--nb-border)',
-          boxShadow: 'var(--nb-shadow-lg)',
+          backgroundColor: 'var(--glass-bg)',
+          backdropFilter: 'blur(28px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+          border: '1px solid var(--glass-border)',
+          boxShadow: 'var(--glass-shadow-lg)',
           maxHeight: '80vh',
           display: 'flex',
           flexDirection: 'column',
@@ -295,7 +297,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
       >
         {/* Search input row */}
         <div className="flex items-center gap-3 px-4 py-3.5"
-          style={{ borderBottom: '2px solid var(--nb-border)' }}>
+          style={{ borderBottom: '1px solid var(--glass-border)' }}>
           <svg className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -328,20 +330,21 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
 
         {/* Filter + sort row */}
         <div className="flex items-center justify-between px-4 py-2 gap-2"
-          style={{ borderBottom: '2px solid var(--nb-border)', backgroundColor: 'var(--surface-muted)' }}>
+          style={{ borderBottom: '1px solid var(--glass-border)', backgroundColor: 'var(--surface-muted)' }}>
           <div className="flex items-center gap-1">
             {filterLabels.map(f => (
               <button
                 key={f.id}
                 onClick={() => setFilterType(f.id)}
-                className="text-xs px-2.5 py-1 rounded-full font-medium transition-all duration-150 border-2"
+                className="text-xs px-2.5 py-1 rounded-full font-medium transition-all duration-150 border"
                 style={filterType === f.id
                   ? {
-                    backgroundColor: 'var(--nb-badge-bg)',
-                    color: 'var(--nb-badge-text)',
-                    borderColor: 'var(--nb-badge-bg)',
+                    backgroundColor: 'color-mix(in srgb, var(--accent-500) 90%, transparent)',
+                    color: '#FFFEF0',
+                    borderColor: 'color-mix(in srgb, var(--accent-400) 60%, rgba(255,255,255,0.4))',
+                    boxShadow: '0 2px 8px color-mix(in srgb, var(--accent-500) 25%, transparent)',
                   }
-                  : { backgroundColor: 'transparent', color: 'var(--text-muted)', borderColor: 'var(--nb-border)' }
+                  : { backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--text-muted)', borderColor: 'var(--glass-border)' }
                 }
               >
                 {f.label}
@@ -436,7 +439,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                       onClick={onClose}
                       className="flex items-start gap-3 px-3 py-3 rounded-xl mb-1 transition-all duration-100 group"
                       style={isSelected
-                        ? { backgroundColor: 'var(--surface)', outline: `2px solid var(--nb-border)` }
+                        ? { backgroundColor: 'color-mix(in srgb, var(--accent-500) 10%, transparent)', outline: `1px solid var(--glass-border)` }
                         : { backgroundColor: 'transparent' }
                       }
                       onMouseEnter={() => setSelectedIndex(index)}
@@ -550,7 +553,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
 
         {/* Keyboard hint footer */}
         <div className="px-4 py-2.5 flex items-center gap-4"
-          style={{ borderTop: '2px solid var(--nb-border)', backgroundColor: 'var(--surface-muted)' }}>
+          style={{ borderTop: '1px solid var(--glass-border)', backgroundColor: 'var(--surface-muted)' }}>
           {[
             { keys: ['↑', '↓'], label: 'Navigate' },
             { keys: ['↵'], label: 'Open' },
@@ -560,7 +563,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
               {keys.map(k => (
                 <kbd key={k}
                   className="text-xs px-1.5 py-0.5 rounded font-mono"
-                  style={{ backgroundColor: 'var(--surface)', border: '2px solid var(--nb-border)', color: 'var(--text-muted)' }}>
+                  style={{ backgroundColor: 'var(--glass-bg-subtle)', border: '1px solid var(--glass-border)', color: 'var(--text-muted)' }}>
                   {k}
                 </kbd>
               ))}

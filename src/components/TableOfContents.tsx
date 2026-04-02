@@ -78,7 +78,7 @@ export function TableOfContents() {
   return (
     <nav
       className="w-full xl:w-[20rem] max-h-[calc(100vh-8rem)] overflow-y-auto pr-2 nb-card p-6"
-      style={{ backgroundColor: 'var(--nb-card-1)' }}
+      style={{ backgroundColor: 'var(--nb-card-1)', backdropFilter: 'blur(14px) saturate(160%)', WebkitBackdropFilter: 'blur(14px) saturate(160%)' }}
       aria-label="Table of contents"
     >
       <p
@@ -111,7 +111,7 @@ export function TableOfContents() {
           trackEvent('toc_click', 'Navigation', 'Back to top');
         }}
         className="mt-4 pt-3 text-[11px] font-medium flex items-center gap-1 transition-colors hover:text-[var(--accent-600)]"
-        style={{ color: 'var(--text-muted)', borderTop: '2px solid var(--nb-border)' }}
+        style={{ color: 'var(--text-muted)', borderTop: '1px solid var(--glass-border)' }}
       >
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="18 15 12 9 6 15" />

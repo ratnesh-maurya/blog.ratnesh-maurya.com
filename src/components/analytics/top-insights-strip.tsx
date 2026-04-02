@@ -156,7 +156,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
                 style={{
                   backgroundColor: viewsDelta >= 0 ? 'var(--nb-card-0)' : 'rgba(185, 28, 28, 0.08)',
                   color: viewsDelta >= 0 ? 'var(--accent-700)' : 'rgb(185 28 28)',
-                  border: '2px solid var(--nb-border)',
+                  border: '1px solid var(--nb-border)',
                 }}
               >
                 {viewsDelta >= 0 ? '+' : ''}
@@ -181,7 +181,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
                 style={{
                   backgroundColor: upvotesDelta >= 0 ? 'var(--nb-card-0)' : 'rgba(185, 28, 28, 0.08)',
                   color: upvotesDelta >= 0 ? 'var(--accent-700)' : 'rgb(185 28 28)',
-                  border: '2px solid var(--nb-border)',
+                  border: '1px solid var(--nb-border)',
                 }}
               >
                 {upvotesDelta >= 0 ? '+' : ''}

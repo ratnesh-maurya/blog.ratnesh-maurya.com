@@ -118,8 +118,17 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
           Back to all digests
         </Link>
 
-        <article className="nb-card p-6 md:p-8" style={{ backgroundColor: 'var(--nb-card-featured)' }}>
-          <header className="mb-8 pb-6" style={{ borderBottom: '2px solid var(--nb-border)' }}>
+        <article
+          className="p-6 md:p-8 rounded-2xl"
+          style={{
+            backgroundColor: 'var(--glass-bg)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow)',
+          }}
+        >
+          <header className="mb-8 pb-6" style={{ borderBottom: '1px solid var(--nb-border)' }}>
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <span className="nb-badge nb-badge-primary">News Digest</span>
               <time className="text-sm font-semibold" style={{ color: 'var(--text-muted)' }}>
@@ -153,7 +162,7 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
           <NewsContent html={post.content} />
 
           {/* Share section */}
-          <div className="mt-12 pt-8" style={{ borderTop: '2px solid var(--nb-border)' }}>
+          <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--nb-border)' }}>
             <div className="flex items-center justify-between gap-3 mb-4">
               <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                 Share this digest
@@ -195,8 +204,14 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
         <RecentNews news={allNews} currentSlug={post.slug} count={6} />
 
         <aside
-          className="nb-card mt-8 p-6"
-          style={{ backgroundColor: 'var(--nb-card-2)' }}
+          className="mt-8 p-6 rounded-2xl"
+          style={{
+            backgroundColor: 'var(--glass-bg)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow)',
+          }}
         >
           <h2 className="text-sm uppercase tracking-widest font-bold mb-3" style={{ color: 'var(--text-muted)' }}>
             Keep Exploring
@@ -220,7 +235,17 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
         {(newerPost || olderPost) && (
           <nav className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-8">
             {newerPost ? (
-              <Link href={`/news/${newerPost.slug}`} className="nb-card p-4" style={{ backgroundColor: 'var(--nb-card-0)' }}>
+              <Link
+                href={`/news/${newerPost.slug}`}
+                className="block p-4 rounded-2xl transition-all duration-200 hover:-translate-y-1"
+                style={{
+                  backgroundColor: 'var(--glass-bg)',
+                  backdropFilter: 'blur(10px) saturate(160%)',
+                  WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--glass-shadow-sm)',
+                }}
+              >
                 <p className="text-xs font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>Newer digest</p>
                 <p className="font-bold leading-snug" style={{ color: 'var(--text-primary)' }}>{newerPost.title}</p>
               </Link>
@@ -228,7 +253,17 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
               <div />
             )}
             {olderPost ? (
-              <Link href={`/news/${olderPost.slug}`} className="nb-card p-4" style={{ backgroundColor: 'var(--nb-card-1)' }}>
+              <Link
+                href={`/news/${olderPost.slug}`}
+                className="block p-4 rounded-2xl transition-all duration-200 hover:-translate-y-1"
+                style={{
+                  backgroundColor: 'var(--glass-bg)',
+                  backdropFilter: 'blur(10px) saturate(160%)',
+                  WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--glass-shadow-sm)',
+                }}
+              >
                 <p className="text-xs font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>Older digest</p>
                 <p className="font-bold leading-snug" style={{ color: 'var(--text-primary)' }}>{olderPost.title}</p>
               </Link>

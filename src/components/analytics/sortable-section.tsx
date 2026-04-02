@@ -47,7 +47,7 @@ export function SortableSection({ id, title, children, rightSlot, subtitle }: So
           <button
             type="button"
             className="touch-none cursor-grab active:cursor-grabbing p-1.5 rounded-md transition-colors"
-            style={{ border: '2px solid var(--nb-border)', backgroundColor: 'transparent' }}
+            style={{ border: '1px solid var(--nb-border)', backgroundColor: 'transparent' }}
             aria-label="Drag to reorder section"
             {...attributes}
             {...listeners}

@@ -37,7 +37,7 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
           className="on-card group flex flex-col rounded-2xl p-6 transition-all duration-150 hover:-translate-y-1"
           style={{
             backgroundColor: `var(--nb-card-${idx % 6})`,
-            border: '2px solid var(--nb-border)',
+            border: '1px solid var(--nb-border)',
             boxShadow: 'var(--nb-shadow-sm)',
           }}
         >

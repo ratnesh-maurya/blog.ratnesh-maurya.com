@@ -116,7 +116,7 @@ export function UtmAnalyticsCharts() {
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
                 className="rounded-lg px-3 py-1.5 text-sm"
-                style={{ border: '2px solid var(--nb-border)', backgroundColor: 'var(--nb-surface-card)', color: 'var(--text-primary)' }}
+                style={{ border: '1px solid var(--nb-border)', backgroundColor: 'var(--nb-surface-card)', color: 'var(--text-primary)' }}
               />
             </label>
             <label className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -126,7 +126,7 @@ export function UtmAnalyticsCharts() {
                 value={to}
                 onChange={(e) => setTo(e.target.value)}
                 className="rounded-lg px-3 py-1.5 text-sm"
-                style={{ border: '2px solid var(--nb-border)', backgroundColor: 'var(--nb-surface-card)', color: 'var(--text-primary)' }}
+                style={{ border: '1px solid var(--nb-border)', backgroundColor: 'var(--nb-surface-card)', color: 'var(--text-primary)' }}
               />
             </label>
             <button
@@ -173,7 +173,7 @@ export function UtmAnalyticsCharts() {
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '2px solid var(--nb-border)',
+                          border: '1px solid var(--nb-border)',
                           borderRadius: '8px',
                           color: 'var(--text-primary)',
                         }}
@@ -204,7 +204,7 @@ export function UtmAnalyticsCharts() {
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '2px solid var(--nb-border)',
+                          border: '1px solid var(--nb-border)',
                           borderRadius: '8px',
                           color: 'var(--text-primary)',
                         }}
@@ -235,7 +235,7 @@ export function UtmAnalyticsCharts() {
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '2px solid var(--nb-border)',
+                          border: '1px solid var(--nb-border)',
                           borderRadius: '8px',
                           color: 'var(--text-primary)',
                         }}
@@ -264,7 +264,7 @@ export function UtmAnalyticsCharts() {
                       <XAxis dataKey="ref" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                       <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                       <Tooltip
-                        contentStyle={{ backgroundColor: 'var(--surface)', border: '2px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--nb-border)', borderRadius: '10px', color: 'var(--text-primary)' }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Ref: ${label}`}
                       />
@@ -290,7 +290,7 @@ export function UtmAnalyticsCharts() {
                       <XAxis dataKey="content" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                       <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                       <Tooltip
-                        contentStyle={{ backgroundColor: 'var(--surface)', border: '2px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--nb-border)', borderRadius: '10px', color: 'var(--text-primary)' }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Content: ${label}`}
                       />
@@ -316,7 +316,7 @@ export function UtmAnalyticsCharts() {
                       <XAxis dataKey="term" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                       <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                       <Tooltip
-                        contentStyle={{ backgroundColor: 'var(--surface)', border: '2px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--nb-border)', borderRadius: '10px', color: 'var(--text-primary)' }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Term: ${label}`}
                       />
@@ -381,7 +381,7 @@ export function UtmAnalyticsCharts() {
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '2px solid var(--nb-border)',
+                          border: '1px solid var(--nb-border)',
                           borderRadius: '8px',
                           color: 'var(--text-primary)',
                         }}

@@ -125,6 +125,18 @@
   ],
   "sillyQuestions": [
     {
+      "slug": "recover-deleted-unmerged-branch",
+      "question": "You accidentally deleted an important branch that was never merged and no one has a local copy. How do you recover it?",
+      "answer": "<p><strong>The Answer:</strong> Recover the commit first, then recreate the branch pointer. Most of the time, the data is still there. ✅</p>\n<p>When a branch is deleted, Git usually removes only the <strong>reference</strong> (the branch name), not the commit objects immediately. Recovery depends on where the commits still exist.</p>\n<p><strong>Fast recovery flow (best to worst):</strong></p>\n<ol>\n<li>\n<p><strong>Check local reflog (if your clone had ever seen the branch):</strong></p>\n<pre><code class=\"hljs language-bash\">git reflog --all --<span class=\"hljs-built_in\">date</span>=iso | grep <span class=\"hljs-string\">\"&#x3C;branch-name-or-commit-hint>\"</span>\n</code></pre>\n<p>If you find the commit SHA:</p>\n<pre><code class=\"hljs language-bash\">git checkout -b &#x3C;recovered-branch> &#x3C;sha>\n</code></pre>\n</li>\n<li>\n<p><strong>Search dangling commits in the repo object database:</strong></p>\n<pre><code class=\"hljs language-bash\">git fsck --lost-found --no-reflogs\n</code></pre>\n<p>Inspect candidate commits:</p>\n<pre><code class=\"hljs language-bash\">git show &#x3C;sha>\n</code></pre>\n<p>Then restore:</p>\n<pre><code class=\"hljs language-bash\">git checkout -b &#x3C;recovered-branch> &#x3C;sha>\n</code></pre>\n</li>\n<li>\n<p><strong>Check remote hosting refs/history:</strong></p>\n<ul>\n<li>If the branch had an open PR, the PR often still points to the head commit.</li>\n<li>CI logs, deployment metadata, or old release notes may contain the commit SHA.</li>\n</ul>\n</li>\n<li>\n<p><strong>If GitHub branch was deleted and no one has SHA:</strong></p>\n<ul>\n<li>Check closed/open PRs, workflow logs, and commit search in the repository.</li>\n<li>As last resort, contact GitHub Support quickly (garbage collection can eventually prune unreachable objects).</li>\n</ul>\n</li>\n</ol>\n<p><strong>Important:</strong> Once you recover the SHA, immediately recreate and push:</p>\n<pre><code class=\"hljs language-bash\">git checkout -b &#x3C;recovered-branch> &#x3C;sha>\ngit push -u origin &#x3C;recovered-branch>\n</code></pre>\n<p><strong>Prevention tips:</strong></p>\n<ul>\n<li>Protect critical branches with deletion restrictions.</li>\n<li>Require PRs for long-running work.</li>\n<li>Keep backups/mirrors for high-risk repos.</li>\n<li>Turn on branch protection + status checks.</li>\n</ul>\n<p>In short: branch name gone ≠ work gone. Find the commit SHA, recreate the branch, push it, and protect important branches going forward.</p>",
+      "tags": [
+        "git",
+        "branch-recovery",
+        "reflog",
+        "disaster-recovery"
+      ],
+      "date": "2026-04-01"
+    },
+    {
       "slug": "forgot-to-save-file",
       "question": "Why does my code work in my head but not on the computer?",
       "answer": "<p><strong>The Answer:</strong> You probably forgot to save the file! 🤦‍♂️</p>\n<p>This is probably the most common mistake every developer makes, especially when starting out. You spend 30 minutes debugging why your changes aren't working, only to realize you never saved the file.</p>\n<p><strong>How to avoid this:</strong></p>\n<ol>\n<li><strong>Enable auto-save</strong> in your editor (VS Code: <code>File > Auto Save</code>)</li>\n<li><strong>Use Ctrl+S (or Cmd+S)</strong> religiously after every change</li>\n<li><strong>Check the file tab</strong> - unsaved files usually have a dot or asterisk</li>\n<li><strong>Use hot reload</strong> in development - it will force you to save to see changes</li>\n</ol>\n<p><strong>Pro tip:</strong> Make saving a muscle memory. I save after every few lines of code, even if I'm not done with the thought. It's better to save too often than not enough!</p>\n<p>Remember: The computer only knows what you've saved, not what you've typed! 💾</p>",
@@ -585,6 +597,79 @@
     }
   ],
   "newsPosts": [
+    {
+      "slug": "ai-tech-daily-digest-openais-122b-raise-anthropics-code-leaks-and-nomadic-ais-funding-success",
+      "title": "AI & Tech Daily Digest: OpenAI's $122B Raise, Anthropic's Code Leaks, and Nomadic AI's Funding Success",
+      "description": "Catch up on the latest in AI: OpenAI's massive $122 billion funding round, Anthropic's recent security mishaps, Nomadic AI's $8.4 million seed round for autonomous vehicle data, and a deeper look into Anthropic's 2023 AI job market impact study.",
+      "tags": [
+        "AI",
+        "OpenAI",
+        "Anthropic",
+        "Funding",
+        "Venture Capital",
+        "Autonomous Vehicles",
+        "Machine Learning",
+        "Job Market",
+        "Tech News",
+        "Software Development"
+      ],
+      "date": "2026-04-02"
+    },
+    {
+      "slug": "ais-billion-dollar-bets-byte-sized-blunders-your-latest-tech-digest-april-2-2026",
+      "title": "AI's Billion-Dollar Bets & Byte-Sized Blunders: Your Latest Tech Digest (April 2, 2026)",
+      "description": "Catch up on the latest in AI and software development: OpenAI's record-breaking $122B funding round, Anthropic's 'oops' moments with leaked code, Nomadic's data wrangling for autonomous vehicles, and a deeper look into AI's theoretical job market impact.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "OpenAI",
+        "Anthropic",
+        "Funding",
+        "Venture Capital",
+        "Autonomous Vehicles",
+        "Data Management",
+        "Job Market",
+        "Software Development",
+        "Security Breach",
+        "Tech News"
+      ],
+      "date": "2026-04-02"
+    },
+    {
+      "slug": "ai-dev-digest-openais-122b-haul-data-wrangling-and-code-verification-boom",
+      "title": "AI & Dev Digest: OpenAI's $122B Haul, Data Wrangling, and Code Verification Boom",
+      "description": "Catch up on the latest in AI and software development: OpenAI's massive funding, Nomadic AI tackling autonomous vehicle data, ScaleOps optimizing compute efficiency, and Qodo ensuring AI-generated code quality.",
+      "tags": [
+        "OpenAI",
+        "AI funding",
+        "autonomous vehicles",
+        "data management",
+        "compute efficiency",
+        "Kubernetes",
+        "AI coding",
+        "code verification",
+        "software development"
+      ],
+      "date": "2026-04-01"
+    },
+    {
+      "slug": "ais-funding-frenzy-the-drive-for-efficiency-your-latest-tech-digest",
+      "title": "AI's Funding Frenzy & The Drive for Efficiency: Your Latest Tech Digest",
+      "description": "Today's tech news highlights massive funding rounds for AI giants like OpenAI, alongside crucial investments in the infrastructure and verification tools needed to support the booming AI industry. Discover how companies are tackling data overload and code quality.",
+      "tags": [
+        "AI",
+        "funding",
+        "OpenAI",
+        "autonomous vehicles",
+        "data management",
+        "compute efficiency",
+        "Kubernetes",
+        "code verification",
+        "software development",
+        "startups"
+      ],
+      "date": "2026-04-01"
+    },
     {
       "slug": "ais-efficiency-drive-funding-rounds-data-centers-and-a-sora-shutdown-reality-check",
       "title": "AI's Efficiency Drive: Funding Rounds, Data Centers, and a Sora Shutdown Reality Check",

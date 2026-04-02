@@ -31,7 +31,7 @@ export function RelatedPosts({ currentSlug, currentCategory, currentTags, allPos
   if (related.length === 0) return null;
 
   return (
-    <section className="mt-12 pt-8" style={{ borderTop: '2px solid var(--nb-border)' }}
+    <section className="mt-12 pt-8" style={{ borderTop: '1px solid var(--nb-border)' }}
       aria-label="Related posts">
       <h2 className="text-xs font-semibold uppercase tracking-widest mb-4"
         style={{ color: 'var(--text-muted)' }}>

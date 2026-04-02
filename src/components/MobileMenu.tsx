@@ -62,11 +62,11 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
           <div
             className="rounded-2xl px-3 pt-3 pb-5 space-y-1"
             style={{
-              backgroundColor: 'color-mix(in srgb, var(--background) 92%, transparent)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '2px solid var(--nb-border)',
-              boxShadow: 'var(--nb-shadow)',
+              backgroundColor: 'var(--glass-bg)',
+              backdropFilter: 'blur(28px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow-lg)',
             }}
           >
             {/* Main links */}
@@ -78,15 +78,16 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
                 style={
                   isActive(item.href)
                     ? {
-                      backgroundColor: 'var(--text-primary)',
-                      color: 'var(--background)',
+                      backgroundColor: 'color-mix(in srgb, var(--accent-500) 90%, transparent)',
+                      color: '#FFFEF0',
+                      boxShadow: '0 2px 10px color-mix(in srgb, var(--accent-500) 30%, transparent)',
                     }
                     : { color: 'var(--text-primary)' }
                 }
                 onMouseEnter={e => {
                   if (!isActive(item.href)) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--text-primary)';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--background)';
+                    (e.currentTarget as HTMLElement).style.backgroundColor = 'color-mix(in srgb, var(--accent-500) 10%, transparent)';
+                    (e.currentTarget as HTMLElement).style.color = 'var(--accent-600)';
                   }
                 }}
                 onMouseLeave={e => {
@@ -107,7 +108,7 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
             {/* Divider + Explore label */}
             <div
               className="mx-3 pt-3 pb-2"
-              style={{ borderTop: '2px solid var(--nb-border)', marginTop: '0.5rem' }}
+              style={{ borderTop: '1px solid var(--glass-border)', marginTop: '0.5rem' }}
             >
               <span className="nb-section-label" style={{ color: 'var(--text-muted)' }}>
                 Explore
@@ -123,15 +124,16 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
                 style={
                   isActive(item.href)
                     ? {
-                      backgroundColor: 'var(--text-primary)',
-                      color: 'var(--background)',
+                      backgroundColor: 'color-mix(in srgb, var(--accent-500) 90%, transparent)',
+                      color: '#FFFEF0',
+                      boxShadow: '0 2px 10px color-mix(in srgb, var(--accent-500) 30%, transparent)',
                     }
                     : { color: 'var(--text-secondary)' }
                 }
                 onMouseEnter={e => {
                   if (!isActive(item.href)) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--text-primary)';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--background)';
+                    (e.currentTarget as HTMLElement).style.backgroundColor = 'color-mix(in srgb, var(--accent-500) 10%, transparent)';
+                    (e.currentTarget as HTMLElement).style.color = 'var(--accent-600)';
                   }
                 }}
                 onMouseLeave={e => {
@@ -150,14 +152,14 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
             ))}
 
             {/* Search */}
-            <div style={{ borderTop: '2px solid var(--nb-border)', paddingTop: '0.75rem', marginTop: '0.5rem' }}>
+            <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '0.75rem', marginTop: '0.5rem' }}>
               <button
                 onClick={() => { onSearchOpen(); onClose(); }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all duration-150"
                 style={{ color: 'var(--text-secondary)' }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--text-primary)';
-                  (e.currentTarget as HTMLElement).style.color = 'var(--background)';
+                  (e.currentTarget as HTMLElement).style.backgroundColor = 'color-mix(in srgb, var(--accent-500) 10%, transparent)';
+                  (e.currentTarget as HTMLElement).style.color = 'var(--accent-600)';
                 }}
                 onMouseLeave={e => {
                   (e.currentTarget as HTMLElement).style.backgroundColor = '';

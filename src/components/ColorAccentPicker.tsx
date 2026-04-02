@@ -25,16 +25,22 @@ export function ColorAccentPicker() {
       {/* Trigger: small button showing the current accent swatch */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-150 border-2"
-        style={{ borderColor: 'var(--nb-border)', backgroundColor: 'transparent' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--text-primary)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
+        className="flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-150 border"
+        style={{
+          borderColor: 'var(--glass-border)',
+          backgroundColor: 'var(--glass-bg-subtle)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          boxShadow: 'var(--glass-shadow-sm)',
+        }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--glass-bg-hover)'; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--glass-bg-subtle)'; }}
         aria-label="Change accent color"
         title="Accent color"
       >
         <span
           className="w-3.5 h-3.5 rounded-full flex-shrink-0"
-          style={{ backgroundColor: activeSwatch, border: '1.5px solid var(--nb-border)' }}
+          style={{ backgroundColor: activeSwatch, boxShadow: '0 1px 4px rgba(0,0,0,0.20)' }}
         />
       </button>
 
@@ -42,9 +48,11 @@ export function ColorAccentPicker() {
         <div
           className="absolute right-0 mt-2 p-3 rounded-xl z-50"
           style={{
-            backgroundColor: 'var(--surface)',
-            border: '2px solid var(--nb-border)',
-            boxShadow: 'var(--nb-shadow)',
+            backgroundColor: 'var(--glass-bg)',
+            backdropFilter: 'blur(24px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow-lg)',
             minWidth: '200px',
           }}
         >
@@ -60,8 +68,9 @@ export function ColorAccentPicker() {
                   onClick={() => { setAccentId(palette.id); setIsOpen(false); }}
                   className="flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all duration-150"
                   style={{
-                    backgroundColor: isActive ? 'var(--surface-muted)' : 'transparent',
-                    border: isActive ? '2px solid var(--nb-border)' : '2px solid transparent',
+                    backgroundColor: isActive ? 'color-mix(in srgb, var(--accent-500) 12%, transparent)' : 'transparent',
+                    border: isActive ? '1px solid var(--glass-border)' : '1px solid transparent',
+                    boxShadow: isActive ? 'var(--glass-shadow-sm)' : 'none',
                   }}
                   title={palette.name}
                 >
@@ -69,8 +78,9 @@ export function ColorAccentPicker() {
                     className="w-5 h-5 rounded-full flex-shrink-0"
                     style={{
                       backgroundColor: palette.swatch,
+                      boxShadow: isActive ? '0 0 0 2px rgba(255,255,255,0.6), 0 2px 6px rgba(0,0,0,0.20)' : '0 1px 3px rgba(0,0,0,0.15)',
                       transform: isActive ? 'scale(1.2)' : 'scale(1)',
-                      transition: 'transform 0.15s ease',
+                      transition: 'transform 0.15s ease, box-shadow 0.15s ease',
                     }}
                   />
                   <span className="text-[9px] font-semibold leading-none" style={{ color: 'var(--text-muted)' }}>
