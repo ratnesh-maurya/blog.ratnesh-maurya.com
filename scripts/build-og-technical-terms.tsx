@@ -2,10 +2,10 @@
  * Generate OG images for technical terms at build time (no server).
  * Runs automatically in postbuild. Uses @vercel/og so no Next server is needed.
  */
-import React from 'react';
 import fs from 'fs';
-import path from 'path';
 import matter from 'gray-matter';
+import path from 'path';
+import React from 'react';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -32,13 +32,47 @@ const BRAND = {
   badgeBorder: 'rgba(20,184,166,0.25)',
 } as const;
 
-function sanitize(text: string, maxLen: number): string {
+function sanitize(text: string, maxLen?: number): string {
   const t = text.replace(/^["']|["']$/g, '').trim();
-  if (t.length <= maxLen) return t;
+  if (!maxLen || t.length <= maxLen) return t;
   return t.slice(0, maxLen - 1).trim() + '…';
 }
 
+function estimateVisualLength(text: string): number {
+  let units = 0;
+  for (const char of text) {
+    if (char === ' ') units += 0.38;
+    else if (/[A-ZMW@#%&]/.test(char)) units += 1.15;
+    else if (/[il1'.,:;|]/.test(char)) units += 0.62;
+    else units += 0.95;
+  }
+  return units;
+}
+
+function getAdaptiveTitleStyle(title: string): { fontSize: number; lineHeight: number } {
+  const visualLength = estimateVisualLength(title);
+  const containerWidth = 900;
+  const minSize = 40;
+  const maxSize = 72;
+  const maxLines = 6;
+
+  let fontSize = maxSize;
+  for (let size = maxSize; size >= minSize; size--) {
+    const charsPerLine = Math.max(8, containerWidth / (size * 0.58));
+    const estimatedLines = visualLength / charsPerLine;
+    if (estimatedLines <= maxLines) {
+      fontSize = size;
+      break;
+    }
+  }
+
+  const lineHeight = fontSize <= 50 ? 1.08 : fontSize <= 62 ? 1.04 : 1.0;
+  return { fontSize, lineHeight };
+}
+
 function buildOgElement(title: string, subtitle: string): React.ReactElement {
+  const titleStyle = getAdaptiveTitleStyle(title);
+
   return (
     <div
       style={{
@@ -94,10 +128,10 @@ function buildOgElement(title: string, subtitle: string): React.ReactElement {
         </div>
         <div
           style={{
-            fontSize: 72,
+            fontSize: titleStyle.fontSize,
             fontWeight: 800,
             letterSpacing: -2,
-            lineHeight: 1.0,
+            lineHeight: titleStyle.lineHeight,
             color: BRAND.textPrimary,
             maxWidth: 900,
           }}
@@ -149,7 +183,7 @@ async function main() {
     try {
       const raw = fs.readFileSync(path.join(contentDir, file), 'utf8');
       const { data } = matter(raw);
-      const title = sanitize(String(data?.title ?? slug), 80);
+      const title = sanitize(String(data?.title ?? slug));
       const description = sanitize(String(data?.description ?? 'Technical term definition'), 120);
       const res = new ImageResponse(buildOgElement(title, description), { width: 1200, height: 630 });
       const buf = await res.arrayBuffer();

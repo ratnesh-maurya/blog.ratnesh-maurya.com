@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Ratn Labs - Systems, Backend and AI Engineering',
-  description: 'Practical engineering notes, deep dives, and daily signals on backend systems, AI tooling, and developer workflows.',
+  description: 'Practical notes on backend architecture, distributed systems, and AI engineering. Browse deep dives, cheatsheets, TILs, and technical terms.',
   keywords: [
     'Ratnesh Maurya', 'backend engineering blog', 'system design', 'AI engineering',
     'Go programming', 'Elixir', 'TypeScript', 'distributed systems', 'scalable architecture',
@@ -55,36 +55,22 @@ function formatDate(dateStr: string) {
 }
 
 const exploreItems = [
-  { label: 'Blog', href: '/blog', desc: 'Long-form notes and architecture stories', emoji: '✍️' },
-  { label: 'News', href: '/news', desc: 'Daily AI and software signals', emoji: '🗞️' },
-  { label: 'Technical Terms', href: '/technical-terms', desc: 'Backend and systems glossary', emoji: '📖' },
-  { label: 'Cheatsheets', href: '/cheatsheets', desc: 'Fast references for daily work', emoji: '⚡' },
-  { label: 'TIL', href: '/til', desc: 'Small lessons worth keeping', emoji: '💡' },
-  { label: 'Resources', href: '/resources', desc: 'Books, tools, and talks', emoji: '🔗' },
+  { label: 'Blog', href: '/blog', desc: 'Posts and series', emoji: '✍️' },
+  { label: 'News', href: '/news', desc: 'Daily AI and dev digest', emoji: '🗞️' },
+  { label: 'Technical Terms', href: '/technical-terms', desc: 'System design glossary', emoji: '📖' },
+  { label: 'Cheatsheets', href: '/cheatsheets', desc: 'Quick references', emoji: '⚡' },
+  { label: 'TIL', href: '/til', desc: 'Small lessons', emoji: '💡' },
+  { label: 'Questions', href: '/silly-questions', desc: 'Silly but useful', emoji: '🤔' },
+  { label: 'Resources', href: '/resources', desc: 'Books, tools and talks', emoji: '🔗' },
 ];
 
-const sectionCard = {
+const glassCard = {
   backgroundColor: 'var(--glass-bg)',
-  border: '1px solid var(--glass-border)',
-  boxShadow: 'var(--glass-shadow-sm)',
   backdropFilter: 'blur(10px) saturate(160%)',
   WebkitBackdropFilter: 'blur(10px) saturate(160%)',
-} as const;
-
-const sectionCardDeep = {
-  backgroundColor: 'var(--glass-bg)',
   border: '1px solid var(--glass-border)',
   boxShadow: 'var(--glass-shadow)',
-  backdropFilter: 'blur(14px) saturate(170%)',
-  WebkitBackdropFilter: 'blur(14px) saturate(170%)',
-} as const;
-
-const neutralHeroPanel = {
-  backgroundColor: 'var(--glass-bg)',
-  border: '1px solid var(--glass-border)',
-  boxShadow: 'var(--glass-shadow)',
-  backdropFilter: 'blur(16px) saturate(170%)',
-  WebkitBackdropFilter: 'blur(16px) saturate(170%)',
+  borderRadius: '16px',
 } as const;
 
 export default async function Home() {
@@ -94,10 +80,14 @@ export default async function Home() {
     getAllNewsPostsForListing(),
   ]);
 
-  const featuredPost = posts[0];
-  const featuredPosts = posts.slice(1, 5);
-  const latestNews = newsPosts.slice(0, 3);
-  const latestTerms = technicalTerms.slice(0, 4);
+  const featured = posts.slice(0, 5);
+  const featuredSlugs = new Set(featured.map((p) => p.slug));
+  const latest = posts.filter((p) => !featuredSlugs.has(p.slug)).slice(0, 6);
+
+  const centerFeatured = featured.slice(0, 1);
+  const leftFeatured = featured.slice(1, 3);
+  const rightFeatured = featured.slice(3, 5);
+  const hasMagazineLayout = featured.length >= 3;
 
   const breadcrumbItems = [{ name: 'Home', url: 'https://blog.ratnesh-maurya.com' }];
 
@@ -135,222 +125,272 @@ export default async function Home() {
       />
 
       <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
-        <section className="relative overflow-hidden px-4 sm:px-6 pt-10 pb-8 sm:pt-14 sm:pb-12">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(900px 420px at 50% 0%, rgba(255,255,255,0.26) 0%, transparent 70%), radial-gradient(600px 360px at 18% 90%, rgba(255,255,255,0.12) 0%, transparent 74%), radial-gradient(520px 300px at 82% 18%, rgba(0, 0, 0, 0.05) 0%, transparent 72%)',
-            }}
-          />
 
-          <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 items-center">
-            <div className="space-y-6">
-              <span
-                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em]"
-                style={{
-                  backgroundColor: 'var(--glass-bg-subtle)',
-                  border: '1px solid var(--glass-border)',
-                  color: 'var(--text-secondary)',
-                  boxShadow: 'var(--glass-shadow-sm)',
-                }}
+        {/* ── Hero ── */}
+        <section className="min-h-[76vh] relative flex items-center justify-center overflow-hidden px-4 sm:px-6">
+          {/* Apple-style gradient orbs */}
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            <div style={{
+              position: 'absolute', top: '-15%', left: '50%', transform: 'translateX(-50%)',
+              width: '900px', height: '600px',
+              background: 'radial-gradient(ellipse at center, rgba(0,122,255,0.16) 0%, transparent 70%)',
+            }} />
+            <div style={{
+              position: 'absolute', bottom: '-5%', left: '-8%',
+              width: '650px', height: '650px',
+              background: 'radial-gradient(ellipse at center, rgba(88,86,214,0.11) 0%, transparent 70%)',
+            }} />
+            <div style={{
+              position: 'absolute', top: '15%', right: '-5%',
+              width: '450px', height: '450px',
+              background: 'radial-gradient(ellipse at center, rgba(90,200,250,0.08) 0%, transparent 70%)',
+            }} />
+          </div>
+
+          <div className="relative max-w-4xl w-full text-center">
+            {/* Apple-style pill badge */}
+            <span className="inline-block mb-6" style={{
+              background: 'rgba(0,122,255,0.10)',
+              border: '1px solid rgba(0,122,255,0.22)',
+              borderRadius: '100px',
+              padding: '5px 16px',
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: '#007AFF',
+            }}>
+              Systems · Backend · AI Engineering
+            </span>
+
+            <h1
+              className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.94]"
+              style={{ color: 'var(--text-primary)', letterSpacing: '-0.04em' }}
+            >
+              Practical engineering
+              <br />
+              <span style={{ color: '#007AFF' }}>for real-world systems</span>
+            </h1>
+
+            <p
+              className="mt-6 text-lg sm:text-xl leading-relaxed font-medium mx-auto max-w-2xl"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Deep dives, architecture notes, and daily developer news for builders who ship.
+            </p>
+
+            {/* CTA buttons — Apple style */}
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
+              <Link
+                href="/blog"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+                style={{ background: '#007AFF', color: '#ffffff', textDecoration: 'none', boxShadow: '0 4px 20px rgba(0,122,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25)' }}
               >
-                Systems · Backend · AI Engineering
-              </span>
-
-              <div className="space-y-4 max-w-2xl">
-                <h1
-                  className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.92]"
-                  style={{ color: 'var(--text-primary)', letterSpacing: '-0.05em' }}
-                >
-                  Practical engineering
-                  <br />
-                  for real-world systems.
-                </h1>
-                <p className="text-lg sm:text-xl leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
-                  Backend systems, distributed architecture, and AI notes presented in a clean, desktop-like layout.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/blog"
-                  className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5"
-                  style={{
-                    backgroundColor: 'var(--text-primary)',
-                    color: 'var(--background)',
-                    textDecoration: 'none',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.14)',
-                  }}
-                >
-                  Start with the blog
-                </Link>
-                <Link
-                  href="/news"
-                  className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5"
-                  style={{
-                    backgroundColor: 'var(--glass-bg)',
-                    color: 'var(--text-primary)',
-                    border: '1px solid var(--glass-border)',
-                    boxShadow: 'var(--glass-shadow-sm)',
-                    backdropFilter: 'blur(10px) saturate(160%)',
-                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
-                    textDecoration: 'none',
-                  }}
-                >
-                  Read the digests
-                </Link>
-                <a
-                  href="/feed.xml"
-                  className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5"
-                  style={{
-                    backgroundColor: 'transparent',
-                    color: 'var(--text-primary)',
-                    border: '1px solid var(--glass-border)',
-                    textDecoration: 'none',
-                  }}
-                >
-                  RSS
-                </a>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl pt-2">
-                {[
-                  { value: posts.length, label: 'Posts' },
-                  { value: technicalTerms.length, label: 'Terms' },
-                  { value: newsPosts.length, label: 'Digests' },
-                ].map((item) => (
-                  <div key={item.label} className="rounded-2xl p-4" style={sectionCard}>
-                    <div className="text-2xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>{item.value}</div>
-                    <div className="mt-1 text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--text-muted)' }}>
-                      {item.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                Read the Blog
+              </Link>
+              <Link
+                href="/news"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
+                style={{ backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', textDecoration: 'none', boxShadow: 'var(--glass-shadow-sm)' }}
+              >
+                Daily News
+              </Link>
+              <a
+                href="/feed.xml"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
+                style={{ backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', textDecoration: 'none', boxShadow: 'var(--glass-shadow-sm)' }}
+              >
+                RSS Feed
+              </a>
             </div>
 
-            <div className="relative">
-              <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.22),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(0,0,0,0.06),transparent_50%)] blur-2xl" />
-              <div className="relative rounded-[28px] p-5 sm:p-6" style={sectionCardDeep}>
-                <div className="flex items-center justify-between gap-3 mb-5">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--text-muted)' }}>
-                      Featured entry
-                    </p>
-                    <h2 className="mt-1 text-xl font-black" style={{ color: 'var(--text-primary)' }}>
-                      The next read worth opening.
-                    </h2>
-                  </div>
-                  <Link href="/blog" className="text-sm font-bold" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>
-                    View all →
-                  </Link>
-                </div>
-
-                {featuredPost ? (
-                  <Link href={`/blog/${featuredPost.slug}`} className="group block">
-                    <article className="overflow-hidden rounded-[24px]" style={sectionCard}>
-                      <div className="relative aspect-[16/10] overflow-hidden border-b" style={{ borderColor: 'var(--glass-border)' }}>
-                        {featuredPost.image ? (
-                          <Image
-                            src={featuredPost.image}
-                            alt={featuredPost.title}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 40vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                          />
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'var(--glass-bg-subtle)' }}>
-                            <span className="text-6xl font-black" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
-                              {featuredPost.title.charAt(0)}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-5 sm:p-6">
-                        <div className="flex flex-wrap items-center gap-2 mb-3">
-                          <span className="nb-badge nb-badge-muted">Featured story</span>
-                          <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
-                            {formatDate(featuredPost.date)}
-                          </span>
-                        </div>
-                        <h3 className="text-2xl sm:text-3xl font-black leading-tight" style={{ color: 'var(--text-primary)' }}>
-                          {featuredPost.title}
-                        </h3>
-                        {featuredPost.description && (
-                          <p className="mt-3 text-sm sm:text-base leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
-                            {featuredPost.description}
-                          </p>
-                        )}
-                        <div className="mt-5 flex flex-wrap items-center gap-2 text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
-                          <span>{featuredPost.category}</span>
-                          <span>·</span>
-                          <span>{featuredPost.author}</span>
-                          {featuredPost.readingTime && (
-                            <>
-                              <span>·</span>
-                              <span>{featuredPost.readingTime}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </article>
-                  </Link>
-                ) : (
-                  <div className="rounded-[24px] p-6 text-center" style={sectionCard}>
-                    <p style={{ color: 'var(--text-muted)' }}>No posts yet.</p>
-                  </div>
-                )}
-              </div>
+            {/* Stats — glass pills */}
+            <div className="mt-8 flex flex-wrap justify-center gap-2">
+              {[
+                { value: posts.length.toString(), label: 'Posts' },
+                { value: technicalTerms.length.toString(), label: 'Technical Terms' },
+                { value: newsPosts.length.toString(), label: 'News Digests' },
+              ].map((item) => (
+                <span
+                  key={item.label}
+                  className="inline-block px-4 py-1.5 text-sm font-semibold"
+                  style={{
+                    backgroundColor: 'var(--glass-bg)',
+                    backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)',
+                    border: '1px solid var(--glass-border)',
+                    borderRadius: '100px',
+                    boxShadow: 'var(--glass-shadow-sm)',
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  <span style={{ color: '#007AFF', fontWeight: 800 }}>{item.value}</span>{' '}{item.label}
+                </span>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="px-4 sm:px-6 pb-4">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-4">
-            <div className="rounded-[28px] p-5 sm:p-6" style={sectionCard}>
-              <div className="flex items-end justify-between gap-4 mb-5">
-                <div>
-                  <p className="nb-section-label mb-1">Recent writing</p>
-                  <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
-                    Latest posts, surfaced cleanly.
-                  </h2>
-                </div>
-                <Link href="/blog" className="text-sm font-bold" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>
-                  All posts →
-                </Link>
-              </div>
+        <hr className="nb-separator" />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {featuredPosts.map((post) => (
+        {/* ── Featured Posts ── */}
+        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between gap-4 mb-8">
+              <div>
+                <p className="nb-section-label mb-1">Featured</p>
+                <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
+                  Start here if you are new.
+                </h2>
+              </div>
+              <Link
+                href="/blog"
+                className="text-sm font-bold pb-px"
+                style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--glass-border)', textDecoration: 'none' }}
+              >
+                Browse all →
+              </Link>
+            </div>
+
+            {hasMagazineLayout ? (
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:min-h-[460px]">
+                <div className="flex flex-col gap-4">
+                  {leftFeatured.map((post) => (
+                    <Link key={post.slug} href={`/blog/${post.slug}`} className="group block flex-1">
+                      <article
+                        className="h-full p-4 flex flex-col gap-3 transition-all duration-200 group-hover:-translate-y-0.5"
+                        style={glassCard}
+                      >
+                        {post.image && (
+                          <div
+                            className="relative w-full aspect-[16/9] rounded-lg overflow-hidden"
+                            style={{ border: '1px solid var(--glass-border)' }}
+                          >
+                            <Image src={post.image} alt={post.title} fill sizes="25vw" className="object-cover" />
+                          </div>
+                        )}
+                        <div>
+                          <span className="nb-badge nb-badge-primary mb-2 inline-block" style={{ fontSize: '0.6rem' }}>
+                            {post.category}
+                          </span>
+                          <h3 className="font-extrabold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                            {post.title}
+                          </h3>
+                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
+                            {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
+                          </p>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="lg:col-span-2">
+                  {centerFeatured.map((post) => (
+                    <Link key={post.slug} href={`/blog/${post.slug}`} className="group block h-full">
+                      <article
+                        className="h-full p-5 flex flex-col gap-4 transition-all duration-200 group-hover:-translate-y-0.5"
+                        style={{
+                          backgroundColor: 'var(--glass-bg)',
+                          backdropFilter: 'blur(12px) saturate(160%)',
+                          WebkitBackdropFilter: 'blur(12px) saturate(160%)',
+                          border: '1px solid var(--glass-border)',
+                          boxShadow: 'var(--glass-shadow)',
+                          borderRadius: '20px',
+                        }}
+                      >
+                        <div
+                          className="relative w-full aspect-[16/9] rounded-xl overflow-hidden"
+                          style={{ border: '1px solid var(--glass-border)', backgroundColor: 'var(--surface-muted)' }}
+                        >
+                          {post.image ? (
+                            <Image src={post.image} alt={post.title} fill sizes="50vw" className="object-cover" />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <span className="text-5xl font-black" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                                {post.title.charAt(0)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <span className="nb-badge nb-badge-primary mb-3 inline-block">{post.category}</span>
+                          <h3 className="font-black text-xl md:text-2xl leading-snug nb-title-hover mt-2" style={{ color: 'var(--text-primary)' }}>
+                            {post.title}
+                          </h3>
+                          {post.description && (
+                            <p className="mt-2 text-sm font-medium leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
+                              {post.description}
+                            </p>
+                          )}
+                          <p className="text-xs font-semibold mt-4" style={{ color: 'var(--text-muted)' }}>
+                            {post.author} · {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
+                          </p>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  {rightFeatured.map((post) => (
+                    <Link key={post.slug} href={`/blog/${post.slug}`} className="group block flex-1">
+                      <article
+                        className="h-full p-4 flex flex-col gap-3 transition-all duration-200 group-hover:-translate-y-0.5"
+                        style={glassCard}
+                      >
+                        {post.image && (
+                          <div
+                            className="relative w-full aspect-[16/9] rounded-lg overflow-hidden"
+                            style={{ border: '1px solid var(--glass-border)' }}
+                          >
+                            <Image src={post.image} alt={post.title} fill sizes="25vw" className="object-cover" />
+                          </div>
+                        )}
+                        <div>
+                          <span className="nb-badge nb-badge-primary mb-2 inline-block" style={{ fontSize: '0.6rem' }}>
+                            {post.category}
+                          </span>
+                          <h3 className="font-extrabold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                            {post.title}
+                          </h3>
+                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
+                            {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
+                          </p>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {featured.map((post) => (
                   <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
-                    <article className="overflow-hidden rounded-[22px] transition-transform duration-200 group-hover:-translate-y-0.5" style={sectionCard}>
-                      <div className="relative aspect-[16/10] overflow-hidden border-b" style={{ borderColor: 'var(--glass-border)' }}>
+                    <article
+                      className="h-full overflow-hidden transition-all duration-200 group-hover:-translate-y-0.5"
+                      style={glassCard}
+                    >
+                      <div
+                        className="relative w-full aspect-[16/10] rounded-t-2xl overflow-hidden"
+                        style={{ borderBottom: '1px solid var(--glass-border)' }}
+                      >
                         {post.image ? (
-                          <Image
-                            src={post.image}
-                            alt={post.title}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 28vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                          />
+                          <Image src={post.image} alt={post.title} fill sizes="33vw" className="object-cover" />
                         ) : (
-                          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'var(--glass-bg-subtle)' }}>
-                            <span className="text-5xl font-black" style={{ color: 'var(--text-muted)', opacity: 0.28 }}>
+                          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'var(--surface-muted)' }}>
+                            <span className="text-4xl font-black" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
                               {post.title.charAt(0)}
                             </span>
                           </div>
                         )}
                       </div>
-                      <div className="p-4">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="nb-badge nb-badge-muted">{post.category}</span>
-                        </div>
-                        <h3 className="text-base sm:text-[1.05rem] font-black leading-snug" style={{ color: 'var(--text-primary)' }}>
+                      <div className="p-5">
+                        <span className="nb-badge nb-badge-primary mb-3 inline-block">{post.category}</span>
+                        <h3 className="font-extrabold text-base nb-title-hover" style={{ color: 'var(--text-primary)' }}>
                           {post.title}
                         </h3>
-                        <p className="mt-2 text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                        <p className="text-xs font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
                           {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                         </p>
                       </div>
@@ -358,150 +398,175 @@ export default async function Home() {
                   </Link>
                 ))}
               </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="rounded-[28px] p-5 sm:p-6" style={sectionCard}>
-                <div className="flex items-end justify-between gap-4 mb-5">
-                  <div>
-                    <p className="nb-section-label mb-1">Explore</p>
-                    <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
-                      Fast paths into the site.
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  {exploreItems.map((item) => (
-                    <Link key={item.href} href={item.href} className="group block">
-                      <div className="h-full rounded-[20px] p-4 transition-transform duration-200 group-hover:-translate-y-0.5" style={sectionCard}>
-                        <span className="text-2xl block mb-3">{item.emoji}</span>
-                        <p className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>
-                          {item.label}
-                        </p>
-                        <p className="mt-1 text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                          {item.desc}
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[28px] p-5 sm:p-6" style={sectionCard}>
-                <div className="flex items-end justify-between gap-4 mb-4">
-                  <div>
-                    <p className="nb-section-label mb-1">Signals</p>
-                    <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
-                      News and terms at a glance.
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  {latestNews.map((post) => (
-                    <Link key={post.slug} href={`/news/${post.slug}`} className="group block">
-                      <div className="flex items-center justify-between gap-4 rounded-2xl px-4 py-3 transition-transform duration-200 group-hover:-translate-y-0.5" style={sectionCard}>
-                        <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
-                            News digest
-                          </p>
-                          <p className="text-sm font-bold leading-snug line-clamp-2" style={{ color: 'var(--text-primary)' }}>
-                            {post.title}
-                          </p>
-                        </div>
-                        <span className="shrink-0 text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
-                          {formatDate(post.date)}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-
-                  {latestTerms.map((term) => (
-                    <Link key={term.slug} href={`/technical-terms/${term.slug}`} className="group block">
-                      <div className="flex items-center justify-between gap-4 rounded-2xl px-4 py-3 transition-transform duration-200 group-hover:-translate-y-0.5" style={sectionCard}>
-                        <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
-                            Technical term
-                          </p>
-                          <p className="text-sm font-bold leading-snug line-clamp-1" style={{ color: 'var(--text-primary)' }}>
-                            {term.title}
-                          </p>
-                          <p className="mt-1 text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--text-muted)' }}>
-                            {term.description}
-                          </p>
-                        </div>
-                        <span className="shrink-0 text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
-                          Read
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </section>
 
-        <section className="px-4 sm:px-6 py-8 sm:py-10">
-          <div className="max-w-6xl mx-auto rounded-[32px] p-6 sm:p-8" style={sectionCardDeep}>
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <hr className="nb-separator" />
+
+        {/* ── Latest Writing ── */}
+        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between gap-4 mb-8">
               <div>
-                <p className="nb-section-label mb-1">Why this site</p>
-                <h2 className="text-2xl sm:text-3xl font-black" style={{ color: 'var(--text-primary)' }}>
-                  A compact place for engineering notes that stay useful.
+                <p className="nb-section-label mb-1">Latest Writing</p>
+                <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
+                  Fresh from the lab.
                 </h2>
               </div>
-              <div className="text-sm leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
-                New posts, digest summaries, and reference pages are arranged to get you to the right entry point fast.
-              </div>
+              <Link
+                href="/blog"
+                className="text-sm font-bold pb-px"
+                style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--glass-border)', textDecoration: 'none' }}
+              >
+                All posts →
+              </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                { label: 'System design', value: 'Tradeoffs, architecture, and scalability' },
-                { label: 'Developer signals', value: 'AI updates, product changes, and tooling' },
-                { label: 'Reference material', value: 'Cheatsheets, glossary entries, and TILs' },
-              ].map((item) => (
-                <div key={item.label} className="rounded-[22px] p-5" style={sectionCard}>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] mb-2" style={{ color: 'var(--text-muted)' }}>
-                    {item.label}
-                  </p>
-                  <p className="text-sm leading-relaxed font-medium" style={{ color: 'var(--text-secondary)' }}>
-                    {item.value}
-                  </p>
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {latest.map((post) => (
+                <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
+                  <article
+                    className="h-full flex flex-col overflow-hidden transition-all duration-200 group-hover:-translate-y-0.5"
+                    style={glassCard}
+                  >
+                    {post.image && (
+                      <div
+                        className="relative w-full aspect-[16/10] overflow-hidden rounded-t-2xl"
+                        style={{ borderBottom: '1px solid var(--glass-border)' }}
+                      >
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="p-5 flex flex-col gap-3 flex-1">
+                      <span className="nb-badge nb-badge-primary self-start">{post.category}</span>
+                      <h3
+                        className="text-base font-extrabold leading-snug nb-title-hover line-clamp-2"
+                        style={{ color: 'var(--text-primary)' }}
+                      >
+                        {post.title}
+                      </h3>
+                      <div className="flex items-center gap-2 mt-auto pt-1">
+                        <span
+                          className="inline-flex w-6 h-6 rounded-full items-center justify-center flex-shrink-0"
+                          style={{
+                            background: 'rgba(0,122,255,0.12)',
+                            border: '1px solid rgba(0,122,255,0.25)',
+                          }}
+                        >
+                          <span className="text-[8px] font-black" style={{ color: '#007AFF' }}>RM</span>
+                        </span>
+                        <p className="text-[11px] font-semibold" style={{ color: 'var(--text-muted)' }}>
+                          {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
               ))}
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href="/newsletter"
-                className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5"
-                style={{
-                  backgroundColor: 'var(--text-primary)',
-                  color: 'var(--background)',
-                  textDecoration: 'none',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.14)',
-                }}
-              >
-                Subscribe for updates
-              </Link>
-              <Link
-                href="/about"
-                className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5"
-                style={{
-                  backgroundColor: 'var(--glass-bg)',
-                  color: 'var(--text-primary)',
-                  border: '1px solid var(--glass-border)',
-                  textDecoration: 'none',
-                }}
-              >
-                About Ratnesh
-              </Link>
             </div>
           </div>
         </section>
+
+        <hr className="nb-separator" />
+
+        {/* ── Explore Library ── */}
+        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-8">
+              <p className="nb-section-label mb-1">Explore the Library</p>
+              <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
+                Pick a format, dive deep.
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {exploreItems.map((item) => (
+                <Link key={item.href} href={item.href} className="group block">
+                  <div
+                    className="p-5 h-full transition-all duration-200 group-hover:-translate-y-0.5"
+                    style={glassCard}
+                  >
+                    <span className="text-2xl block mb-3">{item.emoji}</span>
+                    <p className="text-sm font-black nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                      {item.label}
+                    </p>
+                    <p className="text-xs font-semibold mt-1" style={{ color: 'var(--text-muted)' }}>
+                      {item.desc}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <hr className="nb-separator" />
+
+        {/* ── FAQ + Newsletter ── */}
+        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-8 items-start">
+              <div>
+                <p className="nb-section-label mb-1">FAQ</p>
+                <h2 className="text-2xl font-black mb-6" style={{ color: 'var(--text-primary)' }}>
+                  Frequently asked.
+                </h2>
+                <div className="space-y-3">
+                  {faqs.map((f) => (
+                    <div key={f.q} className="p-5" style={{ ...glassCard, borderRadius: '14px' }}>
+                      <p className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>{f.q}</p>
+                      <p className="text-sm mt-2 leading-relaxed font-medium" style={{ color: 'var(--text-secondary)' }}>
+                        {f.a}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="sticky top-24">
+                <div className="p-6" style={{ ...glassCard, borderRadius: '20px' }}>
+                  <span className="nb-badge nb-badge-primary mb-4 inline-block">Newsletter</span>
+                  <h3 className="text-xl font-black mt-3" style={{ color: 'var(--text-primary)' }}>
+                    Updates without noise.
+                  </h3>
+                  <p className="text-sm font-medium mt-2 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    New posts, cheatsheets, and technical terms delivered occasionally.
+                  </p>
+                  <div className="mt-5 flex flex-col gap-3">
+                    <Link
+                      href="/newsletter"
+                      className="w-full inline-flex justify-center items-center rounded-xl py-3 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
+                      style={{ background: '#007AFF', color: '#ffffff', textDecoration: 'none', boxShadow: '0 2px 12px rgba(0,122,255,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}
+                    >
+                      Subscribe →
+                    </Link>
+                    <Link
+                      href="/about"
+                      className="w-full inline-flex justify-center items-center rounded-xl py-3 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
+                      style={{ backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--text-primary)', textDecoration: 'none', border: '1px solid var(--glass-border)' }}
+                    >
+                      About Ratnesh
+                    </Link>
+                  </div>
+                  <p className="mt-5 text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                    Prefer RSS?{' '}
+                    <a href="/feed.xml" className="font-bold underline decoration-1" style={{ color: 'var(--text-secondary)' }}>
+                      feed.xml
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </>
   );

@@ -90,10 +90,102 @@ const THEMES: Record<OgThemeName, OgTheme> = {
   },
 };
 
-function sanitize(text: string, maxLen: number): string {
+function sanitize(text: string, maxLen?: number): string {
   const t = String(text).replace(/^["']|["']$/g, '').trim();
-  if (t.length <= maxLen) return t;
+  if (!maxLen || t.length <= maxLen) return t;
   return t.slice(0, maxLen - 1).trim() + '…';
+}
+
+function charUnitWidth(char: string): number {
+  if (char === ' ') return 0.38;
+  if (/[-/.:]/.test(char)) return 0.5;
+  if (/[A-ZMW@#%&]/.test(char)) return 1.15;
+  if (/[il1'.,:;|]/.test(char)) return 0.62;
+  return 0.95;
+}
+
+function estimateLineCount(text: string, fontSize: number, maxWidth: number): number {
+  const unitPx = fontSize * 0.58;
+  const lines = text.split('\n');
+  let totalLines = 0;
+
+  for (const line of lines) {
+    if (!line) {
+      totalLines += 1;
+      continue;
+    }
+
+    const tokens = line.split(/(\s+|\u200B)/).filter((token) => token.length > 0);
+    let currentLineWidth = 0;
+    let lineCount = 1;
+
+    for (const token of tokens) {
+      // Soft-wrap token inserted via zero-width space.
+      if (token === '\u200B') continue;
+
+      if (/^\s+$/.test(token)) {
+        const spaceWidth = token.length * charUnitWidth(' ') * unitPx;
+        if (currentLineWidth > 0 && currentLineWidth + spaceWidth <= maxWidth) {
+          currentLineWidth += spaceWidth;
+        }
+        continue;
+      }
+
+      let tokenWidth = 0;
+      for (const char of token) tokenWidth += charUnitWidth(char) * unitPx;
+
+      if (tokenWidth <= maxWidth) {
+        if (currentLineWidth > 0 && currentLineWidth + tokenWidth > maxWidth) {
+          lineCount += 1;
+          currentLineWidth = tokenWidth;
+        } else {
+          currentLineWidth += tokenWidth;
+        }
+        continue;
+      }
+
+      // Fallback for very long unbreakable chunks.
+      for (const char of token) {
+        const charWidth = charUnitWidth(char) * unitPx;
+        if (currentLineWidth > 0 && currentLineWidth + charWidth > maxWidth) {
+          lineCount += 1;
+          currentLineWidth = 0;
+        }
+        currentLineWidth += charWidth;
+      }
+    }
+
+    totalLines += lineCount;
+  }
+
+  return totalLines;
+}
+
+function getSoftWrappedTitle(title: string): string {
+  // Hint line breaks after punctuation for long compound titles.
+  return title.replace(/([\-/:])/g, '$1\u200B');
+}
+
+function getAdaptiveTitleStyle(title: string, squareSafe?: boolean): { fontSize: number; lineHeight: number } {
+  const containerWidth = squareSafe ? 560 : 940;
+  const minSize = squareSafe ? 30 : 34;
+  const maxSize = squareSafe ? 78 : 90;
+  const maxLines = squareSafe ? 6 : 5;
+  const maxTitleHeight = squareSafe ? 295 : 250;
+
+  let fontSize = maxSize;
+  for (let size = maxSize; size >= minSize; size--) {
+    const lineHeight = size <= 50 ? 1.08 : size <= 64 ? 1.05 : 1.03;
+    const estimatedLines = estimateLineCount(title, size, containerWidth);
+    const estimatedHeight = estimatedLines * size * lineHeight;
+    if (estimatedLines <= maxLines && estimatedHeight <= maxTitleHeight) {
+      fontSize = size;
+      break;
+    }
+  }
+
+  const lineHeight = fontSize <= 50 ? 1.08 : fontSize <= 64 ? 1.05 : 1.03;
+  return { fontSize, lineHeight };
 }
 
 function slugifyTag(tag: string): string {
@@ -115,12 +207,8 @@ function buildOgElement(
   options?: { squareSafe?: boolean }
 ): React.ReactElement {
   const theme = THEMES[themeName];
-
-  const titleLength = title.length;
-
-  const titleFontSize = options?.squareSafe
-    ? (titleLength > 68 ? 52 : titleLength > 50 ? 62 : titleLength > 30 ? 70 : 78)
-    : (titleLength > 90 ? 60 : titleLength > 68 ? 70 : titleLength > 40 ? 80 : 90);
+  const wrappedTitle = getSoftWrappedTitle(title);
+  const titleStyle = getAdaptiveTitleStyle(wrappedTitle, options?.squareSafe);
 
   return (
     <div
@@ -232,16 +320,20 @@ function buildOgElement(
           </div>
           <div
             style={{
-              fontSize: `${titleFontSize}px`,
+              fontSize: `${titleStyle.fontSize}px`,
               fontFamily: BRAND.serifFont,
               fontWeight: 700,
-              lineHeight: 1.03,
+              lineHeight: titleStyle.lineHeight,
               color: BRAND.textPrimary,
               letterSpacing: '-0.015em',
               textWrap: 'balance',
+              width: '100%',
+              maxWidth: '100%',
+              overflowWrap: 'break-word',
+              wordBreak: 'break-word',
             }}
           >
-            {title}
+            {wrappedTitle}
           </div>
 
         </div>
@@ -337,7 +429,7 @@ async function main() {
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
       const el = buildOgElement(
-        sanitize(post.title, 80),
+        sanitize(post.title),
         sanitize(post.description || 'Ratn Labs', 120),
         'Blog',
         'blog'
@@ -363,7 +455,7 @@ async function main() {
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
       const el = buildOgElement(
-        sanitize(post.title, 80),
+        sanitize(post.title),
         sanitize(post.description || 'Ratn Labs', 120),
         'News',
         'news'
@@ -423,7 +515,7 @@ async function main() {
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
       const el = buildOgElement(
-        sanitize(q.question, 80),
+        sanitize(q.question),
         sanitize(q.answer?.replace(/<[^>]*>/g, '').slice(0, 120) || 'Silly question', 120),
         'Silly Questions',
         'silly'
@@ -449,7 +541,7 @@ async function main() {
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
       const el = buildOgElement(
-        sanitize(term.title, 80),
+        sanitize(term.title),
         sanitize(term.description || 'Technical term', 120),
         'Technical Terms',
         'technical-terms'
@@ -478,7 +570,7 @@ async function main() {
         ? sanitize(entry.rawContent.replace(/\s+/g, ' ').slice(0, 120), 120)
         : 'TIL';
       const el = buildOgElement(
-        sanitize(entry.title, 80),
+        sanitize(entry.title),
         subtitle,
         'TIL',
         'til'
@@ -503,9 +595,8 @@ async function main() {
     const outPathDir = path.dirname(outPath);
     if (!fs.existsSync(outPathDir)) fs.mkdirSync(outPathDir, { recursive: true });
     try {
-      const title = data.title.includes(' — ') ? data.title.split(' — ')[0] : data.title;
       const el = buildOgElement(
-        sanitize(title, 80),
+        sanitize(data.title),
         sanitize(data.description || 'Cheatsheet', 120),
         'Cheatsheets',
         'cheatsheets'
