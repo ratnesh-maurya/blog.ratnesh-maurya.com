@@ -59,7 +59,7 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
           <div
             key={i}
             className="nb-card-sm p-5 animate-pulse h-48"
-            style={{ backgroundColor: 'var(--nb-card-5)' }}
+            style={{ backgroundColor: 'var(--glass-bg-subtle)' }}
           />
         ))}
       </div>
@@ -68,7 +68,7 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
 
   if (error) {
     return (
-      <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
+      <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
         <p className="text-red-500 text-sm">{error}</p>
       </div>
     );
@@ -103,7 +103,13 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
           <div
             key={d.type}
             className="nb-card-sm p-4"
-            style={{ backgroundColor: 'var(--nb-card-4)' }}
+            style={{
+              backgroundColor: 'var(--glass-bg)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow-sm)',
+              backdropFilter: 'blur(10px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+            }}
           >
             <p className="text-[11px] font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
               {d.name}
@@ -123,7 +129,13 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
         {/* Breakdown bar chart */}
         <div
           className="nb-card p-4 md:p-6"
-          style={{ backgroundColor: 'var(--nb-card-1)' }}
+          style={{
+            backgroundColor: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow-sm)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+          }}
         >
           <h3 className="text-base font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
             Content by type
@@ -144,8 +156,8 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'var(--nb-surface-card)',
-                    border: '1px solid var(--nb-border)',
+                    backgroundColor: 'var(--glass-bg)',
+                    border: '1px solid var(--glass-border)',
                     borderRadius: '8px',
                     color: 'var(--text-primary)',
                   }}
@@ -164,7 +176,13 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
         {/* Engagement table */}
         <div
           className="nb-card overflow-hidden"
-          style={{ backgroundColor: 'var(--nb-surface-card)' }}
+          style={{
+            backgroundColor: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow-sm)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+          }}
         >
           <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
             <h3 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>

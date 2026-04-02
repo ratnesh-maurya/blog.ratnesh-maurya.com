@@ -71,18 +71,20 @@ export default function GlossaryPage() {
         </div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-14">
-          {terms.map((cat, catIdx) => (
+          {terms.map((cat) => (
             <section key={cat.category} id={cat.category.toLowerCase().replace(/\s+/g, '-')}>
               <p className="nb-section-label mb-4">{cat.category}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {cat.items.map((item, itemIdx) => (
+                {cat.items.map((item) => (
                   <div key={item.term}
                     id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
                     className="on-card rounded-xl p-5 transition-all duration-150 hover:-translate-y-0.5"
                     style={{
-                      backgroundColor: `var(--nb-card-${(catIdx * 3 + itemIdx) % 6})`,
-                      border: '2px solid var(--nb-border)',
-                      boxShadow: 'var(--nb-shadow-sm)',
+                      backgroundColor: 'var(--glass-bg)',
+                      border: '1px solid var(--glass-border)',
+                      boxShadow: 'var(--glass-shadow-sm)',
+                      backdropFilter: 'blur(10px) saturate(160%)',
+                      WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                     }}>
                     <h3 className="text-base font-extrabold mb-2" style={{ color: 'var(--text-primary)' }}>
                       {item.term}

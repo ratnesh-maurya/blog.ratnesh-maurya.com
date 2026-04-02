@@ -4,8 +4,7 @@ import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { getAllBlogPosts } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
-import { getNowContent } from '@/lib/static-content';
-import { getUsesContent } from '@/lib/static-content';
+import { getNowContent, getUsesContent } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -172,11 +171,17 @@ export default async function AboutPage() {
                 { label: 'Open source', value: '\u221E' },
               ].map(stat => (
                 <div key={stat.label} className="rounded-2xl p-6 text-center transition-all duration-150 hover:-translate-y-0.5"
-                  style={{ backgroundColor: 'var(--nb-card-0)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow-sm)' }}>
-                  <div className="text-3xl font-extrabold mb-1" style={{ color: '#1C1C1A' }}>
+                  style={{
+                    backgroundColor: 'var(--glass-bg)',
+                    border: '1px solid var(--glass-border)',
+                    boxShadow: 'var(--glass-shadow-sm)',
+                    backdropFilter: 'blur(10px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                  }}>
+                  <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--text-primary)' }}>
                     {stat.value}
                   </div>
-                  <div className="text-xs font-medium" style={{ color: '#545450' }}>
+                  <div className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
                     {stat.label}
                   </div>
                 </div>
@@ -230,7 +235,13 @@ export default async function AboutPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {skills.map(group => (
                 <div key={group.group} className="rounded-2xl p-5 transition-shadow duration-200 hover:shadow-md"
-                  style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
+                  style={{
+                    backgroundColor: 'var(--glass-bg)',
+                    border: '1px solid var(--glass-border)',
+                    boxShadow: 'var(--glass-shadow-sm)',
+                    backdropFilter: 'blur(10px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                  }}>
                   <h3 className="text-xs font-semibold uppercase tracking-wider mb-3"
                     style={{ color: 'var(--accent-500)' }}>
                     {group.group}
@@ -265,7 +276,13 @@ export default async function AboutPage() {
               {projects.map(proj => (
                 <a key={proj.name} href={proj.href} target="_blank" rel="noopener noreferrer"
                   className="project-card flex flex-col gap-1.5 p-5 rounded-2xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg group"
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
+                  style={{
+                    borderColor: 'var(--glass-border)',
+                    backgroundColor: 'var(--glass-bg)',
+                    boxShadow: 'var(--glass-shadow-sm)',
+                    backdropFilter: 'blur(10px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                  }}>
                   <span className="text-sm font-semibold transition-colors group-hover:text-[var(--accent-500)]"
                     style={{ color: 'var(--text-primary)' }}>
                     {proj.name}
@@ -332,7 +349,13 @@ export default async function AboutPage() {
                     {section.items.map(item => (
                       <div key={item.name}
                         className="flex items-start gap-4 p-4 rounded-2xl border transition-shadow duration-200 hover:shadow-sm"
-                        style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+                        style={{
+                          backgroundColor: 'var(--glass-bg)',
+                          borderColor: 'var(--glass-border)',
+                          boxShadow: 'var(--glass-shadow-sm)',
+                          backdropFilter: 'blur(10px) saturate(160%)',
+                          WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                        }}>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                             {item.href ? (
@@ -380,7 +403,13 @@ export default async function AboutPage() {
               {featuredPosts.map(post => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}
                   className="flex items-start gap-4 p-4 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md group"
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
+                  style={{
+                    borderColor: 'var(--glass-border)',
+                    backgroundColor: 'var(--glass-bg)',
+                    boxShadow: 'var(--glass-shadow-sm)',
+                    backdropFilter: 'blur(10px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                  }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-1"
                       style={{ color: 'var(--accent-500)' }}>
@@ -402,11 +431,17 @@ export default async function AboutPage() {
 
           {/* CTA */}
           <section className="rounded-2xl p-8 text-center"
-            style={{ backgroundColor: 'var(--nb-card-1)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
-            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: '#1C1C1A' }}>
+            style={{
+              backgroundColor: 'var(--glass-bg)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow)',
+              backdropFilter: 'blur(12px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(160%)',
+            }}>
+            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
               Let&apos;s connect
             </h2>
-            <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: '#545450' }}>
+            <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
               I&apos;m always happy to talk about system design, backend engineering, or interesting engineering problems.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
@@ -415,7 +450,7 @@ export default async function AboutPage() {
                 Connect on LinkedIn
               </a>
               <a href="https://x.com/ratnesh_maurya_" target="_blank" rel="noopener noreferrer"
-                className="nb-btn inline-flex items-center gap-2" style={{ color: '#1C1C1A' }}>
+                className="nb-btn inline-flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                 Follow on X
               </a>
             </div>

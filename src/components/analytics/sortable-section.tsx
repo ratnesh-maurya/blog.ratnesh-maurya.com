@@ -33,21 +33,23 @@ export function SortableSection({ id, title, children, rightSlot, subtitle }: So
       className="nb-card overflow-hidden"
       style={{
         ...style,
-        backgroundColor: 'var(--nb-surface-card)',
-        borderColor: isDragging ? 'var(--accent-500)' : 'var(--border)',
+        backgroundColor: 'var(--glass-bg)',
+        borderColor: isDragging ? 'var(--accent-500)' : 'var(--glass-border)',
         opacity: isDragging ? 0.95 : 1,
-        boxShadow: isDragging ? 'var(--nb-shadow-lg)' : undefined,
+        boxShadow: isDragging ? 'var(--glass-shadow-lg)' : 'var(--glass-shadow-sm)',
+        backdropFilter: 'blur(10px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(10px) saturate(160%)',
       }}
     >
       <div
         className="flex items-center justify-between gap-4 px-4 py-3 border-b-2 flex-wrap"
-        style={{ borderColor: 'var(--nb-border)', backgroundColor: 'var(--nb-card-3)' }}
+        style={{ borderColor: 'var(--glass-border)', backgroundColor: 'var(--glass-bg-subtle)' }}
       >
         <div className="flex items-center gap-3">
           <button
             type="button"
             className="touch-none cursor-grab active:cursor-grabbing p-1.5 rounded-md transition-colors"
-            style={{ border: '1px solid var(--nb-border)', backgroundColor: 'transparent' }}
+            style={{ border: '1px solid var(--glass-border)', backgroundColor: 'transparent' }}
             aria-label="Drag to reorder section"
             {...attributes}
             {...listeners}
@@ -74,7 +76,7 @@ export function SortableSection({ id, title, children, rightSlot, subtitle }: So
         </div>
         {rightSlot && <div className="flex items-center">{rightSlot}</div>}
       </div>
-      <div className="p-4 md:p-6" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
+      <div className="p-4 md:p-6" style={{ backgroundColor: 'transparent' }}>
         {children}
       </div>
     </div>

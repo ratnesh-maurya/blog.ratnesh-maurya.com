@@ -78,7 +78,13 @@ export function TableOfContents() {
   return (
     <nav
       className="w-full xl:w-[20rem] max-h-[calc(100vh-8rem)] overflow-y-auto pr-2 nb-card p-6"
-      style={{ backgroundColor: 'var(--nb-card-1)', backdropFilter: 'blur(14px) saturate(160%)', WebkitBackdropFilter: 'blur(14px) saturate(160%)' }}
+      style={{
+        backgroundColor: 'var(--glass-bg)',
+        border: '1px solid var(--glass-border)',
+        boxShadow: 'var(--glass-shadow-sm)',
+        backdropFilter: 'blur(14px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+      }}
       aria-label="Table of contents"
     >
       <p

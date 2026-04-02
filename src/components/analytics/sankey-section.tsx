@@ -80,16 +80,18 @@ export function SankeySection() {
             style={
               preset === p.days
                 ? {
-                    backgroundColor: 'var(--nb-badge-bg)',
-                    color: 'var(--nb-badge-text)',
-                    border: '1px solid var(--nb-border)',
-                    boxShadow: 'var(--nb-shadow-sm)',
-                  }
+                  backgroundColor: 'var(--glass-bg)',
+                  color: 'var(--text-primary)',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--glass-shadow-sm)',
+                  backdropFilter: 'blur(10px) saturate(160%)',
+                  WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                }
                 : {
-                    backgroundColor: 'var(--nb-surface-card)',
-                    color: 'var(--text-secondary)',
-                    border: '1px solid var(--nb-border)',
-                  }
+                  backgroundColor: 'var(--glass-bg)',
+                  color: 'var(--text-secondary)',
+                  border: '1px solid var(--glass-border)',
+                }
             }
           >
             {p.label}
@@ -105,7 +107,7 @@ export function SankeySection() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-12 rounded-xl animate-pulse" style={{ backgroundColor: 'var(--nb-card-5)' }} />
+            <div key={i} className="h-12 rounded-xl animate-pulse" style={{ backgroundColor: 'var(--glass-bg-subtle)' }} />
           ))}
         </div>
       ) : error ? (

@@ -37,7 +37,7 @@ export function OverallSection({ selectedType }: OverallSectionProps) {
           <div
             key={i}
             className="nb-card-sm p-5 animate-pulse h-28"
-            style={{ backgroundColor: 'var(--nb-card-5)' }}
+            style={{ backgroundColor: 'var(--glass-bg-subtle)' }}
           />
         ))}
       </div>
@@ -46,7 +46,7 @@ export function OverallSection({ selectedType }: OverallSectionProps) {
 
   if (error) {
     return (
-      <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
+      <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
         <p className="text-red-500 text-sm">{error}</p>
       </div>
     );
@@ -67,7 +67,13 @@ export function OverallSection({ selectedType }: OverallSectionProps) {
         <div
           key={style.label}
           className="nb-card-sm p-5"
-          style={{ backgroundColor: `var(--nb-card-${i % 6})` }}
+          style={{
+            backgroundColor: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow-sm)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+          }}
         >
           <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
             {style.label}

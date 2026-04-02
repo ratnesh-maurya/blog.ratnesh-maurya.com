@@ -108,7 +108,13 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
   return (
     <div
       className="nb-card p-4 md:p-5"
-      style={{ backgroundColor: 'var(--nb-card-0)' }}
+      style={{
+        backgroundColor: 'var(--glass-bg)',
+        border: '1px solid var(--glass-border)',
+        boxShadow: 'var(--glass-shadow-sm)',
+        backdropFilter: 'blur(10px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+      }}
     >
       <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
         <div>
@@ -130,12 +136,12 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
             <div
               key={i}
               className="nb-card-sm p-4 h-20 animate-pulse"
-              style={{ backgroundColor: 'var(--nb-card-5)' }}
+              style={{ backgroundColor: 'var(--glass-bg-subtle)' }}
             />
           ))}
         </div>
       ) : error ? (
-        <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
+        <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
           <p className="text-sm text-red-500">{error}</p>
           <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
             Try widening the range from the “Post views” section if data is sparse.
@@ -143,7 +149,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-card-5)' }}>
+          <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
             <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
               Views (7d)
             </p>
@@ -154,9 +160,9 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
               <span
                 className="text-xs font-semibold tabular-nums px-2 py-0.5 rounded-full"
                 style={{
-                  backgroundColor: viewsDelta >= 0 ? 'var(--nb-card-0)' : 'rgba(185, 28, 28, 0.08)',
+                  backgroundColor: viewsDelta >= 0 ? 'var(--glass-bg-subtle)' : 'rgba(185, 28, 28, 0.08)',
                   color: viewsDelta >= 0 ? 'var(--accent-700)' : 'rgb(185 28 28)',
-                  border: '1px solid var(--nb-border)',
+                  border: '1px solid var(--glass-border)',
                 }}
               >
                 {viewsDelta >= 0 ? '+' : ''}
@@ -168,7 +174,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
             </p>
           </div>
 
-          <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-card-1)' }}>
+          <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
             <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
               Upvotes (7d)
             </p>
@@ -179,9 +185,9 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
               <span
                 className="text-xs font-semibold tabular-nums px-2 py-0.5 rounded-full"
                 style={{
-                  backgroundColor: upvotesDelta >= 0 ? 'var(--nb-card-0)' : 'rgba(185, 28, 28, 0.08)',
+                  backgroundColor: upvotesDelta >= 0 ? 'var(--glass-bg-subtle)' : 'rgba(185, 28, 28, 0.08)',
                   color: upvotesDelta >= 0 ? 'var(--accent-700)' : 'rgb(185 28 28)',
-                  border: '1px solid var(--nb-border)',
+                  border: '1px solid var(--glass-border)',
                 }}
               >
                 {upvotesDelta >= 0 ? '+' : ''}
@@ -193,7 +199,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
             </p>
           </div>
 
-          <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-card-2)' }}>
+          <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
             <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
               Top type (views)
             </p>

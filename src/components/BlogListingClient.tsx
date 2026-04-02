@@ -90,7 +90,7 @@ function CoverImage({ post, sizes, priority = false, aspectClass = 'aspect-video
   return (
     <div
       className={`relative ${aspectClass} w-full overflow-hidden flex items-center justify-center`}
-      style={{ backgroundColor: 'var(--nb-card-2)' }}
+      style={{ backgroundColor: 'var(--glass-bg-subtle)' }}
     >
       <span className="text-4xl font-bold" style={{ color: 'var(--text-muted)' }}>
         {post.title.charAt(0)}
@@ -113,7 +113,16 @@ function SmallCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
       className="group block h-full"
       onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
     >
-      <article className="nb-card flex flex-col gap-3 h-full p-3" style={{ backgroundColor: `var(--nb-card-${colorIdx % 6})` }}>
+      <article
+        className="nb-card flex flex-col gap-3 h-full p-3"
+        style={{
+          backgroundColor: 'var(--glass-bg)',
+          border: '1px solid var(--glass-border)',
+          boxShadow: 'var(--glass-shadow-sm)',
+          backdropFilter: 'blur(10px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+        }}
+      >
         <div className="rounded-lg overflow-hidden" style={{ border: '1px solid var(--nb-border)' }}>
           <CoverImage
             post={post}
@@ -148,7 +157,16 @@ function HeroCard({ post, stats, isLoadingStats }: {
       className="group block h-full"
       onClick={() => trackBlogCardClick(post.slug, post.title, 'blog-listing')}
     >
-      <article className="nb-card flex flex-col gap-4 h-full p-5" style={{ backgroundColor: 'var(--nb-card-featured)' }}>
+      <article
+        className="nb-card flex flex-col gap-4 h-full p-5"
+        style={{
+          backgroundColor: 'var(--glass-bg)',
+          border: '1px solid var(--glass-border)',
+          boxShadow: 'var(--glass-shadow)',
+          backdropFilter: 'blur(12px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(160%)',
+        }}
+      >
         <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--nb-border)' }}>
           <CoverImage
             post={post}
@@ -193,7 +211,13 @@ function GridCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
     >
       <article
         className="nb-card flex flex-col gap-3 h-full"
-        style={{ backgroundColor: `var(--nb-card-${colorIdx % 6})` }}
+        style={{
+          backgroundColor: 'var(--glass-bg)',
+          border: '1px solid var(--glass-border)',
+          boxShadow: 'var(--glass-shadow-sm)',
+          backdropFilter: 'blur(10px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+        }}
       >
         <div className="rounded-t-[10px] overflow-hidden" style={{ borderBottom: '1px solid var(--nb-border)' }}>
           <CoverImage

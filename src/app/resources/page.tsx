@@ -116,13 +116,15 @@ export default function ResourcesPage() {
                 {section.category}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {section.items.map((item, iIdx) => (
+                {section.items.map((item) => (
                   <a key={item.title} href={item.href} target="_blank" rel="noopener noreferrer"
                     className="on-card resource-card flex flex-col gap-3 rounded-2xl p-5 transition-all duration-150 hover:-translate-y-1 group"
                     style={{
-                      backgroundColor: `var(--nb-card-${iIdx % 6})`,
-                      border: '2px solid var(--nb-border)',
-                      boxShadow: 'var(--nb-shadow-sm)',
+                      backgroundColor: 'var(--glass-bg)',
+                      border: '1px solid var(--glass-border)',
+                      boxShadow: 'var(--glass-shadow-sm)',
+                      backdropFilter: 'blur(10px) saturate(160%)',
+                      WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                     }}>
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-baseline gap-2 mb-1.5">

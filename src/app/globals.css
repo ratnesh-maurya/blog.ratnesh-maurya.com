@@ -1490,50 +1490,47 @@ html, body {
    — no individual component needs updating, everything inherits from here. */
 [data-theme="dark"] .nb-card,
 [data-theme="dark"] .nb-card-sm {
-  --text-primary:     #1C1C1A;
-  --text-secondary:   #545450;
-  --text-muted:       #8E8E88;
-  --text-inverse:     #FAFAF8;
-  --foreground:       #1C1C1A;
-  /* On bright translucent cards: use subtle dark border, not white */
-  --nb-border:        rgba(0, 0, 0, 0.14);
+  --text-primary:     #F0EBE4;
+  --text-secondary:   rgba(240, 235, 228, 0.78);
+  --text-muted:       rgba(240, 235, 228, 0.56);
+  --text-inverse:     #1C1C1A;
+  --foreground:       #F0EBE4;
+  --nb-border:        rgba(255, 255, 255, 0.16);
   --nb-shadow:        var(--glass-shadow);
   --nb-shadow-sm:     var(--glass-shadow-sm);
   --nb-shadow-lg:     var(--glass-shadow-lg);
-  /* Nested surfaces inside a bright card */
-  --surface:          rgba(255, 255, 255, 0.60);
-  --surface-muted:    rgba(0, 0, 0, 0.06);
-  --surface-elevated: rgba(255, 255, 255, 0.80);
-  --muted:            rgba(0, 0, 0, 0.06);
-  --border:           rgba(0, 0, 0, 0.12);
-  /* Neutral scale for inline code, table headers, etc. */
-  --neutral-100:      #F5F5F1;
-  --neutral-200:      #EFEFEA;
-  --neutral-800:      #3A3A38;
-  --neutral-900:      #1C1C1A;
+  --surface:          rgba(255, 255, 255, 0.08);
+  --surface-muted:    rgba(255, 255, 255, 0.06);
+  --surface-elevated: rgba(255, 255, 255, 0.14);
+  --muted:            rgba(255, 255, 255, 0.06);
+  --border:           rgba(255, 255, 255, 0.16);
+  --neutral-100:      #1A1815;
+  --neutral-200:      #23201C;
+  --neutral-800:      #D6CFC5;
+  --neutral-900:      #F0EBE4;
 }
 
 /* Utility: apply to any element with a var(--nb-card-*) background that isn't .nb-card.
    Cascades the same light-theme text tokens so children read correctly in dark mode. */
 [data-theme="dark"] .on-card {
-  --text-primary:     #1C1C1A;
-  --text-secondary:   #545450;
-  --text-muted:       #8E8E88;
-  --text-inverse:     #FAFAF8;
-  --foreground:       #1C1C1A;
-  --nb-border:        rgba(0, 0, 0, 0.14);
+  --text-primary:     #F0EBE4;
+  --text-secondary:   rgba(240, 235, 228, 0.78);
+  --text-muted:       rgba(240, 235, 228, 0.56);
+  --text-inverse:     #1C1C1A;
+  --foreground:       #F0EBE4;
+  --nb-border:        rgba(255, 255, 255, 0.16);
   --nb-shadow:        var(--glass-shadow);
   --nb-shadow-sm:     var(--glass-shadow-sm);
   --nb-shadow-lg:     var(--glass-shadow-lg);
-  --surface:          rgba(255, 255, 255, 0.60);
-  --surface-muted:    rgba(0, 0, 0, 0.06);
-  --surface-elevated: rgba(255, 255, 255, 0.80);
-  --muted:            rgba(0, 0, 0, 0.06);
-  --border:           rgba(0, 0, 0, 0.12);
-  --neutral-100:      #F5F5F1;
-  --neutral-200:      #EFEFEA;
-  --neutral-800:      #3A3A38;
-  --neutral-900:      #1C1C1A;
+  --surface:          rgba(255, 255, 255, 0.08);
+  --surface-muted:    rgba(255, 255, 255, 0.06);
+  --surface-elevated: rgba(255, 255, 255, 0.14);
+  --muted:            rgba(255, 255, 255, 0.06);
+  --border:           rgba(255, 255, 255, 0.16);
+  --neutral-100:      #1A1815;
+  --neutral-200:      #23201C;
+  --neutral-800:      #D6CFC5;
+  --neutral-900:      #F0EBE4;
 }
 
 .nb-card-sm {

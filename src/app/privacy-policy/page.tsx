@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
 
       <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         {/* Header */}
-        <div style={{ borderBottom: '2px solid var(--nb-border)' }}>
+        <div style={{ borderBottom: '1px solid var(--glass-border)' }}>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
               style={{ color: 'var(--text-muted)' }}>
@@ -61,7 +61,13 @@ export default function PrivacyPolicyPage() {
 
           {/* TL;DR */}
           <div className="nb-card p-5 mb-10"
-            style={{ backgroundColor: 'var(--nb-card-3)' }}>
+            style={{
+              backgroundColor: 'var(--glass-bg)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow-sm)',
+              backdropFilter: 'blur(10px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+            }}>
             <p className="text-sm font-semibold mb-1" style={{ color: 'var(--accent-600)' }}>
               TL;DR
             </p>
@@ -73,7 +79,17 @@ export default function PrivacyPolicyPage() {
           {/* Sections */}
           <div className="space-y-10">
             {sections.map((section, i) => (
-              <section key={section.title} className="nb-card p-6" style={{ backgroundColor: `var(--nb-card-${i % 6})` }}>
+              <section
+                key={section.title}
+                className="nb-card p-6"
+                style={{
+                  backgroundColor: 'var(--glass-bg)',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--glass-shadow-sm)',
+                  backdropFilter: 'blur(10px) saturate(160%)',
+                  WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                }}
+              >
                 <h2 className="text-base font-bold mb-4 flex items-center gap-2"
                   style={{ color: 'var(--text-primary)' }}>
                   <span className="text-xs font-mono w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
@@ -96,8 +112,19 @@ export default function PrivacyPolicyPage() {
 
           {/* Bottom nav */}
           <div className="mt-12 pt-8 flex flex-wrap gap-4"
-            style={{ borderTop: '2px solid var(--nb-border)' }}>
-            <Link href="/" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
+            style={{ borderTop: '1px solid var(--glass-border)' }}>
+            <Link
+              href="/"
+              className="nb-btn text-sm"
+              style={{
+                backgroundColor: 'var(--glass-bg)',
+                border: '1px solid var(--glass-border)',
+                boxShadow: 'var(--glass-shadow-sm)',
+                color: 'var(--text-primary)',
+                backdropFilter: 'blur(10px) saturate(160%)',
+                WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+              }}
+            >
               ← Back to blog
             </Link>
           </div>

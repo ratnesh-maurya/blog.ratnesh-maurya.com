@@ -109,7 +109,7 @@ function slugifyTag(tag: string): string {
 
 function buildOgElement(
   title: string,
-  subtitle: string,
+  _subtitle: string,
   breadcrumb?: string,
   themeName: OgThemeName = 'default',
   options?: { squareSafe?: boolean }
@@ -118,12 +118,9 @@ function buildOgElement(
 
   const titleLength = title.length;
 
-  const titleFontSize =
-    titleLength > 90 ? 54 :
-      titleLength > 68 ? 62 :
-        72;
-
-  const subtitleFontSize = options?.squareSafe ? '22px' : '24px';
+  const titleFontSize = options?.squareSafe
+    ? (titleLength > 68 ? 52 : titleLength > 50 ? 62 : titleLength > 30 ? 70 : 78)
+    : (titleLength > 90 ? 60 : titleLength > 68 ? 70 : titleLength > 40 ? 80 : 90);
 
   return (
     <div
@@ -246,17 +243,7 @@ function buildOgElement(
           >
             {title}
           </div>
-          <div
-            style={{
-              fontSize: subtitleFontSize,
-              color: BRAND.textMuted,
-              lineHeight: 1.3,
-              maxWidth: options?.squareSafe ? '100%' : '88%',
-              textWrap: 'pretty',
-            }}
-          >
-            {subtitle}
-          </div>
+
         </div>
         <div
           style={{

@@ -4,40 +4,40 @@ import { getEventsDailyRange } from '@/lib/supabase/stats';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface UtmDay {
-  bySource:   Array<{ source: string; count: number }>;
-  byMedium:   Array<{ medium: string; count: number }>;
-  byRef:      Array<{ ref: string; count: number }>;
-  byPath:     Array<{ path: string; count: number }>;
-  total:      number;
+  bySource: Array<{ source: string; count: number }>;
+  byMedium: Array<{ medium: string; count: number }>;
+  byRef: Array<{ ref: string; count: number }>;
+  byPath: Array<{ path: string; count: number }>;
+  total: number;
 }
 
 interface ContentBucket {
-  type:   string;
-  label:  string;
-  views:  number;
-  color:  string;
+  type: string;
+  label: string;
+  views: number;
+  color: string;
 }
 
 const CONTENT_COLORS: Record<string, string> = {
-  blog:               '#3b82f6',
-  news:               '#8b5cf6',
-  'technical-terms':  '#10b981',
-  'silly-questions':  '#f59e0b',
-  til:                '#06b6d4',
-  cheatsheets:        '#f97316',
-  about:              '#6366f1',
-  now:                '#ec4899',
+  blog: '#3b82f6',
+  news: '#8b5cf6',
+  'technical-terms': '#10b981',
+  'silly-questions': '#f59e0b',
+  til: '#06b6d4',
+  cheatsheets: '#f97316',
+  about: '#6366f1',
+  now: '#ec4899',
 };
 
 const CONTENT_LABELS: Record<string, string> = {
-  blog:               'Blog',
-  news:               'News',
-  'technical-terms':  'Tech Terms',
-  'silly-questions':  'Silly Q',
-  til:                'TIL',
-  cheatsheets:        'Cheatsheets',
-  about:              'About',
-  now:                'Now',
+  blog: 'Blog',
+  news: 'News',
+  'technical-terms': 'Tech Terms',
+  'silly-questions': 'Silly Q',
+  til: 'TIL',
+  cheatsheets: 'Cheatsheets',
+  about: 'About',
+  now: 'Now',
 };
 
 const SOURCE_COLORS = [
@@ -85,7 +85,7 @@ function FunnelConnector() {
     <div className="flex items-center gap-3 py-1">
       <div className="w-28 shrink-0" />
       <div className="flex-1 flex justify-center">
-        <div className="h-6 w-px" style={{ backgroundColor: 'var(--nb-border)' }} />
+        <div className="h-6 w-px" style={{ backgroundColor: 'var(--glass-border)' }} />
       </div>
       <div className="w-10 shrink-0" />
     </div>
@@ -168,10 +168,10 @@ export function TrafficFunnelSection() {
       .sort((a, b) => b.views - a.views);
   }, [events]);
 
-  const utmTotal   = utm?.total ?? 0;
-  const sources    = utm?.bySource.slice(0, 8)  ?? [];
-  const refs       = utm?.byRef.slice(0, 8)     ?? [];
-  const topPages   = utm?.byPath.slice(0, 10)   ?? [];
+  const utmTotal = utm?.total ?? 0;
+  const sources = utm?.bySource.slice(0, 8) ?? [];
+  const refs = utm?.byRef.slice(0, 8) ?? [];
+  const topPages = utm?.byPath.slice(0, 10) ?? [];
 
   const isToday = selectedDate === todayStr();
   const displayDate = new Date(selectedDate + 'T00:00:00').toLocaleDateString(undefined, {
@@ -189,8 +189,8 @@ export function TrafficFunnelSection() {
           onChange={(e) => setSelectedDate(e.target.value)}
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
           style={{
-            backgroundColor: 'var(--nb-surface-card)',
-            border: '1px solid var(--nb-border)',
+            backgroundColor: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
             color: 'var(--text-primary)',
           }}
         />
@@ -198,7 +198,14 @@ export function TrafficFunnelSection() {
           <button
             onClick={() => setSelectedDate(todayStr())}
             className="text-xs font-semibold px-3 py-1.5 rounded-lg"
-            style={{ backgroundColor: 'var(--nb-card-3)', color: '#1C1C1A', border: '1px solid var(--nb-border)' }}
+            style={{
+              backgroundColor: 'var(--glass-bg)',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow-sm)',
+              backdropFilter: 'blur(10px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+            }}
           >
             Back to today
           </button>
@@ -209,7 +216,7 @@ export function TrafficFunnelSection() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-10 rounded-xl animate-pulse" style={{ backgroundColor: 'var(--nb-card-5)' }} />
+            <div key={i} className="h-10 rounded-xl animate-pulse" style={{ backgroundColor: 'var(--glass-bg-subtle)' }} />
           ))}
         </div>
       ) : error ? (
@@ -224,7 +231,13 @@ export function TrafficFunnelSection() {
           {/* ── Level 0: Total ── */}
           <div
             className="nb-card p-5 mb-2"
-            style={{ backgroundColor: 'var(--nb-card-0)' }}
+            style={{
+              backgroundColor: 'var(--glass-bg)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow-sm)',
+              backdropFilter: 'blur(10px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+            }}
           >
             <div className="flex items-center justify-between">
               <div>
@@ -252,7 +265,7 @@ export function TrafficFunnelSection() {
           {contentBuckets.length > 0 && (
             <>
               <FunnelConnector />
-              <div className="nb-card p-4" style={{ backgroundColor: 'var(--nb-card-1)' }}>
+              <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
                 <SectionHead title="By content type" count={totalViews} total={totalViews} color="#3b82f6" />
                 <div className="space-y-2">
                   {contentBuckets.map((b) => (
@@ -273,7 +286,7 @@ export function TrafficFunnelSection() {
           {sources.length > 0 && (
             <>
               <FunnelConnector />
-              <div className="nb-card p-4" style={{ backgroundColor: 'var(--nb-card-2)' }}>
+              <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
                 <SectionHead title="By UTM source" count={utmTotal} total={totalViews} color="#8b5cf6" />
                 <div className="space-y-2">
                   {sources.map((s, i) => (
@@ -294,7 +307,7 @@ export function TrafficFunnelSection() {
           {refs.length > 0 && (
             <>
               <FunnelConnector />
-              <div className="nb-card p-4" style={{ backgroundColor: 'var(--nb-card-3)' }}>
+              <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
                 <SectionHead title="By referral (?ref=)" count={refs.reduce((s, r) => s + r.count, 0)} total={totalViews} color="#10b981" />
                 <div className="space-y-2">
                   {refs.map((r, i) => (
@@ -315,7 +328,7 @@ export function TrafficFunnelSection() {
           {topPages.length > 0 && (
             <>
               <FunnelConnector />
-              <div className="nb-card p-4" style={{ backgroundColor: 'var(--nb-card-4)' }}>
+              <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
                 <SectionHead title="Top landing pages" count={topPages.reduce((s, p) => s + p.count, 0)} total={utmTotal} color="#f59e0b" />
                 <div className="space-y-2">
                   {topPages.map((p, i) => (

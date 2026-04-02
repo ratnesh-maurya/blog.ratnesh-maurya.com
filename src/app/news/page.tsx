@@ -79,7 +79,13 @@ export default async function NewsPage() {
         {posts.length === 0 ? (
           <div
             className="nb-card p-8"
-            style={{ backgroundColor: 'var(--nb-card-1)', border: '2px solid var(--nb-border)' }}
+            style={{
+              backgroundColor: 'var(--glass-bg)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow-sm)',
+              backdropFilter: 'blur(10px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+            }}
           >
             <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
               No digests yet
@@ -90,11 +96,17 @@ export default async function NewsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-            {posts.map((post, index) => (
+            {posts.map((post) => (
               <Link key={post.slug} href={`/news/${post.slug}`} className="group block h-full">
                 <article
                   className="nb-card h-full p-5 flex flex-col gap-3"
-                  style={{ backgroundColor: `var(--nb-card-${index % 6})` }}
+                  style={{
+                    backgroundColor: 'var(--glass-bg)',
+                    border: '1px solid var(--glass-border)',
+                    boxShadow: 'var(--glass-shadow-sm)',
+                    backdropFilter: 'blur(10px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                  }}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="nb-badge nb-badge-primary">Daily Digest</span>

@@ -26,7 +26,7 @@ function SectionSkeleton({ rows = 2 }: { rows?: number }) {
         <div
           key={i}
           className="nb-card-sm p-5 animate-pulse h-24"
-          style={{ backgroundColor: 'var(--nb-card-5)' }}
+          style={{ backgroundColor: 'var(--glass-bg-subtle)' }}
         />
       ))}
     </div>
@@ -162,15 +162,15 @@ export function AnalyticsDashboard() {
               style={
                 selectedType === f.id
                   ? {
-                    backgroundColor: 'var(--nb-badge-bg)',
-                    color: 'var(--nb-badge-text)',
-                    border: '1px solid var(--nb-border)',
-                    boxShadow: 'var(--nb-shadow-sm)',
+                    backgroundColor: 'var(--glass-bg)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--glass-border)',
+                    boxShadow: 'var(--glass-shadow-sm)',
                   }
                   : {
-                    backgroundColor: 'var(--nb-surface-card)',
+                    backgroundColor: 'var(--glass-bg)',
                     color: 'var(--text-secondary)',
-                    border: '1px solid var(--nb-border)',
+                    border: '1px solid var(--glass-border)',
                   }
               }
             >

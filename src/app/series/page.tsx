@@ -99,19 +99,21 @@ export default async function SeriesPage() {
         </div>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-8">
-          {series.map((s, sIdx) => (
+          {series.map((s) => (
             <section key={s.id}
               className="rounded-2xl overflow-hidden"
               style={{
-                border: '2px solid var(--nb-border)',
-                boxShadow: 'var(--nb-shadow)',
+                border: '1px solid var(--glass-border)',
+                boxShadow: 'var(--glass-shadow)',
+                backdropFilter: 'blur(10px) saturate(160%)',
+                WebkitBackdropFilter: 'blur(10px) saturate(160%)',
               }}>
 
               {/* Series header — tinted card bg */}
               <div className="on-card px-6 pt-6 pb-4"
                 style={{
-                  backgroundColor: `var(--nb-card-${sIdx % 6})`,
-                  borderBottom: '2px solid var(--nb-border)',
+                  backgroundColor: 'var(--glass-bg)',
+                  borderBottom: '1px solid var(--glass-border)',
                 }}>
                 <div className="flex items-start gap-3">
                   <span className="text-3xl mt-0.5">{s.emoji}</span>

@@ -94,12 +94,14 @@ export default async function NewsletterPage() {
               What you&apos;ll receive
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {perks.map((p, pIdx) => (
+              {perks.map((p) => (
                 <div key={p.title} className="on-card p-6 rounded-2xl transition-all duration-150 hover:-translate-y-0.5"
                   style={{
-                    backgroundColor: `var(--nb-card-${pIdx % 6})`,
-                    border: '2px solid var(--nb-border)',
-                    boxShadow: 'var(--nb-shadow-sm)',
+                    backgroundColor: 'var(--glass-bg)',
+                    border: '1px solid var(--glass-border)',
+                    boxShadow: 'var(--glass-shadow-sm)',
+                    backdropFilter: 'blur(10px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
                   <span className="text-2xl mb-3 block">{p.emoji}</span>
                   <h3 className="text-sm font-bold mb-1.5" style={{ color: 'var(--text-primary)' }}>
@@ -125,13 +127,15 @@ export default async function NewsletterPage() {
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {recentPosts.map((post, pIdx) => (
+              {recentPosts.map((post) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}
                   className="on-card flex items-start gap-4 p-4 rounded-2xl transition-all duration-150 hover:-translate-y-0.5 group"
                   style={{
-                    backgroundColor: `var(--nb-card-${pIdx % 6})`,
-                    border: '2px solid var(--nb-border)',
-                    boxShadow: 'var(--nb-shadow-sm)',
+                    backgroundColor: 'var(--glass-bg)',
+                    border: '1px solid var(--glass-border)',
+                    boxShadow: 'var(--glass-shadow-sm)',
+                    backdropFilter: 'blur(10px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-0.5"
@@ -154,7 +158,13 @@ export default async function NewsletterPage() {
 
           {/* Second subscribe CTA */}
           <section className="on-card rounded-2xl p-8 text-center"
-            style={{ backgroundColor: 'var(--nb-card-3)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
+            style={{
+              backgroundColor: 'var(--glass-bg)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow)',
+              backdropFilter: 'blur(12px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(160%)',
+            }}>
             <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
               Ready to level up?
             </h2>

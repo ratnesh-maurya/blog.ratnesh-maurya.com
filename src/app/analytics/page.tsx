@@ -37,7 +37,13 @@ export default function AnalyticsPage() {
             <div className="w-full lg:w-auto">
               <div
                 className="nb-card rounded-2xl px-4 py-3 text-xs sm:text-sm flex flex-col gap-2 lg:min-w-[220px]"
-                style={{ backgroundColor: 'var(--nb-card-3)' }}
+                style={{
+                  backgroundColor: 'var(--glass-bg)',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--glass-shadow-sm)',
+                  backdropFilter: 'blur(10px) saturate(160%)',
+                  WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                }}
               >
                 <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>
                   How to read this page

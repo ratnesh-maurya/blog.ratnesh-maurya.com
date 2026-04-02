@@ -30,15 +30,17 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {sheets.map((sheet, idx) => (
+      {sheets.map((sheet) => (
         <Link
           key={sheet.slug}
           href={`/cheatsheets/${sheet.slug}`}
           className="on-card group flex flex-col rounded-2xl p-6 transition-all duration-150 hover:-translate-y-1"
           style={{
-            backgroundColor: `var(--nb-card-${idx % 6})`,
-            border: '1px solid var(--nb-border)',
-            boxShadow: 'var(--nb-shadow-sm)',
+            backgroundColor: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow-sm)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
           }}
         >
           <div className="flex items-start justify-between mb-4">

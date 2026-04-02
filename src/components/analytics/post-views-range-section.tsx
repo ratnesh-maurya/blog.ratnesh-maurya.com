@@ -129,7 +129,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
 
   if (error) {
     return (
-      <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
+      <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
         <p className="text-red-500 text-sm">{error}</p>
       </div>
     );
@@ -146,7 +146,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
           max={toDate}
           onChange={(e) => setFromDate(e.target.value)}
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
-          style={{ backgroundColor: 'var(--nb-surface-card)', border: '1px solid var(--nb-border)', color: 'var(--text-primary)' }}
+          style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
         />
         <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>To</label>
         <input
@@ -156,19 +156,35 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
           max={todayStr()}
           onChange={(e) => setToDate(e.target.value)}
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
-          style={{ backgroundColor: 'var(--nb-surface-card)', border: '1px solid var(--nb-border)', color: 'var(--text-primary)' }}
+          style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
         />
         <button
           onClick={() => { setFromDate(getDefaultRange().from); setToDate(getDefaultRange().to); }}
           className="text-xs font-semibold px-3 py-1.5 rounded-lg"
-          style={{ backgroundColor: 'var(--nb-card-3)', color: '#1C1C1A', border: '1px solid var(--nb-border)' }}
+          style={{
+            backgroundColor: 'var(--glass-bg)',
+            color: 'var(--text-primary)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow-sm)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+          }}
         >
           Last 30 days
         </button>
       </div>
 
       {viewsByDay.length > 0 && (
-        <div className="nb-card p-4 md:p-6" style={{ backgroundColor: 'var(--nb-card-1)' }}>
+        <div
+          className="nb-card p-4 md:p-6"
+          style={{
+            backgroundColor: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow-sm)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+          }}
+        >
           <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
             Views over time
           </h3>
@@ -183,7 +199,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
                 />
                 <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: 'var(--nb-surface-card)', border: '1px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                  contentStyle={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
                   formatter={(value: number | undefined) => [formatNumber(value ?? 0), 'Views']}
                   labelFormatter={(d) => new Date(d).toLocaleDateString()}
                 />
@@ -195,7 +211,16 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
       )}
 
       {byType.length > 0 && (
-        <div className="nb-card p-4 md:p-6" style={{ backgroundColor: 'var(--nb-card-5)' }}>
+        <div
+          className="nb-card p-4 md:p-6"
+          style={{
+            backgroundColor: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--glass-shadow-sm)',
+            backdropFilter: 'blur(10px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+          }}
+        >
           <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
             Views & upvotes by type (range)
           </h3>
@@ -205,7 +230,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
                 <XAxis dataKey="name" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                 <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: 'var(--nb-surface-card)', border: '1px solid var(--nb-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                  contentStyle={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
                   formatter={(value: number | undefined) => [formatNumber(value ?? 0)]}
                 />
                 <Legend />
@@ -227,18 +252,18 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
               const top = stats.byType[type].slugs.slice(0, 8);
               if (top.length === 0) return null;
               return (
-                <div key={type} className="nb-card-sm overflow-hidden" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
-                  <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: 'var(--border)' }}>
+                <div key={type} className="nb-card-sm overflow-hidden" style={{ backgroundColor: 'var(--glass-bg)' }}>
+                  <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: 'var(--glass-border)' }}>
                     <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{TYPE_LABELS[type] ?? type}</span>
                     <span className="text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>{stats.byType[type].slugs.length} items</span>
                   </div>
-                  <ul className="divide-y" style={{ borderColor: 'var(--border)' }}>
+                  <ul className="divide-y" style={{ borderColor: 'var(--glass-border)' }}>
                     {top.map((row, i) => (
                       <li key={row.slug} className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02]" style={{ color: 'var(--text-secondary)' }}>
                         <span
                           className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
                           style={{
-                            backgroundColor: i < 3 ? 'var(--nb-card-3)' : 'transparent',
+                            backgroundColor: i < 3 ? 'var(--glass-bg-subtle)' : 'transparent',
                             color: i < 3 ? 'var(--accent-600)' : 'var(--text-muted)',
                           }}
                         >
@@ -265,7 +290,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
       )}
 
       {viewsByDay.length === 0 && byType.length === 0 && !loading && (
-        <div className="nb-card-sm p-8 text-center" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
+        <div className="nb-card-sm p-8 text-center" style={{ backgroundColor: 'var(--glass-bg)' }}>
           <p className="text-sm" style={{ color: 'var(--text-muted)' }}>No view events in this date range.</p>
         </div>
       )}
