@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Go 1.26.2 release overview</title>
+  <desc id="desc">A summary graphic showing release date, security focus, and milestone stats for Go 1.26.2.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7e9" />
+      <stop offset="100%" stop-color="#f8f1df" />
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#fef8ed" />
+    </linearGradient>
+    <style>
+      .t1 { font: 700 58px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #1f2a37; }
+      .t2 { font: 500 26px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #415067; }
+      .k  { font: 700 40px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #162033; }
+      .v  { font: 500 23px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #44516a; }
+      .f  { font: 500 18px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #5d6a84; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <circle cx="1440" cy="140" r="230" fill="#f7d9b8" opacity="0.45" />
+  <circle cx="220" cy="760" r="220" fill="#f1cfaa" opacity="0.32" />
+
+  <rect x="70" y="70" width="1460" height="760" rx="30" fill="url(#card)" stroke="#e7d4b8" />
+
+  <text x="130" y="180" class="t1">Go 1.26.2</text>
+  <text x="130" y="228" class="t2">Security patch and regression stabilization release</text>
+
+  <rect x="120" y="290" width="420" height="190" rx="20" fill="#fff" stroke="#e7d8c3" />
+  <text x="150" y="350" class="k">Released</text>
+  <text x="150" y="402" class="v">2026-04-07</text>
+
+  <rect x="590" y="290" width="420" height="190" rx="20" fill="#fff" stroke="#e7d8c3" />
+  <text x="620" y="350" class="k">Milestone</text>
+  <text x="620" y="402" class="v">31 closed, 0 open</text>
+
+  <rect x="1060" y="290" width="420" height="190" rx="20" fill="#fff" stroke="#e7d8c3" />
+  <text x="1090" y="350" class="k">CVE-linked items</text>
+  <text x="1090" y="402" class="v">10 tickets in milestone</text>
+
+  <rect x="120" y="530" width="1360" height="230" rx="20" fill="#fff" stroke="#e7d8c3" />
+  <text x="150" y="590" class="k">Security focus areas called out by official release notes</text>
+  <text x="150" y="640" class="v">go command, compiler, archive/tar, crypto/tls, crypto/x509, html/template, os</text>
+  <text x="150" y="690" class="v">Bug-fix areas: go command, go fix, compiler, linker, runtime, net, net/http, net/url</text>
+
+  <text x="130" y="805" class="f">Source: go.dev/doc/devel/release#go1.26.2 and github.com/golang/go milestone Go1.26.2</text>
+</svg>

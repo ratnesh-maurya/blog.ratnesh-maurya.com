@@ -1,6 +1,19 @@
 {
   "blogPosts": [
     {
+      "slug": "Go-1-26-2-Released-Security-Fixes-Regression-Patches-and-Upgrade-Playbook",
+      "title": "Go 1.26.2 Released: Security Fixes, Regression Patches, and an Upgrade Playbook",
+      "description": "A deep dive into Go 1.26.2: security backports, milestone-level regression fixes, verified downloads, checksums, and a production-safe upgrade strategy.",
+      "tags": [
+        "Go",
+        "Security",
+        "Backend",
+        "Release Engineering"
+      ],
+      "category": "Golang",
+      "date": "2026-04-09"
+    },
+    {
       "slug": "cursor-claude-personas-give-your-ai-coding-assistant-a-domain-expert-brain-in-30-seconds",
       "title": "cursor-claude-personas: Give Your AI Coding Assistant a Domain Expert Brain in 30 Seconds",
       "description": "A free, open-source collection of 38 role-based AI persona packs for Claude Code, Cursor, and VS Code. Copy one folder into your project and your AI assistant instantly behaves like a seasoned specialist.",
@@ -597,6 +610,123 @@
     }
   ],
   "newsPosts": [
+    {
+      "slug": "ai-dev-digest-open-source-ai-surges-cybersecurity-unites-and-ai-enhances-learning-productivity",
+      "title": "AI & Dev Digest: Open Source AI Surges, Cybersecurity Unites, and AI Enhances Learning & Productivity",
+      "description": "Catch up on the latest in AI and software development. Discover Arcee's new open-source LLM, Anthropic's multi-company cybersecurity initiative, Adobe's AI study tool for students, and Google's free AI dictation app.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "Open Source LLM",
+        "Arcee",
+        "Anthropic",
+        "Project Glasswing",
+        "Cybersecurity",
+        "Adobe Acrobat Spaces",
+        "AI study tool",
+        "Google AI Edge Eloquent",
+        "Dictation app",
+        "Software Development"
+      ],
+      "date": "2026-04-08"
+    },
+    {
+      "slug": "ai-dev-digest-openai-alums-fund-altmans-trust-issues-and-the-rise-of-ai-agents",
+      "title": "AI & Dev Digest: OpenAI Alums Fund, Altman's Trust Issues, and the Rise of AI Agents",
+      "description": "Today's AI digest covers OpenAI alums launching a new fund, concerns over CEO Sam Altman's trustworthiness, OpenAI's bold economic policy proposals, and the chaotic emergence of powerful AI agents like Claude and OpenClaw, challenging traditional developer tools.",
+      "tags": [
+        "AI",
+        "OpenAI",
+        "Sam Altman",
+        "Venture Capital",
+        "AI Agents",
+        "Developer Tools",
+        "Economic Policy",
+        "Zero Shot",
+        "Claude",
+        "OpenClaw",
+        "Cursor",
+        "Tech News"
+      ],
+      "date": "2026-04-07"
+    },
+    {
+      "slug": "ai-caution-robotic-revolution-and-a-new-knowledge-architecture-your-daily-tech-digest-april-6-2026",
+      "title": "AI Caution, Robotic Revolution, and a New Knowledge Architecture: Your Daily Tech Digest (April 6, 2026)",
+      "description": "Today's tech news highlights Microsoft's Copilot 'entertainment' disclaimer, Japan's robot-driven workforce, a Claude code leak with malware, Anthropic's private market surge, and Andrej Karpathy's innovative LLM Knowledge Base.",
+      "tags": [
+        "AI",
+        "Microsoft Copilot",
+        "Robotics",
+        "Japan AI",
+        "Cybersecurity",
+        "Claude leak",
+        "Anthropic",
+        "SpaceX",
+        "Private Markets",
+        "Andrej Karpathy",
+        "LLM Knowledge Base",
+        "RAG",
+        "Software Development"
+      ],
+      "date": "2026-04-06"
+    },
+    {
+      "slug": "ai-dev-digest-karpathys-rag-free-llm-knowledge-openais-leadership-shift-and-ai-policy-heats-up",
+      "title": "AI & Dev Digest: Karpathy's RAG-Free LLM Knowledge, OpenAI's Leadership Shift, and AI Policy Heats Up",
+      "description": "Catch up on the latest in AI: Andrej Karpathy unveils a novel RAG-bypassing LLM architecture, OpenAI sees significant executive changes, Anthropic enters the political arena, Take-Two lays off its AI division head, and a Facebook insider launches an AI-powered content moderation solution.",
+      "tags": [
+        "AI",
+        "LLM",
+        "Andrej Karpathy",
+        "OpenAI",
+        "Anthropic",
+        "Take-Two",
+        "Content Moderation",
+        "RAG",
+        "Software Development",
+        "Tech News"
+      ],
+      "date": "2026-04-05"
+    },
+    {
+      "slug": "daily-ai-digest-microsofts-new-frontier-models-googles-open-source-gemma-4",
+      "title": "Daily AI Digest: Microsoft's New Frontier Models & Google's Open-Source Gemma 4",
+      "description": "Catch up on the latest AI advancements: Microsoft launches three foundational multimodal AI models, while Google makes its powerful Gemma 4 models fully open-source under the Apache 2.0 license, bringing local AI to a wider range of devices.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "Microsoft",
+        "Google",
+        "Gemma 4",
+        "MAI-Transcribe-1",
+        "MAI-Voice-1",
+        "MAI-Image-2",
+        "Open-source AI",
+        "Local AI",
+        "Multimodal AI",
+        "Superintelligence"
+      ],
+      "date": "2026-04-04"
+    },
+    {
+      "slug": "ais-emotional-leap-open-source-revolution-microsoft-google-and-anthropic-make-waves",
+      "title": "AI's Emotional Leap & Open-Source Revolution: Microsoft, Google, and Anthropic Make Waves",
+      "description": "Catch up on the latest in AI: Microsoft unveils three new foundational models, Google releases Gemma 4 with an Apache 2.0 license, and Anthropic uncovers 'functional emotions' in Claude amidst recent operational challenges.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "Microsoft AI",
+        "Google Gemma 4",
+        "Anthropic Claude",
+        "Foundational Models",
+        "Open Source AI",
+        "LLMs",
+        "Machine Learning",
+        "Tech News 2026"
+      ],
+      "date": "2026-04-03"
+    },
     {
       "slug": "ai-tech-daily-digest-openais-122b-raise-anthropics-code-leaks-and-nomadic-ais-funding-success",
       "title": "AI & Tech Daily Digest: OpenAI's $122B Raise, Anthropic's Code Leaks, and Nomadic AI's Funding Success",

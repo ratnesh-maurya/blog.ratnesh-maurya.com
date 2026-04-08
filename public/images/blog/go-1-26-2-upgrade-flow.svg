@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Go 1.26.2 upgrade flow</title>
+  <desc id="desc">A six-step rollout workflow from install and tests to phased deploy and audit trail.</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff9ef" />
+      <stop offset="100%" stop-color="#f7eddc" />
+    </linearGradient>
+    <style>
+      .h { font: 700 52px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #1f2a37; }
+      .s { font: 500 24px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #4e5a73; }
+      .t { font: 700 26px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #1f2a37; }
+      .b { font: 500 21px "Avenir Next", "Helvetica Neue", Arial, sans-serif; fill: #46536d; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg3)" />
+  <rect x="70" y="70" width="1460" height="760" rx="28" fill="#fff" stroke="#e7dbc8" />
+
+  <text x="130" y="170" class="h">Go 1.26.2 Upgrade Flow</text>
+  <text x="130" y="214" class="s">A practical sequence for low-risk production adoption</text>
+
+  <rect x="120" y="280" width="390" height="130" rx="18" fill="#ffe4c1" stroke="#ddb387" />
+  <text x="150" y="332" class="t">1. Pin version</text>
+  <text x="150" y="368" class="b">Install exact 1.26.2 toolchain</text>
+
+  <rect x="605" y="280" width="390" height="130" rx="18" fill="#d9ebff" stroke="#95b8dd" />
+  <text x="635" y="332" class="t">2. Run tests</text>
+  <text x="635" y="368" class="b">Unit, integration, and race checks</text>
+
+  <rect x="1090" y="280" width="390" height="130" rx="18" fill="#ddf4d7" stroke="#9cc696" />
+  <text x="1120" y="332" class="t">3. Scan vulns</text>
+  <text x="1120" y="368" class="b">Run govulncheck in CI</text>
+
+  <rect x="120" y="500" width="390" height="130" rx="18" fill="#ffeec7" stroke="#d9bd74" />
+  <text x="150" y="552" class="t">4. Network smoke tests</text>
+  <text x="150" y="588" class="b">Validate URL, HTTP, TLS paths</text>
+
+  <rect x="605" y="500" width="390" height="130" rx="18" fill="#ffdbe4" stroke="#d8a0ae" />
+  <text x="635" y="552" class="t">5. Phased rollout</text>
+  <text x="635" y="588" class="b">Canary then staged deploy</text>
+
+  <rect x="1090" y="500" width="390" height="130" rx="18" fill="#e8ddff" stroke="#b3a0d8" />
+  <text x="1120" y="552" class="t">6. Record evidence</text>
+  <text x="1120" y="588" class="b">Checksums, test IDs, rollback plan</text>
+
+  <line x1="510" y1="345" x2="605" y2="345" stroke="#8f9bb4" stroke-width="4" />
+  <polygon points="605,345 588,336 588,354" fill="#8f9bb4" />
+
+  <line x1="995" y1="345" x2="1090" y2="345" stroke="#8f9bb4" stroke-width="4" />
+  <polygon points="1090,345 1073,336 1073,354" fill="#8f9bb4" />
+
+  <line x1="1285" y1="410" x2="1285" y2="500" stroke="#8f9bb4" stroke-width="4" />
+  <polygon points="1285,500 1276,483 1294,483" fill="#8f9bb4" />
+
+  <line x1="1090" y1="565" x2="995" y2="565" stroke="#8f9bb4" stroke-width="4" />
+  <polygon points="995,565 1012,556 1012,574" fill="#8f9bb4" />
+
+  <line x1="605" y1="565" x2="510" y2="565" stroke="#8f9bb4" stroke-width="4" />
+  <polygon points="510,565 527,556 527,574" fill="#8f9bb4" />
+</svg>
