@@ -29,27 +29,27 @@ interface SankeyLink {
 }
 
 const SOURCE_COLORS: Record<string, string> = {
-  linkedin:  '#0A66C2',
-  twitter:   '#1DA1F2',
-  x:         '#000000',
-  peerlist:  '#00AA45',
-  reddit:    '#FF4500',
-  github:    '#6e40c9',
-  google:    '#EA4335',
-  direct:    '#6b7280',
-  other:     '#94a3b8',
+  linkedin:  'var(--accent-500)',
+  twitter:   'var(--accent-400)',
+  x:         'var(--text-primary)',
+  peerlist:  'var(--accent-600)',
+  reddit:    'var(--accent-300)',
+  github:    'var(--accent-700)',
+  google:    'var(--accent-200)',
+  direct:    'var(--text-muted)',
+  other:     'var(--text-muted)',
 };
 
 const CONTENT_COLORS: Record<string, string> = {
-  blog:               '#3b82f6',
-  news:               '#8b5cf6',
-  'technical-terms':  '#10b981',
-  'silly-questions':  '#f59e0b',
-  til:                '#06b6d4',
-  cheatsheets:        '#f97316',
-  about:              '#6366f1',
-  now:                '#ec4899',
-  other:              '#94a3b8',
+  blog:               'var(--accent-500)',
+  news:               'var(--accent-400)',
+  'technical-terms':  'var(--accent-600)',
+  'silly-questions':  'var(--accent-300)',
+  til:                'var(--accent-700)',
+  cheatsheets:        'var(--accent-200)',
+  about:              'var(--accent-100)',
+  now:                'var(--accent-800, var(--accent-700))',
+  other:              'var(--text-muted)',
 };
 
 const CONTENT_LABELS: Record<string, string> = {

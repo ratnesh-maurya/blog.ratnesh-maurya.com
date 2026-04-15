@@ -170,6 +170,23 @@ export async function getEventsDailyRange(fromStr: string, toStr: string): Promi
   return rows.filter((r: EventsDailyRow) => r.day >= fromStr && r.day <= toStr);
 }
 
+export async function getTopPagesByType(type?: StatType): Promise<Array<{ type: string; slug: string; views: number }>> {
+  let query = supabase.from('stats').select('type, slug, views').order('views', { ascending: false }).limit(20);
+  if (type) {
+    query = query.eq('type', type);
+  }
+  const { data, error } = await query;
+  if (error) {
+    console.error('getTopPagesByType error:', error);
+    return [];
+  }
+  return (data ?? []).map((r) => ({
+    type: r.type as string,
+    slug: r.slug as string,
+    views: Number(r.views) || 0,
+  }));
+}
+
 export async function getAllStatsForAnalytics(): Promise<{
   byType: Record<StatType, { views: number; upvotes: number; reports: number; slugs: Array<{ slug: string; views: number; upvotes: number }> }>;
   footerTotal: number;

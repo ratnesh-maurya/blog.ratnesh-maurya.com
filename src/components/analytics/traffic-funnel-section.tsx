@@ -19,14 +19,14 @@ interface ContentBucket {
 }
 
 const CONTENT_COLORS: Record<string, string> = {
-  blog: '#3b82f6',
-  news: '#8b5cf6',
-  'technical-terms': '#10b981',
-  'silly-questions': '#f59e0b',
-  til: '#06b6d4',
-  cheatsheets: '#f97316',
-  about: '#6366f1',
-  now: '#ec4899',
+  blog: 'var(--accent-500)',
+  news: 'var(--accent-400)',
+  'technical-terms': 'var(--accent-600)',
+  'silly-questions': 'var(--accent-300)',
+  til: 'var(--accent-700)',
+  cheatsheets: 'var(--accent-200)',
+  about: 'var(--accent-100)',
+  now: 'var(--accent-800, var(--accent-700))',
 };
 
 const CONTENT_LABELS: Record<string, string> = {
@@ -41,8 +41,8 @@ const CONTENT_LABELS: Record<string, string> = {
 };
 
 const SOURCE_COLORS = [
-  '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b',
-  '#10b981', '#06b6d4', '#6366f1', '#f97316',
+  'var(--accent-500)', 'var(--accent-400)', 'var(--accent-600)', 'var(--accent-300)',
+  'var(--accent-700)', 'var(--accent-200)', 'var(--accent-100)', 'var(--accent-800, var(--accent-700))',
 ];
 
 function todayStr() {
@@ -92,16 +92,19 @@ function FunnelConnector() {
   );
 }
 
-function SectionHead({ title, count, total, color }: {
-  title: string; count: number; total: number; color: string;
+function SectionHead({ title, count, total }: {
+  title: string; count: number; total: number; color?: string;
 }) {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
   return (
     <div
       className="flex items-center justify-between px-4 py-2 rounded-xl mb-3"
-      style={{ backgroundColor: color + '18', border: `2px solid ${color}40` }}
+      style={{
+        backgroundColor: 'var(--glass-bg-subtle)',
+        border: '1px solid var(--glass-border)',
+      }}
     >
-      <span className="text-xs font-bold uppercase tracking-widest" style={{ color }}>
+      <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
         {title}
       </span>
       <div className="flex items-center gap-2">
@@ -266,7 +269,7 @@ export function TrafficFunnelSection() {
             <>
               <FunnelConnector />
               <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-                <SectionHead title="By content type" count={totalViews} total={totalViews} color="#3b82f6" />
+                <SectionHead title="By content type" count={totalViews} total={totalViews} />
                 <div className="space-y-2">
                   {contentBuckets.map((b) => (
                     <FunnelBar
@@ -287,7 +290,7 @@ export function TrafficFunnelSection() {
             <>
               <FunnelConnector />
               <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-                <SectionHead title="By UTM source" count={utmTotal} total={totalViews} color="#8b5cf6" />
+                <SectionHead title="By UTM source" count={utmTotal} total={totalViews} />
                 <div className="space-y-2">
                   {sources.map((s, i) => (
                     <FunnelBar
@@ -308,7 +311,7 @@ export function TrafficFunnelSection() {
             <>
               <FunnelConnector />
               <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-                <SectionHead title="By referral (?ref=)" count={refs.reduce((s, r) => s + r.count, 0)} total={totalViews} color="#10b981" />
+                <SectionHead title="By referral (?ref=)" count={refs.reduce((s, r) => s + r.count, 0)} total={totalViews} />
                 <div className="space-y-2">
                   {refs.map((r, i) => (
                     <FunnelBar
@@ -329,7 +332,7 @@ export function TrafficFunnelSection() {
             <>
               <FunnelConnector />
               <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-                <SectionHead title="Top landing pages" count={topPages.reduce((s, p) => s + p.count, 0)} total={utmTotal} color="#f59e0b" />
+                <SectionHead title="Top landing pages" count={topPages.reduce((s, p) => s + p.count, 0)} total={utmTotal} />
                 <div className="space-y-2">
                   {topPages.map((p, i) => (
                     <FunnelBar

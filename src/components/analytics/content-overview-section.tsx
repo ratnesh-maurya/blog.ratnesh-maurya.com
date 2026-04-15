@@ -18,6 +18,7 @@ function formatNumber(n: number) {
 
 const TYPE_LABELS: Record<string, string> = {
   blog: 'Blog',
+  news: 'News',
   'technical-terms': 'Tech Terms',
   'silly-questions': 'Silly Q',
   cheatsheets: 'Cheatsheets',
@@ -28,6 +29,7 @@ const TYPE_LABELS: Record<string, string> = {
 
 const TYPE_COLORS: Record<string, string> = {
   blog: 'var(--accent-500)',
+  news: 'var(--accent-450, var(--accent-500))',
   'technical-terms': 'var(--accent-400)',
   'silly-questions': 'var(--accent-600)',
   cheatsheets: 'var(--accent-300)',

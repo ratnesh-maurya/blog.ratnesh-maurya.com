@@ -3,7 +3,7 @@
     {
       "slug": "Go-1-26-2-Released-Security-Fixes-Regression-Patches-and-Upgrade-Playbook",
       "title": "Go 1.26.2 Released: Security Fixes, Regression Patches, and an Upgrade Playbook",
-      "description": "A deep dive into Go 1.26.2: security backports, milestone-level regression fixes, verified downloads, checksums, and a production-safe upgrade strategy.",
+      "description": "A beginner-friendly and technical deep dive into Go 1.26.2: what changed, why it matters, and how to upgrade safely in production.",
       "tags": [
         "Go",
         "Security",
@@ -610,6 +610,153 @@
     }
   ],
   "newsPosts": [
+    {
+      "slug": "daily-ai-dev-digest-app-store-battles-zuckerberg-ai-and-market-booms",
+      "title": "Daily AI & Dev Digest: App Store Battles, Zuckerberg AI, and Market Booms",
+      "description": "Catch up on the latest in AI and software development: Apple's app store crackdowns, Meta's controversial AI initiatives, OpenAI's latest acquisition, Microsoft's new agent tools, and Vercel's impressive revenue surge.",
+      "tags": [
+        "AI",
+        "App Store",
+        "Meta",
+        "OpenAI",
+        "Microsoft",
+        "Vercel",
+        "vibe coding",
+        "facial recognition",
+        "personal finance AI",
+        "AI agents",
+        "software development",
+        "IPO readiness"
+      ],
+      "date": "2026-04-15"
+    },
+    {
+      "slug": "ai-agents-take-center-stage-microsofts-new-copilot-ambitions-openais-competitive-stance-and-claudes-rising-popularity",
+      "title": "AI Agents Take Center Stage: Microsoft's New Copilot Ambitions, OpenAI's Competitive Stance, and Claude's Rising Popularity",
+      "description": "Today's AI digest covers Microsoft's push into secure OpenClaw-like agents for enterprise, OpenAI's internal memo emphasizing platform strategy amid fierce competition, the evolving role of AI in software development, and Anthropic's Claude gaining significant traction over ChatGPT.",
+      "tags": [
+        "AI agents",
+        "Microsoft 365 Copilot",
+        "OpenClaw",
+        "OpenAI",
+        "Anthropic",
+        "Claude",
+        "ChatGPT",
+        "AI in software development",
+        "enterprise AI",
+        "competitive AI market"
+      ],
+      "date": "2026-04-14"
+    },
+    {
+      "slug": "daily-ai-digest-ais-development-transformation-claudes-ascendancy-and-open-chip-valuations",
+      "title": "Daily AI Digest: AI's Development Transformation, Claude's Ascendancy, and Open Chip Valuations",
+      "description": "Today's AI digest covers the shift from AI experimentation to core development models, Claude's growing popularity, the convergence of AI coding tools, and a significant valuation for open AI chip design.",
+      "tags": [
+        "AI development",
+        "software engineering",
+        "Claude",
+        "ChatGPT",
+        "AI coding tools",
+        "SiFive",
+        "RISC-V",
+        "Nvidia",
+        "HumanX conference"
+      ],
+      "date": "2026-04-13"
+    },
+    {
+      "slug": "ais-shifting-landscape-from-open-chips-to-cybersecurity-threats-and-gen-zs-skepticism",
+      "title": "AI's Shifting Landscape: From Open Chips to Cybersecurity Threats and Gen Z's Skepticism",
+      "description": "Today's AI news reveals a dynamic ecosystem: SiFive secures massive funding for open AI chips, Anthropic's Mythos sparks cybersecurity debates, Snap re-enters the smart glasses race, and Gen Z navigates a complex relationship with AI tools.",
+      "tags": [
+        "AI",
+        "chips",
+        "SiFive",
+        "Nvidia",
+        "cybersecurity",
+        "Anthropic Mythos",
+        "Snap",
+        "Spectacles",
+        "Qualcomm",
+        "Gen Z",
+        "AI adoption",
+        "Startup Battlefield",
+        "SusHi Tech Tokyo"
+      ],
+      "date": "2026-04-12"
+    },
+    {
+      "slug": "daily-ai-dev-digest-anthropics-mythos-sparks-cybersecurity-debate-openai-seeks-liability-limits-and-meta-ai-soars",
+      "title": "Daily AI & Dev Digest: Anthropic's Mythos Sparks Cybersecurity Debate, OpenAI Seeks Liability Limits, and Meta AI Soars",
+      "description": "Catch up on the latest in AI and software development. Anthropic's new Mythos model is raising cybersecurity concerns, OpenAI pushes for liability limits, Meta AI sees a surge after Muse Spark, and Google integrates NotebookLM into Gemini.",
+      "tags": [
+        "AI",
+        "Cybersecurity",
+        "Anthropic",
+        "Mythos",
+        "OpenAI",
+        "Liability",
+        "Meta AI",
+        "Muse Spark",
+        "Google Gemini",
+        "NotebookLM",
+        "Software Development",
+        "Tech News"
+      ],
+      "date": "2026-04-11"
+    },
+    {
+      "slug": "ai-surges-in-apps-tackles-exploits-and-boosts-enterprise-creativity-your-2026-04-10-digest",
+      "title": "AI Surges in Apps, Tackles Exploits, and Boosts Enterprise Creativity: Your 2026-04-10 Digest",
+      "description": "Today's AI news: Meta AI's app rockets up charts, Anthropic's Mythos raises security questions, OpenAI blueprints child safety, Atlassian visually transforms data, and X rolls out Grok-powered translation and editing.",
+      "tags": [
+        "AI",
+        "Meta AI",
+        "Muse Spark",
+        "App Store",
+        "Anthropic",
+        "Mythos",
+        "Cybersecurity",
+        "OpenAI",
+        "Child Safety Blueprint",
+        "Atlassian",
+        "Confluence",
+        "Remix",
+        "X",
+        "Grok",
+        "Automatic Translation",
+        "Photo Editing",
+        "Software Development"
+      ],
+      "date": "2026-04-10"
+    },
+    {
+      "slug": "daily-ai-dev-digest-openai-tackles-child-exploitation-atlassian-boosts-visual-ai-and-anthropics-glasswing-unites-tech-giants-against-cyber-threats",
+      "title": "Daily AI & Dev Digest: OpenAI Tackles Child Exploitation, Atlassian Boosts Visual AI, and Anthropic's Glasswing Unites Tech Giants Against Cyber Threats",
+      "description": "Stay updated with the latest in AI and software development. OpenAI releases a child safety blueprint, Atlassian enhances Confluence with visual AI, and Anthropic leads a major cybersecurity initiative with tech titans like Apple, Google, and Microsoft.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "OpenAI",
+        "Child Safety Blueprint",
+        "Child Exploitation",
+        "Atlassian",
+        "Confluence",
+        "Visual AI",
+        "Remix",
+        "Anthropic",
+        "Project Glasswing",
+        "Cybersecurity",
+        "AI Cyberattacks",
+        "Claude Mythos Preview",
+        "Google",
+        "Apple",
+        "Microsoft",
+        "Software Development"
+      ],
+      "date": "2026-04-09"
+    },
     {
       "slug": "ai-dev-digest-open-source-ai-surges-cybersecurity-unites-and-ai-enhances-learning-productivity",
       "title": "AI & Dev Digest: Open Source AI Surges, Cybersecurity Unites, and AI Enhances Learning & Productivity",

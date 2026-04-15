@@ -114,6 +114,7 @@ const SECTION_SUBTITLES: Record<string, string> = {
 const TYPE_FILTERS: { id: 'all' | StatType; label: string }[] = [
   { id: 'all', label: 'All content' },
   { id: 'blog', label: 'Blog' },
+  { id: 'news', label: 'News' },
   { id: 'technical-terms', label: 'Tech terms' },
   { id: 'silly-questions', label: 'Silly Q' },
   { id: 'cheatsheets', label: 'Cheatsheets' },

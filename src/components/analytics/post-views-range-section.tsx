@@ -16,6 +16,7 @@ import {
 
 const TYPE_LABELS: Record<string, string> = {
   blog: 'Blog',
+  news: 'News',
   'silly-questions': 'Silly Questions',
   til: 'TIL',
   'technical-terms': 'Technical Terms',

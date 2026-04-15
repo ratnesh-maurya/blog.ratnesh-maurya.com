@@ -19,6 +19,7 @@ function toDateStr(date: Date) {
 
 const TYPE_LABELS: Record<string, string> = {
   blog: 'Blog',
+  news: 'News',
   'technical-terms': 'Tech terms',
   'silly-questions': 'Silly Q',
   cheatsheets: 'Cheatsheets',
