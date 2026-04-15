@@ -1,6 +1,18 @@
 {
   "blogPosts": [
     {
+      "slug": "QR-Codes-The-Invisible-Magic-Behind-Every-Scan-and-Pay",
+      "title": "That Little Square Does a Lot: How QR Codes Actually Work",
+      "description": "From the black-and-white squares on your pizza box to the split-second bank transfer — here's how QR codes and UPI payments actually work under the hood, explained without the jargon.",
+      "tags": [
+        "System Design",
+        "Computer Science",
+        "Fintech"
+      ],
+      "category": "System Design",
+      "date": "2026-04-15"
+    },
+    {
       "slug": "Go-1-26-2-Released-Security-Fixes-Regression-Patches-and-Upgrade-Playbook",
       "title": "Go 1.26.2 Released: Security Fixes, Regression Patches, and an Upgrade Playbook",
       "description": "A beginner-friendly and technical deep dive into Go 1.26.2: what changed, why it matters, and how to upgrade safely in production.",
