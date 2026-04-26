@@ -127,7 +127,7 @@ export default async function Home() {
       <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
 
         {/* ── Hero ── */}
-        <section className="min-h-[76vh] relative flex items-center justify-center overflow-hidden px-4 sm:px-6">
+        <section className="min-h-[60vh] py-20 relative flex items-center justify-center overflow-hidden px-4 sm:px-6">
           {/* Apple-style gradient orbs */}
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div style={{

@@ -36,16 +36,15 @@ function getTopTags(posts: BlogPost[], max = 8): string[] {
     .map(([tag]) => tag);
 }
 
-function MetaRow({ post, stats, isLoadingStats, compact = false }: {
+function MetaRow({ post, stats, isLoadingStats }: {
   post: BlogPost;
   stats: BlogStats;
   isLoadingStats: boolean;
-  compact?: boolean;
 }) {
   return (
-    <div className={`flex items-center gap-1.5 ${compact ? 'text-[12px]' : 'text-[13px]'}`} style={{ color: 'var(--text-muted)' }}>
+    <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--text-muted)' }}>
       <time dateTime={post.date}>
-        {format(new Date(post.date), compact ? 'MMM d, yyyy' : 'MMM d, yyyy')}
+        {format(new Date(post.date), 'MMM d, yyyy')}
       </time>
       <span>·</span>
       <span>{post.readingTime}</span>
@@ -56,7 +55,7 @@ function MetaRow({ post, stats, isLoadingStats, compact = false }: {
             type="blog"
             slug={post.slug}
             showLabel={false}
-            className={compact ? 'text-[12px]' : 'text-[13px]'}
+            className="text-[12px]"
             initialCount={stats.views[post.slug] ?? 0}
           />
           <span>views</span>
@@ -137,7 +136,7 @@ function SmallCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
           >
             {post.title}
           </h2>
-          <MetaRow post={post} stats={stats} isLoadingStats={isLoadingStats} compact />
+          <MetaRow post={post} stats={stats} isLoadingStats={isLoadingStats} />
         </div>
       </article>
     </Link>
@@ -239,7 +238,7 @@ function GridCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
               {post.description}
             </p>
           )}
-          <MetaRow post={post} stats={stats} isLoadingStats={isLoadingStats} compact />
+          <MetaRow post={post} stats={stats} isLoadingStats={isLoadingStats} />
         </div>
       </article>
     </Link>
@@ -258,7 +257,6 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
   const urlTag = searchParams.get('tag');
   const initialTag = propTag ?? (urlTag ? decodeURIComponent(urlTag).trim() : null);
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
   const [sortBy, setSortBy] = useState<'date' | 'title'>('date');
   const [stats, setStats] = useState<BlogStats>({ views: {}, upvotes: {} });
@@ -268,7 +266,6 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
     if (propTag != null) return;
     const tag = searchParams.get('tag');
     setSelectedTag(tag ? decodeURIComponent(tag).trim() : null);
-    setSelectedCategory('all');
   }, [searchParams, propTag]);
 
   const updateUrl = useCallback((nextTag: string | null) => {
@@ -304,10 +301,6 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
 
   const filteredAndSortedPosts = useMemo(() => {
     let filtered = blogPosts;
-    if (selectedCategory !== 'all') {
-      const normCat = selectedCategory.toLowerCase();
-      filtered = filtered.filter(post => post.category?.toLowerCase() === normCat);
-    }
     if (selectedTag) {
       const normTag = selectedTag.toLowerCase().trim();
       filtered = filtered.filter(post =>
@@ -319,14 +312,13 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
       if (sortBy === 'date') return new Date(b.date).getTime() - new Date(a.date).getTime();
       return a.title.localeCompare(b.title);
     });
-  }, [blogPosts, selectedCategory, selectedTag, sortBy]);
+  }, [blogPosts, selectedTag, sortBy]);
 
   const handleTagClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>, tag: string) => {
     e.preventDefault();
     e.stopPropagation();
     const nextTag = selectedTag === tag ? null : tag;
     setSelectedTag(nextTag);
-    setSelectedCategory('all');
     updateUrl(nextTag);
   };
 
@@ -339,7 +331,7 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
     : baseDescription);
 
   /* Show the Hashnode-style 5-panel layout only for the default (no filter) view */
-  const showMagazineLayout = !selectedTag && selectedCategory === 'all' && sortBy === 'date' && filteredAndSortedPosts.length >= 3;
+  const showMagazineLayout = !selectedTag && sortBy === 'date' && filteredAndSortedPosts.length >= 3;
 
   /* For magazine layout: center=[0], left=[1,2], right=[3,4], rest=[5+] */
   const leftPosts = showMagazineLayout ? filteredAndSortedPosts.slice(1, 3) : [];
@@ -372,9 +364,9 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
           style={{ borderBottom: '1px solid var(--nb-border)', WebkitOverflowScrolling: 'touch' }}
         >
           <button
-            onClick={() => { setSelectedTag(null); setSelectedCategory('all'); updateUrl(null); }}
+            onClick={() => { setSelectedTag(null); updateUrl(null); }}
             className="nb-badge flex-shrink-0 whitespace-nowrap transition-all duration-150"
-            style={!selectedTag && selectedCategory === 'all'
+            style={!selectedTag
               ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)', borderColor: 'var(--nb-badge-bg)' }
               : { backgroundColor: 'transparent', color: 'var(--text-muted)', borderColor: 'var(--nb-border)' }
             }
@@ -394,7 +386,7 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
               {tag}
             </button>
           ))}
-          <div className="ml-auto hidden md:flex items-center gap-2 pl-4 flex-shrink-0">
+          <div className="ml-auto flex items-center gap-2 pl-4 flex-shrink-0">
             <CustomDropdown
               options={[
                 { value: 'date', label: 'Latest' },
@@ -456,13 +448,11 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
             <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
               {selectedTag
                 ? `No posts tagged "${selectedTag}". Try another topic.`
-                : selectedCategory !== 'all'
-                  ? `Nothing in "${selectedCategory}" yet.`
-                  : 'No blog posts available yet. Check back soon!'}
+                : 'No blog posts available yet. Check back soon!'}
             </p>
-            {(selectedCategory !== 'all' || selectedTag) && (
+            {selectedTag && (
               <button
-                onClick={() => { setSelectedCategory('all'); setSelectedTag(null); updateUrl(null); }}
+                onClick={() => { setSelectedTag(null); updateUrl(null); }}
                 className="text-sm font-medium px-4 py-2 rounded-full transition-colors"
                 style={{ backgroundColor: 'var(--text-primary)', color: 'var(--background)' }}
               >

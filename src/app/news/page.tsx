@@ -95,7 +95,7 @@ export default async function NewsPage() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {posts.map((post) => (
               <Link key={post.slug} href={`/news/${post.slug}`} className="group block h-full">
                 <article

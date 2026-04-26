@@ -159,7 +159,8 @@ function searchContent(
     });
   }
 
-  return results.sort((a, b) => b.score - a.score).slice(0, 10);
+  const limit = filterType === 'all' ? 10 : 20;
+  return results.sort((a, b) => b.score - a.score).slice(0, limit);
 }
 
 export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, technicalTerms = [], tilEntries = [], newsPosts = [] }: SearchPopupProps) {

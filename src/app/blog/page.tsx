@@ -7,7 +7,7 @@ import { getStoredOgImagePath } from '@/lib/og';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const ogImage = getStoredOgImagePath('blog');
+  const ogImage = getStoredOgImagePath('blog') || '/og/home.png';
   return {
     title: "Blog — Systems, Backend & AI Engineering",
     description: "Practical posts on backend engineering, system design, distributed systems, and AI engineering—written from real-world building and debugging. Start with the latest →",

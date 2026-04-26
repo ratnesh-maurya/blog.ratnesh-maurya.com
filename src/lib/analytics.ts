@@ -1,4 +1,4 @@
-// Google Analytics and Microsoft Clarity configuration and utilities
+// Google Analytics configuration and utilities
 
 import { shouldTrack } from '@/lib/env';
 
@@ -6,24 +6,10 @@ declare global {
   interface Window {
     gtag: (...args: unknown[]) => void;
     dataLayer: unknown[];
-    clarity?: (action: string, ...args: unknown[]) => void;
   }
 }
 
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
-export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || '';
-
-// Initialize Microsoft Clarity (only in production)
-export const initClarity = () => {
-  if (!shouldTrack() || typeof window === 'undefined' || !CLARITY_PROJECT_ID) return;
-
-  // Clarity script is loaded via Script component in layout
-  // This function can be used for custom Clarity events
-  if (window.clarity) {
-    window.clarity('set', 'page_title', document.title);
-    window.clarity('set', 'page_path', window.location.pathname);
-  }
-};
 
 // Track page views (only in production)
 export const trackPageView = (url: string, title?: string) => {
@@ -56,45 +42,39 @@ export const trackEvent = (
 export const trackBlogView = (slug: string, title: string, category: string) => {
   trackEvent('view_blog_post', 'Blog', `${category}: ${title}`, 1);
 
-  // Track reading progress
   let readingProgress = 0;
   const trackProgress = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = Math.round((scrollTop / scrollHeight) * 100);
-
+    if (scrollHeight <= 0) return;
+    const progress = Math.round((window.scrollY / scrollHeight) * 100);
     if (progress > readingProgress && progress % 25 === 0) {
       readingProgress = progress;
       trackEvent('reading_progress', 'Blog', `${slug}: ${progress}%`, progress);
+      if (progress >= 100) window.removeEventListener('scroll', trackProgress);
     }
   };
 
-  window.addEventListener('scroll', trackProgress);
-
-  // Clean up listener after 5 minutes
-  setTimeout(() => {
-    window.removeEventListener('scroll', trackProgress);
-  }, 300000);
+  window.addEventListener('scroll', trackProgress, { passive: true });
+  setTimeout(() => window.removeEventListener('scroll', trackProgress), 300000);
 };
 
 // Track news post views
 export const trackNewsView = (slug: string, title: string) => {
   trackEvent('view_news_post', 'News', title, 1);
 
-  // Track reading progress
   let readingProgress = 0;
   const trackProgress = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = Math.round((scrollTop / scrollHeight) * 100);
-
+    if (scrollHeight <= 0) return;
+    const progress = Math.round((window.scrollY / scrollHeight) * 100);
     if (progress > readingProgress && progress % 25 === 0) {
       readingProgress = progress;
       trackEvent('reading_progress', 'News', `${slug}: ${progress}%`, progress);
+      if (progress >= 100) window.removeEventListener('scroll', trackProgress);
     }
   };
 
-  window.addEventListener('scroll', trackProgress);
+  window.addEventListener('scroll', trackProgress, { passive: true });
   setTimeout(() => window.removeEventListener('scroll', trackProgress), 300000);
 };
 
@@ -109,55 +89,30 @@ export const trackSearch = (query: string, resultsCount: number) => {
 export const trackSocialShare = (platform: string, url: string, title: string) => {
   if (!shouldTrack()) return;
   trackEvent('share', 'Social', `${platform}: ${title}`, 1);
-
-  // Track in Clarity
-  if (typeof window !== 'undefined' && window.clarity) {
-    window.clarity('event', 'social_share', { platform, url, title });
-  }
 };
 
 // Track external link clicks (only in production)
 export const trackExternalLink = (url: string, text: string) => {
   if (!shouldTrack()) return;
   trackEvent('click_external_link', 'Navigation', `${text}: ${url}`, 1);
-
-  // Track in Clarity
-  if (typeof window !== 'undefined' && window.clarity) {
-    window.clarity('event', 'external_link_click', { url, text });
-  }
 };
 
 // Track navigation clicks (only in production)
 export const trackNavigation = (destination: string, source: string) => {
   if (!shouldTrack()) return;
   trackEvent('navigation', 'Navigation', `${source} -> ${destination}`, 1);
-
-  // Track in Clarity
-  if (typeof window !== 'undefined' && window.clarity) {
-    window.clarity('event', 'navigation_click', { destination, source });
-  }
 };
 
 // Track blog card clicks (only in production)
 export const trackBlogCardClick = (slug: string, title: string, source: string) => {
   if (!shouldTrack()) return;
   trackEvent('blog_card_click', 'Blog', `${source}: ${title}`, 1);
-
-  // Track in Clarity
-  if (typeof window !== 'undefined' && window.clarity) {
-    window.clarity('event', 'blog_card_click', { slug, title, source });
-  }
 };
 
 // Track silly question clicks (only in production)
 export const trackSillyQuestionClick = (slug: string, title: string, source: string) => {
   if (!shouldTrack()) return;
   trackEvent('silly_question_click', 'Silly Questions', `${source}: ${title}`, 1);
-
-  // Track in Clarity
-  if (typeof window !== 'undefined' && window.clarity) {
-    window.clarity('event', 'silly_question_click', { slug, title, source });
-  }
 };
 
 // Track carousel interactions
@@ -231,30 +186,19 @@ export const trackEngagement = () => {
   let startTime = Date.now();
   let isActive = true;
 
-  const trackTimeOnPage = () => {
-    if (isActive) {
-      const timeSpent = Math.round((Date.now() - startTime) / 1000);
-      if (timeSpent > 0 && timeSpent % 30 === 0) { // Track every 30 seconds
-        trackEvent('time_on_page', 'Engagement', window.location.pathname, timeSpent);
-      }
-    }
-  };
-
-  // Track visibility changes
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       isActive = false;
     } else {
       isActive = true;
-      startTime = Date.now(); // Reset timer when user returns
+      startTime = Date.now();
     }
   });
 
-  // Track time on page
-  const interval = setInterval(trackTimeOnPage, 1000);
-
-  // Clean up after 10 minutes
-  setTimeout(() => {
-    clearInterval(interval);
-  }, 600000);
+  const tick = (elapsed: number) => {
+    if (elapsed > 600) return; // stop after 10 min
+    if (isActive) trackEvent('time_on_page', 'Engagement', window.location.pathname, elapsed);
+    setTimeout(() => tick(elapsed + 30), 30000);
+  };
+  setTimeout(() => tick(30), 30000);
 };

@@ -76,6 +76,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
     function handleScroll() {
       setIsScrolled(window.scrollY > 10);
     }
+    handleScroll(); // sync on mount in case page loads mid-scroll
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
