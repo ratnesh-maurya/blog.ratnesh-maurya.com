@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',
-    images: [{ url: '/og/home.png', width: 1200, height: 630, alt: 'Daily AI and software development news' }],
+    images: [{ url: '/og/news.png', width: 1200, height: 630, alt: 'Daily AI and software development news' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: 'Daily curated AI and software development news digests.',
     creator: '@ratnesh_maurya',
     site: '@ratnesh_maurya',
-    images: ['/og/home.png'],
+    images: ['/og/news.png'],
   },
   robots: {
     index: true,

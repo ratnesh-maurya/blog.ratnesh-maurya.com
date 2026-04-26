@@ -48,7 +48,7 @@ export function TableOfContents() {
     if (headings.length === 0) return;
 
     observerRef.current = new IntersectionObserver(handleIntersect, {
-      rootMargin: '-80px 0px -60% 0px',
+      rootMargin: '-80px 0px -30% 0px',
       threshold: 0,
     });
 

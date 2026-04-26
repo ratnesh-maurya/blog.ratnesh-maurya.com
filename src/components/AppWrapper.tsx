@@ -9,7 +9,7 @@ import { UtmTracker } from '@/components/UtmTracker';
 import { BlogPost, SillyQuestion } from '@/types/blog';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const MobileMenu = dynamic(() => import('@/components/MobileMenu').then(m => m.MobileMenu), {
   ssr: false,
@@ -28,6 +28,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchDataLoaded, setSearchDataLoaded] = useState(false);
+  const searchLoadingRef = useRef(false);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [sillyQuestions, setSillyQuestions] = useState<SillyQuestion[]>([]);
   const [technicalTerms, setTechnicalTerms] = useState<{ slug: string; title: string; description: string }[]>([]);
@@ -36,9 +37,10 @@ export function AppWrapper({ children }: AppWrapperProps) {
   const pathname = usePathname();
 
   const loadSearchData = useCallback(async () => {
-    if (searchDataLoaded) return;
+    if (searchDataLoaded || searchLoadingRef.current) return;
+    searchLoadingRef.current = true;
     try {
-      const response = await fetch('/search-data.json', { cache: 'force-cache' });
+      const response = await fetch('/search-data.json', { next: { revalidate: 86400 } } as RequestInit);
       if (response.ok) {
         const data = await response.json();
         setBlogPosts(data.blogPosts ?? []);
@@ -50,6 +52,7 @@ export function AppWrapper({ children }: AppWrapperProps) {
       }
     } catch (error) {
       console.error('Failed to fetch search data:', error);
+      searchLoadingRef.current = false;
     }
   }, [searchDataLoaded]);
 
@@ -80,12 +83,6 @@ export function AppWrapper({ children }: AppWrapperProps) {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
-
-  useKeyboardShortcut({
-    keys: ['ctrl', 'k'],
-    description: 'Open search',
-    onTrigger: openSearch,
-  });
 
   useKeyboardShortcut({
     keys: ['escape'],

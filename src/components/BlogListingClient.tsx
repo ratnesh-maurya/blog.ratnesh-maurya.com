@@ -7,7 +7,7 @@ import { BlogPost } from '@/types/blog';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface BlogListingClientProps {
@@ -249,7 +249,11 @@ function GridCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
 /* ═══════════════════════════════════════════════════════════════
    Main listing component
    ═══════════════════════════════════════════════════════════════ */
+const STATS_CACHE_KEY = 'blog_stats_cache';
+const STATS_CACHE_TTL = 5 * 60 * 1000; // 5 min
+
 export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageTitle, pageDescription }: BlogListingClientProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const urlTag = searchParams.get('tag');
   const initialTag = propTag ?? (urlTag ? decodeURIComponent(urlTag).trim() : null);
@@ -270,14 +274,24 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
   const updateUrl = useCallback((nextTag: string | null) => {
     if (propTag != null) return;
     const url = nextTag ? `/blog?tag=${encodeURIComponent(nextTag.trim())}` : '/blog';
-    window.history.replaceState(null, '', url);
-  }, [propTag]);
+    router.replace(url, { scroll: false });
+  }, [propTag, router]);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        const cached = sessionStorage.getItem(STATS_CACHE_KEY);
+        if (cached) {
+          const { data, ts } = JSON.parse(cached);
+          if (Date.now() - ts < STATS_CACHE_TTL) {
+            setStats(data);
+            setIsLoadingStats(false);
+            return;
+          }
+        }
         const { getStatsByType } = await import('@/lib/supabase/stats');
         const data = await getStatsByType('blog');
+        sessionStorage.setItem(STATS_CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
         setStats(data);
       } catch (error) {
         console.error('Error fetching blog stats:', error);

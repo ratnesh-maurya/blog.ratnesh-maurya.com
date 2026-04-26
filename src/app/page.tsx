@@ -150,15 +150,15 @@ export default async function Home() {
           <div className="relative max-w-4xl w-full text-center">
             {/* Apple-style pill badge */}
             <span className="inline-block mb-6" style={{
-              background: 'rgba(0,122,255,0.10)',
-              border: '1px solid rgba(0,122,255,0.22)',
+              background: 'color-mix(in srgb, var(--accent-500) 10%, transparent)',
+              border: '1px solid color-mix(in srgb, var(--accent-500) 22%, transparent)',
               borderRadius: '100px',
               padding: '5px 16px',
               fontSize: '11px',
               fontWeight: 700,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: '#007AFF',
+              color: 'var(--accent-500)',
             }}>
               Systems · Backend · AI Engineering
             </span>
@@ -169,7 +169,7 @@ export default async function Home() {
             >
               Practical engineering
               <br />
-              <span style={{ color: '#007AFF' }}>for real-world systems</span>
+              <span style={{ color: 'var(--accent-500)' }}>for real-world systems</span>
             </h1>
 
             <p
@@ -184,7 +184,7 @@ export default async function Home() {
               <Link
                 href="/blog"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
-                style={{ background: '#007AFF', color: '#ffffff', textDecoration: 'none', boxShadow: '0 4px 20px rgba(0,122,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25)' }}
+                style={{ background: 'var(--accent-500)', color: '#ffffff', textDecoration: 'none', boxShadow: '0 4px 20px color-mix(in srgb, var(--accent-500) 35%, transparent), inset 0 1px 0 rgba(255,255,255,0.25)' }}
               >
                 Read the Blog
               </Link>
@@ -224,7 +224,7 @@ export default async function Home() {
                     color: 'var(--text-primary)',
                   }}
                 >
-                  <span style={{ color: '#007AFF', fontWeight: 800 }}>{item.value}</span>{' '}{item.label}
+                  <span style={{ color: 'var(--accent-500)', fontWeight: 800 }}>{item.value}</span>{' '}{item.label}
                 </span>
               ))}
             </div>
@@ -266,7 +266,7 @@ export default async function Home() {
                             className="relative w-full aspect-[16/9] rounded-lg overflow-hidden"
                             style={{ border: '1px solid var(--glass-border)' }}
                           >
-                            <Image src={post.image} alt={post.title} fill sizes="25vw" className="object-cover" />
+                            <Image src={post.image} alt={post.title} fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover" />
                           </div>
                         )}
                         <div>
@@ -344,7 +344,7 @@ export default async function Home() {
                             className="relative w-full aspect-[16/9] rounded-lg overflow-hidden"
                             style={{ border: '1px solid var(--glass-border)' }}
                           >
-                            <Image src={post.image} alt={post.title} fill sizes="25vw" className="object-cover" />
+                            <Image src={post.image} alt={post.title} fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover" />
                           </div>
                         )}
                         <div>
@@ -456,11 +456,11 @@ export default async function Home() {
                         <span
                           className="inline-flex w-6 h-6 rounded-full items-center justify-center flex-shrink-0"
                           style={{
-                            background: 'rgba(0,122,255,0.12)',
-                            border: '1px solid rgba(0,122,255,0.25)',
+                            background: 'color-mix(in srgb, var(--accent-500) 12%, transparent)',
+                            border: '1px solid color-mix(in srgb, var(--accent-500) 25%, transparent)',
                           }}
                         >
-                          <span className="text-[8px] font-black" style={{ color: '#007AFF' }}>RM</span>
+                          <span className="text-[8px] font-black" style={{ color: 'var(--accent-500)' }}>RM</span>
                         </span>
                         <p className="text-[11px] font-semibold" style={{ color: 'var(--text-muted)' }}>
                           {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
@@ -543,7 +543,7 @@ export default async function Home() {
                     <Link
                       href="/newsletter"
                       className="w-full inline-flex justify-center items-center rounded-xl py-3 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
-                      style={{ background: '#007AFF', color: '#ffffff', textDecoration: 'none', boxShadow: '0 2px 12px rgba(0,122,255,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}
+                      style={{ background: 'var(--accent-500)', color: '#ffffff', textDecoration: 'none', boxShadow: '0 2px 12px color-mix(in srgb, var(--accent-500) 30%, transparent), inset 0 1px 0 rgba(255,255,255,0.25)' }}
                     >
                       Subscribe →
                     </Link>

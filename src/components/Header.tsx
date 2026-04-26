@@ -171,7 +171,7 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
               <div className="relative" ref={moreRef}>
                 <button
                   ref={triggerRef}
-                  onClick={() => { setMoreOpen(prev => !prev); if (!moreOpen) setFocusIndex(0); }}
+                  onClick={() => { setMoreOpen(prev => { const next = !prev; if (next) setFocusIndex(0); return next; }); }}
                   onKeyDown={handleTriggerKeyDown}
                   className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all duration-150 border-2 inline-flex items-center gap-1 focus-visible:outline-2 focus-visible:outline-offset-2 ${
                     isMoreActive || moreOpen ? 'nb-nav-active' : 'border-transparent hover:border-current'
@@ -217,28 +217,13 @@ export function Header({ isScrolled, isMobileMenuOpen, onMobileMenuToggle, onSea
                         href={item.href}
                         onClick={() => { trackNavigation(item.href, 'navbar-more'); closeMenu(); }}
                         onKeyDown={(e) => handleMenuKeyDown(e, index)}
-                        className={`block px-4 py-2.5 text-sm font-semibold transition-all duration-100 focus-visible:outline-2 focus-visible:outline-offset-[-2px] ${
+                        className={`block px-4 py-2.5 text-sm font-semibold transition-all duration-100 focus-visible:outline-2 focus-visible:outline-offset-[-2px] nb-dropdown-item ${
                           isActiveLink(item.href) ? 'nb-nav-active' : ''
                         }`}
                         style={isActiveLink(item.href)
                           ? { outlineColor: 'var(--accent-500)' }
-                          : {
-                              color: 'var(--text-primary)',
-                              outlineColor: 'var(--accent-500)',
-                            }
+                          : { color: 'var(--text-primary)', outlineColor: 'var(--accent-500)' }
                         }
-                        onMouseEnter={e => {
-                          if (!isActiveLink(item.href)) {
-                            (e.currentTarget as HTMLElement).style.backgroundColor = 'color-mix(in srgb, var(--accent-500) 12%, transparent)';
-                            (e.currentTarget as HTMLElement).style.color = 'var(--accent-600)';
-                          }
-                        }}
-                        onMouseLeave={e => {
-                          if (!isActiveLink(item.href)) {
-                            (e.currentTarget as HTMLElement).style.backgroundColor = '';
-                            (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                          }
-                        }}
                         role="menuitem"
                         tabIndex={focusIndex === index ? 0 : -1}
                       >

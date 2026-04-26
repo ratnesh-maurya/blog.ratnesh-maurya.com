@@ -3,6 +3,7 @@
 import { BlogPost, SillyQuestion } from '@/types/blog';
 import { format } from 'date-fns';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 export interface TechnicalTermSearchItem {
@@ -162,7 +163,9 @@ function searchContent(
 }
 
 export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, technicalTerms = [], tilEntries = [], newsPosts = [] }: SearchPopupProps) {
+  const router = useRouter();
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [filterType, setFilterType] = useState<FilterType>('all');
@@ -170,6 +173,11 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
   const inputRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedQuery(query), 150);
+    return () => clearTimeout(id);
+  }, [query]);
 
   const suggestions = useMemo(() => {
     const categories = Array.from(new Set(blogPosts.map((p) => p.category)));
@@ -180,7 +188,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
       ...newsPosts.flatMap((n) => n.tags),
     ]));
     return { categories: categories.slice(0, 6), tags: tags.slice(0, 8) };
-  }, [blogPosts, sillyQuestions, tilEntries, newsPosts]);
+  }, [blogPosts, sillyQuestions, technicalTerms, tilEntries, newsPosts]);
 
   const getItemDate = (item: SearchResult['item'], type: SearchResult['type']): string =>
     type === 'blog'
@@ -203,7 +211,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
           : (item as TechnicalTermSearchItem | TILSearchItem).title;
 
   const sortedResults = useMemo(() => {
-    const r = searchContent(query, blogPosts, sillyQuestions, technicalTerms, tilEntries, newsPosts, filterType);
+    const r = searchContent(debouncedQuery, blogPosts, sillyQuestions, technicalTerms, tilEntries, newsPosts, filterType);
     if (sortType === 'date') return r.sort((a, b) => {
       const da = getItemDate(a.item, a.type);
       const db = getItemDate(b.item, b.type);
@@ -212,15 +220,15 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
     });
     if (sortType === 'title') return r.sort((a, b) => getItemTitle(a.item, a.type).localeCompare(getItemTitle(b.item, b.type)));
     return r;
-  }, [query, blogPosts, sillyQuestions, technicalTerms, tilEntries, newsPosts, filterType, sortType]);
+  }, [debouncedQuery, blogPosts, sillyQuestions, technicalTerms, tilEntries, newsPosts, filterType, sortType]);
 
 
   useEffect(() => { setResults(sortedResults); setSelectedIndex(0); }, [sortedResults]);
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 50);
-      setQuery(''); setResults([]); setFilterType('all'); setSortType('relevance'); setSelectedIndex(0);
+      requestAnimationFrame(() => inputRef.current?.focus());
+      setQuery(''); setDebouncedQuery(''); setResults([]); setFilterType('all'); setSortType('relevance'); setSelectedIndex(0);
     }
   }, [isOpen]);
 
@@ -237,7 +245,8 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
             : r.type === 'term' ? `/technical-terms/${(r.item as TechnicalTermSearchItem).slug}`
               : r.type === 'til' ? `/til/${(r.item as TILSearchItem).slug}`
                 : `/news/${(r.item as NewsSearchItem).slug}`;
-        window.location.href = href;
+        onClose();
+        router.push(href);
       }
     }
     document.addEventListener('keydown', onKey);

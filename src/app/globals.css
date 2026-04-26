@@ -1698,6 +1698,12 @@ html, body {
   border-color: var(--nb-border);
 }
 
+/* ── Dropdown menu item hover ── */
+.nb-dropdown-item:hover {
+  background-color: color-mix(in srgb, var(--accent-500) 12%, transparent);
+  color: var(--accent-600);
+}
+
 /* ── CTA button — primary (auto-inverts) ── */
 .nb-btn-primary {
   background-color: var(--nb-badge-bg);

@@ -18,6 +18,7 @@ import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import rehypeHighlight from 'rehype-highlight';
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     };
   }
 
-  const ogImage = post.socialImage || getStoredOgImageUrl('blog-slug', post.slug);
+  const ogImage = post.socialImage || getStoredOgImageUrl('blog-slug', post.slug) || '/og/home.png';
   return {
     title: post.title,
     description: post.description,
@@ -135,7 +136,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const ogImage = post.socialImage || getStoredOgImageUrl('blog-slug', post.slug);
+  const ogImage = post.socialImage || getStoredOgImageUrl('blog-slug', post.slug) || '/og/home.png';
   const currentIndex = allPosts.findIndex(p => p.slug === slug);
   const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
@@ -202,10 +203,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Author strip + metadata */}
                 <div className="flex items-center gap-3 text-sm pb-8 border-b"
                   style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src="https://avatars.githubusercontent.com/u/85143283?v=4"
                     alt="Ratnesh Maurya"
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-full flex-shrink-0 object-cover border"
                     style={{ borderColor: 'var(--border)' }}
                   />
@@ -338,10 +340,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     background: 'linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--accent-50) 40%, var(--surface)) 100%)',
                     border: '1px solid var(--border)',
                   }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src="https://avatars.githubusercontent.com/u/85143283?v=4"
                     alt="Ratnesh Maurya"
+                    width={64}
+                    height={64}
                     className="w-16 h-16 rounded-2xl flex-shrink-0 object-cover"
                     style={{ outline: '2px solid var(--accent-200)' }}
                   />
@@ -418,8 +421,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
             </article>
 
-            {/* Table of Contents — right sidebar on xl screens */}
-            <aside className="hidden xl:block self-start sticky top-24 xl:translate-x-12">
+            {/* Table of Contents — right sidebar on lg+ screens */}
+            <aside className="hidden lg:block self-start sticky top-24 xl:translate-x-12">
               <TableOfContents />
             </aside>
           </div>
