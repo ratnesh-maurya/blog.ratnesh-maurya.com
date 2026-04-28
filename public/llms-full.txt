@@ -1,0 +1,94 @@
+# Ratnesh Maurya — Backend & Distributed Systems Engineer (Full Index)
+
+> Complete content index for blog.ratnesh-maurya.com. Use this for deep research, citation, or content discovery. Summary version: https://blog.ratnesh-maurya.com/llms.txt
+
+## Author
+
+Ratnesh Maurya — Backend engineer specializing in distributed systems, Go, Elixir, PostgreSQL, Kubernetes, and AI/RAG pipelines. Based in India, building production-grade systems since 2022.
+
+I've personally built a data lake system for Indian Army workloads, RAG-based AI pipelines using vector databases (Qdrant), fintech backend systems handling concurrent transactions, and a secret management platform for secure infrastructure. My posts reflect real debugging sessions and production decisions, not textbook examples.
+
+---
+
+## Blog Posts
+
+### [That Little Square Does a Lot: How QR Codes Actually Work](https://blog.ratnesh-maurya.com/blog/QR-Codes-The-Invisible-Magic-Behind-Every-Scan-and-Pay/)
+**Date:** 2026-04-15 | **Category:** Systems
+From black-and-white squares on pizza boxes to split-second UPI bank transfers — how QR codes and payment systems work under the hood, without jargon. Covers Reed-Solomon error correction, finder patterns, data encoding, and how UPI ties into QR scanning.
+
+### [Go 1.26.2 Released: Security Fixes, Regression Patches, and an Upgrade Playbook](https://blog.ratnesh-maurya.com/blog/Go-1-26-2-Released-Security-Fixes-Regression-Patches-and-Upgrade-Playbook/)
+**Date:** 2026-04-09 | **Category:** Go
+What changed in Go 1.26.2, which CVEs were patched, what regressions were fixed, and a step-by-step upgrade playbook for production Go services.
+
+### [cursor-claude-personas: Give Your AI Coding Assistant a Domain Expert Brain in 30 Seconds](https://blog.ratnesh-maurya.com/blog/cursor-claude-personas-give-your-ai-coding-assistant-a-domain-expert-brain-in-30-seconds/)
+**Date:** 2026-03-21 | **Category:** AI Engineering
+How to inject domain-specific expertise into Cursor/Claude using persona prompts. Includes ready-to-use personas for backend engineering, system design, and database optimization.
+
+### [Five Caching Strategies Every Backend Dev Should Know](https://blog.ratnesh-maurya.com/blog/Distributed-Caching-Strategies-Architecture/)
+**Date:** 2026-02-24 | **Category:** Backend Engineering
+Cache-aside, write-through, write-behind, read-through, and refresh-ahead — when to use each, trade-offs, and real architecture diagrams. Built from experience optimizing PostgreSQL + Redis under production load.
+
+### [Chrome 144 Introduces the <geolocation> Element: Declarative Location Access for Modern Web Apps](https://blog.ratnesh-maurya.com/blog/Chrome-144-Introduces-the-Geolocation-Element-Declarative-Location-Access-for-Modern-Web-Apps/)
+**Date:** 2026-02-24 | **Category:** Web
+Chrome 144's new declarative `<geolocation>` HTML element, how it differs from the JS Geolocation API, permission model, and browser support.
+
+### [How Files Are Stored, Deleted, and Copied Inside Your Computer](https://blog.ratnesh-maurya.com/blog/How-Files-Are-Stored-Deleted-and-Copied-Inside-Your-Computer/)
+**Date:** 2026-02-20 | **Category:** Systems
+Filesystem internals: inodes, blocks, how delete actually works (it doesn't erase), copy mechanics, and why "secure delete" is hard on SSDs.
+
+### [The Mechanics of Compression: How 100GB Becomes 25GB](https://blog.ratnesh-maurya.com/blog/The-Mechanics-of-Compression-How-100GB-Becomes-25GB/)
+**Date:** 2026-02-19 | **Category:** Systems
+Lossless vs lossy compression, Huffman coding, LZ77, gzip/zstd internals, and why compression ratios vary by data type. Practical benchmarks included.
+
+### [Building This Blog: A Modern Next.js Blog with Markdown](https://blog.ratnesh-maurya.com/blog/building-this-blog/)
+**Date:** 2025-09-08 | **Category:** Web Development
+Architecture decisions behind blog.ratnesh-maurya.com: Next.js App Router, MDX, static generation, Supabase for view counts, Vercel deployment, and OG image generation.
+
+### [Optimizing Memory Layout in Go: A Deep Dive into Struct Design](https://blog.ratnesh-maurya.com/blog/Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design/)
+**Date:** 2025-01-10 | **Category:** Go
+How Go allocates memory for structs, why field ordering matters (padding and alignment), benchmarks showing real performance differences, and how to use `go vet` to catch alignment issues.
+
+### [Deploy a Nanoc Static Site to S3 with GitHub Actions](https://blog.ratnesh-maurya.com/blog/Easily-Deploy-Your-Nanoc-Website-to-S3-with-GitHub-Actions/)
+**Date:** 2024-11-23 | **Category:** DevOps
+Step-by-step: build a Nanoc site in CI, sync to S3, invalidate CloudFront, using OIDC for keyless AWS auth from GitHub Actions.
+
+### [Architectural Design for a Ride App such as OLA, UBER, RAPIDO](https://blog.ratnesh-maurya.com/blog/Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO/)
+**Date:** 2024-07-30 | **Category:** System Design
+System design walkthrough: driver/rider matching, geospatial indexing, surge pricing logic, real-time location tracking with WebSockets, payment flow, and database schema choices.
+
+### [Amazon SNS for Cost Reduction and Message Delivery Assurance in Startups](https://blog.ratnesh-maurya.com/blog/Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups/)
+**Date:** 2023-12-10 | **Category:** AWS
+When to use SNS vs SQS vs EventBridge, fan-out patterns, dead-letter queues, and how to cut notification costs in early-stage startups using SNS filtering.
+
+### [S3 Policies Explained: Bucket Policies vs IAM Policies vs ACLs](https://blog.ratnesh-maurya.com/blog/Understanding-S3-and-S3-Policies/)
+**Date:** 2023-11-23 | **Category:** AWS
+Side-by-side comparison of S3 access control mechanisms, when each applies, policy evaluation order, and real policy examples for common patterns (public read, cross-account, presigned URLs).
+
+---
+
+## Technical Terms Glossary
+
+[Browse all technical terms](https://blog.ratnesh-maurya.com/technical-terms/) — definitions for backend, distributed systems, and system design vocabulary including Bloom filters, CAP theorem, ACID, consistent hashing, and more.
+
+---
+
+## TIL (Today I Learned)
+
+Short engineering notes from real work: [https://blog.ratnesh-maurya.com/til/](https://blog.ratnesh-maurya.com/til/)
+
+---
+
+## Cheatsheets
+
+Quick-reference command sheets for Go, Docker, PostgreSQL, kubectl: [https://blog.ratnesh-maurya.com/cheatsheets/](https://blog.ratnesh-maurya.com/cheatsheets/)
+
+---
+
+## Contact & Social
+
+- Email: ratneshmaurya2311@gmail.com
+- [Portfolio](https://ratnesh-maurya.com)
+- [GitHub](https://github.com/ratnesh-maurya)
+- [LinkedIn](https://www.linkedin.com/in/ratnesh-maurya)
+- [Twitter/X](https://twitter.com/ratnesh_maurya)
+- [Instagram](https://www.instagram.com/ratn_labs/)

@@ -30,7 +30,7 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
 
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
+    '@type': ['BlogPosting', 'Article'],
     headline: post.title,
     description: post.description,
     image: [fullImageUrl],
@@ -41,7 +41,8 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
       sameAs: [
         'https://github.com/ratnesh-maurya',
         'https://linkedin.com/in/ratnesh-maurya',
-        'https://twitter.com/ratnesh_maurya'
+        'https://twitter.com/ratnesh_maurya',
+        'https://www.instagram.com/ratn_labs/'
       ]
     },
     publisher: {
@@ -142,7 +143,8 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
         sameAs: [
           'https://github.com/ratnesh-maurya',
           'https://linkedin.com/in/ratnesh-maurya',
-          'https://twitter.com/ratnesh_maurya'
+          'https://twitter.com/ratnesh_maurya',
+          'https://www.instagram.com/ratn_labs/'
         ]
       },
       acceptedAnswer: {
@@ -159,7 +161,8 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
           sameAs: [
             'https://github.com/ratnesh-maurya',
             'https://linkedin.com/in/ratnesh-maurya',
-            'https://twitter.com/ratnesh_maurya'
+            'https://twitter.com/ratnesh_maurya',
+            'https://www.instagram.com/ratn_labs/'
           ]
         }
       }
@@ -219,7 +222,8 @@ export function WebsiteStructuredData() {
       sameAs: [
         'https://github.com/ratnesh-maurya',
         'https://linkedin.com/in/ratnesh-maurya',
-        'https://twitter.com/ratnesh_maurya'
+        'https://twitter.com/ratnesh_maurya',
+        'https://www.instagram.com/ratn_labs/'
       ]
     },
     potentialAction: [{
@@ -257,6 +261,7 @@ export function PersonStructuredData() {
       'https://github.com/ratnesh-maurya',
       'https://linkedin.com/in/ratnesh-maurya',
       'https://twitter.com/ratnesh_maurya',
+      'https://www.instagram.com/ratn_labs/',
       'https://blog.ratnesh-maurya.com',
     ],
     knowsAbout: [
@@ -304,6 +309,7 @@ export function OrganizationStructuredData() {
       'https://github.com/ratnesh-maurya',
       'https://linkedin.com/in/ratnesh-maurya',
       'https://twitter.com/ratnesh_maurya',
+      'https://www.instagram.com/ratn_labs/',
     ],
     founder: {
       '@type': 'Person',
@@ -340,6 +346,7 @@ export function SiteEntitiesStructuredData() {
           'https://github.com/ratnesh-maurya',
           'https://linkedin.com/in/ratnesh-maurya',
           'https://twitter.com/ratnesh_maurya',
+          'https://www.instagram.com/ratn_labs/',
         ],
         founder: { '@id': 'https://ratnesh-maurya.com/#person' },
       },
@@ -354,6 +361,7 @@ export function SiteEntitiesStructuredData() {
           'https://github.com/ratnesh-maurya',
           'https://linkedin.com/in/ratnesh-maurya',
           'https://twitter.com/ratnesh_maurya',
+          'https://www.instagram.com/ratn_labs/',
           'https://blog.ratnesh-maurya.com',
         ],
         worksFor: { '@id': 'https://blog.ratnesh-maurya.com/#organization' },
@@ -600,6 +608,7 @@ export function ProfilePageStructuredData() {
         'https://github.com/ratnesh-maurya',
         'https://linkedin.com/in/ratnesh-maurya',
         'https://twitter.com/ratnesh_maurya',
+        'https://www.instagram.com/ratn_labs/',
         'https://blog.ratnesh-maurya.com',
       ],
       jobTitle: 'Backend Engineer',
@@ -696,6 +705,7 @@ export function TechnicalTermStructuredData({ title, description, slug, ogImageU
         'https://github.com/ratnesh-maurya',
         'https://linkedin.com/in/ratnesh-maurya',
         'https://twitter.com/ratnesh_maurya',
+        'https://www.instagram.com/ratn_labs/',
       ],
     },
     publisher: {
@@ -812,7 +822,7 @@ export function CheatsheetStructuredData({ title, description, slug, keywords }:
       '@type': 'Person',
       name: 'Ratnesh Maurya',
       url: 'https://ratnesh-maurya.com',
-      sameAs: ['https://github.com/ratnesh-maurya', 'https://linkedin.com/in/ratnesh-maurya'],
+      sameAs: ['https://github.com/ratnesh-maurya', 'https://linkedin.com/in/ratnesh-maurya', 'https://twitter.com/ratnesh_maurya', 'https://www.instagram.com/ratn_labs/'],
     },
     publisher: {
       '@type': 'Organization',
@@ -860,7 +870,7 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
       '@type': 'Person',
       name: 'Ratnesh Maurya',
       url: 'https://ratnesh-maurya.com',
-      sameAs: ['https://github.com/ratnesh-maurya', 'https://linkedin.com/in/ratnesh-maurya'],
+      sameAs: ['https://github.com/ratnesh-maurya', 'https://linkedin.com/in/ratnesh-maurya', 'https://twitter.com/ratnesh_maurya', 'https://www.instagram.com/ratn_labs/'],
     },
     publisher: {
       '@type': 'Organization',

@@ -1,8 +1,6 @@
-# llms.txt v2.0 for ratnesh-maurya.com
-# Optimized for AI retrieval, SEO, and client conversion
-# Last Updated: 2026-03-21
+# Ratnesh Maurya — Backend & Distributed Systems Engineer
 
-# Ratnesh Maurya - Backend & Distributed Systems Engineer
+> Technical blog on backend engineering, distributed systems, Kubernetes, PostgreSQL, and AI/RAG pipelines — written from real production experience building at scale.
 
 ## About
 Ratnesh Maurya is a Software Development Engineer based in India, specializing in backend engineering, distributed systems, and cloud-native architectures. He builds scalable, production-grade systems using Go, Elixir, PostgreSQL, Kubernetes, and AWS.
@@ -72,15 +70,18 @@ backend engineering, golang backend developer, distributed systems engineer, clo
 ---
 
 ## Blog & Resources
-- https://blog.ratnesh-maurya.com
-- https://blog.ratnesh-maurya.com/technical-terms/bloom-filter/
+- [Blog](https://blog.ratnesh-maurya.com)
+- [Bloom Filter explainer](https://blog.ratnesh-maurya.com/technical-terms/bloom-filter/)
+- [Full post index](https://blog.ratnesh-maurya.com/llms-full.txt)
 
 ---
 
 ## Social Links
-- Website: https://ratnesh-maurya.com
-- GitHub: https://github.com/ratnesh-maurya
-- LinkedIn: https://www.linkedin.com/in/ratnesh-maurya
+- [Website](https://ratnesh-maurya.com)
+- [GitHub](https://github.com/ratnesh-maurya)
+- [LinkedIn](https://www.linkedin.com/in/ratnesh-maurya)
+- [Instagram](https://www.instagram.com/ratn_labs/)
+- [Twitter/X](https://twitter.com/ratnesh_maurya)
 
 ---
 
@@ -126,16 +127,9 @@ backend engineering, golang backend developer, distributed systems engineer, clo
 
 ---
 
-## Competitors
-- freelancer.com
-- upwork.com
-- generic freelance developer marketplaces
-
----
-
 ## Call to Action
 - Hire for backend engineering, system design, and cloud-native work
-- Visit: https://ratnesh-maurya.com
+- [Visit portfolio](https://ratnesh-maurya.com)
 - Contact: ratneshmaurya2311@gmail.com
 
 ---
@@ -174,6 +168,6 @@ backend engineering, golang backend developer, distributed systems engineer, clo
   "blog": "https://blog.ratnesh-maurya.com",
   "github": "https://github.com/ratnesh-maurya",
   "linkedin": "https://www.linkedin.com/in/ratnesh-maurya",
+  "instagram": "https://www.instagram.com/ratn_labs/",
   "contact": "ratneshmaurya2311@gmail.com"
 }
-
