@@ -240,18 +240,9 @@ ${contextData}
         console.log(`Retrying Gemini call (${attempt}/${GEMINI_MAX_ATTEMPTS})...`);
       }
 
-      const generationPromise = (async () => {
-        const streamResult = await model.generateContentStream(prompt);
-        let text = '';
-        for await (const chunk of streamResult.stream) {
-          text += chunk.text();
-        }
-        return text;
-      })();
-
-      // By default the API might cut JSON short. The `generateContentStream` parses standard chunks but Structured Outputs
-      // under maximum JSON strictness often truncates silently when it thinks it reaches `maxOutputTokens`.
-      // Let's force an even larger timeout and catch the parse error better to see if it drops.
+      // Use non-streaming generateContent to avoid "Failed to parse stream" errors
+      // that occur with generateContentStream when generating long structured JSON responses.
+      const generationPromise = model.generateContent(prompt).then((result) => result.response.text());
       const responseText = await withTimeout(generationPromise, GEMINI_TIMEOUT_MS);
 
       let parsed;
