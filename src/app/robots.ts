@@ -15,6 +15,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
         disallow: [
           '/api/', // API routes have no crawl value
+          '/admin/', // private admin pages
         ],
       },
       // Explicitly allow major search and AI crawlers

@@ -623,6 +623,31 @@
   ],
   "newsPosts": [
     {
+      "slug": "ai-tech-digest-musks-openai-origins-ios-27-ai-photo-tools-googles-pentagon-deal-aws-integrates-openai-and-picsarts-ai-playground",
+      "title": "AI & Tech Digest: Musk's OpenAI Origins, iOS 27 AI Photo Tools, Google's Pentagon Deal, AWS Integrates OpenAI, and Picsart's AI Playground",
+      "description": "Catch up on the latest in AI: Elon Musk's testimony on OpenAI's founding, Apple's new AI photo editing for iOS 27, Google's expanded AI access for the Pentagon, OpenAI's enhanced integration with AWS, and Picsart's innovative AI Playground for creators.",
+      "tags": [
+        "AI news",
+        "Elon Musk",
+        "OpenAI",
+        "Sam Altman",
+        "iOS 27",
+        "Apple Intelligence",
+        "AI photo editing",
+        "Google",
+        "Pentagon",
+        "Anthropic",
+        "AWS",
+        "Amazon Bedrock",
+        "GPT-5.5",
+        "Codex",
+        "Picsart",
+        "AI Playground",
+        "creator tools"
+      ],
+      "date": "2026-04-30"
+    },
+    {
       "slug": "ais-mobile-future-openais-phone-ambitions-microsoft-partnership-the-disappearing-ai-middle-class",
       "title": "AI's Mobile Future: OpenAI's Phone Ambitions, Microsoft Partnership & The Disappearing AI Middle Class",
       "description": "Today's AI digest covers OpenAI's rumored AI-agent phone, the strengthened Microsoft-OpenAI partnership, foundational AI principles, the evolving landscape for AI developers, and new dictation hardware.",
