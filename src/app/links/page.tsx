@@ -22,6 +22,49 @@ export const metadata: Metadata = {
 };
 
 function ReelCard({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
+  const blogLink = reel.links.find((link) => /blog/i.test(link.label) || link.url.includes('blog.ratnesh-maurya.com'));
+  const thumbnailHref = blogLink ? withUtm(blogLink.url, reel.slug) : reel.reel_url;
+  const thumbnailAriaLabel = blogLink ? `Open blog post for ${reel.title}` : `Watch ${reel.title} reel`;
+
+  const linksBlock = (
+    <div className="flex flex-col gap-2">
+      {reel.links.map((l) => (
+        <a
+          key={l.url}
+          href={withUtm(l.url, reel.slug)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 group"
+          style={{
+            backgroundColor: 'var(--glass-bg-subtle)',
+            border: '1px solid var(--glass-border)',
+            color: 'var(--text-primary)',
+          }}
+        >
+          <span className="truncate">{l.label}</span>
+          <svg
+            className="w-4 h-4 transition-transform group-hover:translate-x-0.5 flex-shrink-0 ml-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            style={{ color: 'var(--accent-500)' }}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      ))}
+      <a
+        href={reel.reel_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs font-medium mt-1 inline-flex items-center gap-1 hover:underline"
+        style={{ color: 'var(--text-muted)' }}
+      >
+        Watch the reel ↗
+      </a>
+    </div>
+  );
+
   return (
     <article
       id={reel.slug}
@@ -51,48 +94,43 @@ function ReelCard({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
       <h2 className="text-lg sm:text-xl font-bold mb-2 leading-snug" style={{ color: 'var(--text-primary)' }}>
         {reel.title}
       </h2>
-      {reel.description && (
-        <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
-          {reel.description}
-        </p>
-      )}
-
-      <div className="flex flex-col gap-2 mt-auto">
-        {reel.links.map((l) => (
+      {reel.thumb_url ? (
+        <div className="mb-4 flex items-start gap-3">
           <a
-            key={l.url}
-            href={withUtm(l.url, reel.slug)}
+            href={thumbnailHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 group"
-            style={{
-              backgroundColor: 'var(--glass-bg-subtle)',
-              border: '1px solid var(--glass-border)',
-              color: 'var(--text-primary)',
-            }}
+            className="w-28 sm:w-32 overflow-hidden rounded-lg border shrink-0"
+            style={{ borderColor: 'var(--glass-border)' }}
+            aria-label={thumbnailAriaLabel}
           >
-            <span className="truncate">{l.label}</span>
-            <svg
-              className="w-4 h-4 transition-transform group-hover:translate-x-0.5 flex-shrink-0 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              style={{ color: 'var(--accent-500)' }}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={reel.thumb_url}
+              alt={`${reel.title} thumbnail`}
+              loading="lazy"
+              className="aspect-[9/16] w-full object-cover transition-transform duration-300 hover:scale-[1.04]"
+            />
           </a>
-        ))}
-        <a
-          href={reel.reel_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs font-medium mt-1 inline-flex items-center gap-1 hover:underline"
-          style={{ color: 'var(--text-muted)' }}
-        >
-          Watch the reel ↗
-        </a>
-      </div>
+          <div className="min-w-0 flex-1">
+            {reel.description && (
+              <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
+                {reel.description}
+              </p>
+            )}
+            {linksBlock}
+          </div>
+        </div>
+      ) : (
+        <>
+          {reel.description && (
+            <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
+              {reel.description}
+            </p>
+          )}
+          {linksBlock}
+        </>
+      )}
     </article>
   );
 }
