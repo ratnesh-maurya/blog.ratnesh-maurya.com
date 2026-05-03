@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.reddit.com)",
+      "WebFetch(domain:venturebeat.com)",
+      "WebFetch(domain:registry.npmjs.org)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:techstartups.com)",
+      "Bash(grep -n \"trackBlogView\\\\|trackEngagement\\\\|utm_source\\\\|searchParams\" /Users/rk/Documents/GitHub/blog.ratnesh-maurya.com/src/app/blog/[slug]/page.tsx)",
+      "WebFetch(domain:www.setproduct.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:css-tricks.com)",
+      "WebFetch(domain:dev.to)",
+      "Bash(sed -i '' \"s/border: '2px solid var\\(--nb-border\\)'/border: '1px solid var\\(--nb-border\\)'/g\" src/components/BlogListingClient.tsx src/components/CustomDropdown.tsx src/components/CheatsheetsListingClient.tsx src/components/TechnicalTermsSearch.tsx src/components/RecentNews.tsx src/components/RelatedPosts.tsx)",
+      "Bash(sed -i '' \"s/borderBottom: '2px solid var\\(--nb-border\\)'/borderBottom: '1px solid var\\(--nb-border\\)'/g\" src/components/BlogListingClient.tsx)",
+      "Bash(sed -i '' \"s/borderTop: '2px solid var\\(--nb-border\\)'/borderTop: '1px solid var\\(--nb-border\\)'/g\" src/components/RecentNews.tsx src/components/RelatedPosts.tsx)",
+      "Bash(sed -i '' \"s/border: '2px solid var\\(--nb-border\\)'/border: '1px solid var\\(--nb-border\\)'/g\" src/components/analytics/content-overview-section.tsx src/components/analytics/sortable-section.tsx src/components/analytics/top-insights-strip.tsx src/components/analytics/dashboard.tsx src/components/analytics/sankey-section.tsx src/components/analytics/post-views-range-section.tsx src/components/analytics/today-section.tsx src/components/analytics/traffic-funnel-section.tsx)",
+      "Bash(sed -i '' \"s/border: '2px solid var\\(--nb-border\\)'/border: '1px solid var\\(--nb-border\\)'/g\" src/components/UtmAnalyticsCharts.tsx)",
+      "Bash(sed -i '' \"s/borderRadius: '8px', color/borderRadius: '10px', color/g\" src/components/UtmAnalyticsCharts.tsx)"
+    ]
+  }
+}
