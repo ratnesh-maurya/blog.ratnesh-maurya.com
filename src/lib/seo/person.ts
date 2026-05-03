@@ -25,6 +25,7 @@ export const PERSON_SAME_AS: readonly string[] = [
   'https://www.instagram.com/ratn_labs/',
   'https://leetcode.com/ratnesh_maurya/',
   'https://codeforces.com/profile/ratnesh_',
+  'https://www.wikidata.org/wiki/Q139621726',
   PORTFOLIO_URL,
 ];
 
