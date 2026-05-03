@@ -205,7 +205,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 )}
 
                 {/* Author strip + metadata */}
-                <div className="flex items-center gap-3 text-sm pb-8 border-b"
+                <div className="flex flex-wrap items-center gap-3 text-sm pb-8 border-b"
                   style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
                   <Image
                     src="https://avatars.githubusercontent.com/u/85143283?v=4"
@@ -225,6 +225,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <span>{post.readingTime}</span>
                     </span>
                   </div>
+                  {post.updated && post.updated !== post.date && (
+                    <span
+                      className="ml-auto text-xs font-semibold px-2.5 py-1 rounded-full"
+                      style={{
+                        backgroundColor: 'color-mix(in srgb, var(--accent-500) 10%, transparent)',
+                        color: 'var(--accent-600)',
+                        border: '1px solid color-mix(in srgb, var(--accent-500) 20%, transparent)',
+                      }}
+                    >
+                      Updated <time dateTime={post.updated}>{format(new Date(post.updated), 'MMM d, yyyy')}</time>
+                    </span>
+                  )}
                 </div>
 
                 {/* Hero image */}

@@ -1,6 +1,6 @@
 ---
-title: "cursor-claude-personas: Give Your AI Coding Assistant a Domain Expert Brain in 30 Seconds"
-description: "A free, open-source collection of 38 role-based AI persona packs for Claude Code, Cursor, and VS Code. Copy one folder into your project and your AI assistant instantly behaves like a seasoned specialist."
+title: "cursor-claude-personas: AI Domain Expert Personas in 30 Seconds"
+description: "A free, open-source collection of 38 role-based AI persona packs for Claude Code, Cursor, and VS Code. Copy one folder into your project and your AI acts like a seasoned specialist."
 date: "2026-03-21"
 author: "Ratnesh Maurya"
 category: "Tooling and DX"

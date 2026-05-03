@@ -186,6 +186,7 @@ export default async function Home() {
                 alt="Ratnesh Maurya"
                 width={28}
                 height={28}
+                priority
                 className="rounded-full"
                 style={{ border: '1.5px solid var(--glass-border)' }}
               />
@@ -327,7 +328,7 @@ export default async function Home() {
                           style={{ border: '1px solid var(--glass-border)', backgroundColor: 'var(--surface-muted)' }}
                         >
                           {post.image ? (
-                            <Image src={post.image} alt={post.title} fill sizes="50vw" className="object-cover" />
+                            <Image src={post.image} alt={post.title} fill sizes="50vw" className="object-cover" priority />
                           ) : (
                             <div className="absolute inset-0 flex items-center justify-center">
                               <span className="text-5xl font-black" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>

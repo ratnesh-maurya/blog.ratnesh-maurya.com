@@ -1,6 +1,6 @@
 ---
 title: "S3 Policies Explained: Bucket Policies vs IAM Policies vs ACLs"
-description: How S3 access control actually works — the difference between bucket policies, IAM policies, and ACLs, with working JSON examples for common scenarios like public read access, encryption enforcement, and user-scoped permissions.
+description: "How S3 access control works — bucket policies vs IAM policies vs ACLs, with JSON examples for public read, encryption enforcement, and user-scoped permissions."
 author: Ratnesh Maurya
 date: "2023-11-23"
 category: AWS

@@ -1,5 +1,5 @@
 ---
-question: "You accidentally deleted an important branch that was never merged and no one has a local copy. How do you recover it?"
+question: "How do you recover a deleted unmerged branch with no local copy?"
 date: "2026-04-01"
 tags: ["git", "branch-recovery", "reflog", "disaster-recovery"]
 category: "Git"

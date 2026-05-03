@@ -24,7 +24,6 @@ const sourceSerif4 = Source_Serif_4({
   variable: "--font-source-serif",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -146,6 +145,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif4.variable} antialiased`}>
         {/* Inline theme script — runs synchronously before paint to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <a href="#main-content" className="skip-to-content">Skip to content</a>
         <SiteEntitiesStructuredData />
         <ProfilePageStructuredData />
         <AppWrapper>{children}</AppWrapper>

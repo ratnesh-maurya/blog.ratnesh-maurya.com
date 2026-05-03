@@ -1,6 +1,6 @@
 ---
 title: "Optimizing Memory Layout in Go: A Deep Dive into Struct Design"
-description: How Go struct field ordering affects memory usage through alignment and padding, with concrete benchmarks showing the difference across millions of allocations and practical tools to detect wasted space.
+description: "How Go struct field ordering affects memory via alignment and padding, with benchmarks across millions of allocations and practical tools to detect wasted space."
 author: Ratnesh Maurya
 date: "2025-01-10"
 category: Golang

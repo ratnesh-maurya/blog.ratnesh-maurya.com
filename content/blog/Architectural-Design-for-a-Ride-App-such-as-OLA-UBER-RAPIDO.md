@@ -1,6 +1,6 @@
 ---
 title: Architectural Design for a Ride App such as OLA, UBER, RAPIDO
-description: A microservices architecture breakdown for ride-sharing apps covering service boundaries, communication patterns (REST vs gRPC vs message queues), geo-location tracking, and the trade-offs between monolith-first and microservices approaches.
+description: "Microservices architecture for ride-sharing: service boundaries, REST vs gRPC vs message queues, geo-location tracking, and trade-offs between monolith-first and microservices."
 author: Ratnesh Maurya
 date: "2024-07-30"
 category: "Software Architecture"

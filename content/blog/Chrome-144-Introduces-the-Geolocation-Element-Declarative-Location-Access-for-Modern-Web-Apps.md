@@ -1,5 +1,5 @@
 ---
-title: "Chrome 144 Introduces the <geolocation> Element: Declarative Location Access for Modern Web Apps"
+title: "Chrome 144's <geolocation> Element: Declarative Location Access"
 description: "Learn how Chrome 144's new <geolocation> HTML element simplifies location access, improves privacy, and replaces imperative navigator.geolocation calls with a declarative, user-driven approach."
 date: "2026-02-24"
 author: "Ratnesh Maurya"

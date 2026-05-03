@@ -44,14 +44,16 @@
   --neutral-900: #1C1C1A;
   --neutral-950: #0F0F0E;
 
-  /* Footer — derived from accent so it responds to palette changes */
-  --footer-bg:            var(--accent-900);
-  --footer-surface:       var(--accent-800);
-  --footer-surface-hover: var(--accent-700);
-  --footer-text-primary:  var(--accent-50);
-  --footer-text-secondary:var(--accent-200);
-  --footer-text-muted:    var(--accent-300);
-  --footer-border:        rgb(255 255 255 / 0.07);
+  /* Footer — fixed dark tokens, NOT derived from accent.
+     Accent-derived footer bg was near-invisible on green (#022C22) and
+     purple (#2E1065) palettes. Neutral-950 stays readable in all themes. */
+  --footer-bg:            #0F0F0E;
+  --footer-surface:       #1C1C1A;
+  --footer-surface-hover: #2A2A28;
+  --footer-text-primary:  #FAFAF8;
+  --footer-text-secondary:#C8C8C4;
+  --footer-text-muted:    #8E8E88;
+  --footer-border:        rgb(255 255 255 / 0.08);
 
   /* Semantic Colors */
   --success: #059669;
@@ -341,13 +343,14 @@
   --error:   #EF4444;
   --info:    #60A5FA;
 
-  --footer-bg:            color-mix(in srgb, var(--accent-500) 4%, #080808);
-  --footer-surface:       color-mix(in srgb, var(--accent-500) 4%, #0F0E0D);
-  --footer-surface-hover: color-mix(in srgb, var(--accent-500) 6%, #151413);
+  /* Footer dark-mode: slightly deeper than light tokens, still accent-independent */
+  --footer-bg:            #080808;
+  --footer-surface:       #121210;
+  --footer-surface-hover: #1A1A18;
   --footer-text-primary:  #EDEDEC;
-  --footer-text-secondary:var(--accent-600);
-  --footer-text-muted:    var(--accent-500);
-  --footer-border:        color-mix(in srgb, var(--accent-500) 10%, rgb(255 255 255 / 0.08));
+  --footer-text-secondary:#A8A8A4;
+  --footer-text-muted:    #6A6A64;
+  --footer-border:        rgb(255 255 255 / 0.07);
 
   /* ── Liquid Glass — dark mode overrides ── */
   --glass-bg:           rgba(18, 16, 14, 0.68);
@@ -494,6 +497,49 @@
   color: var(--accent-600) !important;
   text-decoration-color: var(--accent-500) !important;
 }
+
+/* ─── Code highlight — dark mode (github-dark-dimmed palette) ─── */
+[data-theme="dark"] .hljs { color: #adbac7; background: #22272e }
+[data-theme="dark"] .hljs-doctag,
+[data-theme="dark"] .hljs-keyword,
+[data-theme="dark"] .hljs-meta .hljs-keyword,
+[data-theme="dark"] .hljs-template-tag,
+[data-theme="dark"] .hljs-template-variable,
+[data-theme="dark"] .hljs-type,
+[data-theme="dark"] .hljs-variable.language_ { color: #f47067 }
+[data-theme="dark"] .hljs-title,
+[data-theme="dark"] .hljs-title.class_,
+[data-theme="dark"] .hljs-title.class_.inherited__,
+[data-theme="dark"] .hljs-title.function_ { color: #dcbdfb }
+[data-theme="dark"] .hljs-attr,
+[data-theme="dark"] .hljs-attribute,
+[data-theme="dark"] .hljs-literal,
+[data-theme="dark"] .hljs-meta,
+[data-theme="dark"] .hljs-number,
+[data-theme="dark"] .hljs-operator,
+[data-theme="dark"] .hljs-variable,
+[data-theme="dark"] .hljs-selector-attr,
+[data-theme="dark"] .hljs-selector-class,
+[data-theme="dark"] .hljs-selector-id { color: #6cb6ff }
+[data-theme="dark"] .hljs-regexp,
+[data-theme="dark"] .hljs-string,
+[data-theme="dark"] .hljs-meta .hljs-string { color: #96d0ff }
+[data-theme="dark"] .hljs-built_in,
+[data-theme="dark"] .hljs-symbol { color: #f69d50 }
+[data-theme="dark"] .hljs-comment,
+[data-theme="dark"] .hljs-code,
+[data-theme="dark"] .hljs-formula { color: #768390 }
+[data-theme="dark"] .hljs-name,
+[data-theme="dark"] .hljs-quote,
+[data-theme="dark"] .hljs-selector-tag,
+[data-theme="dark"] .hljs-selector-pseudo { color: #8ddb8c }
+[data-theme="dark"] .hljs-subst { color: #adbac7 }
+[data-theme="dark"] .hljs-section { color: #316dca; font-weight: bold }
+[data-theme="dark"] .hljs-bullet { color: #eac55f }
+[data-theme="dark"] .hljs-emphasis { color: #adbac7; font-style: italic }
+[data-theme="dark"] .hljs-strong { color: #adbac7; font-weight: bold }
+[data-theme="dark"] .hljs-addition { color: #b4f1b4; background-color: #1b4721 }
+[data-theme="dark"] .hljs-deletion { color: #ffd8d3; background-color: #78191b }
 
 /* ─── Header / Navigation — Liquid Glass ─── */
 .header-nav {
@@ -1727,4 +1773,47 @@ html, body {
 [data-theme="dark"] .nb-btn-orange {
   border-color: rgba(255, 144, 50, 0.4);
   box-shadow: 0 4px 20px rgba(234, 88, 12, 0.35), 0 1px 4px rgba(234, 88, 12, 0.25), inset 0 1px 0 rgba(255,255,255,0.20);
+}
+
+/* ─── Accessibility + INP perf: skip backdrop-filter for users who prefer
+   reduced motion. Stacked GPU composite layers on low-end Android are the
+   primary cause of INP > 200 ms on listing pages. ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ─── focus-visible rings — glass elements swallow browser defaults ─── */
+:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+[data-theme="dark"] :focus-visible {
+  outline-color: var(--accent-400);
+}
+
+/* ─── Skip-to-content link ─── */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--accent-500);
+  color: #fff;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top 0.1s;
+}
+.skip-to-content:focus {
+  top: 1rem;
 }
