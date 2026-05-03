@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "SEO_LINT_SOFT=1 tsx scripts/seo-lint.ts",
     "build": "next build --turbopack",
     "postbuild": "tsx scripts/generate-search-data.ts  && tsx scripts/build-og-all.tsx",
+    "seo-lint": "tsx scripts/seo-lint.ts",
+    "indexnow": "tsx scripts/indexnow-ping.ts",
     "start": "next start",
     "lint": "eslint",
     "export": "next build",

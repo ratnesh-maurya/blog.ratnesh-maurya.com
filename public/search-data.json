@@ -623,6 +623,49 @@
   ],
   "newsPosts": [
     {
+      "slug": "ai-dev-daily-digest-code-security-context-protocols-and-the-future-of-agi",
+      "title": "AI & Dev Daily Digest: Code Security, Context Protocols, and the Future of AGI",
+      "description": "Stay updated on the latest in AI: DeepMind's CodeMender for security, Anthropic's Model Context Protocol, and OpenAI's continuous advancements towards AGI.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "Code Security",
+        "DeepMind",
+        "CodeMender",
+        "Anthropic",
+        "Model Context Protocol",
+        "OpenAI",
+        "AGI",
+        "Software Development"
+      ],
+      "date": "2026-05-02"
+    },
+    {
+      "slug": "ais-shifting-sands-openais-strategic-moves-musks-admissions-and-xs-ai-powered-ad-revamp",
+      "title": "AI's Shifting Sands: OpenAI's Strategic Moves, Musk's Admissions, and X's AI-Powered Ad Revamp",
+      "description": "Today's AI digest covers OpenAI's selective rollout of Cyber and enhanced ChatGPT security, Elon Musk's revelation about xAI's Grok training, a new look at the Microsoft-OpenAI partnership, and X's AI-driven ad platform relaunch. Stay informed on critical developments in AI and enterprise tech.",
+      "tags": [
+        "OpenAI",
+        "Cyber",
+        "ChatGPT",
+        "Security",
+        "Yubico",
+        "xAI",
+        "Grok",
+        "Elon Musk",
+        "Model Distillation",
+        "Microsoft",
+        "Amazon Web Services",
+        "AWS",
+        "X",
+        "Ad Platform",
+        "AI News",
+        "Tech Digest",
+        "Enterprise AI"
+      ],
+      "date": "2026-05-01"
+    },
+    {
       "slug": "ai-tech-digest-musks-openai-origins-ios-27-ai-photo-tools-googles-pentagon-deal-aws-integrates-openai-and-picsarts-ai-playground",
       "title": "AI & Tech Digest: Musk's OpenAI Origins, iOS 27 AI Photo Tools, Google's Pentagon Deal, AWS Integrates OpenAI, and Picsart's AI Playground",
       "description": "Catch up on the latest in AI: Elon Musk's testimony on OpenAI's founding, Apple's new AI photo editing for iOS 27, Google's expanded AI access for the Pentagon, OpenAI's enhanced integration with AWS, and Picsart's innovative AI Playground for creators.",

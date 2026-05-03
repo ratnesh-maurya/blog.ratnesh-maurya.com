@@ -47,6 +47,10 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   }
 
   const ogImage = post.socialImage || getStoredOgImageUrl('blog-slug', post.slug) || '/og/home.png';
+  const publishedTime = new Date(post.date).toISOString();
+  const modifiedTime = post.updated
+    ? new Date(post.updated).toISOString()
+    : publishedTime;
   return {
     title: post.title,
     description: post.description,
@@ -70,8 +74,8 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       title: post.title,
       description: post.description,
       type: 'article',
-      publishedTime: post.date,
-      modifiedTime: post.date,
+      publishedTime,
+      modifiedTime,
       authors: [`https://ratnesh-maurya.com`],
       tags: post.tags,
       url: `https://blog.ratnesh-maurya.com/blog/${post.slug}/`,
@@ -80,8 +84,8 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       countryName: 'India',
       images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
       article: {
-        publishedTime: post.date,
-        modifiedTime: post.date,
+        publishedTime,
+        modifiedTime,
         authors: [`https://ratnesh-maurya.com`],
         section: post.category,
         tags: post.tags,
@@ -115,8 +119,8 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     other: {
       'pinterest-rich-pin': 'true',
       'article:author': post.author,
-      'article:published_time': post.date,
-      'article:modified_time': post.date,
+      'article:published_time': publishedTime,
+      'article:modified_time': modifiedTime,
       'article:section': post.category,
       'article:tag': post.tags.join(', '),
       'profile:username': 'ratnesh_maurya',

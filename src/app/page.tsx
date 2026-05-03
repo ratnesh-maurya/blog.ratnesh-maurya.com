@@ -179,6 +179,29 @@ export default async function Home() {
               Deep dives, architecture notes, and daily developer news for builders who ship.
             </p>
 
+            {/* Author byline — entity SEO: associates "Ratnesh Maurya" with this site in Google's entity graph */}
+            <div className="mt-5 flex items-center justify-center gap-2.5">
+              <Image
+                src="https://avatars.githubusercontent.com/u/85143283?v=4"
+                alt="Ratnesh Maurya"
+                width={28}
+                height={28}
+                className="rounded-full"
+                style={{ border: '1.5px solid var(--glass-border)' }}
+              />
+              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                by{' '}
+                <Link
+                  href="/about"
+                  className="font-semibold transition-colors"
+                  style={{ color: 'var(--text-secondary)', textDecoration: 'none', borderBottom: '1px solid var(--glass-border)' }}
+                >
+                  Ratnesh Maurya
+                </Link>
+                {' '}· Software Engineer at Initializ
+              </span>
+            </div>
+
             {/* CTA buttons — Apple style */}
             <div className="mt-9 flex flex-wrap justify-center gap-3">
               <Link

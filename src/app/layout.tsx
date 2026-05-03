@@ -133,7 +133,8 @@ export const metadata: Metadata = {
 
 
 
-const themeScript = `(function(){try{var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);var a=localStorage.getItem('accent-color')||'blue';document.documentElement.setAttribute('data-accent',a);}catch(e){}})();`;
+// Default = system preference (prefers-color-scheme); explicit user choice in localStorage wins.
+const themeScript = `(function(){try{var s=localStorage.getItem('theme');var t=s||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);var a=localStorage.getItem('accent-color')||'blue';document.documentElement.setAttribute('data-accent',a);}catch(e){}})();`;
 
 export default function RootLayout({
   children,

@@ -3,6 +3,9 @@ export interface BlogPost {
   title: string;
   description: string;
   date: string;
+  /** ISO date string. When set, drives `dateModified` / `og:article:modified_time`.
+   *  Distinct value from `date` is the freshness signal Google trusts. */
+  updated?: string;
   author: string;
   tags: string[];
   category: string;
@@ -54,6 +57,7 @@ export interface BlogMetadata {
   title: string;
   description: string;
   date: string;
+  updated?: string;
   author: string;
   tags: string[];
   category: string;

@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import "highlight.js/styles/github-dark-dimmed.css";
+/* Light = github.css; dark overrides are in [data-theme="dark"] below. */
+@import "highlight.js/styles/github.css";
 
 /* ─────────────────────────────────────────────────────────
    Design System — Workshop Mono
@@ -73,7 +74,9 @@
   /* Typography */
   --text-primary:   #1C1C1A;
   --text-secondary: #545450;
-  --text-muted:     #8E8E88;
+  /* WCAG AA: #8E8E88 on near-white = 3.7:1 (fails body).
+     Bumped to #6A6A64 = 5.2:1 (passes AA). */
+  --text-muted:     #6A6A64;
   --text-inverse:   #FAFAF8;
 
   /* Shadows — soft, warm */

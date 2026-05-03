@@ -1,4 +1,13 @@
 import { BlogPost, NewsPost, SillyQuestion, TILEntry } from '@/types/blog';
+import {
+  articleAuthor,
+  BLOG_ID,
+  ORG_ID,
+  PERSON_ID,
+  personNode,
+  publisherOrg,
+  WEBSITE_ID,
+} from '@/lib/seo/person';
 import { getSocialImageUrl } from './BlogImage';
 
 const BLOG_BASE = 'https://blog.ratnesh-maurya.com';
@@ -27,37 +36,24 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
 
   // Convert date to ISO 8601 format with timezone
   const datePublished = new Date(post.date).toISOString();
+  const dateModified = post.updated
+    ? new Date(post.updated).toISOString()
+    : datePublished;
+
+  // Headline must be ≤ 110 chars per Google guidelines.
+  const headline =
+    post.title.length > 110 ? `${post.title.slice(0, 107)}…` : post.title;
 
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': ['BlogPosting', 'Article'],
-    headline: post.title,
+    headline,
     description: post.description,
     image: [fullImageUrl],
-    author: {
-      '@type': 'Person',
-      name: post.author,
-      url: 'https://ratnesh-maurya.com',
-      sameAs: [
-        'https://github.com/ratnesh-maurya',
-        'https://linkedin.com/in/ratnesh-maurya',
-        'https://twitter.com/ratnesh_maurya',
-        'https://www.instagram.com/ratn_labs/'
-      ]
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Ratn Labs',
-      url: 'https://blog.ratnesh-maurya.com',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://blog.ratnesh-maurya.com/apple-touch-icon.png',
-        width: 180,
-        height: 180,
-      }
-    },
-    datePublished: datePublished,
-    dateModified: datePublished,
+    author: articleAuthor(post.author),
+    publisher: publisherOrg(),
+    datePublished,
+    dateModified,
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': withTrailingSlash(`https://blog.ratnesh-maurya.com/blog/${post.slug}`),
@@ -69,10 +65,7 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
     timeRequired: post.readingTime,
     inLanguage: 'en-US',
     isAccessibleForFree: true,
-    copyrightHolder: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya'
-    },
+    copyrightHolder: { '@id': PERSON_ID },
     copyrightYear: new Date(post.date).getFullYear(),
     genre: ['Technology', 'Programming', 'Web Development'],
     about: post.tags.map(tag => ({
@@ -92,7 +85,7 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
     },
     isPartOf: {
       '@type': 'Blog',
-      '@id': 'https://blog.ratnesh-maurya.com/#blog',
+      '@id': BLOG_ID,
       name: 'Ratn Labs',
       url: 'https://blog.ratnesh-maurya.com',
     },
@@ -136,17 +129,7 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
       upvoteCount: 0,
       url: questionUrl,
       keywords: question.tags.join(', '),
-      author: {
-        '@type': 'Person',
-        name: 'Ratnesh Maurya',
-        url: 'https://ratnesh-maurya.com',
-        sameAs: [
-          'https://github.com/ratnesh-maurya',
-          'https://linkedin.com/in/ratnesh-maurya',
-          'https://twitter.com/ratnesh_maurya',
-          'https://www.instagram.com/ratn_labs/'
-        ]
-      },
+      author: articleAuthor(),
       acceptedAnswer: {
         '@type': 'Answer',
         text: answerText,
@@ -154,17 +137,7 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
         dateModified: dateWithTimezone,
         upvoteCount: 0,
         url: questionUrl,
-        author: {
-          '@type': 'Person',
-          name: 'Ratnesh Maurya',
-          url: 'https://ratnesh-maurya.com',
-          sameAs: [
-            'https://github.com/ratnesh-maurya',
-            'https://linkedin.com/in/ratnesh-maurya',
-            'https://twitter.com/ratnesh_maurya',
-            'https://www.instagram.com/ratn_labs/'
-          ]
-        }
+        author: articleAuthor(),
       }
     },
     about: {
@@ -210,22 +183,12 @@ export function WebsiteStructuredData() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': 'https://blog.ratnesh-maurya.com/#website',
+    '@id': WEBSITE_ID,
     name: "Ratn Labs",
     description: 'Systems thinking, backend architecture, and AI engineering. Notes on building scalable software in Go, Elixir, and TypeScript.',
     url: withTrailingSlash('https://blog.ratnesh-maurya.com'),
     inLanguage: 'en-US',
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-      sameAs: [
-        'https://github.com/ratnesh-maurya',
-        'https://linkedin.com/in/ratnesh-maurya',
-        'https://twitter.com/ratnesh_maurya',
-        'https://www.instagram.com/ratn_labs/'
-      ]
-    },
+    author: { '@id': PERSON_ID },
     potentialAction: [{
       '@type': 'SearchAction',
       target: {
@@ -250,37 +213,7 @@ export function WebsiteStructuredData() {
 export function PersonStructuredData() {
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'Person',
-    '@id': 'https://ratnesh-maurya.com/#person',
-    name: 'Ratnesh Maurya',
-    url: 'https://ratnesh-maurya.com',
-    image: 'https://avatars.githubusercontent.com/u/85143283?v=4',
-    jobTitle: 'Backend Engineer',
-    description: 'Backend engineer specialising in system design, distributed systems, and web development. Building scalable backend systems and sharing insights through writing.',
-    sameAs: [
-      'https://github.com/ratnesh-maurya',
-      'https://linkedin.com/in/ratnesh-maurya',
-      'https://twitter.com/ratnesh_maurya',
-      'https://www.instagram.com/ratn_labs/',
-      'https://blog.ratnesh-maurya.com',
-    ],
-    knowsAbout: [
-      'Backend Development',
-      'System Design',
-      'Distributed Systems',
-      'Web Development',
-      'JavaScript',
-      'TypeScript',
-      'Go',
-      'Elixir',
-      'Node.js',
-      'React',
-      'Next.js',
-      'AWS',
-      'Kubernetes',
-      'Database Design',
-      'API Development',
-    ],
+    ...personNode(),
   };
 
   return (
@@ -294,27 +227,15 @@ export function PersonStructuredData() {
 export function OrganizationStructuredData() {
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    '@id': 'https://blog.ratnesh-maurya.com/#organization',
-    name: 'Ratn Labs',
-    url: 'https://blog.ratnesh-maurya.com/',
-    logo: {
-      '@type': 'ImageObject',
-      url: 'https://blog.ratnesh-maurya.com/apple-touch-icon.png',
-      width: 180,
-      height: 180,
-    },
+    ...publisherOrg(),
     sameAs: [
       'https://ratnesh-maurya.com',
       'https://github.com/ratnesh-maurya',
-      'https://linkedin.com/in/ratnesh-maurya',
-      'https://twitter.com/ratnesh_maurya',
+      'https://www.linkedin.com/in/ratnesh-maurya/',
+      'https://twitter.com/ratnesh_maurya_',
       'https://www.instagram.com/ratn_labs/',
     ],
-    founder: {
-      '@type': 'Person',
-      '@id': 'https://ratnesh-maurya.com/#person',
-    },
+    founder: { '@id': PERSON_ID },
   };
 
   return (
@@ -331,48 +252,24 @@ export function SiteEntitiesStructuredData() {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Organization',
-        '@id': 'https://blog.ratnesh-maurya.com/#organization',
-        name: 'Ratn Labs',
-        url: 'https://blog.ratnesh-maurya.com/',
-        logo: {
-          '@type': 'ImageObject',
-          url: 'https://blog.ratnesh-maurya.com/apple-touch-icon.png',
-          width: 180,
-          height: 180,
-        },
+        ...publisherOrg(),
         sameAs: [
           'https://ratnesh-maurya.com',
           'https://github.com/ratnesh-maurya',
-          'https://linkedin.com/in/ratnesh-maurya',
-          'https://twitter.com/ratnesh_maurya',
+          'https://www.linkedin.com/in/ratnesh-maurya/',
+          'https://twitter.com/ratnesh_maurya_',
           'https://www.instagram.com/ratn_labs/',
         ],
-        founder: { '@id': 'https://ratnesh-maurya.com/#person' },
+        founder: { '@id': PERSON_ID },
       },
-      {
-        '@type': 'Person',
-        '@id': 'https://ratnesh-maurya.com/#person',
-        name: 'Ratnesh Maurya',
-        url: 'https://ratnesh-maurya.com',
-        image: 'https://avatars.githubusercontent.com/u/85143283?v=4',
-        jobTitle: 'Backend Engineer',
-        sameAs: [
-          'https://github.com/ratnesh-maurya',
-          'https://linkedin.com/in/ratnesh-maurya',
-          'https://twitter.com/ratnesh_maurya',
-          'https://www.instagram.com/ratn_labs/',
-          'https://blog.ratnesh-maurya.com',
-        ],
-        worksFor: { '@id': 'https://blog.ratnesh-maurya.com/#organization' },
-      },
+      personNode(),
       {
         '@type': 'WebSite',
-        '@id': 'https://blog.ratnesh-maurya.com/#website',
+        '@id': WEBSITE_ID,
         url: 'https://blog.ratnesh-maurya.com/',
         name: 'Ratn Labs',
         inLanguage: 'en-US',
-        publisher: { '@id': 'https://blog.ratnesh-maurya.com/#organization' },
+        publisher: { '@id': ORG_ID },
         potentialAction: [
           {
             '@type': 'SearchAction',
@@ -476,11 +373,8 @@ export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
     description: 'Explore articles on web development, backend engineering, system design, and more.',
     url: withTrailingSlash('https://blog.ratnesh-maurya.com/blog'),
     inLanguage: 'en-US',
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-    },
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': ORG_ID },
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: posts.map((post, index) => ({
@@ -554,19 +448,8 @@ export function NewsArticleStructuredData({ post }: NewsArticleStructuredDataPro
     image: [image],
     datePublished,
     dateModified: datePublished,
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Ratn Labs',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://blog.ratnesh-maurya.com/apple-touch-icon.png',
-      },
-    },
+    author: articleAuthor(),
+    publisher: publisherOrg(),
     articleSection: 'AI News',
     keywords: post.tags.join(', '),
     mainEntityOfPage: {
@@ -591,43 +474,29 @@ export function ProfilePageStructuredData() {
     '@type': 'ProfilePage',
     dateCreated: '2023-01-01T00:00:00Z',
     dateModified: new Date().toISOString(),
-    mainEntity: {
-      '@type': 'Person',
-      '@id': 'https://ratnesh-maurya.com/#person',
-      name: 'Ratnesh Maurya',
-      alternateName: 'Ratn',
-      description: 'Backend engineer specialising in system design, distributed systems, and web development. Building scalable backend systems and sharing insights through writing.',
-      image: {
-        '@type': 'ImageObject',
-        url: 'https://avatars.githubusercontent.com/u/85143283?v=4',
-        width: 400,
-        height: 400,
-      },
-      url: 'https://ratnesh-maurya.com',
-      sameAs: [
-        'https://github.com/ratnesh-maurya',
-        'https://linkedin.com/in/ratnesh-maurya',
-        'https://twitter.com/ratnesh_maurya',
-        'https://www.instagram.com/ratn_labs/',
-        'https://blog.ratnesh-maurya.com',
-      ],
-      jobTitle: 'Backend Engineer',
-      knowsAbout: [
-        'Backend Development',
-        'System Design',
-        'Distributed Systems',
-        'Web Development',
-        'JavaScript',
-        'TypeScript',
-        'Go',
-        'Node.js',
-        'React',
-        'Next.js',
-        'AWS',
-        'Database Design',
-        'API Development',
-      ],
-    },
+    mainEntity: personNode(),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+/** AboutPage schema for /about — links to canonical Person via @id. */
+export function AboutPageStructuredData() {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': 'https://blog.ratnesh-maurya.com/about/#about',
+    url: 'https://blog.ratnesh-maurya.com/about/',
+    name: 'About Ratnesh Maurya — Backend Engineer · Ratn Labs',
+    inLanguage: 'en-US',
+    isPartOf: { '@id': WEBSITE_ID },
+    mainEntity: { '@id': PERSON_ID },
+    about: { '@id': PERSON_ID },
   };
 
   return (
@@ -651,11 +520,7 @@ export function GlossaryStructuredData({ terms }: GlossaryStructuredDataProps) {
     name: 'Backend Engineering Glossary',
     description: 'Definitions for common backend, system design, Go, and distributed systems terms.',
     url: 'https://blog.ratnesh-maurya.com/glossary',
-    publisher: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-    },
+    publisher: { '@id': PERSON_ID },
     hasDefinedTerm: terms.flatMap(cat =>
       cat.items.map(item => ({
         '@type': 'DefinedTerm',
@@ -697,22 +562,8 @@ export function TechnicalTermStructuredData({ title, description, slug, ogImageU
         height: 630,
       },
     }),
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-      sameAs: [
-        'https://github.com/ratnesh-maurya',
-        'https://linkedin.com/in/ratnesh-maurya',
-        'https://twitter.com/ratnesh_maurya',
-        'https://www.instagram.com/ratn_labs/',
-      ],
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Ratn Labs',
-      url: 'https://blog.ratnesh-maurya.com',
-    },
+    author: articleAuthor(),
+    publisher: publisherOrg(),
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': url,
@@ -779,11 +630,7 @@ export function TechnicalTermsStructuredData({ terms }: TechnicalTermsStructured
     name: 'Technical Terms — Backend & System Design',
     description: 'Definitions for indexing, clustering, CAP, ACID, replication, and other backend and system design terms.',
     url: withTrailingSlash('https://blog.ratnesh-maurya.com/technical-terms'),
-    publisher: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-    },
+    publisher: { '@id': PERSON_ID },
     hasDefinedTerm: terms.map((t) => ({
       '@type': 'DefinedTerm' as const,
       name: t.title,
@@ -818,17 +665,8 @@ export function CheatsheetStructuredData({ title, description, slug, keywords }:
     inLanguage: 'en-US',
     isAccessibleForFree: true,
     keywords: keywords.join(', '),
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-      sameAs: ['https://github.com/ratnesh-maurya', 'https://linkedin.com/in/ratnesh-maurya', 'https://twitter.com/ratnesh_maurya', 'https://www.instagram.com/ratn_labs/'],
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Ratn Labs',
-      url: 'https://blog.ratnesh-maurya.com',
-    },
+    author: articleAuthor(),
+    publisher: publisherOrg(),
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `https://blog.ratnesh-maurya.com/cheatsheets/${slug}`,
@@ -866,17 +704,8 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
     articleSection: entry.category,
     inLanguage: 'en-US',
     isAccessibleForFree: true,
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-      sameAs: ['https://github.com/ratnesh-maurya', 'https://linkedin.com/in/ratnesh-maurya', 'https://twitter.com/ratnesh_maurya', 'https://www.instagram.com/ratn_labs/'],
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Ratn Labs',
-      url: 'https://blog.ratnesh-maurya.com',
-    },
+    author: articleAuthor(),
+    publisher: publisherOrg(),
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': withTrailingSlash(`https://blog.ratnesh-maurya.com/til/${entry.slug}`),
@@ -940,11 +769,8 @@ export function CheatsheetsListStructuredData({ sheets }: CheatsheetsListStructu
     description: 'Quick reference cheatsheets for Go, Docker, PostgreSQL, and Kubernetes kubectl. Commands, syntax, and patterns you need while building.',
     url: `${BLOG_BASE}/cheatsheets`,
     inLanguage: 'en-US',
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-    },
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': ORG_ID },
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: sheets.length,
@@ -975,11 +801,8 @@ export function SeriesListStructuredData({ series }: SeriesListStructuredDataPro
     description: 'Grouped reading paths for backend engineering topics — system design, AWS, Go, and more.',
     url: `${BLOG_BASE}/series`,
     inLanguage: 'en-US',
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-    },
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': ORG_ID },
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: series.length,
@@ -1011,11 +834,8 @@ export function ResourcesListStructuredData({ sections }: ResourcesListStructure
     description: 'Curated books, talks, tools, and newsletters for backend engineers — system design, Go, distributed systems, and cloud-native development.',
     url: `${BLOG_BASE}/resources`,
     inLanguage: 'en-US',
-    author: {
-      '@type': 'Person',
-      name: 'Ratnesh Maurya',
-      url: 'https://ratnesh-maurya.com',
-    },
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': ORG_ID },
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: allItems.length,

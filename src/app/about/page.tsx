@@ -1,6 +1,6 @@
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { PageStatsTracker } from '@/components/PageStatsTracker';
-import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { AboutPageStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '@/components/StructuredData';
 import { getAllBlogPosts } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
@@ -60,6 +60,34 @@ const socials = [
   { label: 'Twitter / X', href: 'https://x.com/ratnesh_maurya_', icon: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z' },
 ];
 
+const aboutFAQ = [
+  {
+    slug: 'who-is-ratnesh-maurya',
+    question: 'Who is Ratnesh Maurya?',
+    answer: 'Ratnesh Maurya is a Software Development Engineer at Initializ, based in Gurugram, India. He builds high-traffic backend systems, RAG-based AI assistants, and Kubernetes infrastructure using Go, Elixir, PostgreSQL, and AWS. He also writes about distributed systems, system design, and AI engineering on Ratn Labs (blog.ratnesh-maurya.com).',
+  },
+  {
+    slug: 'where-does-ratnesh-work',
+    question: 'Where does Ratnesh Maurya work?',
+    answer: 'Ratnesh works at Initializ (initializ.ai) as a Software Development Engineer. He has been building scalable backend systems and cloud-native infrastructure there since August 2024. Previously, he was an SDE Intern at the same company, building secure encryption modules and custom Kubernetes controllers.',
+  },
+  {
+    slug: 'what-does-ratn-labs-cover',
+    question: 'What topics does the Ratn Labs blog cover?',
+    answer: 'Ratn Labs covers backend engineering, distributed systems, system design, Go (Golang), Elixir, PostgreSQL, Kubernetes, AWS, and AI/ML engineering with a focus on RAG pipelines. Each post is written from real-world production experience rather than textbook examples.',
+  },
+  {
+    slug: 'how-to-contact-ratnesh',
+    question: 'How can I contact Ratnesh Maurya?',
+    answer: 'You can reach Ratnesh on LinkedIn (linkedin.com/in/ratnesh-maurya), Twitter/X (@ratnesh_maurya_), or GitHub (github.com/ratnesh-maurya). For professional inquiries and full-time or contract roles, his portfolio at ratnesh-maurya.com has contact details.',
+  },
+  {
+    slug: 'does-ratnesh-have-newsletter',
+    question: 'Does Ratnesh Maurya have a newsletter?',
+    answer: 'Yes — Ratn Labs has a newsletter at blog.ratnesh-maurya.com/newsletter where Ratnesh sends occasional posts on backend architecture, system design, and AI engineering. There is also a daily AI and developer news digest at blog.ratnesh-maurya.com/news and an RSS feed at blog.ratnesh-maurya.com/feed.xml.',
+  },
+];
+
 export default async function AboutPage() {
   const posts = await getAllBlogPosts();
   const featuredPosts = posts.slice(0, 3);
@@ -75,6 +103,7 @@ export default async function AboutPage() {
     <>
       <OgImageInBody src={getStoredOgImageUrl('about')} alt="About — Ratnesh Maurya" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
+      <AboutPageStructuredData />
 
       <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         {/* Hero */}
@@ -427,6 +456,33 @@ export default async function AboutPage() {
                 </Link>
               ))}
             </div>
+          </section>
+
+          {/* FAQ — feeds Google People-Also-Ask boxes and FAQPage schema */}
+          <section id="faq">
+            <FAQStructuredData questions={aboutFAQ} />
+            <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
+              style={{ color: 'var(--text-muted)' }}>
+              Frequently Asked
+            </h2>
+            <dl className="space-y-5 max-w-3xl">
+              {aboutFAQ.map((item) => (
+                <div key={item.slug} className="rounded-xl p-5"
+                  style={{
+                    backgroundColor: 'var(--glass-bg)',
+                    border: '1px solid var(--glass-border)',
+                    backdropFilter: 'blur(10px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                  }}>
+                  <dt className="font-semibold text-sm mb-2" style={{ color: 'var(--text-primary)' }}>
+                    {item.question}
+                  </dt>
+                  <dd className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    {item.answer}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </section>
 
           {/* CTA */}
