@@ -41,7 +41,7 @@ function walk(dir: string): string[] {
   return entries.flatMap((e) => {
     const full = path.join(dir, e.name);
     if (e.isDirectory()) return walk(full);
-    if (e.isFile() && (e.name.endsWith('.md') || e.name.endsWith('.mdx'))) return [full];
+    if (e.isFile() && (e.name.endsWith('.md') || e.name.endsWith('.mdx')) && e.name !== 'README.md') return [full];
     return [];
   });
 }

@@ -59,7 +59,6 @@ async function main() {
       `${BASE}/til/`,
       `${BASE}/technical-terms/`,
       `${BASE}/cheatsheets/`,
-      `${BASE}/glossary/`,
       `${BASE}/topics/`,
       `${BASE}/series/`,
     ];

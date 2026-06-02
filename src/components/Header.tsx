@@ -15,18 +15,17 @@ interface HeaderProps {
 
 const primaryNav = [
   { label: 'Blog', href: '/blog' },
-  { label: 'News', href: '/news' },
-  { label: 'Questions', href: '/silly-questions' },
   { label: 'Terms', href: '/technical-terms' },
+  { label: 'Questions', href: '/silly-questions' },
   { label: 'About', href: '/about' },
 ];
 
 const moreNav = [
+  { label: 'Daily News', href: '/news' },
   { label: 'TIL', href: '/til' },
   { label: 'Topics', href: '/topics' },
   { label: 'Cheatsheets', href: '/cheatsheets' },
   { label: 'Series', href: '/series' },
-  { label: 'Glossary', href: '/glossary' },
   { label: 'Resources', href: '/resources' },
   { label: 'Newsletter', href: '/newsletter' },
 ];

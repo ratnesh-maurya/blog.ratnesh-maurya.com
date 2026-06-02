@@ -14,8 +14,8 @@ const contentLinks = [
 const referenceLinks = [
   { label: 'Technical Terms', href: '/technical-terms' },
   { label: 'Cheatsheets', href: '/cheatsheets' },
-  { label: 'Glossary', href: '/glossary' },
   { label: 'Resources', href: '/resources' },
+  { label: 'Daily News', href: '/news' },
 ];
 
 const siteLinks = [

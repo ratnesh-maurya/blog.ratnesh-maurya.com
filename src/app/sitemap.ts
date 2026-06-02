@@ -102,7 +102,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/newsletter/`, lastModified: gitMtime('src/app/newsletter/page.tsx'), changeFrequency: 'monthly', priority: 0.65, images: [getStoredOgImageUrl('newsletter')] },
     { url: `${baseUrl}/privacy-policy/`, lastModified: gitMtime('src/app/privacy-policy/page.tsx'), changeFrequency: 'yearly', priority: 0.3, images: [getStoredOgImageUrl('privacy-policy')] },
     { url: `${baseUrl}/til/`, lastModified: latestTil, changeFrequency: 'weekly', priority: 0.85, images: [getStoredOgImageUrl('til')] },
-    { url: `${baseUrl}/glossary/`, lastModified: gitMtime('src/app/glossary/page.tsx'), changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('glossary')] },
     { url: `${baseUrl}/cheatsheets/`, lastModified: gitMtime('src/app/cheatsheets/page.tsx'), changeFrequency: 'monthly', priority: 0.8, images: [getStoredOgImageUrl('cheatsheets')] },
     { url: `${baseUrl}/cheatsheets/go/`, lastModified: gitMtime('src/app/cheatsheets/go/page.tsx'), changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'go')] },
     { url: `${baseUrl}/cheatsheets/docker/`, lastModified: gitMtime('src/app/cheatsheets/docker/page.tsx'), changeFrequency: 'monthly', priority: 0.75, images: [getStoredOgImageUrl('cheatsheet', 'docker')] },

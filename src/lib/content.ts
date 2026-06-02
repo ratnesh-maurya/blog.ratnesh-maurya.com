@@ -56,8 +56,8 @@ function getBlogFilePath(slug: string): { path: string; format: 'md' | 'mdx' } |
 }
 
 function getBlogPostSlugsFromFs(): string[] {
-  const md = fs.readdirSync(blogDirectory).filter(n => n.endsWith('.md')).map(n => n.replace(/\.md$/, ''));
-  const mdx = fs.readdirSync(blogDirectory).filter(n => n.endsWith('.mdx')).map(n => n.replace(/\.mdx$/, ''));
+  const md = fs.readdirSync(blogDirectory).filter(n => n.endsWith('.md') && n !== 'README.md').map(n => n.replace(/\.md$/, ''));
+  const mdx = fs.readdirSync(blogDirectory).filter(n => n.endsWith('.mdx') && n !== 'README.mdx').map(n => n.replace(/\.mdx$/, ''));
   const mdxSet = new Set(mdx);
   return [...mdx, ...md.filter(s => !mdxSet.has(s))];
 }

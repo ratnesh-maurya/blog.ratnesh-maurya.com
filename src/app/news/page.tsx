@@ -72,9 +72,24 @@ export default async function NewsPage() {
           </h1>
           <p className="mt-3 text-base leading-relaxed max-w-3xl font-medium" style={{ color: 'var(--text-muted)' }}>
             One digest per day, focused on practical updates for engineers: launches, tooling updates, open-source releases,
-            and research signals that are worth tracking.
+            and research signals that are worth tracking. These are curated roundups — not long-form original posts.
           </p>
         </header>
+
+        <div
+          className="mb-8 p-4 rounded-xl text-sm font-medium"
+          style={{
+            backgroundColor: 'color-mix(in srgb, var(--accent-500) 8%, var(--glass-bg))',
+            border: '1px solid color-mix(in srgb, var(--accent-500) 22%, var(--glass-border))',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          Looking for original writing? Start with the{' '}
+          <Link href="/blog/" className="font-bold" style={{ color: 'var(--accent-500)' }}>
+            Blog
+          </Link>
+          {' '}— deep dives and architecture notes by Ratnesh Maurya.
+        </div>
 
         {posts.length === 0 ? (
           <div

@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      { source: '/glossary', destination: '/technical-terms/', permanent: true },
+      { source: '/glossary/', destination: '/technical-terms/', permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

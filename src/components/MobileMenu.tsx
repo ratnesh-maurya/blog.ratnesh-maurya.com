@@ -12,18 +12,17 @@ interface MobileMenuProps {
 
 const mainLinks = [
   { label: 'Blog', href: '/blog' },
-  { label: 'News', href: '/news' },
-  { label: 'Questions', href: '/silly-questions' },
   { label: 'Technical Terms', href: '/technical-terms' },
+  { label: 'Questions', href: '/silly-questions' },
   { label: 'About', href: '/about' },
 ];
 
 const exploreLinks = [
+  { label: 'Daily News', href: '/news' },
   { label: 'TIL', href: '/til' },
   { label: 'Topics', href: '/topics' },
   { label: 'Series', href: '/series' },
   { label: 'Cheatsheets', href: '/cheatsheets' },
-  { label: 'Glossary', href: '/glossary' },
   { label: 'Resources', href: '/resources' },
   { label: 'Newsletter', href: '/newsletter' },
 ];

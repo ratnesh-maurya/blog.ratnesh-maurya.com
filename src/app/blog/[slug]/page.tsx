@@ -117,7 +117,6 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       statusBarStyle: 'default',
     },
     other: {
-      'pinterest-rich-pin': 'true',
       'article:author': post.author,
       'article:published_time': publishedTime,
       'article:modified_time': modifiedTime,

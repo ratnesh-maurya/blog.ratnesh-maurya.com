@@ -14,7 +14,7 @@
     },
     {
       "slug": "Go-1-26-2-Released-Security-Fixes-Regression-Patches-and-Upgrade-Playbook",
-      "title": "Go 1.26.2 Released: Security Fixes, Regression Patches, and an Upgrade Playbook",
+      "title": "Go 1.26.2: Security Fixes, Regression Patches, Upgrade Playbook",
       "description": "A beginner-friendly and technical deep dive into Go 1.26.2: what changed, why it matters, and how to upgrade safely in production.",
       "tags": [
         "Go",
@@ -27,8 +27,8 @@
     },
     {
       "slug": "cursor-claude-personas-give-your-ai-coding-assistant-a-domain-expert-brain-in-30-seconds",
-      "title": "cursor-claude-personas: Give Your AI Coding Assistant a Domain Expert Brain in 30 Seconds",
-      "description": "A free, open-source collection of 38 role-based AI persona packs for Claude Code, Cursor, and VS Code. Copy one folder into your project and your AI assistant instantly behaves like a seasoned specialist.",
+      "title": "cursor-claude-personas: AI Domain Expert Personas in 30 Seconds",
+      "description": "A free, open-source collection of 38 role-based AI persona packs for Claude Code, Cursor, and VS Code. Copy one folder into your project and your AI acts like a seasoned specialist.",
       "tags": [
         "AI",
         "Developer Tools",
@@ -51,7 +51,7 @@
     },
     {
       "slug": "Chrome-144-Introduces-the-Geolocation-Element-Declarative-Location-Access-for-Modern-Web-Apps",
-      "title": "Chrome 144 Introduces the <geolocation> Element: Declarative Location Access for Modern Web Apps",
+      "title": "Chrome 144's <geolocation> Element: Declarative Location Access",
       "description": "Learn how Chrome 144's new <geolocation> HTML element simplifies location access, improves privacy, and replaces imperative navigator.geolocation calls with a declarative, user-driven approach.",
       "tags": [
         "Web Development"
@@ -94,7 +94,7 @@
     {
       "slug": "Optimizing-Memory-Layout-in-Go-A-Deep-Dive-into-Struct-Design",
       "title": "Optimizing Memory Layout in Go: A Deep Dive into Struct Design",
-      "description": "How Go struct field ordering affects memory usage through alignment and padding, with concrete benchmarks showing the difference across millions of allocations and practical tools to detect wasted space.",
+      "description": "How Go struct field ordering affects memory via alignment and padding, with benchmarks across millions of allocations and practical tools to detect wasted space.",
       "tags": [
         "Go",
         "Backend",
@@ -116,7 +116,7 @@
     {
       "slug": "Architectural-Design-for-a-Ride-App-such-as-OLA-UBER-RAPIDO",
       "title": "Architectural Design for a Ride App such as OLA, UBER, RAPIDO",
-      "description": "A microservices architecture breakdown for ride-sharing apps covering service boundaries, communication patterns (REST vs gRPC vs message queues), geo-location tracking, and the trade-offs between monolith-first and microservices approaches.",
+      "description": "Microservices architecture for ride-sharing: service boundaries, REST vs gRPC vs message queues, geo-location tracking, and trade-offs between monolith-first and microservices.",
       "tags": [
         "System Design",
         "Backend"
@@ -126,8 +126,8 @@
     },
     {
       "slug": "Amazon-SNS-for-Cost-Reduction-and-Message-Delivery-Assurance-in-Startups",
-      "title": "Amazon SNS for Cost Reduction and Message Delivery Assurance in Startups",
-      "description": "How Amazon SNS helps startups cut messaging costs with pay-per-message pricing, automatic retries, dead letter queues, and multi-region delivery — and when SQS or third-party services might be a better fit.",
+      "title": "Amazon SNS: Cost Reduction and Reliable Delivery for Startups",
+      "description": "How Amazon SNS helps startups cut messaging costs with pay-per-message pricing, automatic retries, dead letter queues, and multi-region delivery — and when SQS might be a better fit.",
       "tags": [
         "System Design",
         "Backend",
@@ -139,7 +139,7 @@
     {
       "slug": "Understanding-S3-and-S3-Policies",
       "title": "S3 Policies Explained: Bucket Policies vs IAM Policies vs ACLs",
-      "description": "How S3 access control actually works — the difference between bucket policies, IAM policies, and ACLs, with working JSON examples for common scenarios like public read access, encryption enforcement, and user-scoped permissions.",
+      "description": "How S3 access control works — bucket policies vs IAM policies vs ACLs, with JSON examples for public read, encryption enforcement, and user-scoped permissions.",
       "tags": [
         "Cloud & DevOps",
         "Backend"
@@ -151,7 +151,7 @@
   "sillyQuestions": [
     {
       "slug": "recover-deleted-unmerged-branch",
-      "question": "You accidentally deleted an important branch that was never merged and no one has a local copy. How do you recover it?",
+      "question": "How do you recover a deleted unmerged branch with no local copy?",
       "answer": "<p><strong>The Answer:</strong> Recover the commit first, then recreate the branch pointer. Most of the time, the data is still there. ✅</p>\n<p>When a branch is deleted, Git usually removes only the <strong>reference</strong> (the branch name), not the commit objects immediately. Recovery depends on where the commits still exist.</p>\n<p><strong>Fast recovery flow (best to worst):</strong></p>\n<ol>\n<li>\n<p><strong>Check local reflog (if your clone had ever seen the branch):</strong></p>\n<pre><code class=\"hljs language-bash\">git reflog --all --<span class=\"hljs-built_in\">date</span>=iso | grep <span class=\"hljs-string\">\"&#x3C;branch-name-or-commit-hint>\"</span>\n</code></pre>\n<p>If you find the commit SHA:</p>\n<pre><code class=\"hljs language-bash\">git checkout -b &#x3C;recovered-branch> &#x3C;sha>\n</code></pre>\n</li>\n<li>\n<p><strong>Search dangling commits in the repo object database:</strong></p>\n<pre><code class=\"hljs language-bash\">git fsck --lost-found --no-reflogs\n</code></pre>\n<p>Inspect candidate commits:</p>\n<pre><code class=\"hljs language-bash\">git show &#x3C;sha>\n</code></pre>\n<p>Then restore:</p>\n<pre><code class=\"hljs language-bash\">git checkout -b &#x3C;recovered-branch> &#x3C;sha>\n</code></pre>\n</li>\n<li>\n<p><strong>Check remote hosting refs/history:</strong></p>\n<ul>\n<li>If the branch had an open PR, the PR often still points to the head commit.</li>\n<li>CI logs, deployment metadata, or old release notes may contain the commit SHA.</li>\n</ul>\n</li>\n<li>\n<p><strong>If GitHub branch was deleted and no one has SHA:</strong></p>\n<ul>\n<li>Check closed/open PRs, workflow logs, and commit search in the repository.</li>\n<li>As last resort, contact GitHub Support quickly (garbage collection can eventually prune unreachable objects).</li>\n</ul>\n</li>\n</ol>\n<p><strong>Important:</strong> Once you recover the SHA, immediately recreate and push:</p>\n<pre><code class=\"hljs language-bash\">git checkout -b &#x3C;recovered-branch> &#x3C;sha>\ngit push -u origin &#x3C;recovered-branch>\n</code></pre>\n<p><strong>Prevention tips:</strong></p>\n<ul>\n<li>Protect critical branches with deletion restrictions.</li>\n<li>Require PRs for long-running work.</li>\n<li>Keep backups/mirrors for high-risk repos.</li>\n<li>Turn on branch protection + status checks.</li>\n</ul>\n<p>In short: branch name gone ≠ work gone. Find the commit SHA, recreate the branch, push it, and protect important branches going forward.</p>",
       "tags": [
         "git",
@@ -622,6 +622,365 @@
     }
   ],
   "newsPosts": [
+    {
+      "slug": "daily-ai-tech-digest-ai-psychosis-debates-metas-ai-pendant-google-gemini-sparks-utility-browser-wars-heat-up",
+      "title": "Daily AI & Tech Digest: AI Psychosis Debates, Meta's AI Pendant, Google Gemini Spark's Utility & Browser Wars Heat Up",
+      "description": "Catch up on the latest in AI and tech: explore the 'AI psychosis' debate, Meta's new AI pendant, the surprising usefulness of Google's Gemini Spark, and the fierce competition in the browser market beyond Chrome and Safari. Plus, a look at a founder succeeding with an 'old school web' approach.",
+      "tags": [
+        "AI psychosis",
+        "Meta AI pendant",
+        "Google Gemini Spark",
+        "AI browsers",
+        "web browsers",
+        "Past Maps",
+        "tech news",
+        "AI wearables",
+        "digital assistants"
+      ],
+      "date": "2026-06-01"
+    },
+    {
+      "slug": "ais-latest-orbit-from-wearables-to-workforce-woes-wisdom",
+      "title": "AI's Latest Orbit: From Wearables to Workforce Woes & Wisdom",
+      "description": "Explore today's top AI news: Meta's new AI pendant, the double-edged sword of AI in coding, deciphering AI jargon, and the critical debate on AI's impact on human jobs.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "Meta",
+        "AI pendant",
+        "wearable tech",
+        "coding with AI",
+        "developer productivity",
+        "AI glossary",
+        "AGI",
+        "AI psychosis",
+        "job displacement",
+        "Cognition",
+        "Devin",
+        "AI agents"
+      ],
+      "date": "2026-05-31"
+    },
+    {
+      "slug": "ai-agents-under-siege-security-flaws-soaring-valuations-and-the-ethics-of-autonomous-warfare",
+      "title": "AI Agents Under Siege: Security Flaws, Soaring Valuations, and the Ethics of Autonomous Warfare",
+      "description": "Catch up on the latest AI news: a critical vulnerability impacts millions of AI agents, OpenRouter achieves a $1.3B valuation, and the debate over AI warfare intensifies as humans train robots for household tasks.",
+      "tags": [
+        "AI agents",
+        "cybersecurity",
+        "Starlette vulnerability",
+        "OpenRouter",
+        "AI investment",
+        "autonomous warfare",
+        "Project Maven",
+        "humanoid robots",
+        "egocentric data",
+        "AI ethics"
+      ],
+      "date": "2026-05-27"
+    },
+    {
+      "slug": "daily-ai-tech-digest-googles-ai-security-star-citizens-billion-xreals-smartglasses-leap-robotaxi-reality-and-amazons-bee-wearable",
+      "title": "Daily AI & Tech Digest: Google's AI Security, Star Citizen's Billion, Xreal's Smartglasses Leap, Robotaxi Reality, and Amazon's Bee Wearable",
+      "description": "Stay updated with the latest in AI and tech: Google's focus on AI security, Star Citizen's unprecedented funding, Xreal's smartglasses advancements, Waymo's robotaxi challenges, and a hands-on review of Amazon's Bee wearable.",
+      "tags": [
+        "AI security",
+        "Google Cloud",
+        "Star Citizen funding",
+        "smartglasses",
+        "Xreal Project Aura",
+        "robotaxi",
+        "Waymo challenges",
+        "Amazon Bee wearable",
+        "AI wearables",
+        "tech digest 2026"
+      ],
+      "date": "2026-05-26"
+    },
+    {
+      "slug": "daily-ai-dev-digest-peec-ais-growth-rag-alternatives-spotifys-ai-shift-and-googles-ai-first-future",
+      "title": "Daily AI & Dev Digest: Peec AI's Growth, RAG Alternatives, Spotify's AI Shift, and Google's AI-First Future",
+      "description": "Stay updated on the latest in AI and software development: Peec AI's revenue surge, a new cost-saving AI retrieval method, Spotify's pivot to AI-generated content, and Google's ambitious AI glasses and search transformation.",
+      "tags": [
+        "AI news",
+        "software development",
+        "Peec AI",
+        "RAG",
+        "Direct Corpus Interaction",
+        "Spotify AI",
+        "Google AI glasses",
+        "Google AI Search",
+        "startup growth",
+        "tech digest"
+      ],
+      "date": "2026-05-24"
+    },
+    {
+      "slug": "ais-rapid-evolution-googles-new-app-development-tools-openais-authenticity-push",
+      "title": "AI's Rapid Evolution: Google's New App Development Tools & OpenAI's Authenticity Push",
+      "description": "Catch up on the latest AI advancements: Google democratizes app creation with AI Studio for Android, hints at the 'singularity' at I/O 2026, and unveils new Gemini models, while OpenAI combats deepfakes with C2PA and SynthID watermarking.",
+      "tags": [
+        "Google AI Studio",
+        "Android app development",
+        "Gemini 3.5 Flash",
+        "Gemini Omni",
+        "Google I/O 2026",
+        "Demis Hassabis",
+        "AI singularity",
+        "OpenAI",
+        "C2PA",
+        "SynthID",
+        "AI image authenticity",
+        "AI tools",
+        "tech news 2026"
+      ],
+      "date": "2026-05-21"
+    },
+    {
+      "slug": "daily-ai-dev-digest-google-io-unleashes-new-gemini-models-android-dev-tools-openai-fights-deepfakes-and-linux-grapples-with-ai-bug-spam",
+      "title": "Daily AI & Dev Digest: Google I/O Unleashes New Gemini Models & Android Dev Tools, OpenAI Fights Deepfakes, and Linux Grapples with AI Bug Spam",
+      "description": "Catch up on the latest in AI and software development: Google's I/O 2026 brings major Gemini updates and revolutionary Android app creation tools, OpenAI introduces new measures to detect AI-generated images, and Linus Torvalds addresses the challenge of managing AI-generated bug reports for Linux.",
+      "tags": [
+        "Google I/O 2026",
+        "Gemini 3.5 Flash",
+        "Gemini Omni",
+        "Google AI Studio",
+        "Android App Development",
+        "AI Agentic Coding",
+        "Android CLI",
+        "OpenAI",
+        "AI Image Detection",
+        "C2PA",
+        "SynthID",
+        "Linux Security",
+        "Linus Torvalds",
+        "AI Bug Reports"
+      ],
+      "date": "2026-05-20"
+    },
+    {
+      "slug": "ais-impact-on-tech-from-drug-discovery-to-job-shifts-and-linux-woes-may-19-2026",
+      "title": "AI's Impact on Tech: From Drug Discovery to Job Shifts and Linux Woes (May 19, 2026)",
+      "description": "Today's AI news digest covers SandboxAQ's integration with Claude for drug discovery, Anthropic's strategic acquisition of Stainless, Linus Torvalds' concerns about AI-generated bug reports, OpenAI's Symphony project, and the automotive industry's AI-driven job market changes.",
+      "tags": [
+        "AI",
+        "drug discovery",
+        "Anthropic",
+        "SandboxAQ",
+        "Claude",
+        "Stainless",
+        "Linux",
+        "Linus Torvalds",
+        "bug reports",
+        "OpenAI",
+        "Symphony",
+        "autonomous coding",
+        "automotive",
+        "job market",
+        "TechCrunch",
+        "The Verge",
+        "InfoQ"
+      ],
+      "date": "2026-05-19"
+    },
+    {
+      "slug": "ai-shifts-gear-in-auto-marketing-research-openai-realigns-cerebras-soars",
+      "title": "AI Shifts Gear in Auto, Marketing & Research; OpenAI Realigns, Cerebras Soars",
+      "description": "Today's AI news: Automotive sector undergoes major AI-driven job shifts, Nectar Social secures $30M for AI marketing, ArXiv cracks down on AI-generated research, OpenAI redefines product strategy, and Cerebras Systems recounts its near-death journey to a $60B valuation.",
+      "tags": [
+        "AI jobs",
+        "automotive industry",
+        "General Motors",
+        "Ford",
+        "Stellantis",
+        "Nectar Social",
+        "marketing AI",
+        "Series A funding",
+        "Menlo Ventures",
+        "ArXiv",
+        "AI research",
+        "academic integrity",
+        "OpenAI",
+        "Greg Brockman",
+        "product strategy",
+        "ChatGPT",
+        "Cerebras Systems",
+        "AI chips",
+        "IPO",
+        "startup funding"
+      ],
+      "date": "2026-05-18"
+    },
+    {
+      "slug": "ais-double-edged-sword-wealth-divide-near-death-ipos-and-macos-breaches",
+      "title": "AI's Double-Edged Sword: Wealth Divide, Near-Death IPOs, and macOS Breaches",
+      "description": "Today's AI news reveals a stark contrast: a widening wealth gap among tech workers, the incredible comeback story of chip darling Cerebras, and the surprising role of AI in exposing macOS vulnerabilities. Plus, discover new tools to manage your Mac's digital life.",
+      "tags": [
+        "AI wealth gap",
+        "Cerebras IPO",
+        "macOS security breach",
+        "Anthropic Mythos",
+        "Osaurus",
+        "Mac utilities",
+        "AI chips",
+        "tech layoffs"
+      ],
+      "date": "2026-05-17"
+    },
+    {
+      "slug": "ai-on-the-go-under-attack-your-latest-tech-digest-for-may-15-2026",
+      "title": "AI on the Go & Under Attack: Your Latest Tech Digest for May 15, 2026",
+      "description": "Stay productive with OpenAI's Codex going mobile, but beware of new Linux vulnerabilities and data breaches. Discover how AI is building itself and finding flaws.",
+      "tags": [
+        "OpenAI Codex",
+        "AI coding",
+        "mobile development",
+        "AI self-improvement",
+        "Recursive Superintelligence",
+        "Adaption AutoScientist",
+        "AI training",
+        "Linux kernel vulnerability",
+        "Fragnesia",
+        "AI security",
+        "supply chain attack",
+        "OpenAI security breach",
+        "tech news 2026"
+      ],
+      "date": "2026-05-15"
+    },
+    {
+      "slug": "daily-ai-tech-digest-androids-ai-overhaul-openais-cybersecurity-push-and-nvidias-software-moat",
+      "title": "Daily AI & Tech Digest: Android's AI Overhaul, OpenAI's Cybersecurity Push, and Nvidia's Software Moat",
+      "description": "Catch up on the latest tech news for May 13, 2026: Google's AI-driven Android updates, OpenAI's Daybreak cybersecurity initiative, and how Nvidia's CUDA solidifies its software dominance.",
+      "tags": [
+        "Android AI",
+        "Google Gemini",
+        "OpenAI Daybreak",
+        "Cybersecurity AI",
+        "Nvidia CUDA",
+        "AI automation",
+        "agentic AI",
+        "GPT-5.5-Cyber",
+        "software moat",
+        "tech news 2026"
+      ],
+      "date": "2026-05-13"
+    },
+    {
+      "slug": "daily-tech-digest-encrypted-rcs-on-ios-ais-dual-edged-sword-in-security-and-nvidias-software-empire",
+      "title": "Daily Tech Digest: Encrypted RCS on iOS, AI's Dual-Edged Sword in Security, and Nvidia's Software Empire",
+      "description": "Stay updated with today's top tech news: Apple rolls out encrypted RCS, Google thwarts an AI-powered zero-day exploit, Nvidia's CUDA solidifies its software dominance, and Anthropic reflects on AI alignment challenges, while xAI's new deal raises eyebrows.",
+      "tags": [
+        "Apple",
+        "iOS",
+        "macOS",
+        "RCS encryption",
+        "Google",
+        "AI exploit",
+        "zero-day",
+        "cybersecurity",
+        "Nvidia",
+        "CUDA",
+        "software",
+        "AI",
+        "Anthropic",
+        "Claude",
+        "AI alignment",
+        "xAI",
+        "SpaceX",
+        "data center"
+      ],
+      "date": "2026-05-12"
+    },
+    {
+      "slug": "ai-robotics-daily-digest-funding-fuels-open-source-ai-saps-116b-ai-bet-and-the-ethics-of-ai-naming-conventions",
+      "title": "AI & Robotics Daily Digest: Funding Fuels Open-Source AI, SAP's $1.16B AI Bet, and the Ethics of AI Naming Conventions",
+      "description": "Stay updated with the latest in AI and software development: China's Moonshot AI secures $2B, SAP invests $1.16B in a German AI lab, Hugging Face launches a robot app store, and a critical look at how AI features are named after human cognitive processes.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "Robotics",
+        "Open Source AI",
+        "Moonshot AI",
+        "SAP",
+        "Prior Labs",
+        "Hugging Face",
+        "Reachy Mini",
+        "Anthropic",
+        "AI Agents",
+        "AI Naming Conventions",
+        "Venture Capital",
+        "Tech News"
+      ],
+      "date": "2026-05-08"
+    },
+    {
+      "slug": "daily-ai-dev-digest-apples-ai-choices-white-house-regulation-and-image-ais-growth-surge",
+      "title": "Daily AI & Dev Digest: Apple's AI Choices, White House Regulation, and Image AI's Growth Surge",
+      "description": "Stay updated with the latest in AI: Apple's iOS 27 offers diverse AI models, CopilotKit empowers app-native agents, the White House considers tighter AI regulation, image AI drives app growth, and Tether AI innovates on edge devices.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "Apple",
+        "iOS 27",
+        "CopilotKit",
+        "AI Agents",
+        "White House",
+        "AI Regulation",
+        "Image AI",
+        "App Growth",
+        "Tether AI",
+        "Edge Devices",
+        "LLMs"
+      ],
+      "date": "2026-05-06"
+    },
+    {
+      "slug": "ais-latest-leap-from-image-app-dominance-to-enterprise-ventures-medical-breakthroughs",
+      "title": "AI's Latest Leap: From Image App Dominance to Enterprise Ventures & Medical Breakthroughs",
+      "description": "Discover how AI image models are now outpacing chatbots in app growth, the strategic joint ventures by Anthropic and OpenAI, and groundbreaking medical diagnostic capabilities demonstrated by AI in recent news.",
+      "tags": [
+        "AI",
+        "Artificial Intelligence",
+        "Image Models",
+        "App Growth",
+        "Chatbots",
+        "Anthropic",
+        "OpenAI",
+        "Enterprise AI",
+        "Joint Ventures",
+        "Tether AI",
+        "Edge Devices",
+        "Inference",
+        "AI Chips",
+        "Groq",
+        "TDK Ventures",
+        "Medical Diagnosis",
+        "Harvard Study",
+        "Emergency Room AI"
+      ],
+      "date": "2026-05-05"
+    },
+    {
+      "slug": "ai-diagnoses-outperform-doctors-openai-gets-adorable-pets-and-ubers-ambitious-sensor-grid-plan",
+      "title": "AI Diagnoses Outperform Doctors, OpenAI Gets Adorable Pets, and Uber's Ambitious Sensor Grid Plan",
+      "description": "Today's AI digest: Harvard study shows AI surpassing ER doctors in diagnostics, OpenAI adds AI-generated pets to Codex, Europe's hidden startup gems emerge, and Uber plans a massive sensor network using its drivers.",
+      "tags": [
+        "AI",
+        "Healthcare AI",
+        "Medical Diagnosis",
+        "OpenAI Codex",
+        "AI-generated pets",
+        "European startups",
+        "Venture Capital Europe",
+        "Uber",
+        "Self-driving cars",
+        "Autonomous Vehicles",
+        "Sensor grid",
+        "Tech News 2026-05-04"
+      ],
+      "date": "2026-05-04"
+    },
     {
       "slug": "ai-dev-daily-digest-code-security-context-protocols-and-the-future-of-agi",
       "title": "AI & Dev Daily Digest: Code Security, Context Protocols, and the Future of AGI",

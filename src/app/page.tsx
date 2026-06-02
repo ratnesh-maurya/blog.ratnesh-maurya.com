@@ -55,9 +55,9 @@ function formatDate(dateStr: string) {
 }
 
 const exploreItems = [
-  { label: 'Blog', href: '/blog', desc: 'Posts and series', emoji: '✍️' },
-  { label: 'News', href: '/news', desc: 'Daily AI and dev digest', emoji: '🗞️' },
+  { label: 'Blog', href: '/blog', desc: 'Original posts and series', emoji: '✍️' },
   { label: 'Technical Terms', href: '/technical-terms', desc: 'System design glossary', emoji: '📖' },
+  { label: 'News', href: '/news', desc: 'Curated daily digests', emoji: '🗞️' },
   { label: 'Cheatsheets', href: '/cheatsheets', desc: 'Quick references', emoji: '⚡' },
   { label: 'TIL', href: '/til', desc: 'Small lessons', emoji: '💡' },
   { label: 'Questions', href: '/silly-questions', desc: 'Silly but useful', emoji: '🤔' },
@@ -176,7 +176,11 @@ export default async function Home() {
               className="mt-6 text-lg sm:text-xl leading-relaxed font-medium mx-auto max-w-2xl"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Deep dives, architecture notes, and daily developer news for builders who ship.
+              Deep dives on backend, distributed systems, and AI engineering by{' '}
+              <Link href="/about" className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+                Ratnesh Maurya
+              </Link>
+              {' '}— plus curated daily digests for builders who ship.
             </p>
 
             {/* Author byline — entity SEO: associates "Ratnesh Maurya" with this site in Google's entity graph */}
