@@ -19,8 +19,8 @@ export const BLOG_URL = 'https://blog.ratnesh-maurya.com';
 export const PERSON_SAME_AS: readonly string[] = [
   'https://github.com/ratnesh-maurya',
   'https://www.linkedin.com/in/ratnesh-maurya/',
-  'https://twitter.com/ratnesh_maurya_',
-  'https://x.com/ratnesh_maurya_',
+  'https://twitter.com/_ratneshmaurya',
+  'https://x.com/_ratneshmaurya',
   'https://peerlist.io/ratnesh_maurya',
   'https://www.instagram.com/ratn_labs/',
   'https://leetcode.com/ratnesh_maurya/',
@@ -33,7 +33,7 @@ export const ORG_SAME_AS: readonly string[] = [
   PORTFOLIO_URL,
   'https://github.com/ratnesh-maurya',
   'https://www.linkedin.com/in/ratnesh-maurya/',
-  'https://twitter.com/ratnesh_maurya_',
+  'https://twitter.com/_ratneshmaurya',
   'https://www.instagram.com/ratn_labs/',
 ];
 

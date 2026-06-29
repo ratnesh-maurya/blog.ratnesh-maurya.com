@@ -151,7 +151,7 @@ schema (home):     WebSite + Organization + Person + FAQPage
 - **Blog:** `blog.ratnesh-maurya.com` (Ratn Labs)
 - **GitHub:** `ratnesh-maurya` (41 repos, handle `deadlock.go`)
 - **LinkedIn:** `linkedin.com/in/ratnesh-maurya`
-- **Twitter/X:** `@ratnesh_maurya_`
+- **Twitter/X:** `@_ratneshmaurya`
 - **Instagram:** `@ratn_labs`
 - **Peerlist:** `peerlist.io/ratnesh_maurya`
 - **LeetCode:** `ratnesh_maurya`
@@ -180,7 +180,7 @@ schema (home):     WebSite + Organization + Person + FAQPage
      "sameAs": [
        "https://github.com/ratnesh-maurya",
        "https://www.linkedin.com/in/ratnesh-maurya/",
-       "https://twitter.com/ratnesh_maurya_",
+       "https://twitter.com/_ratneshmaurya",
        "https://peerlist.io/ratnesh_maurya",
        "https://www.instagram.com/ratn_labs/",
        "https://leetcode.com/ratnesh_maurya/",

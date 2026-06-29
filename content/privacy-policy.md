@@ -35,5 +35,5 @@ sections:
       - "We may update this privacy policy from time to time. Changes will be posted on this page with an updated \"last revised\" date. Continued use of the site after changes constitutes acceptance."
   - title: "Contact"
     body:
-      - "If you have questions about this privacy policy, reach out via LinkedIn (linkedin.com/in/ratnesh-maurya) or Twitter/X (@ratnesh_maurya_)."
+      - "If you have questions about this privacy policy, reach out via LinkedIn (linkedin.com/in/ratnesh-maurya) or Twitter/X (@_ratneshmaurya)."
 ---

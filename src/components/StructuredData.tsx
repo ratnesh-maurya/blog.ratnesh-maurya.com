@@ -1,4 +1,3 @@
-import { BlogPost, NewsPost, SillyQuestion, TILEntry } from '@/types/blog';
 import {
   articleAuthor,
   BLOG_ID,
@@ -8,6 +7,7 @@ import {
   publisherOrg,
   WEBSITE_ID,
 } from '@/lib/seo/person';
+import { BlogPost, NewsPost, SillyQuestion, TILEntry } from '@/types/blog';
 import { getSocialImageUrl } from './BlogImage';
 
 const BLOG_BASE = 'https://blog.ratnesh-maurya.com';
@@ -232,7 +232,7 @@ export function OrganizationStructuredData() {
       'https://ratnesh-maurya.com',
       'https://github.com/ratnesh-maurya',
       'https://www.linkedin.com/in/ratnesh-maurya/',
-      'https://twitter.com/ratnesh_maurya_',
+      'https://twitter.com/_ratneshmaurya',
       'https://www.instagram.com/ratn_labs/',
     ],
     founder: { '@id': PERSON_ID },
@@ -257,7 +257,7 @@ export function SiteEntitiesStructuredData() {
           'https://ratnesh-maurya.com',
           'https://github.com/ratnesh-maurya',
           'https://www.linkedin.com/in/ratnesh-maurya/',
-          'https://twitter.com/ratnesh_maurya_',
+          'https://twitter.com/_ratneshmaurya',
           'https://www.instagram.com/ratn_labs/',
         ],
         founder: { '@id': PERSON_ID },
