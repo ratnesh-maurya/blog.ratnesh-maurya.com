@@ -1,4 +1,6 @@
+import { ContinueReading } from '@/components/ContinueReading';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
+import { TermOfTheDay } from '@/components/TermOfTheDay';
 import { getAllBlogPostsForListing, getAllNewsPostsForListing, getAllTechnicalTermsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
@@ -258,6 +260,8 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        <ContinueReading />
 
         <hr className="nb-separator" />
 
@@ -534,6 +538,8 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        <TermOfTheDay terms={technicalTerms} />
 
         <hr className="nb-separator" />
 

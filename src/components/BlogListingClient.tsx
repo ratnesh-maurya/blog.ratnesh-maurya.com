@@ -259,6 +259,7 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
 
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
   const [sortBy, setSortBy] = useState<'date' | 'title'>('date');
+  const [visibleCount, setVisibleCount] = useState(24);
   const [stats, setStats] = useState<BlogStats>({ views: {}, upvotes: {} });
   const [isLoadingStats, setIsLoadingStats] = useState(true);
 
@@ -337,7 +338,9 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
   const leftPosts = showMagazineLayout ? filteredAndSortedPosts.slice(1, 3) : [];
   const heroPosts = showMagazineLayout ? filteredAndSortedPosts.slice(0, 1) : [];
   const rightPosts = showMagazineLayout ? filteredAndSortedPosts.slice(3, 5) : [];
-  const remainingPosts = showMagazineLayout ? filteredAndSortedPosts.slice(5) : filteredAndSortedPosts;
+  const allRemainingPosts = showMagazineLayout ? filteredAndSortedPosts.slice(5) : filteredAndSortedPosts;
+  const remainingPosts = allRemainingPosts.slice(0, visibleCount);
+  const hasMore = allRemainingPosts.length > visibleCount;
 
   const cardProps = { stats, isLoadingStats, onTagClick: handleTagClick };
 
@@ -438,6 +441,22 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
                     <GridCard key={post.slug} post={post} {...cardProps} colorIdx={i} />
                   ))}
                 </div>
+                {hasMore && (
+                  <div className="flex justify-center pt-2">
+                    <button
+                      onClick={() => setVisibleCount(c => c + 24)}
+                      className="text-sm font-semibold px-6 py-2.5 rounded-full transition-transform hover:-translate-y-0.5"
+                      style={{
+                        backgroundColor: 'var(--glass-bg)',
+                        color: 'var(--text-primary)',
+                        border: '1px solid var(--glass-border)',
+                        boxShadow: 'var(--glass-shadow-sm)',
+                      }}
+                    >
+                      Load more posts ({allRemainingPosts.length - visibleCount} left)
+                    </button>
+                  </div>
+                )}
               </>
             )}
           </div>

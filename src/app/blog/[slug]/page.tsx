@@ -1,7 +1,11 @@
 import { BlogImage } from '@/components/BlogImage';
+import { BookmarkButton } from '@/components/BookmarkButton';
 import { CodeCopyButton } from '@/components/CodeCopyButton';
+import { Comments } from '@/components/Comments';
 import { CopyMarkdownButton } from '@/components/CopyMarkdownButton';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { NewsletterCta } from '@/components/NewsletterCta';
+import { ReadingHistoryTracker } from '@/components/ReadingHistoryTracker';
 import { mdxComponents } from '@/components/mdx';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { PostNavigation } from '@/components/PostNavigation';
@@ -224,9 +228,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <span>{post.readingTime}</span>
                     </span>
                   </div>
+                  <span className="ml-auto">
+                    <BookmarkButton type="blog" slug={post.slug} title={post.title} href={`/blog/${post.slug}`} />
+                  </span>
                   {post.updated && post.updated !== post.date && (
                     <span
-                      className="ml-auto text-xs font-semibold px-2.5 py-1 rounded-full"
+                      className="text-xs font-semibold px-2.5 py-1 rounded-full"
                       style={{
                         backgroundColor: 'color-mix(in srgb, var(--accent-500) 10%, transparent)',
                         color: 'var(--accent-600)',
@@ -349,6 +356,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   />
                 </div>
 
+                <NewsletterCta />
+
                 {/* Author box — E-E-A-T signal */}
                 <div className="mt-14 flex flex-col sm:flex-row items-start gap-5 rounded-2xl p-6"
                   style={{
@@ -414,6 +423,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 <RecentNews news={allNews} count={3} />
 
+                <Comments />
+
                 {/* Prev / Next navigation */}
                 <PostNavigation
                   prev={prevPost ? { slug: prevPost.slug, title: prevPost.title, href: `/blog/${prevPost.slug}`, label: prevPost.category } : null}
@@ -444,6 +455,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </div>
       <ViewIncrementer type="blog" slug={post.slug} />
+      <ReadingHistoryTracker type="blog" slug={post.slug} title={post.title} href={`/blog/${post.slug}`} />
       <FloatingUpvoteButton type="blog" slug={post.slug} />
     </>
   );

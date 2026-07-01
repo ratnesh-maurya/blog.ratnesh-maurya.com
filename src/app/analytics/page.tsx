@@ -1,12 +1,27 @@
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { AnalyticsDashboard } from '@/components/analytics/dashboard';
 import { oembedAlternate } from '@/lib/oembed';
+import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Post Analytics — Ratn Labs',
   description: 'Views, upvotes, and engagement analytics across blog, technical terms, silly questions, and cheatsheets.',
   alternates: { canonical: 'https://blog.ratnesh-maurya.com/analytics', types: { ...oembedAlternate('/analytics') } },
+  openGraph: {
+    title: 'Post Analytics — Ratn Labs',
+    description: 'Public, transparent traffic stats for this site.',
+    url: 'https://blog.ratnesh-maurya.com/analytics',
+    siteName: 'Ratn Labs',
+    type: 'website',
+    images: [{ url: getStoredOgImageUrl('analytics'), width: 1200, height: 630, alt: 'Post Analytics — Ratn Labs' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Post Analytics — Ratn Labs',
+    description: 'Public, transparent traffic stats for this site.',
+    images: [getStoredOgImageUrl('analytics')],
+  },
   robots: { index: false, follow: true },
 };
 

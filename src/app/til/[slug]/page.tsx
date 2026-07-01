@@ -1,10 +1,11 @@
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
+import { ReadingHistoryTracker } from '@/components/ReadingHistoryTracker';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { PostNavigation } from '@/components/PostNavigation';
 import { BreadcrumbStructuredData, TILStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllTILEntries, getTILEntry, getTILSlugs } from '@/lib/content';
-import { oembedAlternate } from '@/lib/oembed';
+import { createArticleMetadata } from '@/lib/metadata';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 import { Metadata } from 'next';
@@ -23,28 +24,15 @@ export async function generateMetadata({ params }: TILPageProps): Promise<Metada
   const { slug } = await params;
   const entry = await getTILEntry(slug);
   if (!entry) return {};
-  return {
+  return createArticleMetadata({
     title: `${entry.title} — TIL | Ratn Labs`,
+    ogTitle: entry.title,
     description: `Today I Learned: ${entry.title}. A short note on ${entry.category} from Ratnesh Maurya.`,
+    ogDescription: `TIL: ${entry.title}`,
+    path: `/til/${slug}`,
+    ogImage: getStoredOgImageUrl('til-slug', slug),
     keywords: [entry.category, ...entry.tags, 'TIL', 'today I learned'],
-    alternates: { canonical: `https://blog.ratnesh-maurya.com/til/${slug}/`, types: { ...oembedAlternate(`/til/${slug}`) } },
-    openGraph: {
-      title: entry.title,
-      description: `TIL: ${entry.title}`,
-      url: `https://blog.ratnesh-maurya.com/til/${slug}/`,
-      siteName: 'Ratn Labs',
-      type: 'article',
-      images: [{ url: getStoredOgImageUrl('til-slug', slug), width: 1200, height: 630, alt: entry.title }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: entry.title,
-      description: `TIL: ${entry.title}`,
-      creator: '@ratnesh_maurya',
-      images: [getStoredOgImageUrl('til-slug', slug)],
-    },
-    robots: { index: true, follow: true },
-  };
+  });
 }
 
 const categoryEmoji: Record<string, string> = {
@@ -151,6 +139,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
         </div>
       </div>
       <ViewIncrementer type="til" slug={slug} />
+      <ReadingHistoryTracker type="til" slug={slug} title={entry.title} href={`/til/${slug}`} />
       <FloatingUpvoteButton type="til" slug={slug} />
     </>
   );

@@ -222,3 +222,87 @@ export async function getAllStatsForAnalytics(): Promise<{
 
   return { byType: byType as Record<StatType, { views: number; upvotes: number; reports: number; slugs: Array<{ slug: string; views: number; upvotes: number }> }>, footerTotal };
 }
+
+/** True when this browser is excluded from tracking (middleware cookie). */
+export function isTrackingExcluded(): boolean {
+  if (typeof document === 'undefined') return true;
+  return document.cookie.includes('__exclude_tracking=1');
+}
+
+/**
+ * Log a read-depth engagement event (read_half at 50%, read_complete at 90%).
+ * Append-only; does not touch aggregate view counters.
+ */
+export async function logEngagement(
+  type: string,
+  slug: string,
+  event: 'read_half' | 'read_complete'
+): Promise<void> {
+  const { error } = await supabase.rpc('log_engagement', {
+    p_type: type,
+    p_slug: slug,
+    p_event: event,
+  });
+  if (error) console.error('log_engagement error:', error);
+}
+
+/** Trending posts: views in last N days vs the N days before. */
+export async function getTrendingPosts(days = 7): Promise<Array<{
+  type: string; slug: string; recent: number; previous: number;
+}>> {
+  const { data, error } = await supabase.rpc('get_trending_posts', { p_days: days });
+  if (error) {
+    console.error('get_trending_posts error:', error);
+    return [];
+  }
+  return (data as Array<{ type: string; slug: string; recent: number; previous: number }>) ?? [];
+}
+
+/** Read quality: views vs read_half/read_complete per post. */
+export async function getReadQuality(days = 30): Promise<Array<{
+  type: string; slug: string; views: number; read_half: number; read_complete: number;
+}>> {
+  const { data, error } = await supabase.rpc('get_read_quality', { p_days: days });
+  if (error) {
+    console.error('get_read_quality error:', error);
+    return [];
+  }
+  return (data as Array<{ type: string; slug: string; views: number; read_half: number; read_complete: number }>) ?? [];
+}
+
+/** Web vitals summary: p50/p75 per metric + worst LCP paths. */
+export async function getWebVitalsSummary(days = 30): Promise<{
+  byMetric: Array<{ metric: string; p50: number; p75: number; count: number; goodPct: number }>;
+  worstLcpPaths: Array<{ path: string; p75: number; count: number }>;
+}> {
+  const { data, error } = await supabase.rpc('get_web_vitals_summary', { p_days: days });
+  if (error) {
+    console.error('get_web_vitals_summary error:', error);
+    return { byMetric: [], worstLcpPaths: [] };
+  }
+  return (data as { byMetric: never[]; worstLcpPaths: never[] }) ?? { byMetric: [], worstLcpPaths: [] };
+}
+
+/** Views today + last hour, for the live ticker. */
+export async function getViewsToday(): Promise<{ today: number; lastHour: number }> {
+  const { data, error } = await supabase.rpc('get_views_today');
+  if (error) {
+    console.error('get_views_today error:', error);
+    return { today: 0, lastHour: 0 };
+  }
+  return (data as { today: number; lastHour: number }) ?? { today: 0, lastHour: 0 };
+}
+
+/** Referrer / device / country breakdown for a date range. */
+export async function getReferrerBreakdown(from: string, to: string): Promise<{
+  byReferrer: Array<{ referrer: string; count: number }>;
+  byDevice: Array<{ device: string; count: number }>;
+  byCountry: Array<{ country: string; count: number }>;
+}> {
+  const { data, error } = await supabase.rpc('get_referrer_breakdown', { p_from: from, p_to: to });
+  if (error) {
+    console.error('get_referrer_breakdown error:', error);
+    return { byReferrer: [], byDevice: [], byCountry: [] };
+  }
+  return (data as { byReferrer: never[]; byDevice: never[]; byCountry: never[] }) ?? { byReferrer: [], byDevice: [], byCountry: [] };
+}

@@ -20,6 +20,7 @@ const referenceLinks = [
 
 const siteLinks = [
   { label: 'About', href: '/about' },
+  { label: 'Bookmarks', href: '/bookmarks' },
   { label: 'Newsletter', href: '/newsletter' },
   { label: 'Contact', href: '/contact' },
   { label: 'Editorial Policy', href: '/editorial-policy' },

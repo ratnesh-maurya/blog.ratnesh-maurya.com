@@ -29,7 +29,7 @@ export function slugifyTagForOg(tag: string): string {
  * All OG images are pre-built to public/og/ and served at /og/...
  */
 export function getStoredOgImagePath(
-  route: 'home' | 'blog' | 'blog-slug' | 'blog-tag' | 'news' | 'news-slug' | 'silly-questions' | 'silly-question' | 'technical-terms' | 'technical-term' | 'til' | 'til-slug' | 'cheatsheets' | 'cheatsheet' | 'about' | 'now' | 'uses' | 'topics' | 'search' | 'newsletter' | 'privacy-policy' | 'resources' | 'series' | 'glossary',
+  route: 'home' | 'blog' | 'blog-slug' | 'blog-tag' | 'news' | 'news-slug' | 'silly-questions' | 'silly-question' | 'technical-terms' | 'technical-term' | 'til' | 'til-slug' | 'cheatsheets' | 'cheatsheet' | 'about' | 'now' | 'uses' | 'topics' | 'search' | 'newsletter' | 'privacy-policy' | 'resources' | 'series' | 'glossary' | 'contact' | 'analytics',
   slug?: string,
   tag?: string
 ): string {
@@ -65,9 +65,13 @@ export function getStoredOgImagePath(
     case 'about':
       return '/og/about.png';
     case 'now':
-      return '/og/now.png';
     case 'uses':
-      return '/og/uses.png';
+      // /now and /uses redirect to /about anchors — no dedicated image
+      return '/og/about.png';
+    case 'contact':
+      return '/og/contact.png';
+    case 'analytics':
+      return '/og/analytics.png';
     case 'topics':
       return '/og/topics.png';
     case 'search':

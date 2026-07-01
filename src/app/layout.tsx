@@ -1,5 +1,6 @@
 import { Analytics } from "@/components/Analytics";
 import { AppWrapper } from "@/components/AppWrapper";
+import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { ProfilePageStructuredData, SiteEntitiesStructuredData } from "@/components/StructuredData";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
@@ -151,6 +152,7 @@ export default function RootLayout({
         <AppWrapper>{children}</AppWrapper>
         <Analytics />
         <VercelAnalytics />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

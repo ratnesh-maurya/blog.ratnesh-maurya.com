@@ -1,10 +1,11 @@
 import { CheatsheetCodeBlock } from '@/components/CheatsheetCodeBlock';
 import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { ReadingHistoryTracker } from '@/components/ReadingHistoryTracker';
 import { SocialShare } from '@/components/SocialShare';
 import { BreadcrumbStructuredData, CheatsheetStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
-import { oembedAlternate } from '@/lib/oembed';
+import { createArticleMetadata } from '@/lib/metadata';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { getCheatsheet, getCheatsheetSlugs } from '@/lib/static-content';
 import { Metadata } from 'next';
@@ -25,23 +26,15 @@ export async function generateMetadata({
   const { slug } = await params;
   const data = getCheatsheet(slug);
   if (!data) return { title: 'Not Found' };
-  const url = `${BASE}/cheatsheets/${slug}`;
   const ogTitle = data.title.includes(' — ') ? data.title.split(' — ')[0] + ' — Ratn Labs' : data.title + ' — Ratn Labs';
-  return {
+  return createArticleMetadata({
     title: `${data.title} | Ratn Labs`,
+    ogTitle,
     description: data.description,
+    path: `/cheatsheets/${slug}`,
+    ogImage: getStoredOgImageUrl('cheatsheet', slug),
     keywords: data.keywords,
-    alternates: { canonical: url, types: { ...oembedAlternate(`/cheatsheets/${slug}`) } },
-    openGraph: {
-      title: ogTitle,
-      url,
-      siteName: 'Ratn Labs',
-      type: 'article',
-      images: [{ url: getStoredOgImageUrl('cheatsheet', slug), width: 1200, height: 630, alt: data.title }],
-    },
-    twitter: { card: 'summary_large_image', title: ogTitle, creator: '@ratnesh_maurya', images: [getStoredOgImageUrl('cheatsheet', slug)] },
-    robots: { index: true, follow: true },
-  };
+  });
 }
 
 export default async function CheatsheetPage({
@@ -134,6 +127,7 @@ export default async function CheatsheetPage({
         </div>
       </div>
       <ViewIncrementer type="cheatsheets" slug={slug} />
+      <ReadingHistoryTracker type="cheatsheets" slug={slug} title={data.title} href={`/cheatsheets/${slug}`} />
       <FloatingUpvoteButton type="cheatsheets" slug={slug} />
     </>
   );

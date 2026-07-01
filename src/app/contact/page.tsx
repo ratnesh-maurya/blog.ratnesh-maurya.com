@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     url: 'https://blog.ratnesh-maurya.com/contact',
     siteName: 'Ratn Labs',
     type: 'website',
-    images: [{ url: getStoredOgImageUrl('home'), width: 1200, height: 630, alt: 'Contact — Ratn Labs' }],
+    images: [{ url: getStoredOgImageUrl('contact'), width: 1200, height: 630, alt: 'Contact — Ratn Labs' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Contact — Ratn Labs',
     description: 'Ways to reach out about writing, backend engineering, system design, and collaboration.',
-    images: [getStoredOgImageUrl('home')],
+    images: [getStoredOgImageUrl('contact')],
   },
   robots: { index: true, follow: true },
 };

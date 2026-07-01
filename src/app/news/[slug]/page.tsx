@@ -1,6 +1,7 @@
 import { CopyMarkdownButton } from '@/components/CopyMarkdownButton';
 import { NewsContent } from '@/components/NewsContent';
 import { NewsTracker } from '@/components/NewsTracker';
+import { ReadingHistoryTracker } from '@/components/ReadingHistoryTracker';
 import { ReadingProgress } from '@/components/ReadingProgress';
 import { RecentNews } from '@/components/RecentNews';
 import { RelatedPosts } from '@/components/RelatedPosts';
@@ -9,7 +10,7 @@ import { SocialShare } from '@/components/SocialShare';
 import { BreadcrumbStructuredData, NewsArticleStructuredData } from '@/components/StructuredData';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllBlogPosts, getAllNewsPosts, getAllTechnicalTermsForListing, getNewsPost, getNewsPostSlugs } from '@/lib/content';
-import { oembedAlternate } from '@/lib/oembed';
+import { createArticleMetadata } from '@/lib/metadata';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -40,40 +41,15 @@ export async function generateMetadata({ params }: NewsPostPageProps): Promise<M
     return { title: 'News Not Found' };
   }
 
-  const ogUrl = getStoredOgImageUrl('news-slug', post.slug);
-
-  return {
+  return createArticleMetadata({
     title: post.title,
     description: post.description,
+    path: `/news/${post.slug}`,
+    ogImage: getStoredOgImageUrl('news-slug', post.slug),
     keywords: post.tags,
-    alternates: {
-      canonical: `https://blog.ratnesh-maurya.com/news/${post.slug}/`,
-      types: { ...oembedAlternate(`/news/${post.slug}`) },
-    },
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: 'article',
-      publishedTime: post.date,
-      modifiedTime: post.date,
-      url: `https://blog.ratnesh-maurya.com/news/${post.slug}/`,
-      siteName: 'Ratn Labs',
-      locale: 'en_US',
-      images: [{ url: ogUrl, width: 1200, height: 630, alt: post.title }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.title,
-      description: post.description,
-      creator: '@ratnesh_maurya',
-      site: '@ratnesh_maurya',
-      images: [ogUrl],
-    },
-    robots: {
-      index: true,
-      follow: true,
-    },
-  };
+    publishedTime: post.date,
+    modifiedTime: post.date,
+  });
 }
 
 export default async function NewsPostPage({ params }: NewsPostPageProps) {
@@ -275,6 +251,7 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
       </div>
     </div>
       <ViewIncrementer type="news" slug={post.slug} />
+      <ReadingHistoryTracker type="news" slug={post.slug} title={post.title} href={`/news/${post.slug}`} />
       <NewsTracker slug={post.slug} title={post.title} tags={post.tags} date={post.date} />
     </>
   );

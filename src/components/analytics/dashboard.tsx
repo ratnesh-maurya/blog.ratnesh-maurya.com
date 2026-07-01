@@ -17,7 +17,13 @@ import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'analytics-section-order';
-const DEFAULT_ORDER: string[] = ['overall', 'today', 'funnel', 'sankey', 'content-overview', 'post-views', 'utm'];
+// 'search-console' section exists but is off by default — add it back here
+// if the GSC service account ever gets configured.
+const DEFAULT_ORDER: string[] = [
+  'overall', 'trending', 'today', 'audience', 'funnel', 'sankey',
+  'content-overview', 'post-views', 'read-quality', 'lifecycle',
+  'web-vitals', 'utm',
+];
 
 function SectionSkeleton({ rows = 2 }: { rows?: number }) {
   return (
@@ -68,6 +74,41 @@ const SankeySection = dynamic(
   { ssr: false, loading: () => <SectionSkeleton rows={3} /> }
 );
 
+const TrendingSection = dynamic(
+  () => import('@/components/analytics/trending-section').then((m) => m.TrendingSection),
+  { ssr: false, loading: () => <SectionSkeleton rows={2} /> }
+);
+
+const AudienceSection = dynamic(
+  () => import('@/components/analytics/audience-section').then((m) => m.AudienceSection),
+  { ssr: false, loading: () => <SectionSkeleton rows={2} /> }
+);
+
+const ReadQualitySection = dynamic(
+  () => import('@/components/analytics/read-quality-section').then((m) => m.ReadQualitySection),
+  { ssr: false, loading: () => <SectionSkeleton rows={2} /> }
+);
+
+const LifecycleSection = dynamic(
+  () => import('@/components/analytics/lifecycle-section').then((m) => m.LifecycleSection),
+  { ssr: false, loading: () => <SectionSkeleton rows={2} /> }
+);
+
+const SearchConsoleSection = dynamic(
+  () => import('@/components/analytics/search-console-section').then((m) => m.SearchConsoleSection),
+  { ssr: false, loading: () => <SectionSkeleton rows={2} /> }
+);
+
+const WebVitalsSection = dynamic(
+  () => import('@/components/analytics/web-vitals-section').then((m) => m.WebVitalsSection),
+  { ssr: false, loading: () => <SectionSkeleton rows={1} /> }
+);
+
+const LiveTicker = dynamic(
+  () => import('@/components/analytics/live-ticker').then((m) => m.LiveTicker),
+  { ssr: false }
+);
+
 function loadOrder(): string[] {
   if (typeof window === 'undefined') return [...DEFAULT_ORDER];
   try {
@@ -93,21 +134,33 @@ function saveOrder(order: string[]) {
 
 const SECTION_TITLES: Record<string, string> = {
   overall: 'Overall analytics',
+  trending: 'Trending posts',
   today: "Today's analytics",
+  audience: 'Audience & channels',
   funnel: 'Traffic funnel',
   sankey: 'Source → Content flow',
   'content-overview': 'Content overview',
   'post-views': 'Post views',
+  'read-quality': 'Read quality',
+  lifecycle: 'Content lifecycle',
+  'search-console': 'Google Search',
+  'web-vitals': 'Web vitals',
   utm: 'UTM traffic',
 };
 
 const SECTION_SUBTITLES: Record<string, string> = {
   overall: 'Big-picture totals for views, upvotes, and reports across the site.',
+  trending: 'Momentum ranking — what is gaining or losing steam vs the previous window.',
   today: 'Single-day snapshot of views, upvotes, and UTM visits.',
+  audience: 'Where readers come from: channels, referring sites, devices, and countries.',
   funnel: 'Pick a day and see traffic cascade: total → content type → UTM source → referral → top pages.',
   sankey: 'Alluvial ribbon flow — where tracked visitors came from and what they read.',
   'content-overview': 'Content inventory and engagement quality by type.',
   'post-views': 'Time-series views plus top content leaders for the selected range.',
+  'read-quality': 'Completion rate per post — how many viewers actually read to the middle and end.',
+  lifecycle: 'Views vs post age — spot evergreen compounding and content decay.',
+  'search-console': 'Queries, impressions, CTR, and average position from Google Search Console.',
+  'web-vitals': 'Real-user Core Web Vitals (p75) and the slowest pages by LCP.',
   utm: 'Traffic and performance grouped by UTM parameters.',
 };
 
@@ -181,6 +234,10 @@ export function AnalyticsDashboard() {
         </div>
       </div>
 
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <LiveTicker />
+      </div>
+
       <TopInsightsStrip selectedType={selectedType} />
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -229,6 +286,42 @@ export function AnalyticsDashboard() {
                   return (
                     <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
                       <UtmRangeSection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                case 'trending':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <TrendingSection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                case 'audience':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <AudienceSection />
+                    </SortableSection>
+                  );
+                case 'read-quality':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <ReadQualitySection selectedType={selectedType} />
+                    </SortableSection>
+                  );
+                case 'lifecycle':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <LifecycleSection />
+                    </SortableSection>
+                  );
+                case 'search-console':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <SearchConsoleSection />
+                    </SortableSection>
+                  );
+                case 'web-vitals':
+                  return (
+                    <SortableSection key={id} id={id} title={SECTION_TITLES[id] ?? id} subtitle={subtitle}>
+                      <WebVitalsSection />
                     </SortableSection>
                   );
                 default:

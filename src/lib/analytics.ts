@@ -122,55 +122,43 @@ export const trackCarouselInteraction = (action: 'next' | 'previous' | 'indicato
 
 // Performance tracking (only in production)
 export const trackPerformance = () => {
-  if (!shouldTrack() || typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
+  if (!shouldTrack() || typeof window === 'undefined') return;
 
-  // Track Core Web Vitals
+  // Each vital goes to GA4 (if configured) AND to /api/vitals → Supabase,
+  // which powers the public analytics dashboard's Web Vitals section.
+  const report = (name: 'CLS' | 'INP' | 'FCP' | 'LCP' | 'TTFB', metric: { value: number; rating?: string }) => {
+    if (GA_MEASUREMENT_ID && typeof window.gtag === 'function') {
+      window.gtag('event', 'web_vitals', {
+        event_category: 'Performance',
+        event_label: name,
+        value: Math.round(name === 'CLS' ? metric.value * 1000 : metric.value),
+        non_interaction: true,
+      });
+    }
+    try {
+      const payload = JSON.stringify({
+        metric: name,
+        value: metric.value,
+        rating: metric.rating ?? null,
+        path: window.location.pathname,
+      });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/vitals', new Blob([payload], { type: 'application/json' }));
+      } else {
+        fetch('/api/vitals', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true });
+      }
+    } catch {
+      // reporting is best-effort
+    }
+  };
+
   try {
     import('web-vitals').then(({ onCLS, onINP, onFCP, onLCP, onTTFB }) => {
-      onCLS((metric) => {
-        window.gtag('event', 'web_vitals', {
-          event_category: 'Performance',
-          event_label: 'CLS',
-          value: Math.round(metric.value * 1000),
-          non_interaction: true,
-        });
-      });
-
-      onINP((metric) => {
-        window.gtag('event', 'web_vitals', {
-          event_category: 'Performance',
-          event_label: 'INP',
-          value: Math.round(metric.value),
-          non_interaction: true,
-        });
-      });
-
-      onFCP((metric) => {
-        window.gtag('event', 'web_vitals', {
-          event_category: 'Performance',
-          event_label: 'FCP',
-          value: Math.round(metric.value),
-          non_interaction: true,
-        });
-      });
-
-      onLCP((metric) => {
-        window.gtag('event', 'web_vitals', {
-          event_category: 'Performance',
-          event_label: 'LCP',
-          value: Math.round(metric.value),
-          non_interaction: true,
-        });
-      });
-
-      onTTFB((metric) => {
-        window.gtag('event', 'web_vitals', {
-          event_category: 'Performance',
-          event_label: 'TTFB',
-          value: Math.round(metric.value),
-          non_interaction: true,
-        });
-      });
+      onCLS((m) => report('CLS', m));
+      onINP((m) => report('INP', m));
+      onFCP((m) => report('FCP', m));
+      onLCP((m) => report('LCP', m));
+      onTTFB((m) => report('TTFB', m));
     }).catch(() => {
       // web-vitals not available, skip tracking
     });
