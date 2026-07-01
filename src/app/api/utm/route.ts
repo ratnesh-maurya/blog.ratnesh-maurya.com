@@ -1,3 +1,4 @@
+import { isBotUserAgent } from '@/lib/bot';
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
@@ -13,6 +14,10 @@ export async function POST(request: Request) {
   try {
     // Middleware sets this cookie for excluded IPs (author's own devices)
     if (request.headers.get('cookie')?.includes('__exclude_tracking=1')) {
+      return NextResponse.json({ ok: true, skipped: true });
+    }
+    // Crawlers and scrapers never count as visits
+    if (isBotUserAgent(request.headers.get('user-agent'))) {
       return NextResponse.json({ ok: true, skipped: true });
     }
 

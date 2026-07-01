@@ -1,6 +1,7 @@
 import { ContinueReading } from '@/components/ContinueReading';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { TermOfTheDay } from '@/components/TermOfTheDay';
+import { TodaysDigest } from '@/components/TodaysDigest';
 import { getAllBlogPostsForListing, getAllNewsPostsForListing, getAllTechnicalTermsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
@@ -260,6 +261,8 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        <TodaysDigest post={newsPosts[0]} />
 
         <ContinueReading />
 

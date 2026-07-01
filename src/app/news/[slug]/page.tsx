@@ -1,4 +1,5 @@
 import { CopyMarkdownButton } from '@/components/CopyMarkdownButton';
+import { MobileToc } from '@/components/MobileToc';
 import { NewsContent } from '@/components/NewsContent';
 import { NewsTracker } from '@/components/NewsTracker';
 import { ReadingHistoryTracker } from '@/components/ReadingHistoryTracker';
@@ -135,6 +136,7 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
             </div>
           </header>
 
+          <MobileToc />
           <NewsContent html={post.content} />
 
           {/* Share section */}

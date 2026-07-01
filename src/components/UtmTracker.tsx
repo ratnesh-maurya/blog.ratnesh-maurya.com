@@ -1,5 +1,6 @@
 'use client';
 
+import { isBotBrowser } from '@/lib/bot';
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -17,7 +18,7 @@ export function UtmTracker() {
   const sent = useRef(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || sent.current) return;
+    if (typeof window === 'undefined' || sent.current || isBotBrowser()) return;
 
     const params = new URLSearchParams(window.location.search);
     const utmSource = params.get('utm_source')?.trim() || null;

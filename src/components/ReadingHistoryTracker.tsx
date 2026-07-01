@@ -1,5 +1,6 @@
 'use client';
 
+import { isBotBrowser } from '@/lib/bot';
 import { getEntry, recordReadingProgress } from '@/lib/reading-history';
 import { isTrackingExcluded, logEngagement } from '@/lib/supabase/stats';
 import { isProduction } from '@/lib/env';
@@ -24,7 +25,7 @@ export function ReadingHistoryTracker({ type, slug, title, href }: ReadingHistor
     let ticking = false;
 
     // Read-depth engagement: fire read_half / read_complete once per session
-    const canLog = isProduction && !isTrackingExcluded();
+    const canLog = isProduction && !isTrackingExcluded() && !isBotBrowser();
     const engagementKey = (event: string) => `engagement_${event}_${type}_${slug}`;
     const maybeLogEngagement = (progress: number) => {
       if (!canLog) return;

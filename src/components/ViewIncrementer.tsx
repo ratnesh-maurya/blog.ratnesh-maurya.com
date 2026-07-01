@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { isBotBrowser } from '@/lib/bot';
 import { incrementStat, type StatType } from '@/lib/supabase/stats';
 import { isProduction } from '@/lib/env';
 
@@ -18,7 +19,7 @@ export function ViewIncrementer({ type, slug }: ViewIncrementerProps) {
   const hasIncremented = useRef(false);
 
   useEffect(() => {
-    if (!isProduction || hasIncremented.current) return;
+    if (!isProduction || hasIncremented.current || isBotBrowser()) return;
 
     const timeoutId = setTimeout(() => {
       const run = async () => {

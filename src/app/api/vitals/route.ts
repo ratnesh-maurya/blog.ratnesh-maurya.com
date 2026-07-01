@@ -1,3 +1,4 @@
+import { isBotUserAgent } from '@/lib/bot';
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
@@ -8,6 +9,9 @@ const RATINGS = new Set(['good', 'needs-improvement', 'poor']);
 export async function POST(request: Request) {
   try {
     if (request.headers.get('cookie')?.includes('__exclude_tracking=1')) {
+      return NextResponse.json({ ok: true, skipped: true });
+    }
+    if (isBotUserAgent(request.headers.get('user-agent'))) {
       return NextResponse.json({ ok: true, skipped: true });
     }
 

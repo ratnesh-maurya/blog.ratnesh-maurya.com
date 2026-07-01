@@ -54,6 +54,20 @@ function fmtDate(value: string): string {
 export default async function NewsPage() {
   const posts = await getAllNewsPostsForListing();
 
+  // Featured latest digest + rest grouped by month for scannability
+  const latest = posts[0];
+  const latestIsToday = latest
+    ? new Date(latest.date).toDateString() === new Date().toDateString()
+    : false;
+  const monthMap = new Map<string, typeof posts>();
+  for (const post of posts.slice(1)) {
+    const month = new Date(post.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    const list = monthMap.get(month) ?? [];
+    list.push(post);
+    monthMap.set(month, list);
+  }
+  const months = [...monthMap.entries()];
+
   const breadcrumbItems = [
     { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
     { name: 'News', url: 'https://blog.ratnesh-maurya.com/news' },
@@ -110,47 +124,106 @@ export default async function NewsPage() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            {posts.map((post) => (
-              <Link key={post.slug} href={`/news/${post.slug}`} className="group block h-full">
-                <article
-                  className="nb-card h-full p-5 flex flex-col gap-3"
-                  style={{
-                    backgroundColor: 'var(--glass-bg)',
-                    border: '1px solid var(--glass-border)',
-                    boxShadow: 'var(--glass-shadow-sm)',
-                    backdropFilter: 'blur(10px) saturate(160%)',
-                    WebkitBackdropFilter: 'blur(10px) saturate(160%)',
-                  }}
+          <div className="space-y-10">
+            {/* ── Featured: latest digest ── */}
+            <Link href={`/news/${latest.slug}`} className="group block">
+              <article
+                className="nb-card p-6 sm:p-8"
+                style={{
+                  background: 'linear-gradient(135deg, var(--glass-bg) 0%, color-mix(in srgb, var(--accent-50) 55%, var(--glass-bg)) 100%)',
+                  border: '1px solid color-mix(in srgb, var(--accent-500) 25%, var(--glass-border))',
+                  boxShadow: 'var(--glass-shadow-sm)',
+                  backdropFilter: 'blur(10px) saturate(160%)',
+                  WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                }}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <span
+                    className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full"
+                    style={{ backgroundColor: 'var(--accent-500)', color: '#fff' }}
+                  >
+                    {latestIsToday ? 'Today' : 'Latest'}
+                  </span>
+                  <time className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                    {fmtDate(latest.date)}
+                  </time>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-extrabold leading-snug mb-2 group-hover:underline" style={{ color: 'var(--text-primary)' }}>
+                  {latest.title}
+                </h2>
+                <p className="text-sm sm:text-base leading-relaxed max-w-3xl" style={{ color: 'var(--text-secondary)' }}>
+                  {latest.description}
+                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-1.5">
+                  {latest.tags.slice(0, 4).map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[11px] font-semibold px-2 py-1 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-700)' }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  <span className="ml-auto inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: 'var(--accent-500)' }}>
+                    Read the digest
+                    <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </span>
+                </div>
+              </article>
+            </Link>
+
+            {/* ── Archive, grouped by month ── */}
+            {months.map(([month, monthPosts]) => (
+              <section key={month}>
+                <h2
+                  className="text-xs font-bold uppercase tracking-widest mb-4 pb-2"
+                  style={{ color: 'var(--text-muted)', borderBottom: '1px solid var(--nb-border)' }}
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="nb-badge nb-badge-primary">Daily Digest</span>
-                    <time className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
-                      {fmtDate(post.date)}
-                    </time>
-                  </div>
-
-                  <h2 className="text-lg md:text-xl font-extrabold leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
-                    {post.title}
-                  </h2>
-
-                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                    {post.description}
-                  </p>
-
-                  <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
-                    {post.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-semibold px-2 py-1 rounded-full"
-                        style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}
+                  {month} <span style={{ fontWeight: 500 }}>· {monthPosts.length} digest{monthPosts.length === 1 ? '' : 's'}</span>
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                  {monthPosts.map((post) => (
+                    <Link key={post.slug} href={`/news/${post.slug}`} className="group block h-full">
+                      <article
+                        className="nb-card h-full p-5 flex flex-col gap-3"
+                        style={{
+                          backgroundColor: 'var(--glass-bg)',
+                          border: '1px solid var(--glass-border)',
+                          boxShadow: 'var(--glass-shadow-sm)',
+                          backdropFilter: 'blur(10px) saturate(160%)',
+                          WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+                        }}
                       >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              </Link>
+                        <time className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                          {fmtDate(post.date)}
+                        </time>
+
+                        <h3 className="text-lg font-extrabold leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                          {post.title}
+                        </h3>
+
+                        <p className="text-sm leading-relaxed line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
+                          {post.description}
+                        </p>
+
+                        <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+                          {post.tags.slice(0, 3).map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[11px] font-semibold px-2 py-1 rounded-full"
+                              style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         )}

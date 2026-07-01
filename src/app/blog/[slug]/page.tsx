@@ -7,6 +7,7 @@ import { FloatingUpvoteButton } from '@/components/FloatingUpvoteButton';
 import { NewsletterCta } from '@/components/NewsletterCta';
 import { ReadingHistoryTracker } from '@/components/ReadingHistoryTracker';
 import { mdxComponents } from '@/components/mdx';
+import { MobileToc } from '@/components/MobileToc';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { PostNavigation } from '@/components/PostNavigation';
 import { ReadingProgress } from '@/components/ReadingProgress';
@@ -262,6 +263,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </div>
                 )}
               </header>
+
+              {/* Mobile table of contents (sidebar TOC is lg+ only) */}
+              <MobileToc />
 
               {/* Article Content */}
               <div

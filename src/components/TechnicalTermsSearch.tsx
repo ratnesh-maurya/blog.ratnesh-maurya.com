@@ -58,6 +58,16 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
     return new Set(grouped.map(([letter]) => letter));
   }, [grouped]);
 
+  // Most-read terms — surfaced above the fold so popular definitions are one tap away
+  const popular = useMemo(() => {
+    if (!statsLoaded) return [];
+    return [...terms]
+      .map((t) => ({ ...t, views: stats.views[t.slug] ?? 0 }))
+      .filter((t) => t.views > 0)
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 6);
+  }, [terms, stats, statsLoaded]);
+
   const scrollToLetter = (letter: string) => {
     setActiveLetter(letter);
     const el = document.getElementById(`letter-${letter}`);
@@ -99,6 +109,29 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
+
+      {/* Most read */}
+      {!query.trim() && popular.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+            Most read
+          </span>
+          {popular.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/technical-terms/${t.slug}`}
+              className="text-xs font-semibold px-3 py-1.5 rounded-full transition-colors hover:brightness-95"
+              style={{
+                backgroundColor: 'var(--accent-50)',
+                color: 'var(--accent-700)',
+                border: '1px solid var(--accent-100)',
+              }}
+            >
+              {t.title}
+            </Link>
+          ))}
+        </div>
+      )}
 
       {/* Alphabet navigation */}
       <div className="flex flex-wrap gap-1">
