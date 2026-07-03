@@ -1,6 +1,19 @@
 {
   "blogPosts": [
     {
+      "slug": "rfc-10008-http-query-method-explained",
+      "title": "New HTTP Method Just Dropped: Meet QUERY",
+      "description": "HTTP finally has a QUERY method. Learn what RFC 10008 changes, why GET and POST fell short for complex searches, and how QUERY works — with simple examples.",
+      "tags": [
+        "Web Development",
+        "HTTP",
+        "Backend",
+        "API Design"
+      ],
+      "category": "Web Development",
+      "date": "2026-07-03"
+    },
+    {
       "slug": "QR-Codes-The-Invisible-Magic-Behind-Every-Scan-and-Pay",
       "title": "That Little Square Does a Lot: How QR Codes Actually Work",
       "description": "From the black-and-white squares on your pizza box to the split-second bank transfer — here's how QR codes and UPI payments actually work under the hood, explained without the jargon.",
@@ -622,6 +635,32 @@
     }
   ],
   "newsPosts": [
+    {
+      "slug": "ai-dev-digest-metas-gaming-ai-openais-equity-offer-and-zais-coding-challenge",
+      "title": "AI & Dev Digest: Meta's Gaming AI, OpenAI's Equity Offer, and Z.ai's Coding Challenge",
+      "description": "Catch up on the latest in AI and software development: Meta enters AI-powered gaming, OpenAI proposes a 5% equity donation to a US fund, Z.ai launches ZCode for AI coding, Nori introduces proactive family AI, and Together AI secures $800M funding.",
+      "tags": [
+        "Meta",
+        "Pocket",
+        "AI gaming",
+        "OpenAI",
+        "US sovereign wealth fund",
+        "AI equity",
+        "Z.ai",
+        "ZCode",
+        "AI coding",
+        "GitHub Copilot",
+        "Nori",
+        "SuperNori",
+        "family AI agents",
+        "smart home",
+        "Together AI",
+        "AI funding",
+        "neocloud",
+        "tech news 2026"
+      ],
+      "date": "2026-07-03"
+    },
     {
       "slug": "ai-dev-daily-digest-faster-ai-image-gen-keyboard-agents-and-eu-job-shifts",
       "title": "AI & Dev Daily Digest: Faster AI Image Gen, Keyboard Agents, and EU Job Shifts",

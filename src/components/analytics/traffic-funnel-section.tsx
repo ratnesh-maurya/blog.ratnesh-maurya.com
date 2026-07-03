@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 interface UtmDay {
   bySource: Array<{ source: string; count: number }>;
   byMedium: Array<{ medium: string; count: number }>;
-  byRef: Array<{ ref: string; count: number }>;
+  byRef: Array<{ refValue: string; count: number }>;
   byPath: Array<{ path: string; count: number }>;
   total: number;
 }
@@ -315,8 +315,8 @@ export function TrafficFunnelSection() {
                 <div className="space-y-2">
                   {refs.map((r, i) => (
                     <FunnelBar
-                      key={r.ref}
-                      label={r.ref}
+                      key={r.refValue}
+                      label={r.refValue}
                       count={r.count}
                       total={refs.reduce((s, x) => s + x.count, 0)}
                       color={SOURCE_COLORS[(i + 3) % SOURCE_COLORS.length]}
@@ -362,7 +362,7 @@ export function TrafficFunnelSection() {
                 <> — top source: <strong style={{ color: 'var(--text-primary)' }}>{sources[0].source}</strong> ({sources[0].count})</>
               )}
               {refs[0] && (
-                <>, top referral: <strong style={{ color: 'var(--text-primary)' }}>?ref={refs[0].ref}</strong> ({refs[0].count})</>
+                <>, top referral: <strong style={{ color: 'var(--text-primary)' }}>?ref={refs[0].refValue}</strong> ({refs[0].count})</>
               )}
               {contentBuckets[0] && (
                 <>, most viewed: <strong style={{ color: 'var(--text-primary)' }}>{contentBuckets[0].label}</strong> ({contentBuckets[0].views})</>

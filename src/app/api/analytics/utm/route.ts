@@ -48,7 +48,7 @@ export async function GET(request: Request) {
       byCampaign?: Array<{ campaign: string; count: number }>;
       byContent?: Array<{ content: string; count: number }>;
       byTerm?: Array<{ term: string; count: number }>;
-      byRef?: Array<{ ref: string; count: number }>;
+      byRef?: Array<{ refValue: string; count: number }>;
       byPath?: Array<{ path: string; count: number }>;
       daily?: Array<{ day: string; count: number }>;
       total?: number;

@@ -406,6 +406,32 @@ async function main() {
     }
   }
 
+  // Posts with a local hero image reuse it as the OG image (cover-cropped to
+  // 1200×630) instead of the templated card. Returns false → caller falls back.
+  async function writeHeroOg(relPath: string, heroImage?: string): Promise<boolean> {
+    if (!heroImage || !heroImage.startsWith('/')) return false;
+    const src = path.join(rootDir, 'public', heroImage);
+    if (!fs.existsSync(src)) return false;
+    const outPath = path.join(outDir, relPath);
+    if (!force && fs.existsSync(outPath)) { process.stdout.write('-'); return true; }
+    try {
+      const sharp = (await import('sharp')).default;
+      const buf = await sharp(src)
+        .resize(1200, 630, { fit: 'cover' })
+        .png()
+        .toBuffer();
+      const dir = path.dirname(outPath);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(outPath, buf);
+      total++;
+      process.stdout.write('.');
+      return true;
+    } catch (e) {
+      console.error(`\n${relPath} (hero): ${e instanceof Error ? e.message : e}`);
+      return false;
+    }
+  }
+
   // Content slugs (also power live counts on section cards)
   const blogSlugs = getBlogPostSlugs();
   const newsSlugs = getNewsPostSlugs();
@@ -440,10 +466,11 @@ async function main() {
     if (fs.existsSync(p)) { fs.unlinkSync(p); console.log(`\nremoved stale ${file}`); }
   }
 
-  // Blog posts
+  // Blog posts (hero image reused as OG when present; templated card otherwise)
   for (const slug of blogSlugs) {
     const post = await getBlogPostListingMeta(slug);
     if (!post) continue;
+    if (await writeHeroOg(path.join('blog', slug + '.png'), post.image)) continue;
     await write(path.join('blog', slug + '.png'), buildOgElement({
       title: sanitize(post.title),
       label: 'Blog',

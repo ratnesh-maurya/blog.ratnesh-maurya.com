@@ -32,7 +32,7 @@ export interface UtmAnalyticsData {
   byCampaign: Array<{ campaign: string; count: number }>;
   byContent:  Array<{ content: string; count: number }>;
   byTerm:     Array<{ term: string; count: number }>;
-  byRef:      Array<{ ref: string; count: number }>;
+  byRef:      Array<{ refValue: string; count: number }>;
   byPath:     Array<{ path: string; count: number }>;
   daily: Array<{ day: string; count: number }>;
   total: number;
@@ -261,7 +261,7 @@ export function UtmAnalyticsCharts() {
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.byRef} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="ref" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <XAxis dataKey="refValue" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                       <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
                       <Tooltip
                         contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--nb-border)', borderRadius: '10px', color: 'var(--text-primary)' }}
