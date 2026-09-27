@@ -8,7 +8,8 @@ import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 
 export const dynamic = 'force-static';
-export const revalidate = 3600; // Revalidate every hour
+// Content ships with each deploy, so build once; no hourly re-render.
+export const revalidate = false;
 
 const baseUrl = 'https://blog.ratnesh-maurya.com';
 

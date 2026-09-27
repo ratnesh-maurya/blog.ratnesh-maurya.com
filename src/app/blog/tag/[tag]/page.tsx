@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAllBlogPosts } from '@/lib/content';
+import { getAllBlogPostsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
@@ -17,6 +17,20 @@ const decodeTag = (rawTag: string) => {
     .trim()
     .replace(/\b\w/g, c => c.toUpperCase());
 };
+
+// Prerender every tag at build; unknown tags 404 instead of rendering on demand.
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const posts = await getAllBlogPostsForListing();
+  const slugs = new Set<string>();
+  for (const post of posts) {
+    for (const t of post.tags ?? []) {
+      if (t.trim()) slugs.add(t.trim().toLowerCase().replace(/\s+/g, '-'));
+    }
+  }
+  return Array.from(slugs).map((tag) => ({ tag }));
+}
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { tag } = await params;
@@ -64,7 +78,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 export default async function BlogTagPage({ params }: TagPageProps) {
   const { tag } = await params;
   const tagLabel = decodeTag(tag);
-  const blogPosts = await getAllBlogPosts();
+  const blogPosts = await getAllBlogPostsForListing();
   const filtered = blogPosts.filter((p) =>
     Array.isArray(p.tags) && p.tags.some((t) => t.trim().toLowerCase() === tagLabel.trim().toLowerCase())
   );
