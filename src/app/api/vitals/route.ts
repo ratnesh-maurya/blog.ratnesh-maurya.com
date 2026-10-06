@@ -16,17 +16,25 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const metric = typeof body?.metric === 'string' ? body.metric : null;
-    const value = typeof body?.value === 'number' && isFinite(body.value) ? body.value : null;
-    const rating = typeof body?.rating === 'string' && RATINGS.has(body.rating) ? body.rating : null;
     const path = typeof body?.path === 'string' ? body.path.slice(0, 300) : null;
+    // Batched beacon: { path, metrics: [...] }. Legacy single-metric body still accepted.
+    const items: unknown[] = Array.isArray(body?.metrics) ? body.metrics.slice(0, 10) : [body];
 
-    if (!metric || !METRICS.has(metric) || value === null || value < 0 || value > 120000) {
+    const rows = items.flatMap((item) => {
+      const it = item as { metric?: unknown; value?: unknown; rating?: unknown; path?: unknown };
+      const metric = typeof it?.metric === 'string' ? it.metric : null;
+      const value = typeof it?.value === 'number' && isFinite(it.value) ? it.value : null;
+      const rating = typeof it?.rating === 'string' && RATINGS.has(it.rating) ? it.rating : null;
+      const rowPath = path ?? (typeof it?.path === 'string' ? it.path.slice(0, 300) : null);
+      if (!metric || !METRICS.has(metric) || value === null || value < 0 || value > 120000) return [];
+      return [{ metric, value, rating, path: rowPath }];
+    });
+    if (rows.length === 0) {
       return NextResponse.json({ message: 'Invalid vital' }, { status: 400 });
     }
 
     const supabase = createClient();
-    const { error } = await supabase.from('web_vitals').insert({ metric, value, rating, path });
+    const { error } = await supabase.from('web_vitals').insert(rows);
     if (error) {
       console.error('web_vitals insert error:', error);
       return NextResponse.json({ message: 'Failed to record' }, { status: 500 });

@@ -4,7 +4,8 @@ import { getAllReels, withUtm, type Reel } from '@/lib/reels';
 const PROFILE_URL = 'https://www.instagram.com/ratn_labs/';
 const SITE_URL = 'https://blog.ratnesh-maurya.com';
 
-export const revalidate = 60;
+// Purged on demand by /api/admin/reels (revalidatePath), no timed re-render.
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: 'Links — Ratn Labs',

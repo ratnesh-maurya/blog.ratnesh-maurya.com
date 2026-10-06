@@ -26,5 +26,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|api/).*)'],
+  // Cookie lasts a year, so setting it on the home page is enough. Avoids running on every request.
+  matcher: ['/'],
 };

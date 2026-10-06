@@ -126,6 +126,28 @@ export const trackPerformance = () => {
 
   // Each vital goes to GA4 (if configured) AND to /api/vitals → Supabase,
   // which powers the public analytics dashboard's Web Vitals section.
+  // Batch every vital into one beacon when the page is hidden (one function
+  // invocation per page view instead of one per metric).
+  const queue: Array<{ metric: string; value: number; rating: string | null }> = [];
+  const flush = () => {
+    if (queue.length === 0) return;
+    try {
+      const payload = JSON.stringify({ path: window.location.pathname, metrics: queue.splice(0) });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/vitals', new Blob([payload], { type: 'application/json' }));
+      } else {
+        fetch('/api/vitals', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true });
+      }
+    } catch {
+      // reporting is best-effort
+    }
+  };
+  document.addEventListener('visibilitychange', () => {
+    // web-vitals reports final LCP/CLS/INP in this same event, so flush a tick later.
+    if (document.visibilityState === 'hidden') setTimeout(flush, 0);
+  });
+  window.addEventListener('pagehide', flush);
+
   const report = (name: 'CLS' | 'INP' | 'FCP' | 'LCP' | 'TTFB', metric: { value: number; rating?: string }) => {
     if (GA_MEASUREMENT_ID && typeof window.gtag === 'function') {
       window.gtag('event', 'web_vitals', {
@@ -135,21 +157,7 @@ export const trackPerformance = () => {
         non_interaction: true,
       });
     }
-    try {
-      const payload = JSON.stringify({
-        metric: name,
-        value: metric.value,
-        rating: metric.rating ?? null,
-        path: window.location.pathname,
-      });
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon('/api/vitals', new Blob([payload], { type: 'application/json' }));
-      } else {
-        fetch('/api/vitals', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true });
-      }
-    } catch {
-      // reporting is best-effort
-    }
+    queue.push({ metric: name, value: metric.value, rating: metric.rating ?? null });
   };
 
   try {

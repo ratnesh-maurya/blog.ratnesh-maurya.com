@@ -3,11 +3,7 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
 import readingTime from 'reading-time';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeStringify from 'rehype-stringify';
-import { remark } from 'remark';
-import remarkGfm from 'remark-gfm';
-import remarkRehype from 'remark-rehype';
+import { renderMarkdown } from './markdown';
 import { addIdsToHeadings } from './toc';
 
 export interface TechnicalTermQuestion {
@@ -155,12 +151,7 @@ export async function getNewsPost(slug: string): Promise<NewsPost | null> {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
-    const processedContent = await remark()
-      .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeHighlight)
-      .use(rehypeStringify)
-      .process(content);
+    const processedContent = await renderMarkdown(content);
     const contentHtml = addIdsToHeadings(processedContent.toString());
 
     return {
@@ -217,12 +208,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       return { ...base, content, rawContent: content, format: 'mdx' };
     }
 
-    const processedContent = await remark()
-      .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeHighlight)
-      .use(rehypeStringify)
-      .process(content);
+    const processedContent = await renderMarkdown(content);
     const contentHtml = addIdsToHeadings(processedContent.toString());
     return { ...base, content: contentHtml, rawContent: content, format: 'md' };
   } catch (error) {
@@ -278,12 +264,7 @@ export async function getSillyQuestion(slug: string): Promise<SillyQuestion | nu
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
-    const processedContent = await remark()
-      .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeHighlight)
-      .use(rehypeStringify)
-      .process(content);
+    const processedContent = await renderMarkdown(content);
 
     const answerHtml = processedContent.toString();
 
@@ -320,12 +301,7 @@ export async function getTILEntry(slug: string): Promise<TILEntry | null> {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
-    const processedContent = await remark()
-      .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeHighlight)
-      .use(rehypeStringify)
-      .process(content);
+    const processedContent = await renderMarkdown(content);
 
     return {
       slug,
@@ -364,12 +340,7 @@ export async function getTechnicalTerm(slug: string): Promise<TechnicalTerm | nu
     const fullPath = path.join(technicalTermsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
-    const processedContent = await remark()
-      .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeHighlight)
-      .use(rehypeStringify)
-      .process(content);
+    const processedContent = await renderMarkdown(content);
     const contentHtml = addIdsToHeadings(processedContent.toString());
     const rawQuestions = Array.isArray(data.questions) ? data.questions : [];
     const description = (data.description || '').replace(/\s*\[\d+\](?:\[\d+\])*/g, '').trim();

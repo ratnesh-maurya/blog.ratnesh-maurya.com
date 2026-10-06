@@ -5,7 +5,7 @@ date: "2026-02-19"
 author: "Ratnesh Maurya"
 category: "Computer Science"
 tags: ["Computer Science", "Backend"]
-image: "/images/blog/The-Mechanics-of-Compression-How-100GB-Becomes-25GB.png"
+image: "/images/blog/The-Mechanics-of-Compression-How-100GB-Becomes-25GB.webp"
 featured: true
 questions: ["How does data compression work?", "Difference between ZIP and TAR.GZ?", "How to compress 100GB to 25GB?"]
 ---
@@ -206,7 +206,7 @@ Frame 3 (P):  “Same as Frame 2, but the bird moved 2 pixels left”
 …
 Total stored: one full frame + many small “deltas” and motion vectors
 ```
-![Inter-frame prediction: I-frame and P-frames with motion vectors. Frame 1 is a full photo; Frames 2 and 3 store only the moving bird and motion vector (-2, 0).](/images/blogs-inline-image/inter-frame-prediction-video-compression.png)
+![Inter-frame prediction: I-frame and P-frames with motion vectors. Frame 1 is a full photo; Frames 2 and 3 store only the moving bird and motion vector (-2, 0).](/images/blogs-inline-image/inter-frame-prediction-video-compression.webp)
 
 That’s **temporal** compression. Video also uses **spatial** compression inside each frame (similar in spirit to JPEG). Together, temporal + spatial (and often lossy choices) let streaming and storage stay practical at 1080p and 4K.
 

@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 import { getLatestReel } from '@/lib/reels';
 
-export const revalidate = 60;
+// Purged on demand by /api/admin/reels (revalidatePath), no timed re-render.
+export const revalidate = false;
 
 export default async function ShortLinksPage() {
   const latest = await getLatestReel();

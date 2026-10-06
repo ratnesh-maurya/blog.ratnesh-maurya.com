@@ -5,7 +5,7 @@ date: "2026-02-20"
 author: "Ratnesh Maurya"
 category: "System Design"
 tags: ["Computer Science", "System Design"]
-image: "/images/blog/How-Files-Are-Stored-Deleted-and-Copied-Inside-Your-Computer.jpg"
+image: "/images/blog/How-Files-Are-Stored-Deleted-and-Copied-Inside-Your-Computer.webp"
 featured: false
 questions: ["Why does deleting a file happen instantly?", "Do files actually get deleted from disk?", "Why does copying files take time?", "What happens when moving files between drives?"]
 ---
