@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { isExpiringCdnUrl } from '@/lib/reelThumbs';
 import { getAllReels, withUtm, type Reel } from '@/lib/reels';
 
 const PROFILE_URL = 'https://www.instagram.com/ratn_labs/';
@@ -25,6 +26,8 @@ export const metadata: Metadata = {
 function ReelCard({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
   const blogLink = reel.links.find((link) => /blog/i.test(link.label) || link.url.includes('blog.ratnesh-maurya.com'));
   const thumbnailHref = blogLink ? withUtm(blogLink.url, reel.slug) : reel.reel_url;
+  // Old rows may still hold Instagram CDN links, which expire and render as broken images.
+  const thumb = reel.thumb_url && !isExpiringCdnUrl(reel.thumb_url) ? reel.thumb_url : null;
   const thumbnailAriaLabel = blogLink ? `Open blog post for ${reel.title}` : `Watch ${reel.title} reel`;
 
   const linksBlock = (
@@ -95,7 +98,7 @@ function ReelCard({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
       <h2 className="text-lg sm:text-xl font-bold mb-2 leading-snug" style={{ color: 'var(--text-primary)' }}>
         {reel.title}
       </h2>
-      {reel.thumb_url ? (
+      {thumb ? (
         <div className="mb-4 flex items-start gap-3">
           <a
             href={thumbnailHref}
@@ -107,10 +110,10 @@ function ReelCard({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={reel.thumb_url}
+              src={thumb}
               alt={`${reel.title} thumbnail`}
               loading="lazy"
-              className="aspect-[9/16] w-full object-cover transition-transform duration-300 hover:scale-[1.04]"
+              className="aspect-square w-full object-cover transition-transform duration-300 hover:scale-[1.04]"
             />
           </a>
           <div className="min-w-0 flex-1">

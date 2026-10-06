@@ -47,6 +47,8 @@ export default function AdminReelsClient() {
   const [secretSaved, setSecretSaved] = useState(false);
   const [reels, setReels] = useState<Reel[]>([]);
   const [form, setForm] = useState<Reel>(emptyForm());
+  /** Uploaded thumbnail as a data URL; sent instead of thumb_url when set. */
+  const [thumbData, setThumbData] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
 
@@ -123,6 +125,7 @@ export default function AdminReelsClient() {
         description: form.description.trim(),
         reel_url: form.reel_url.trim(),
         thumb_url: form.thumb_url?.trim() || null,
+        thumb_data: thumbData,
         posted_at: form.posted_at,
         links: form.links.filter((l) => l.label.trim() && l.url.trim()),
       };
@@ -136,8 +139,9 @@ export default function AdminReelsClient() {
         flash('err', data.error || `Save failed: ${res.status}`);
         return;
       }
-      flash('ok', `Saved: ${payload.slug}`);
+      flash(data.warning ? 'err' : 'ok', data.warning ?? `Saved: ${payload.slug}`);
       setForm(emptyForm());
+      setThumbData(null);
       fetchReels(secret);
     } catch (e) {
       flash('err', `Network error: ${(e as Error).message}`);
@@ -146,7 +150,17 @@ export default function AdminReelsClient() {
     }
   };
 
+  const pickThumb = (file: File | undefined) => {
+    if (!file) return;
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return flash('err', 'Thumbnail must be JPEG, PNG or WebP');
+    if (file.size > 2 * 1024 * 1024) return flash('err', 'Thumbnail must be under 2 MB');
+    const reader = new FileReader();
+    reader.onload = () => setThumbData(typeof reader.result === 'string' ? reader.result : null);
+    reader.readAsDataURL(file);
+  };
+
   const editReel = (r: Reel) => {
+    setThumbData(null);
     setForm({
       slug: r.slug,
       title: r.title,
@@ -157,6 +171,29 @@ export default function AdminReelsClient() {
       links: r.links?.length ? r.links : [{ label: '', url: '' }],
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const refreshThumbs = async () => {
+    if (!secret) return flash('err', 'Set secret first');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/reels?action=refresh-thumbs', {
+        method: 'PATCH',
+        headers: { 'x-admin-secret': secret },
+      });
+      const data = await res.json();
+      if (!res.ok) return flash('err', data.error || `Refresh failed: ${res.status}`);
+      const results = (data.results ?? []) as Array<{ slug: string; ok: boolean; message?: string }>;
+      const failed = results.filter((r) => !r.ok);
+      if (results.length === 0) flash('ok', 'All thumbnails are already stored');
+      else if (failed.length === 0) flash('ok', `Fixed ${results.length} thumbnail(s)`);
+      else flash('err', `Fixed ${results.length - failed.length}; failed: ${failed.map((f) => `${f.slug} (${f.message})`).join('; ')}`);
+      fetchReels(secret);
+    } catch (e) {
+      flash('err', `Network error: ${(e as Error).message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const deleteReel = async (slug: string) => {
@@ -306,14 +343,41 @@ export default function AdminReelsClient() {
             />
           </Field>
 
-          <Field label="Thumbnail URL (optional)">
-            <input
-              type="url"
-              value={form.thumb_url ?? ''}
-              onChange={(e) => setForm({ ...form, thumb_url: e.target.value })}
-              className="w-full rounded-xl px-3 py-2 text-sm"
-              style={inputStyle}
-            />
+          <Field label="Thumbnail (optional)">
+            <div className="flex items-start gap-3">
+              {thumbData || form.thumb_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={thumbData ?? form.thumb_url ?? ''}
+                  alt=""
+                  className="w-16 aspect-square object-cover rounded-lg shrink-0"
+                  style={{ border: '1px solid var(--glass-border)' }}
+                />
+              ) : null}
+              <div className="flex-1 space-y-2">
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={(e) => pickThumb(e.target.files?.[0])}
+                  className="w-full text-sm"
+                />
+                <input
+                  type="url"
+                  placeholder="…or paste an image URL"
+                  value={form.thumb_url ?? ''}
+                  onChange={(e) => {
+                    setThumbData(null);
+                    setForm({ ...form, thumb_url: e.target.value });
+                  }}
+                  className="w-full rounded-xl px-3 py-2 text-sm"
+                  style={inputStyle}
+                />
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  Leave empty to pull the cover from the Instagram post automatically, or upload the cover slide
+                  (e.g. reels/&lt;slug&gt;/01-hook.png). A permanent copy is stored on save.
+                </p>
+              </div>
+            </div>
           </Field>
 
           <div>
@@ -369,7 +433,10 @@ export default function AdminReelsClient() {
             </button>
             <button
               type="button"
-              onClick={() => setForm(emptyForm())}
+              onClick={() => {
+                setForm(emptyForm());
+                setThumbData(null);
+              }}
               className="rounded-xl px-4 py-3 text-sm font-semibold"
               style={inputStyle}
             >
@@ -379,9 +446,21 @@ export default function AdminReelsClient() {
         </form>
 
         <section className="space-y-3">
-          <h2 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
-            Existing reels ({reels.length})
-          </h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
+              Existing reels ({reels.length})
+            </h2>
+            <button
+              type="button"
+              onClick={refreshThumbs}
+              disabled={loading || reels.length === 0}
+              className="rounded-xl px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
+              style={inputStyle}
+              title="Pull the cover image from each Instagram post that has no stored thumbnail"
+            >
+              Fix missing thumbnails
+            </button>
+          </div>
           {reels.length === 0 ? (
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>None yet.</p>
           ) : (

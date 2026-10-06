@@ -1,238 +1,294 @@
 ---
 name: reel-from-post
-description: Generate a 3:4 Instagram carousel slider (5–10 PNG slides + caption) for a post in this blog repo. Each carousel is BESPOKE — Claude reads the post and designs unique visuals, hook, copy, and accent palette tailored to that specific topic. Light-mode by default to match the website. Never templated, never repeated. Use when user says "make a reel", "make a slider", "carousel for <post>", "/reel <slug>", "instagram from this post", or asks for ratn_labs IG content. Output to `reels/<slug>/` (gitignored, never commit). Site is blog.ratnesh-maurya.com, IG handle @ratn_labs, brand mark "RATN LABS".
+description: Generate a 3:4 carousel (2–10 PNG slides at 1080×1440) for @ratn_labs, packaged for Instagram (slides + caption + alt text), LinkedIn (PDF document post + post text) and X (thread), plus a /links entry, from content in this repo — a blog post, the daily news digest, a technical term, a TIL, a silly question or a cheatsheet. Each carousel is BESPOKE — Claude reads the source and designs a unique hook, visual metaphor and slide bodies for that topic; only the brand chrome (logo, progress bar, handle, page indicator, swipe arrow, CTA slide, code card) is shared. Light mode to match the website. Use when the user says "make a reel", "make a slider/carousel", "/reel <slug>", "instagram post for <post/term/news>", "post today's news on Instagram", "LinkedIn carousel", "X thread from this post", or asks for ratn_labs social content. Output to reels/<slug>/ (gitignored, never commit). The user posts manually on every platform.
 ---
 
-# Reel from Post — Bespoke 3:4 IG Carousel Generator
+# Reel from Post — bespoke @ratn_labs carousels
 
-Generate a 1080×1350 Instagram carousel asset bundle from a blog/news/TIL/cheatsheet post in `content/`. Output is **5–10 PNG slides** + caption.
+Turns one piece of repo content into a carousel that's ready to post on
+Instagram, LinkedIn and X:
 
-**Format is carousel, not video.** No 9:16 single-reel mode. Always slides at 3:4.
+```
+reels/<slug>/
+  design.tsx                 ← bespoke slide bodies for THIS topic (you write this)
+  01-hook.png … NN-cta.png   ← Instagram + X: upload in filename order
+  caption.txt                ← Instagram caption
+  alt.txt                    ← per-slide alt text (IG: Advanced settings → Write alt text)
+  carousel.pdf               ← LinkedIn: post as a *document* (it swipes like a carousel)
+  linkedin.txt               ← LinkedIn post text + first comment (with the link)
+  x-thread.txt               ← X thread, one slide image per post
+  links.json                 ← entry for the /links bio page (Admin → Reels)
+  contact-sheet.png          ← all slides tiled, for review
+```
 
-**Core principle: every carousel is uniquely designed for its topic.** No reusable template. The hook copy, visual metaphor, layout structure, accent twist, and caption voice all come from reading and thinking about THIS specific post. If a future Claude could generate the same carousel without reading the post, the design failed.
+The user posts manually. Your job ends when the files are ready and checked.
 
-## Inputs
+**Core principle — bespoke bodies, shared chrome.** The kit at
+[kit.tsx](kit.tsx) owns what must be identical on every carousel: canvas
+(1080×1440, 3:4), fonts (Geist, Source Serif 4 and Geist Mono from
+`scripts/og-fonts/`), the `TYPE`/`SPACE`/`RADIUS` scales, the RatnLabs logo
+(same construction as the site header), the progress bar, the `@ratn_labs`
+handle, `N / total`, the swipe arrow, the "Save for later" chip, the CTA slide,
+the `Code` card, and all exports. **Everything inside the frame is designed fresh for
+the topic.** If someone could produce the same slides without reading the
+source, the design failed.
 
-- `/reel <slug>` (kept for muscle memory; produces a carousel, not a reel)
-- `/reel <full-url>`
-- "make a slider for the SNS post"
-- "carousel from the caching post"
+## Step 1 — Resolve the source
 
-If user gives a fuzzy name, glob `content/**/*.md*` to disambiguate. Confirm if multiple matches.
+Accept a slug, a URL, or a fuzzy name ("the caching post", "today's news",
+"bloom filter"). Glob to find it; if several match, ask.
 
-## Step 1 — Resolve & read
+| Kind | File | Public URL path |
+|---|---|---|
+| Blog | `content/blog/<slug>.md` or `.mdx` | `/blog/<slug>/` |
+| News digest | `content/news/<slug>.md` (latest = newest `date:`) | `/news/<slug>/` |
+| Technical term | `content/technical-terms/<slug>.md` | `/technical-terms/<slug>/` |
+| TIL | `content/til/<slug>.md` | `/til/<slug>/` |
+| Silly question | `content/silly-questions/<slug>.md` | `/silly-questions/<slug>/` |
+| Cheatsheet | `content/cheatsheets/<slug>.json` | `/cheatsheets/<slug>/` |
 
-Sections live at:
-- `content/blog/<slug>.md|.mdx`
-- `content/news/<slug>.md|.mdx`
-- `content/til/<slug>.md|.mdx`
-- `content/cheatsheets/<slug>.md|.mdx`
+"Today's news" / "latest news" → the news file with the newest `date:`.
 
-Read the file. Parse frontmatter (`gray-matter`) AND the markdown body. The body is essential — frontmatter alone is too thin to design from.
+Read the **whole body**, not just frontmatter. Capture title, description,
+tags, `questions`, H2s, code blocks, numbers, comparisons and any vivid line.
 
-Capture: `title`, `description`, `tags`, `questions[]`, `image`, `category`, plus body H2s and any code blocks, diagrams, or vivid sentences worth amplifying.
+## Step 2 — Pick the playbook for the content kind
 
-## Step 2 — Analyze (mandatory; do not skip)
+Slide count is a range, not a target. Don't pad; don't cut a real idea.
 
-Before writing any code, write yourself a short analysis (in your own thinking, not a file):
+**Blog (6–9 slides)** — teach one idea well.
+Hook → the problem/pain → 2–4 insight slides (one idea each, each with a
+diagram, code snippet or comparison) → payoff (number, before/after, table) →
+rule of thumb / how to apply → CTA.
 
-- **Hook (1 line, ≤8 words):** Slide-1 title. Must be **clear and understandable** at a glance — not clever-but-confusing. Often imperative or surprising. Examples:
-  - "Reorder Go fields. Save 152MB."
+**News digest (5–8 slides)** — a roundup, not the whole digest.
+Pick the **3–5 most important stories** (the digest's "Top story" first, then
+the TL;DR order). Hook slide names the day's theme ("Microsoft goes all-in on
+agents"), not "Daily news". One slide per story: headline, 1–2 lines of what
+happened, a bold "why it matters" line, source name. Optional "Quick hits"
+slide for 3–4 one-liners. CTA. Date on the hook slide.
+
+**Technical term (4–6 slides)** — an explainer.
+Hook as a question or surprising claim ("Your database can say 'definitely
+not' in 1 microsecond") → plain-English definition → how it works (diagram) →
+when to use / when not to → one gotcha or trade-off → CTA.
+
+**TIL / silly question (3–5 slides)** — one punchy fix.
+Hook (the symptom or question) → the answer/command → why it works → CTA.
+
+**Cheatsheet (5–8 slides)** — the most useful commands, grouped by task,
+4–6 commands per slide, each with a short "what it does".
+
+## Step 3 — Analyse before designing (mandatory)
+
+Write this down in your own reasoning before any code:
+
+- **Hook (≤ 8 words).** Clear at a glance beats clever. Imperative, surprising
+  number, or a sharp question. Often *not* the post title.
+  - "Reorder Go struct fields. Save 152 MB."
   - "Five caching strategies. One question: which?"
   - "Why Write-Back loses your data."
-- **Insights (3–7, each ≤14 words):** One per slide. Pull from frontmatter `questions` if punchy, otherwise from H2s or sharp body sentences. Each insight stands alone visually.
-- **Visual metaphor (this is the bespoke part):** What single image/diagram captures THIS topic? Examples:
-  - Caching → cache layers, hit/miss split, hot/cold
-  - Distributed system → nodes + edges, ring topology
-  - SNS / pub-sub → fan-out arrows from a hub
-  - Rate limiting → token bucket, dripping faucet
-  - Go release → version timeline, milestone ticks
-  - QR code → matrix grid with finder squares
-  - Schema migration → before/after split
-  - Memory layout → byte grid (one row = one word) with hatched padding cells
-  Inline SVG/divs only. Specificity > polish.
-- **Accent twist:** Pick one primary accent + one contrast accent (problem/warning) from the brand palette below. Don't keep last carousel's twist by default.
+- **One idea per slide** (≤ 14 words of headline each).
+- **Visual metaphor** that only fits this topic. Examples:
+  caching → hit/miss split, hot/cold layers · pub/sub → fan-out from a hub ·
+  rate limiting → token bucket · memory layout → byte grid with hatched
+  padding · QR code → finder squares · consensus → nodes + quorum ring ·
+  news roundup → stacked "story cards" or a timeline of the day.
+- **Accent:** one primary + one contrast from `ACCENTS` (blue, green, purple,
+  rose, orange, teal, gold). Defaults: blog → blue, news → rose, term →
+  purple, TIL → green, cheatsheet → teal. Twist when the topic asks for it,
+  and don't reuse the previous carousel's combination by default.
+- **Pattern:** one of `dots | grid | stripes | rings | none`, same on every
+  slide of the carousel.
 
-If you cannot answer "why does this design only fit this post?" — redesign.
+Ask yourself: *why does this design only fit this post?* No answer → redesign.
 
-## Step 3 — Brand palette (anchored to website tokens)
+## Step 4 — Copy rules (Instagram is read on a phone, fast)
 
-Site is **light-mode** ("Liquid Glass" but on a warm cream/white base). Match the website. Pull tokens from `src/app/globals.css`.
-
-**Backgrounds (always light):**
-- Page bg: `#FAFAF8` (neutral-50) or `#FFFFFF` (surface) — never dark
-- Soft tint variant: `color-mix(accent-50 32%, #FFFFFF)` ≈ `#F5F8FC` for a tinted hero slide
-- Surface card: `#FFFFFF` with `1px solid #E4E4DF` and shadow `0 4px 8px -2px rgb(28 28 26 / 0.08)`
-
-**Foreground / text:**
-- Primary text: `#1C1C1A`
-- Secondary: `#545450`
-- Muted: `#6A6A64` (AA-passing)
-
-**Brand accents (pick to fit topic):**
-| Accent | hex | use for |
-|---|---|---|
-| Blue 500 (primary) | `#0066CC` | default accent, blog/system-design topics |
-| Blue 400 | `#33A3FF` | secondary highlights, light fills |
-| Blue 700 | `#003D73` | high-contrast text on cream |
-| Gold 400 | `#D4A020` | warnings, cautions, "silly questions" energy |
-| Coral 400 | `#D442B0` | playful, contrast pop |
-| Success | `#059669` | wins, "do this" callouts |
-| Warning | `#D97706` | watch-out callouts |
-| Error | `#DC2626` | "bad", waste, anti-pattern callouts |
-
-**Section default accents** (anchor, not constraint — twist if topic demands):
-| Section | primary | contrast |
-|---|---|---|
-| blog | `#0066CC` | `#DC2626` (problem) |
-| news | `#DC2626` | `#1C1C1A` |
-| til  | `#059669` | `#0066CC` |
-| cheatsheets | `#0066CC` | `#D4A020` |
-
-**Background patterns (subtle, ≤8% opacity):** dots, square grid, diagonal stripes, circuit lines, waves. Pick one per carousel and stay consistent across slides. Use `repeating-linear-gradient` or `radial-gradient` — no external assets.
-
-## Step 4 — Slide plan (5–10 slides)
-
-| # | Beat | Job |
-|---|---|---|
-| 1 | **Hook** | Stop the scroll. Big clear title (the bespoke hook). Bespoke metaphor seed. |
-| 2 | Setup / problem | Frame the question or pain. |
-| 3 | Insight 1 | First key idea + small diagram/code. |
-| 4 | Insight 2 | Second idea / contrast. |
-| 5 | Insight 3 | (Optional) Third idea. |
-| 6 | Numbers / payoff | Scale data, comparison table, or surprising metric. |
-| 7 | How / tool | The actionable bit (command, snippet, rule of thumb). |
-| N | **CTA (last)** | **Generic** — "Read more at blog.ratnesh-maurya.com" + `@ratn_labs` + RATN LABS wordmark. Include post URL too if the slug fits cleanly. |
-
-Slide count is **5–10**, picked to fit content. Don't pad. Don't trim hard ideas just to hit a count.
-
-**Required on every slide:**
-- 1080×1350 (4:5)
-- RATN LABS logo + wordmark (top-left). The logo file lives at `public/apple-touch-icon.png` (blue rounded square with white "R" + brutalist black shadow). Embed it as a base64 data URL — Satori only loads remote images if explicitly fetched, so inline is the reliable path:
-
-  ```ts
-  const LOGO_PATH = path.resolve(__dirname, '../../public/apple-touch-icon.png');
-  const LOGO_B64 = fs.readFileSync(LOGO_PATH).toString('base64');
-  const LOGO = `data:image/png;base64,${LOGO_B64}`;
-  // <img src={LOGO} width={48} height={48} style={{ borderRadius: 10 }} />
-  ```
-  Use ~48px in headers, ~160px on the CTA slide.
-- Page indicator `N / total` (small, footer-ish)
-- **Swipe-next arrow `→` bottom-right on every slide except the last.** The last slide replaces the arrow with the CTA URL.
-
-Carousel must visually vary — don't reuse one layout for every slide with text swapped.
+- Use the `TYPE` scale: `display` (hook), `h1`/`h2` (headlines), `h3` (card
+  titles), `body`, `small`, `label`. Nothing smaller than `TYPE.label`.
+  Use `RADIUS` and `SPACE` for corners and gaps.
+- Max **~40 words per slide**. If it needs more, it's two slides.
+- Use `fit(text, { width, maxLines, max })` from the kit for any text whose
+  length you don't control (titles, news headlines, term names).
+- Bold the one phrase per slide that carries the idea, in the accent colour.
+- Facts only from the source. Never invent numbers, versions or quotes. For
+  news, keep the source outlet's name on each story slide.
+- No emoji walls; at most one emoji per slide, and only if it adds meaning.
 
 ## Step 5 — Write `reels/<slug>/design.tsx`
 
-Self-contained file. Imports `@vercel/og` directly (already in repo deps). Defines bespoke React slide components for THIS post. Has a `main()` that renders each to PNG.
-
-**Hard Satori rules — failure to follow these causes render errors:**
-
-1. Every `<div>` with more than one child node MUST have explicit `display: 'flex'` (or `'block'`/`'contents'`/`'none'`). Default to `display: 'flex'`.
-2. Mixing literal text + a JSX expression inside a div counts as multiple children. Combine into one template string:
-   - ✗ `<div>OF {total}</div>`
-   - ✓ `<div>{`OF ${total}`}</div>`
-3. **No `<text>` element inside SVG.** Satori errors with `<text> nodes are not currently supported, please convert them to <path>`. If you need text inside a graphic, render it as a positioned `<div>` overlay, not as SVG text.
-4. No external image URLs unless verified to resolve. Use inline SVG and div-based shapes.
-5. No external font loading. System fallback only (`Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif`; mono `ui-monospace, "SF Mono", Menlo, Consolas, monospace`).
-6. `<svg>` is fine for non-text shapes (rect, path, circle, line). Stick to those.
-
-Skeleton (adapt heavily, do NOT copy as a template — bespoke slide bodies are the whole point):
-
 ```tsx
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import React from 'react';
-import { ImageResponse } from '@vercel/og';
+import { ACCENTS, Code, CtaSlide, FONT, Frame, RADIUS, T, TYPE, fit, postUrl, renderCarousel, type Slide } from '../../.claude/skills/reel-from-post/kit';
 
-const W = 1080, H = 1440;  // 3:4 carousel slide
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const A = ACCENTS.purple;
+const URL = postUrl('technical-terms', 'bloom-filter');
+const TOTAL = 5;
 
-// brand tokens (mirror globals.css)
-const BG       = '#FAFAF8';
-const SURFACE  = '#FFFFFF';
-const TEXT     = '#1C1C1A';
-const TEXT_2   = '#545450';
-const MUTED    = '#6A6A64';
-const BORDER   = '#E4E4DF';
-const ACCENT   = '#0066CC';
-const ACCENT_2 = '#003D73';
-
-// ─── Slides designed specifically for THIS post ─────────────────────────
-function HookSlide()    { /* big title + metaphor seed */ }
-function Slide2()       { /* ... */ }
-// ... 3–8 more
-function CtaSlide()     { /* generic: blog.ratnesh-maurya.com + @ratn_labs */ }
-
-async function render(name: string, el: React.ReactElement) {
-  const res = new ImageResponse(el, { width: W, height: H });
-  const buf = await res.arrayBuffer();
-  fs.writeFileSync(path.join(__dirname, name), Buffer.from(buf));
-  process.stdout.write('.');
+// Bespoke slide bodies — designed for THIS topic only.
+function Hook() {
+  return (
+    <Frame n={1} total={TOTAL} accent={A} pattern="dots" kicker="Technical term">
+      {/* … */}
+    </Frame>
+  );
 }
+// … one component per slide …
 
-async function main() {
-  await render('slide-1-hook.png', <HookSlide />);
-  // ...
-  await render('slide-N-cta.png',  <CtaSlide />);
-  console.log(`\n✓ slides written to ${__dirname}`);
-}
+const slides: Slide[] = [
+  { label: 'hook', alt: 'What the slide says and shows, for screen readers.', el: <Hook /> },
+  // …
+  { label: 'cta', alt: '…', el: <CtaSlide total={TOTAL} accent={A} url={URL} line="One sentence that fits this topic." /> },
+];
 
-main().catch(e => { console.error(e); process.exit(1); });
+renderCarousel(slides, {
+  title: 'Bloom filter, explained in 5 slides — Ratn Labs', // LinkedIn PDF title
+  caption: `…`,              // Step 7 — Instagram
+  linkedin: `…`,             // Step 7 — LinkedIn post text
+  linkedinComment: `…`,      // Step 7 — first comment, holds the link
+  xThread: [{ text: '…', slide: 1 }, /* … */ { text: `… ${URL}` }], // Step 7 — X
+  links: {
+    slug: 'bloom-filter',
+    title: 'Bloom filter, explained in 5 slides',
+    description: 'One or two sentences for the /links card.',
+    links: [{ label: 'Full explanation', url: URL }],
+  },
+}).catch((e) => { console.error(e); process.exit(1); });
 ```
 
-File naming: `slide-<n>-<short-label>.png` (e.g. `slide-1-hook.png`, `slide-7-cta.png`).
+`Frame` gives you the header, footer, padding and pattern; put only the body
+inside it. The body is vertically centred by default (`valign="center"`); use
+`"top"` for tall content or `"spread"` to pin a closing line to the bottom.
+Fill the frame — a slide with a dead bottom third reads as unfinished. Keep
+`TOTAL` equal to `slides.length`. The last slide is always `CtaSlide`.
 
-## Step 6 — Run it
+- **`save`** on `Frame` adds a "Save for later" chip. Put it on the single
+  most reference-worthy slide (usually the second-to-last). Saves weigh
+  heavily on Instagram.
+- **`Code`** renders a snippet in Geist Mono with light highlighting:
+  `<Code code={snippet} accent={A} title="file.py" highlight={[3, 7]} />`.
+  At the default 30 px it fits ~46 characters per line; drop `fontSize` to 28
+  for ~50. Keep it ≤ 14 lines. If you shorten the source's code to fit, say
+  so in the title (e.g. `"bloom.py (simplified)"`) and keep the logic the same.
+- **`alt`** is required on every slide; `renderCarousel` refuses to run
+  without it. Describe what the slide says and shows in 1–3 sentences.
+
+**Satori rules (break these and rendering fails or looks wrong):**
+1. Every `<div>` with more than one child needs `display: 'flex'` (or `'none'`).
+   Default every div to `display: 'flex'`.
+2. Literal text + a JSX expression in one div = multiple children. Use one
+   template string: `{`${n} requests/s`}` not `{n} requests/s`.
+3. No `<text>` inside `<svg>` — put labels in absolutely-positioned divs over
+   the SVG. `<rect> <path> <circle> <line> <polygon>` are fine.
+4. No external images, fonts or URLs. Inline SVG and divs only. The logo is
+   already in the kit.
+5. Code goes in the kit's `Code` card (`FONT.mono` is Geist Mono). For short
+   inline identifiers use `fontFamily: FONT.mono` on the div.
+6. **Budget widths.** The body is 936 px wide (1080 − 2×72); every card
+   padding and border comes off that. For a fixed row of N items, check
+   `N × (itemWidth + gap) ≤ available width` before picking sizes — Satori
+   doesn't wrap or shrink them, it overflows.
+7. Two differently coloured words side by side need two divs, and Satori
+   spaces them ~0.1em further apart than one word — pull the second back with
+   a small negative `marginLeft` if they must read as one word.
+8. Gradients must fade to a real colour (`T.bg`, `accent.a50`), never
+   `transparent` — Satori fades through transparent black, which renders grey.
+9. `gap`, `flex`, `position: 'absolute'`, `borderRadius`, `boxShadow`,
+   gradients and `backgroundImage` all work. CSS grid does not — use flex rows.
+
+## Step 6 — Render
 
 ```bash
 npx tsx reels/<slug>/design.tsx
 ```
 
-If Satori errors:
-- Read the error message — it usually names the offending element.
-- Fix the specific div (add `display: 'flex'`, combine multi-child text+expr, replace `<text>` with overlay div).
-- Re-run.
-- Don't loop blindly. Diagnose.
+On a Satori error, read the message (it names the element), fix that element,
+re-run. Don't retry blindly.
 
-## Step 7 — Caption (`reels/<slug>/caption.txt`)
+## Step 7 — Write the text for each platform
 
-Bespoke voice, not fill-in-the-blank. Structure:
+Same facts, different voice. Write each one for its platform — don't paste the
+Instagram caption everywhere. `renderCarousel` checks every limit below and
+refuses to run if one is broken.
+
+**Instagram (`caption`, ≤ 2,200 chars, aim < 900)**
 
 ```
-{punchier hook line — often different from the post title}
+{hook line — punchier than the post title}
 
-{1–2 sentences of value, written for IG audience, not formal}
+{2–3 short lines of value written for IG, conversational, no jargon walls}
 
-→ Full breakdown: https://blog.ratnesh-maurya.com/<kind>/<slug>
-→ Read more: link in bio
+{one line: what they'll get by swiping / from the full post}
 
-#tag1 #tag2 #ratnlabs #systemdesign #backend #softwareengineering
+🔗 Full breakdown: blog.ratnesh-maurya.com/<kind>/<slug>/
+(link in bio → @ratn_labs)
+
+#ratnlabs #tag2 #tag3 …
 ```
 
-Hashtags: slugify post `tags` (lowercase, no spaces), then add niche staples (`#ratnlabs` always; rotate among `#systemdesign #backend #devtools #databases #golang` etc. based on topic). 8–15 hashtags total.
+- **Always include the full post URL** exactly as `blog.ratnesh-maurya.com/<kind>/<slug>/`.
+- 8–15 hashtags: `#ratnlabs` always, slugified post tags, then 3–5 niche
+  staples that fit (`#systemdesign #backend #softwareengineering #devtools
+  #databases #golang #distributedsystems #ainews #llm`).
 
-## Step 8 — Report to user
+**LinkedIn (`linkedin` ≤ 3,000 chars + `linkedinComment`)**
 
-Print a tight summary:
-- Output dir
-- Slides produced (count + filenames)
-- Caption file
-- One-line `open reels/<slug>/` hint
+- Posted as a **document** with `carousel.pdf` — LinkedIn shows it as a
+  swipeable carousel. Image posts show as a static grid; don't use them.
+- First line is the hook (it's all people see before "…see more"). Then a
+  short, professional explanation: what it is, 2–3 concrete facts or numbers
+  from the source, the trade-off. End with a genuine question to invite
+  comments.
+- **No link in the post body** (it cuts reach). The link goes in
+  `linkedinComment`, posted as the first comment.
+- 3–5 CamelCase hashtags at the end (`#SystemDesign #BackendEngineering`).
 
-Do not paste the full caption or design code into chat unless asked.
+**X (`xThread`, each post ≤ 280 chars; URLs count as 23)**
+
+- One post per content slide with `slide: n` to attach that PNG; the first
+  post carries the hook and ends with "🧵".
+- Each post must make sense on its own (people see them out of order).
+- Last post: the link, no image. At most 1–2 hashtags in the whole thread.
+
+## Step 8 — Visual QA (mandatory)
+
+Open `reels/<slug>/contact-sheet.png` with the Read tool and look at it. Then
+open any slide that looks off at full size. Check:
+
+- No text clipped, overflowing its card, or colliding with the footer.
+- Hook readable at thumbnail size (contact sheet scale ≈ IG grid).
+- Every slide except the last has the → arrow; every slide has the progress
+  bar, `@ratn_labs` and `N / total`.
+- Code cards: no line runs past the card edge.
+- Visual variety — not the same layout with swapped text.
+- Facts match the source.
+
+Fix and re-render until it passes. This step is not optional.
+
+## Step 9 — Report
+
+Tell the user, briefly:
+- Folder path and slide count.
+- **Instagram:** upload the PNGs in filename order, paste `caption.txt`, add
+  alt text from `alt.txt` (Advanced settings).
+- **LinkedIn:** "Add a document" → `carousel.pdf`, paste `linkedin.txt`, then
+  post the first-comment text.
+- **X:** post `x-thread.txt` as a thread, attaching the PNG named on each post.
+- After posting on Instagram: add the `links.json` entry in **Admin → Reels**
+  with the post URL, and upload `01-hook.png` as the thumbnail, so it shows on
+  the `/links` bio page. (The admin stores its own copy — never rely on an
+  Instagram image link; they expire within weeks.)
+
+Don't paste the design code or full caption into chat unless asked.
 
 ## Hard rules
 
-- **Carousel only.** 3:4, 5–10 slides. No 9:16 single-image reels.
-- **Light backgrounds always.** Cream/white + subtle pattern. Match the website. No dark-mode carousels.
-- **Bespoke every time.** If you find yourself copying a previous carousel's slide component, stop and redesign.
-- **First slide = clear understandable hook title.** Never cryptic.
-- **Last slide = generic CTA** to `blog.ratnesh-maurya.com` + `@ratn_labs` + RATN LABS wordmark. Reusable across posts.
-- **Swipe arrow `→` on every slide except the last.** Page indicator `N / total` on every slide.
-- **Never `git add reels/`.** It is gitignored. Never push.
-- **Never fetch external images/fonts/APIs.** Inline SVG/divs only.
-- **Never reuse last invocation's accent twist or pattern** as a default.
-- **Never skip Step 2.** The analysis IS the bespokeness.
-- **One design file per slug.** Path: `reels/<slug>/design.tsx`. Overwrite freely on re-runs.
+- **Carousel, 3:4, 1080×1440, 2–10 slides.** No 9:16, no single-image posts.
+- **Light backgrounds only**, matching the site. No dark carousels.
+- **Bespoke bodies every time.** Never copy a previous carousel's slide components.
+- **First slide = clear hook. Last slide = `CtaSlide`.**
+- **Never edit `kit.tsx` to fit one carousel.** Change it only for a brand-wide decision.
+- **Never `git add reels/`** — it's gitignored. Never push it.
+- **Never post on the user's behalf.** Produce files; the user posts.
+- **Never skip Step 3 or Step 8.**

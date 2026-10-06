@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import { deleteThumbs, fetchInstagramCover, isExpiringCdnUrl, isInstagramPostUrl, isStoredThumb, storeThumb } from '@/lib/reelThumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 
 export const runtime = 'nodejs';
@@ -29,6 +30,8 @@ type ReelInput = {
   description?: string;
   reel_url: string;
   thumb_url?: string | null;
+  /** Uploaded image as a data URL (data:image/png;base64,...). Takes precedence over thumb_url. */
+  thumb_data?: string | null;
   posted_at?: string;
   links?: LinkInput[];
 };
@@ -59,6 +62,7 @@ function validateReel(body: unknown): { ok: true; data: ReelInput } | { ok: fals
       description: typeof b.description === 'string' ? b.description : '',
       reel_url: b.reel_url,
       thumb_url: typeof b.thumb_url === 'string' && b.thumb_url ? b.thumb_url : null,
+      thumb_data: typeof b.thumb_data === 'string' && b.thumb_data.startsWith('data:image/') ? b.thumb_data : null,
       posted_at: typeof b.posted_at === 'string' && b.posted_at ? b.posted_at : undefined,
       links: links as LinkInput[],
     },
@@ -91,12 +95,33 @@ export async function POST(req: NextRequest) {
   if (!v.ok) return NextResponse.json({ error: v.error }, { status: 400 });
 
   const sb = getAdminClient();
+
+  // Instagram image links expire within weeks, so keep our own copy of every
+  // thumbnail. Already-stored URLs (an unchanged edit) are kept as they are.
+  let thumbUrl = v.data.thumb_url ?? null;
+  let warning: string | undefined;
+  try {
+    if (v.data.thumb_data) thumbUrl = await storeThumb(sb, v.data.slug, { dataUrl: v.data.thumb_data });
+    else if (thumbUrl && !isStoredThumb(thumbUrl) && !isExpiringCdnUrl(thumbUrl)) thumbUrl = await storeThumb(sb, v.data.slug, { url: thumbUrl });
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 400 });
+  }
+  // No usable thumbnail given: pull the cover straight from the Instagram post.
+  if ((!thumbUrl || !isStoredThumb(thumbUrl)) && isInstagramPostUrl(v.data.reel_url)) {
+    try {
+      thumbUrl = await storeThumb(sb, v.data.slug, { url: await fetchInstagramCover(v.data.reel_url) });
+    } catch (e) {
+      thumbUrl = null;
+      warning = `Saved without a thumbnail: ${(e as Error).message}. Upload the image instead.`;
+    }
+  }
+
   const row = {
     slug: v.data.slug,
     title: v.data.title,
     description: v.data.description ?? '',
     reel_url: v.data.reel_url,
-    thumb_url: v.data.thumb_url,
+    thumb_url: thumbUrl,
     links: v.data.links ?? [],
     ...(v.data.posted_at ? { posted_at: v.data.posted_at } : {}),
   };
@@ -109,7 +134,38 @@ export async function POST(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   revalidateAll();
-  return NextResponse.json({ reel: data });
+  return NextResponse.json({ reel: data, warning });
+}
+
+/**
+ * PATCH /api/admin/reels?action=refresh-thumbs
+ * Pulls and stores a cover for every reel whose thumbnail is missing or is an
+ * (expiring) Instagram link. Used to repair old rows; safe to re-run.
+ */
+export async function PATCH(req: NextRequest) {
+  const fail = checkAuth(req);
+  if (fail) return fail;
+  if (req.nextUrl.searchParams.get('action') !== 'refresh-thumbs') {
+    return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
+  }
+  const sb = getAdminClient();
+  const { data: reels, error } = await sb.from('reels').select('slug, reel_url, thumb_url');
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  const results: Array<{ slug: string; ok: boolean; message?: string }> = [];
+  for (const r of (reels ?? []) as Array<{ slug: string; reel_url: string; thumb_url: string | null }>) {
+    if (r.thumb_url && isStoredThumb(r.thumb_url)) continue;
+    try {
+      const thumb = await storeThumb(sb, r.slug, { url: await fetchInstagramCover(r.reel_url) });
+      const { error: upErr } = await sb.from('reels').update({ thumb_url: thumb } as never).eq('slug', r.slug);
+      if (upErr) throw new Error(upErr.message);
+      results.push({ slug: r.slug, ok: true });
+    } catch (e) {
+      results.push({ slug: r.slug, ok: false, message: (e as Error).message });
+    }
+  }
+  if (results.some((r) => r.ok)) revalidateAll();
+  return NextResponse.json({ results });
 }
 
 export async function DELETE(req: NextRequest) {
@@ -122,6 +178,7 @@ export async function DELETE(req: NextRequest) {
   const sb = getAdminClient();
   const { error } = await sb.from('reels').delete().eq('slug', slug);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  await deleteThumbs(sb, slug).catch(() => {});
 
   revalidateAll();
   return NextResponse.json({ ok: true });
