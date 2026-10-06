@@ -6,14 +6,15 @@
     "dev": "next dev --turbopack",
     "prebuild": "tsx scripts/seo-lint.ts",
     "build": "next build --turbopack",
-    "postbuild": "tsx scripts/generate-search-data.ts  && tsx scripts/build-og-all.tsx",
+    "postbuild": "tsx scripts/generate-search-data.ts && tsx scripts/generate-feeds.ts && tsx scripts/build-og-all.tsx",
     "seo-lint": "tsx scripts/seo-lint.ts",
     "indexnow": "tsx scripts/indexnow-ping.ts",
     "start": "next start",
     "lint": "eslint",
     "export": "next build",
     "serve": "npx serve@latest out",
-    "news:fetch": "tsx scripts/fetch-news.ts"
+    "news:fetch": "tsx scripts/fetch-news.ts",
+    "news:test": "tsx scripts/news/selftest.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

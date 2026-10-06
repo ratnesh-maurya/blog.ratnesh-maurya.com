@@ -1,8 +1,21 @@
 name: Daily AI News Digest
 
 on:
-
+  schedule:
+    # 07:30 UTC = 13:00 IST. (For 01:00 IST use '30 19 * * *'.)
+    - cron: '30 7 * * *'
+  # Run manually from the Actions tab if a day is missed
   workflow_dispatch:
+    inputs:
+      force:
+        description: 'Publish even if a digest for today already exists'
+        type: boolean
+        default: false
+
+# Never run two digests at once (a manual run during the schedule would double-publish)
+concurrency:
+  group: daily-news
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -10,6 +23,7 @@ permissions:
 jobs:
   fetch-news:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,9 +41,8 @@ jobs:
         env:
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          TAVILY_NEWS_QUERY: latest AI and software development news, releases, tools, open source, research breakthroughs
-          TAVILY_NEWS_TOPIC: ai-software-development-digest
           TAVILY_NEWS_TIMEZONE: Asia/Kolkata
+          NEWS_FORCE: ${{ inputs.force }}
         run: npm run news:fetch
 
       - name: Commit and push if changed
@@ -43,4 +56,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add content/news
           git commit -m "chore(news): daily tavily digest"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

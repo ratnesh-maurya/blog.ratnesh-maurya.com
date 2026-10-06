@@ -30,7 +30,10 @@ import { getCheatsheet, getCheatsheetSlugs } from '../src/lib/static-content';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
-const outDir = path.join(rootDir, 'public', 'og');
+// Render into .next/cache (restored between Vercel builds) so unchanged images are
+// skipped, then copy the result into public/og for serving.
+const outDir = path.join(rootDir, '.next', 'cache', 'og');
+const publicOgDir = path.join(rootDir, 'public', 'og');
 
 const TEMPLATE_VERSION = 2;
 const versionFile = path.join(outDir, '.template-version');
@@ -563,7 +566,9 @@ async function main() {
   }
 
   fs.writeFileSync(versionFile, String(TEMPLATE_VERSION));
-  console.log(`\nOG images: ${total} written to public/og/ (- = skipped existing, template v${TEMPLATE_VERSION})`);
+  fs.rmSync(publicOgDir, { recursive: true, force: true });
+  fs.cpSync(outDir, publicOgDir, { recursive: true, filter: (src) => path.basename(src) !== '.template-version' });
+  console.log(`\nOG images: ${total} rendered, then synced to public/og/ (- = reused from cache, template v${TEMPLATE_VERSION})`);
 }
 
 main().catch(e => {

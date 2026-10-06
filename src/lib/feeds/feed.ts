@@ -7,10 +7,6 @@ import { remark } from 'remark';
 import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 
-export const dynamic = 'force-static';
-// Content ships with each deploy, so build once; no hourly re-render.
-export const revalidate = false;
-
 const baseUrl = 'https://blog.ratnesh-maurya.com';
 
 function toAbsoluteUrl(url: string): string {
@@ -94,7 +90,8 @@ async function getPostHtml(post: BlogPost): Promise<string> {
   return absoluteUrls(result.toString());
 }
 
-export async function GET() {
+/** Built once per deploy by scripts/generate-feeds.ts and served as a static file. */
+export async function buildFeedXml(): Promise<string> {
   const posts = await getAllBlogPosts();
 
   const rssItems = (
@@ -133,10 +130,5 @@ export async function GET() {
       </channel>
     </rss>`;
 
-  return new Response(rss, {
-    headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
-    },
-  });
+  return rss;
 }
