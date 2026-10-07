@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { deleteThumbs, fetchInstagramCover, isExpiringCdnUrl, isInstagramPostUrl, isStoredThumb, storeThumb } from '@/lib/reelThumbs';
+import { canonicalInstagramUrl, importInstagramPost } from '@/lib/instagramImport';
 import { getAdminClient } from '@/lib/supabase/admin';
 
 export const runtime = 'nodejs';
@@ -81,9 +82,51 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ reels: data ?? [] });
 }
 
+/**
+ * POST /api/admin/reels?action=import  { url }
+ * Reads an Instagram post (caption, date, cover) and returns a ready-to-save reel
+ * draft. Nothing is written. `existing` is true when that post is already a reel.
+ */
+async function importDraft(req: NextRequest) {
+  const body = (await req.json().catch(() => null)) as { url?: unknown } | null;
+  const url = typeof body?.url === 'string' ? body.url.trim() : '';
+  if (!url) return NextResponse.json({ error: 'Paste an Instagram post link' }, { status: 400 });
+
+  let draft: Awaited<ReturnType<typeof importInstagramPost>>;
+  try {
+    draft = await importInstagramPost(url);
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 400 });
+  }
+
+  const sb = getAdminClient();
+  const { data, error } = await sb.from('reels').select('slug, reel_url');
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  const rows = (data ?? []) as Array<{ slug: string; reel_url: string }>;
+
+  const same = rows.find((r) => {
+    try {
+      return canonicalInstagramUrl(r.reel_url) === draft.reel_url;
+    } catch {
+      return false;
+    }
+  });
+  let slug = draft.slug;
+  if (same) {
+    slug = same.slug;
+  } else {
+    // A different post can map to the same slug (e.g. a second post about one topic) — never overwrite it.
+    const taken = new Set(rows.map((r) => r.slug));
+    for (let n = 2; taken.has(slug); n++) slug = `${draft.slug}-${n}`;
+  }
+  const { notes, ...reel } = draft;
+  return NextResponse.json({ reel: { ...reel, slug }, existing: Boolean(same), notes });
+}
+
 export async function POST(req: NextRequest) {
   const fail = checkAuth(req);
   if (fail) return fail;
+  if (req.nextUrl.searchParams.get('action') === 'import') return importDraft(req);
 
   let body: unknown;
   try {

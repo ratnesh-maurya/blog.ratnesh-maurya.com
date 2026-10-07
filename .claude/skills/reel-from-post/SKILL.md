@@ -1,22 +1,18 @@
 ---
 name: reel-from-post
-description: Generate a 3:4 carousel (2–10 PNG slides at 1080×1440) for @ratn_labs, packaged for Instagram (slides + caption + alt text), LinkedIn (PDF document post + post text) and X (thread), plus a /links entry, from content in this repo — a blog post, the daily news digest, a technical term, a TIL, a silly question or a cheatsheet. Each carousel is BESPOKE — Claude reads the source and designs a unique hook, visual metaphor and slide bodies for that topic; only the brand chrome (logo, progress bar, handle, page indicator, swipe arrow, CTA slide, code card) is shared. Light mode to match the website. Use when the user says "make a reel", "make a slider/carousel", "/reel <slug>", "instagram post for <post/term/news>", "post today's news on Instagram", "LinkedIn carousel", "X thread from this post", or asks for ratn_labs social content. Output to reels/<slug>/ (gitignored, never commit). The user posts manually on every platform.
+description: Generate a 3:4 Instagram carousel (2–10 PNG slides at 1080×1440 + caption + alt text + /links entry) for @ratn_labs from content in this repo — a blog post, the daily news digest, a technical term, a TIL, a silly question or a cheatsheet. Each carousel is BESPOKE — Claude reads the source and designs a unique hook, visual metaphor and slide bodies for that topic; only the brand chrome (logo, progress bar, handle, page indicator, swipe arrow, CTA slide, code card) is shared. Light mode to match the website. Use when the user says "make a reel", "make a slider/carousel", "/reel <slug>", "instagram post for <post/term/news>", "post today's news on Instagram", or asks for ratn_labs Instagram content. Output to reels/<slug>/ (gitignored, never commit). The user posts to Instagram manually.
 ---
 
 # Reel from Post — bespoke @ratn_labs carousels
 
-Turns one piece of repo content into a carousel that's ready to post on
-Instagram, LinkedIn and X:
+Turns one piece of repo content into a ready-to-post Instagram carousel:
 
 ```
 reels/<slug>/
   design.tsx                 ← bespoke slide bodies for THIS topic (you write this)
-  01-hook.png … NN-cta.png   ← Instagram + X: upload in filename order
+  01-hook.png … NN-cta.png   ← upload in filename order
   caption.txt                ← Instagram caption
   alt.txt                    ← per-slide alt text (IG: Advanced settings → Write alt text)
-  carousel.pdf               ← LinkedIn: post as a *document* (it swipes like a carousel)
-  linkedin.txt               ← LinkedIn post text + first comment (with the link)
-  x-thread.txt               ← X thread, one slide image per post
   links.json                 ← entry for the /links bio page (Admin → Reels)
   contact-sheet.png          ← all slides tiled, for review
 ```
@@ -143,11 +139,7 @@ const slides: Slide[] = [
 ];
 
 renderCarousel(slides, {
-  title: 'Bloom filter, explained in 5 slides — Ratn Labs', // LinkedIn PDF title
-  caption: `…`,              // Step 7 — Instagram
-  linkedin: `…`,             // Step 7 — LinkedIn post text
-  linkedinComment: `…`,      // Step 7 — first comment, holds the link
-  xThread: [{ text: '…', slide: 1 }, /* … */ { text: `… ${URL}` }], // Step 7 — X
+  caption: `…`,              // Step 7
   links: {
     slug: 'bloom-filter',
     title: 'Bloom filter, explained in 5 slides',
@@ -206,13 +198,7 @@ npx tsx reels/<slug>/design.tsx
 On a Satori error, read the message (it names the element), fix that element,
 re-run. Don't retry blindly.
 
-## Step 7 — Write the text for each platform
-
-Same facts, different voice. Write each one for its platform — don't paste the
-Instagram caption everywhere. `renderCarousel` checks every limit below and
-refuses to run if one is broken.
-
-**Instagram (`caption`, ≤ 2,200 chars, aim < 900)**
+## Step 7 — Caption (`caption`, ≤ 2,200 chars, aim < 900)
 
 ```
 {hook line — punchier than the post title}
@@ -231,25 +217,8 @@ refuses to run if one is broken.
 - 8–15 hashtags: `#ratnlabs` always, slugified post tags, then 3–5 niche
   staples that fit (`#systemdesign #backend #softwareengineering #devtools
   #databases #golang #distributedsystems #ainews #llm`).
-
-**LinkedIn (`linkedin` ≤ 3,000 chars + `linkedinComment`)**
-
-- Posted as a **document** with `carousel.pdf` — LinkedIn shows it as a
-  swipeable carousel. Image posts show as a static grid; don't use them.
-- First line is the hook (it's all people see before "…see more"). Then a
-  short, professional explanation: what it is, 2–3 concrete facts or numbers
-  from the source, the trade-off. End with a genuine question to invite
-  comments.
-- **No link in the post body** (it cuts reach). The link goes in
-  `linkedinComment`, posted as the first comment.
-- 3–5 CamelCase hashtags at the end (`#SystemDesign #BackendEngineering`).
-
-**X (`xThread`, each post ≤ 280 chars; URLs count as 23)**
-
-- One post per content slide with `slide: n` to attach that PNG; the first
-  post carries the hook and ends with "🧵".
-- Each post must make sense on its own (people see them out of order).
-- Last post: the link, no image. At most 1–2 hashtags in the whole thread.
+- `renderCarousel` refuses to run if the caption is over 2,200 characters or
+  any slide lacks alt text.
 
 ## Step 8 — Visual QA (mandatory)
 
@@ -270,15 +239,11 @@ Fix and re-render until it passes. This step is not optional.
 
 Tell the user, briefly:
 - Folder path and slide count.
-- **Instagram:** upload the PNGs in filename order, paste `caption.txt`, add
-  alt text from `alt.txt` (Advanced settings).
-- **LinkedIn:** "Add a document" → `carousel.pdf`, paste `linkedin.txt`, then
-  post the first-comment text.
-- **X:** post `x-thread.txt` as a thread, attaching the PNG named on each post.
-- After posting on Instagram: add the `links.json` entry in **Admin → Reels**
-  with the post URL, and upload `01-hook.png` as the thumbnail, so it shows on
-  the `/links` bio page. (The admin stores its own copy — never rely on an
-  Instagram image link; they expire within weeks.)
+- Upload the PNGs in filename order, paste `caption.txt`, add alt text from
+  `alt.txt` (Advanced settings).
+- After posting: in **Admin → Reels** (`/admin/reels/`) add the `links.json`
+  entry with the Instagram post URL. The thumbnail is pulled from the post
+  automatically; upload `01-hook.png` only if that fails.
 
 Don't paste the design code or full caption into chat unless asked.
 

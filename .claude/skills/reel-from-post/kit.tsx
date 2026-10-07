@@ -1,10 +1,10 @@
 /**
- * Shared chrome + rendering for Ratn Labs carousels (Instagram, LinkedIn, X).
+ * Shared chrome + rendering for @ratn_labs Instagram carousels.
  *
  * The kit owns everything that MUST be identical on every carousel: canvas,
  * fonts, type/space/radius scales, logo header, progress bar, handle, page
- * indicator, swipe arrow, CTA slide, code card, and the exports (PNGs, PDF,
- * captions, alt text, contact sheet). Slide BODIES are never in here — those
+ * indicator, swipe arrow, CTA slide, code card, and the exports (PNGs,
+ * caption, alt text, contact sheet). Slide BODIES are never in here — those
  * are designed per post in reels/<slug>/design.tsx.
  *
  * Usage from reels/<slug>/design.tsx:
@@ -15,7 +15,7 @@ import path from 'path';
 import React from 'react';
 
 // ─── Canvas ──────────────────────────────────────────────────────────────────
-/** 3:4 portrait — Instagram's grid ratio; also fine for LinkedIn PDFs and X. */
+/** 3:4 portrait — Instagram's grid ratio. Every slide in a carousel must match. */
 export const W = 1080;
 export const H = 1440;
 /** Outer padding. Body width = W − 2·PAD = 936. */
@@ -477,23 +477,9 @@ export interface Slide {
   el: React.ReactElement;
 }
 
-export interface XPost {
-  text: string;
-  /** 1-based slide number to attach to this post, if any. */
-  slide?: number;
-}
-
 export interface CarouselMeta {
-  /** PDF title shown on LinkedIn document posts. */
-  title: string;
   /** Instagram caption → caption.txt. */
   caption: string;
-  /** LinkedIn post text → linkedin.txt (the PDF is the carousel). Put the link in `linkedinComment`. */
-  linkedin: string;
-  /** First comment on the LinkedIn post (links in the post body reduce reach). */
-  linkedinComment: string;
-  /** X thread → x-thread.txt, one slide image per post. */
-  xThread: XPost[];
   /** Entry for the /links page (Admin → Reels). reel_url is filled in after posting. */
   links: {
     slug: string;
@@ -503,11 +489,6 @@ export interface CarouselMeta {
   };
 }
 
-/** X counts every URL as 23 characters. */
-function xLength(text: string): number {
-  return text.replace(/https?:\/\/\S+/g, 'x'.repeat(23)).length;
-}
-
 function validate(slides: Slide[], meta: CarouselMeta) {
   const problems: string[] = [];
   if (slides.length < 2 || slides.length > 10) problems.push(`Instagram carousels take 2–10 slides (got ${slides.length})`);
@@ -515,67 +496,12 @@ function validate(slides: Slide[], meta: CarouselMeta) {
     if (!s.alt?.trim()) problems.push(`slide ${i + 1} (${s.label}) has no alt text`);
   });
   if (meta.caption.length > 2200) problems.push(`Instagram caption is ${meta.caption.length} chars (max 2200)`);
-  if (meta.linkedin.length > 3000) problems.push(`LinkedIn post is ${meta.linkedin.length} chars (max 3000)`);
-  meta.xThread.forEach((p, i) => {
-    const len = xLength(p.text);
-    if (len > 280) problems.push(`X post ${i + 1} is ${len} chars (max 280)`);
-    if (p.slide !== undefined && (p.slide < 1 || p.slide > slides.length)) problems.push(`X post ${i + 1} references slide ${p.slide}`);
-  });
   if (problems.length) throw new Error(`Carousel is not ready:\n  - ${problems.join('\n  - ')}`);
 }
 
-/** Minimal PDF with one full-page JPEG per slide (LinkedIn document posts render this as a carousel). */
-function writePdf(jpegs: Buffer[], title: string, file: string) {
-  const pageW = W / 2; // points; images keep full resolution
-  const pageH = H / 2;
-  const chunks: Buffer[] = [];
-  const offsets: number[] = [];
-  let size = 0;
-  const push = (b: Buffer | string) => {
-    const buf = typeof b === 'string' ? Buffer.from(b, 'latin1') : b;
-    chunks.push(buf);
-    size += buf.length;
-  };
-  const obj = (id: number, body: () => void) => {
-    offsets[id] = size;
-    push(`${id} 0 obj\n`);
-    body();
-    push('\nendobj\n');
-  };
-
-  const pageIds = jpegs.map((_, i) => 4 + i * 3);
-  const pdfTitle = title.replace(/[–—]/g, '-').replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[^\x20-\x7E]/g, '').replace(/[()\\]/g, '\\$&');
-  push('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
-  obj(1, () => push('<< /Type /Catalog /Pages 2 0 R >>'));
-  obj(2, () => push(`<< /Type /Pages /Kids [${pageIds.map((id) => `${id} 0 R`).join(' ')}] /Count ${jpegs.length} >>`));
-  obj(3, () => push(`<< /Title (${pdfTitle}) /Author (Ratn Labs) /Creator (reel-from-post) >>`));
-  jpegs.forEach((jpg, i) => {
-    const page = pageIds[i];
-    const content = `q ${pageW} 0 0 ${pageH} 0 0 cm /Im0 Do Q`;
-    obj(page, () =>
-      push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW} ${pageH}] /Resources << /XObject << /Im0 ${page + 2} 0 R >> >> /Contents ${page + 1} 0 R >>`),
-    );
-    obj(page + 1, () => push(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`));
-    obj(page + 2, () => {
-      push(`<< /Type /XObject /Subtype /Image /Width ${W} /Height ${H} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>\nstream\n`);
-      push(jpg);
-      push('\nendstream');
-    });
-  });
-  const count = 4 + jpegs.length * 3;
-  const xref = size;
-  push(`xref\n0 ${count}\n0000000000 65535 f \n`);
-  for (let id = 1; id < count; id++) push(`${String(offsets[id]).padStart(10, '0')} 00000 n \n`);
-  push(`trailer\n<< /Size ${count} /Root 1 0 R /Info 3 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
-  fs.writeFileSync(file, Buffer.concat(chunks));
-}
-
 /**
- * Renders the carousel and every platform's files into `dir` (default: the
- * folder of the design file being run):
- *   NN-label.png, alt.txt, caption.txt   → Instagram
- *   carousel.pdf, linkedin.txt           → LinkedIn document post
- *   x-thread.txt                         → X thread (uses the PNGs)
+ * Renders the carousel into `dir` (default: the folder of the design file being run):
+ *   NN-label.png, caption.txt, alt.txt   → Instagram
  *   links.json                           → /links page entry
  *   contact-sheet.png                    → visual QA
  */
@@ -586,7 +512,7 @@ export async function renderCarousel(slides: Slide[], meta: CarouselMeta, dir = 
   const fonts = loadFonts();
 
   for (const f of fs.readdirSync(dir)) {
-    if (/^\d{2}-.*\.png$/.test(f) || f === 'contact-sheet.png' || f === 'carousel.pdf') fs.rmSync(path.join(dir, f));
+    if (/^\d{2}-.*\.png$/.test(f) || f === 'contact-sheet.png') fs.rmSync(path.join(dir, f));
   }
 
   const files: string[] = [];
@@ -601,20 +527,7 @@ export async function renderCarousel(slides: Slide[], meta: CarouselMeta, dir = 
   const write = (name: string, text: string) => fs.writeFileSync(path.join(dir, name), text.trim() + '\n');
   write('caption.txt', meta.caption);
   write('alt.txt', slides.map((s, i) => `${files[i]}\n${s.alt.trim()}`).join('\n\n'));
-  write('linkedin.txt', `${meta.linkedin.trim()}\n\n--- first comment ---\n${meta.linkedinComment.trim()}`);
-  write(
-    'x-thread.txt',
-    meta.xThread
-      .map((p, i) => `[${i + 1}/${meta.xThread.length}]${p.slide ? `  attach: ${files[p.slide - 1]}` : ''}  (${xLength(p.text)}/280)\n${p.text.trim()}`)
-      .join('\n\n'),
-  );
   write('links.json', JSON.stringify({ ...meta.links, reel_url: '<paste Instagram post URL>' }, null, 2));
-
-  // LinkedIn PDF (JPEG pages keep it small; LinkedIn's limit is 100 MB).
-  const jpegs = await Promise.all(
-    files.map((f) => sharp(path.join(dir, f)).flatten({ background: T.bg }).jpeg({ quality: 90, chromaSubsampling: '4:4:4' }).toBuffer()),
-  );
-  writePdf(jpegs, meta.title, path.join(dir, 'carousel.pdf'));
 
   // Contact sheet: up to 5 per row at 1/4 scale.
   const tw = W / 4;
@@ -631,5 +544,5 @@ export async function renderCarousel(slides: Slide[], meta: CarouselMeta, dir = 
     .toFile(path.join(dir, 'contact-sheet.png'));
 
   console.log(`\n✓ ${files.length} slides → ${path.relative(process.cwd(), dir)}/`);
-  console.log('  Instagram: NN-*.png + caption.txt + alt.txt · LinkedIn: carousel.pdf + linkedin.txt · X: x-thread.txt · /links: links.json');
+  console.log('  Upload NN-*.png in order · caption.txt · alt.txt · links.json for Admin → Reels');
 }

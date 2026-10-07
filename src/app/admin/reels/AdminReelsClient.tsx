@@ -49,6 +49,7 @@ export default function AdminReelsClient() {
   const [form, setForm] = useState<Reel>(emptyForm());
   /** Uploaded thumbnail as a data URL; sent instead of thumb_url when set. */
   const [thumbData, setThumbData] = useState<string | null>(null);
+  const [igUrl, setIgUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
 
@@ -114,12 +115,28 @@ export default function AdminReelsClient() {
   const removeLink = (idx: number) =>
     setForm((f) => ({ ...f, links: f.links.filter((_, i) => i !== idx) }));
 
+  /** Saves a reel. Returns true when the server accepted it. */
+  const postReel = async (payload: Record<string, unknown>): Promise<boolean> => {
+    const res = await fetch('/api/admin/reels', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-admin-secret': secret },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      flash('err', data.error || `Save failed: ${res.status}`);
+      return false;
+    }
+    flash(data.warning ? 'err' : 'ok', data.warning ?? `Saved: ${String(payload.slug)}`);
+    return true;
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!secret) return flash('err', 'Set secret first');
     setLoading(true);
     try {
-      const payload = {
+      const ok = await postReel({
         slug: form.slug.trim(),
         title: form.title.trim(),
         description: form.description.trim(),
@@ -128,21 +145,60 @@ export default function AdminReelsClient() {
         thumb_data: thumbData,
         posted_at: form.posted_at,
         links: form.links.filter((l) => l.label.trim() && l.url.trim()),
-      };
-      const res = await fetch('/api/admin/reels', {
+      });
+      if (ok) {
+        setForm(emptyForm());
+        setThumbData(null);
+        fetchReels(secret);
+      }
+    } catch (e) {
+      flash('err', `Network error: ${(e as Error).message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /** Reads the pasted Instagram link, then either fills the form for review or saves straight away. */
+  const importFromInstagram = async (save: boolean) => {
+    if (!secret) return flash('err', 'Set secret first');
+    if (!igUrl.trim()) return flash('err', 'Paste an Instagram post link first');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/reels?action=import', {
         method: 'POST',
         headers: { 'content-type': 'application/json', 'x-admin-secret': secret },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ url: igUrl.trim() }),
       });
       const data = await res.json();
       if (!res.ok) {
-        flash('err', data.error || `Save failed: ${res.status}`);
+        // Couldn't read the post: keep the link so the rest can be typed in by hand.
+        setForm((f) => ({ ...f, reel_url: igUrl.trim().split('?')[0] }));
+        return flash('err', `${data.error || `Import failed: ${res.status}`} Fill the rest by hand.`);
+      }
+      const reel = data.reel as Reel;
+      const notes = (data.notes as string[] | undefined) ?? [];
+
+      // An existing reel is never overwritten blindly — load it so edits are deliberate.
+      if (save && !data.existing && notes.length === 0) {
+        const ok = await postReel({ ...reel, thumb_url: null });
+        if (ok) {
+          setIgUrl('');
+          fetchReels(secret);
+        }
         return;
       }
-      flash(data.warning ? 'err' : 'ok', data.warning ?? `Saved: ${payload.slug}`);
-      setForm(emptyForm());
+
       setThumbData(null);
-      fetchReels(secret);
+      setForm({ ...reel, thumb_url: reel.thumb_url ?? '', links: reel.links?.length ? reel.links : [{ label: '', url: '' }] });
+      flash(
+        notes.length || data.existing ? 'err' : 'ok',
+        data.existing
+          ? `Already added as "${reel.slug}" — loaded for editing.`
+          : notes.length
+            ? `Filled from Instagram. ${notes.join(' ')}`
+            : 'Filled from Instagram — check the fields, then Save.',
+      );
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e) {
       flash('err', `Network error: ${(e as Error).message}`);
     } finally {
@@ -283,6 +339,51 @@ export default function AdminReelsClient() {
             {msg.text}
           </div>
         )}
+
+        <section className="rounded-2xl p-6 space-y-3" style={cardStyle}>
+          <h2 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
+            Quick add from Instagram
+          </h2>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            Paste the link to your Instagram post. The title, description, date, blog link and thumbnail are filled in from it.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="url"
+              inputMode="url"
+              placeholder="https://www.instagram.com/p/…"
+              value={igUrl}
+              onChange={(e) => setIgUrl(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  importFromInstagram(false);
+                }
+              }}
+              className="flex-1 min-w-0 rounded-xl px-3 py-2 text-sm"
+              style={inputStyle}
+            />
+            <button
+              type="button"
+              onClick={() => importFromInstagram(false)}
+              disabled={loading}
+              className="rounded-xl px-4 py-2 text-sm font-semibold disabled:opacity-50"
+              style={inputStyle}
+            >
+              Fetch &amp; fill
+            </button>
+            <button
+              type="button"
+              onClick={() => importFromInstagram(true)}
+              disabled={loading}
+              className="rounded-xl px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+              style={{ backgroundColor: 'var(--accent-500)' }}
+              title="Fetch everything and save it in one step"
+            >
+              Fetch &amp; save
+            </button>
+          </div>
+        </section>
 
         <form onSubmit={submit} className="rounded-2xl p-6 space-y-4" style={cardStyle}>
           <h2 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
