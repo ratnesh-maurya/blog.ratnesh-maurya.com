@@ -1,3 +1,4 @@
+import covers from '@/data/reel-covers.json';
 import { isExpiringCdnUrl } from '@/lib/reelThumbs';
 import { withUtm, type Reel } from '@/lib/reels';
 
@@ -53,7 +54,32 @@ function shortDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
 
-function usableThumb(reel: Reel): string | null {
+const coverBySlug: Record<string, string> = covers.bySlug;
+const coverByPath: Record<string, string> = covers.byPath;
+
+/** Same normalisation as scripts/reel-covers.ts → "/technical-terms/bloom-filter". */
+function pathKey(url: string): string | null {
+  try {
+    const u = new URL(url);
+    if (u.hostname.replace(/^www\./, '') !== 'blog.ratnesh-maurya.com') return null;
+    return u.pathname.replace(/\/+$/, '').toLowerCase() || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Cover for a post, best first:
+ * 1. the carousel's own first slide, committed in public/reels/covers (matched by slug, then by blog URL),
+ * 2. a thumbnail stored from the admin,
+ * 3. nothing → branded title tile.
+ */
+function coverFor(reel: Reel): string | null {
+  if (coverBySlug[reel.slug]) return coverBySlug[reel.slug];
+  for (const l of reel.links) {
+    const key = pathKey(l.url);
+    if (key && coverByPath[key]) return coverByPath[key];
+  }
   // Old rows may still hold Instagram CDN links, which expire and render as broken images.
   return reel.thumb_url && !isExpiringCdnUrl(reel.thumb_url) ? reel.thumb_url : null;
 }
@@ -115,7 +141,7 @@ function Tile({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
       />
 
       <div className="pointer-events-none relative">
-        <Cover src={usableThumb(reel)} title={reel.title} kind={kind} />
+        <Cover src={coverFor(reel)} title={reel.title} kind={kind} />
         {isLatest && (
           <span className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm" style={{ backgroundColor: 'var(--accent-500)' }}>
             Latest

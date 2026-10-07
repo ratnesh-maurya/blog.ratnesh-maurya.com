@@ -13,6 +13,7 @@
 import fs from 'fs';
 import path from 'path';
 import React from 'react';
+import { exportCover } from '../../../scripts/reel-covers';
 
 // ─── Canvas ──────────────────────────────────────────────────────────────────
 /** 3:4 portrait — Instagram's grid ratio. Every slide in a carousel must match. */
@@ -590,6 +591,11 @@ export async function renderCarousel(slides: Slide[], meta: CarouselMeta, dir = 
     .png()
     .toFile(path.join(dir, 'contact-sheet.png'));
 
+  // The /links page shows this exact first slide, so visitors recognise the Instagram post.
+  const postUrl = meta.links.links.map((l) => l.url).find((u) => u.includes('blog.ratnesh-maurya.com'));
+  const cover = await exportCover(path.join(dir, files[0]), meta.links.slug, postUrl);
+
   console.log(`\n✓ ${files.length} slides → ${path.relative(process.cwd(), dir)}/`);
   console.log('  Upload NN-*.png in order · caption.txt · alt.txt · links.json for Admin → Reels');
+  console.log(`  Cover for /links: public${cover.split('?')[0]} — commit it with src/data/reel-covers.json`);
 }

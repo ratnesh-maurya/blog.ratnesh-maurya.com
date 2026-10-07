@@ -34,6 +34,13 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Cover URLs carry a ?v=<content hash>, so a changed cover gets a new URL.
+        source: "/reels/covers/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
         source: "/fonts/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },

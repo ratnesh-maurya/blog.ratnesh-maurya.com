@@ -266,9 +266,11 @@ Tell the user, briefly:
 - Folder path and slide count.
 - Upload the PNGs in filename order, paste `caption.txt`, add alt text from
   `alt.txt` (Advanced settings).
-- After posting: in **Admin → Reels** (`/admin/reels/`) add the `links.json`
-  entry with the Instagram post URL. The thumbnail is pulled from the post
-  automatically; upload `01-hook.png` only if that fails.
+- Rendering also exported the first slide to `public/reels/covers/<slug>.webp`
+  and recorded it in `src/data/reel-covers.json`. Tell the user to commit
+  both — that is the cover shown on `/links`, so it matches the Instagram post.
+- After posting: in **Admin → Reels** (`/admin/reels/`) paste the Instagram post
+  link into **Quick add**. No thumbnail upload is needed.
 
 Don't paste the design code or full caption into chat unless asked.
 
