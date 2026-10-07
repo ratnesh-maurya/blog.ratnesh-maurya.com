@@ -110,7 +110,16 @@ Ask yourself: *why does this design only fit this post?* No answer → redesign.
 - Bold the one phrase per slide that carries the idea, in the accent colour.
 - Facts only from the source. Never invent numbers, versions or quotes. For
   news, keep the source outlet's name on each story slide.
-- No emoji walls; at most one emoji per slide, and only if it adds meaning.
+- Anything you add that is not in the source (sample names, example values, a
+  shortened code listing, a made-up request) must be visibly an example:
+  label it "example" or "simplified" and keep it consistent with the source.
+- Choose news stories by importance, not by the digest's list order. Digests
+  from the newer pipeline mark a "Top story"; older ones can lead with minor
+  items (e.g. job postings).
+- **No emoji and no symbol glyphs** (✓ ✕ ★ ⚠ …). The bundled fonts don't have
+  them: Satori tries to download a font, fails, and draws an empty box or a
+  "√". Use the kit's `Check` / `Cross` icons or inline SVG. Arrows (→) and
+  middle dots (·) are fine.
 
 ## Step 5 — Write `reels/<slug>/design.tsx`
 
@@ -165,6 +174,11 @@ Fill the frame — a slide with a dead bottom third reads as unfinished. Keep
   so in the title (e.g. `"bloom.py (simplified)"`) and keep the logic the same.
 - **`alt`** is required on every slide; `renderCarousel` refuses to run
   without it. Describe what the slide says and shows in 1–3 sentences.
+- **`Check` / `Cross`** are SVG icons (`<Check size={26} color="#FFFFFF" />`).
+- **`Rich`** lays out wrapping text with highlighted phrases — wrap a phrase in
+  `**…**`: `<Rich text="Only **the secrets you need**." size={TYPE.body} color={T.text2} accent={A.a600} />`.
+  Use it instead of mixing plain text and a coloured `<span>` in one div, which
+  Satori spaces unevenly (or joins with no space at all).
 
 **Satori rules (break these and rendering fails or looks wrong):**
 1. Every `<div>` with more than one child needs `display: 'flex'` (or `'none'`).
@@ -188,6 +202,17 @@ Fill the frame — a slide with a dead bottom third reads as unfinished. Keep
    `transparent` — Satori fades through transparent black, which renders grey.
 9. `gap`, `flex`, `position: 'absolute'`, `borderRadius`, `boxShadow`,
    gradients and `backgroundImage` all work. CSS grid does not — use flex rows.
+10. **Never pass `undefined` as a style value** (`boxShadow: undefined`,
+    `flex: undefined`, `maxWidth: maybeUndefined`). Satori crashes with
+    "Cannot read properties of undefined (reading 'trim')". Omit the key
+    (`...(x ? { maxWidth: x } : {})`) or use `'none'`.
+11. An item with `flex: 0` and fixed-size children collapses to zero width.
+    Use `flex: 'none'` together with `flexShrink: 0`.
+12. Satori ignores `flexWrap` on a row of mixed text nodes and can drop the
+    space between them — use `Rich`, or give each word its own node with an
+    explicit `marginRight`.
+13. The render prints a Node `module.register()` deprecation warning. It is
+    harmless.
 
 ## Step 6 — Render
 

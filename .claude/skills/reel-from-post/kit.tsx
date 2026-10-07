@@ -201,6 +201,49 @@ function Bookmark({ color }: { color: string }) {
   );
 }
 
+// ─── Icons — the bundled fonts have no ✓ ✕ ★ or emoji; use these instead ──────
+// A missing glyph makes Satori try (and fail) to download a font and draws an empty box.
+export function Check({ size = 28, color = T.success }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 12.5l5 5L20 6.5" />
+    </svg>
+  );
+}
+
+export function Cross({ size = 28, color = T.error }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  );
+}
+
+/**
+ * Wrapping text with highlighted phrases: wrap a phrase in ** to colour/bold it.
+ *   <Rich text="Two keys: **only the ones you need**." size={TYPE.body} color={T.text2} accent={A.a600} />
+ * Every word is its own node with an explicit gap. Mixing plain text and a coloured <span> in one div
+ * makes Satori space the words unevenly (or drop the space between them), so use this instead.
+ */
+export function Rich({ text, size, color, accent, weight = 500, lineHeight = 1.35, maxWidth }: { text: string; size: number; color: string; accent: string; weight?: 500 | 700; lineHeight?: number; maxWidth?: number }) {
+  const parts = text.split('**');
+  const words: Array<{ w: string; hl: boolean }> = [];
+  parts.forEach((part, i) => {
+    for (const w of part.split(/\s+/).filter(Boolean)) words.push({ w, hl: i % 2 === 1 });
+  });
+  return (
+    // Satori crashes on a style key whose value is undefined, so maxWidth is only added when set.
+    <div style={{ display: 'flex', flexWrap: 'wrap', fontSize: size, lineHeight, ...(maxWidth ? { maxWidth } : {}) }}>
+      {words.map((x, i) => (
+        // Bold words come out ~0.1em wider apart than regular ones, so bold→bold gets a smaller gap.
+        <div key={i} style={{ display: 'flex', marginRight: size * (x.hl && words[i + 1]?.hl ? 0.1 : 0.15), color: x.hl ? accent : color, fontWeight: x.hl ? 700 : weight }}>
+          {x.w}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── Frame — every slide except the CTA ──────────────────────────────────────
 export interface FrameProps {
   /** 1-based slide number. */
@@ -330,13 +373,16 @@ type Tok = { text: string; kind: 'kw' | 'str' | 'num' | 'com' | 'fn' | 'plain' }
 
 function tokenize(line: string): Tok[] {
   const out: Tok[] = [];
-  const re = /(#.*$|\/\/.*$|--.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`[^`]*`)|(\b\d[\d_.]*\b)|([A-Za-z_][A-Za-z0-9_]*)(?=\s*\()|([A-Za-z_][A-Za-z0-9_]*)|(\s+)|(.)/g;
+  // Order matters at a given position. URLs and dotted filenames with a digit (go1.26.2.linux-amd64.tar.gz)
+  // are matched first so their "//" and digits aren't mistaken for comments and numbers.
+  const re = /(https?:\/\/[^\s"'`)]+|(?=[A-Za-z0-9_.-]*\d)[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+){2,})|(#.*$|(?<!:)\/\/.*$|--.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`[^`]*`)|(\b\d[\d_.]*\b)|([A-Za-z_][A-Za-z0-9_]*)(?=\s*\()|([A-Za-z_][A-Za-z0-9_]*)|(\s+)|(.)/g;
   for (const m of line.matchAll(re)) {
-    if (m[1]) out.push({ text: m[1], kind: 'com' });
-    else if (m[2]) out.push({ text: m[2], kind: 'str' });
-    else if (m[3]) out.push({ text: m[3], kind: 'num' });
-    else if (m[4]) out.push({ text: m[4], kind: KEYWORDS.has(m[4]) ? 'kw' : 'fn' });
-    else if (m[5]) out.push({ text: m[5], kind: KEYWORDS.has(m[5]) ? 'kw' : 'plain' });
+    if (m[1]) out.push({ text: m[1], kind: 'plain' });
+    else if (m[2]) out.push({ text: m[2], kind: 'com' });
+    else if (m[3]) out.push({ text: m[3], kind: 'str' });
+    else if (m[4]) out.push({ text: m[4], kind: 'num' });
+    else if (m[5]) out.push({ text: m[5], kind: KEYWORDS.has(m[5]) ? 'kw' : 'fn' });
+    else if (m[6]) out.push({ text: m[6], kind: KEYWORDS.has(m[6]) ? 'kw' : 'plain' });
     else out.push({ text: m[0], kind: 'plain' });
   }
   // Merge neighbours of the same kind so each line renders as few nodes as possible.
@@ -351,7 +397,8 @@ function tokenize(line: string): Tok[] {
 /**
  * Monospace code card with light, language-agnostic highlighting.
  * At the default 30px, Geist Mono fits ~46 characters per line in the body
- * width; keep snippets ≤ 10 lines. `highlight` = 1-based lines to emphasise.
+ * width (~50 at 28px); keep snippets ≤ 14 lines. `highlight` = 1-based lines
+ * to emphasise.
  */
 export function Code({ code, accent, fontSize = 30, title, highlight = [] }: { code: string; accent: Accent; fontSize?: number; title?: string; highlight?: number[] }) {
   const colors: Record<Tok['kind'], string> = {

@@ -4,29 +4,10 @@ import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { ProfilePageStructuredData, SiteEntitiesStructuredData } from "@/components/StructuredData";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import { oembedAlternate } from "@/lib/oembed";
+import "./fonts.css";
 import "./globals.css";
 
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const sourceSerif4 = Source_Serif_4({
-  variable: "--font-source-serif",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -143,7 +124,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif4.variable} antialiased`}>
+      <head>
+        {/* The two faces used above the fold; the other subsets load on demand via unicode-range. */}
+        <link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      </head>
+      <body className="antialiased">
         {/* Inline theme script — runs synchronously before paint to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <a href="#main-content" className="skip-to-content">Skip to content</a>
