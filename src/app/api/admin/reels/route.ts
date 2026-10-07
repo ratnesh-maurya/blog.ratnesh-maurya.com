@@ -181,9 +181,9 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * PATCH /api/admin/reels?action=refresh-thumbs
+ * PATCH /api/admin/reels?action=refresh-thumbs[&all=1]
  * Pulls and stores a cover for every reel whose thumbnail is missing or is an
- * (expiring) Instagram link. Used to repair old rows; safe to re-run.
+ * (expiring) Instagram link — or, with all=1, for every Instagram reel. Safe to re-run.
  */
 export async function PATCH(req: NextRequest) {
   const fail = checkAuth(req);
@@ -191,13 +191,16 @@ export async function PATCH(req: NextRequest) {
   if (req.nextUrl.searchParams.get('action') !== 'refresh-thumbs') {
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
   }
+  // ?all=1 re-pulls every Instagram cover, e.g. to replace older square crops with full-frame ones.
+  const all = req.nextUrl.searchParams.get('all') === '1';
   const sb = getAdminClient();
   const { data: reels, error } = await sb.from('reels').select('slug, reel_url, thumb_url');
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const results: Array<{ slug: string; ok: boolean; message?: string }> = [];
   for (const r of (reels ?? []) as Array<{ slug: string; reel_url: string; thumb_url: string | null }>) {
-    if (r.thumb_url && isStoredThumb(r.thumb_url)) continue;
+    if (!all && r.thumb_url && isStoredThumb(r.thumb_url)) continue;
+    if (!isInstagramPostUrl(r.reel_url)) continue;
     try {
       const thumb = await storeThumb(sb, r.slug, { url: await fetchInstagramCover(r.reel_url) });
       const { error: upErr } = await sb.from('reels').update({ thumb_url: thumb } as never).eq('slug', r.slug);

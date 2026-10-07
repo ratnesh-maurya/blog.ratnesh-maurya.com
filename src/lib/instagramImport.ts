@@ -1,4 +1,4 @@
-import { PREVIEW_UA, isInstagramPostUrl } from '@/lib/reelThumbs';
+import { PREVIEW_UA, fetchInstagramCover, isInstagramPostUrl } from '@/lib/reelThumbs';
 
 const FETCH_TIMEOUT_MS = 10_000;
 const SITE_HOST = 'blog.ratnesh-maurya.com';
@@ -178,7 +178,8 @@ export async function importInstagramPost(rawUrl: string): Promise<ReelDraft & {
     title,
     description,
     reel_url: reelUrl,
-    thumb_url: meta.image,
+    // Preview only (the server stores its own copy on save); prefer the uncropped first slide.
+    thumb_url: (await fetchInstagramCover(reelUrl).catch(() => null)) ?? meta.image,
     posted_at: meta.date ?? new Date().toISOString().slice(0, 10),
     links,
     notes,

@@ -4,15 +4,16 @@ import { withUtm, type Reel } from '@/lib/reels';
 const PROFILE_URL = 'https://www.instagram.com/ratn_labs/';
 const SITE_URL = 'https://blog.ratnesh-maurya.com';
 
-/** Instagram's brand gradient — used only for the story rings, everything else follows the site's tokens. */
+/** Instagram's brand gradient — only on the avatar ring, so the page reads as "from Instagram" without copying it. */
 const STORY_RING = 'linear-gradient(45deg, #f9ce34 0%, #ee2a7b 55%, #6228d7 100%)';
 
-const glass: React.CSSProperties = {
-  backgroundColor: 'var(--glass-bg)',
-  border: '1px solid var(--glass-border)',
-  boxShadow: 'var(--glass-shadow-sm)',
-  backdropFilter: 'blur(12px) saturate(160%)',
-  WebkitBackdropFilter: 'blur(12px) saturate(160%)',
+const KINDS: Record<string, string> = {
+  blog: 'Blog post',
+  'technical-terms': 'Technical term',
+  news: 'Daily news',
+  til: 'Today I learned',
+  cheatsheets: 'Cheatsheet',
+  'silly-questions': 'Silly question',
 };
 
 function InstagramGlyph({ className = 'w-4 h-4' }: { className?: string }) {
@@ -23,69 +24,33 @@ function InstagramGlyph({ className = 'w-4 h-4' }: { className?: string }) {
   );
 }
 
-function Chevron({ className = 'w-4 h-4' }: { className?: string }) {
+function Arrow({ className = 'w-4 h-4' }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M9 5l7 7-7 7" />
+      <path d="M5 12h14M13 6l6 6-6 6" />
     </svg>
   );
 }
 
-function External({ className = 'w-3.5 h-3.5' }: { className?: string }) {
+function GitHubGlyph({ className = 'w-3.5 h-3.5' }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
     </svg>
   );
 }
 
-/** Circular brand mark, same "R" as the site header. */
-function Avatar({ size }: { size: number }) {
-  return (
-    <span
-      className="inline-flex items-center justify-center rounded-full font-black text-white shrink-0"
-      style={{ width: size, height: size, backgroundColor: 'var(--accent-500)', fontSize: size * 0.42 }}
-      aria-hidden="true"
-    >
-      R
-    </span>
-  );
-}
-
-/** Gradient ring + gap around a circular child, like an Instagram story. */
-function Ring({ size, children }: { size: number; children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center justify-center rounded-full shrink-0" style={{ width: size, height: size, background: STORY_RING, padding: 2.5 }}>
-      <span className="flex h-full w-full items-center justify-center overflow-hidden rounded-full" style={{ border: '3px solid var(--background)', backgroundColor: 'var(--surface-muted)' }}>
-        {children}
-      </span>
-    </span>
-  );
-}
-
-function longDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-}
-
-/** What kind of page the post's main link points at. */
 function kindOf(url: string | undefined): string {
   if (!url) return 'Reel';
   try {
-    const section = new URL(url).pathname.split('/').filter(Boolean)[0];
-    return (
-      ({ blog: 'Blog post', 'technical-terms': 'Technical term', news: 'Daily news', til: 'Today I learned', cheatsheets: 'Cheatsheet', 'silly-questions': 'Silly question' } as Record<string, string>)[section] ?? 'Post'
-    );
+    return KINDS[new URL(url).pathname.split('/').filter(Boolean)[0]] ?? 'Post';
   } catch {
     return 'Post';
   }
 }
 
-function domainOf(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '');
-  } catch {
-    return '';
-  }
+function shortDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
 
 function usableThumb(reel: Reel): string | null {
@@ -93,158 +58,119 @@ function usableThumb(reel: Reel): string | null {
   return reel.thumb_url && !isExpiringCdnUrl(reel.thumb_url) ? reel.thumb_url : null;
 }
 
-/** Shown when a post has no stored cover: branded tile with the title, so the feed never has holes. */
-function CoverFallback({ title, kind }: { title: string; kind: string }) {
+/**
+ * 3:4 cover, the shape the carousels are designed in. Covers in another shape
+ * (square reel previews) are shown whole on a blurred copy of themselves
+ * instead of being cropped, so the title on the slide stays readable.
+ */
+function Cover({ src, title, kind }: { src: string | null; title: string; kind: string }) {
   return (
-    <div
-      className="absolute inset-0 flex flex-col justify-between p-7 text-white"
-      style={{ background: 'linear-gradient(145deg, var(--accent-500), color-mix(in srgb, var(--accent-500) 55%, #000))' }}
-    >
-      <span className="text-xs font-bold uppercase tracking-[0.18em] opacity-80">{kind}</span>
-      <span className="text-2xl sm:text-3xl font-extrabold leading-tight tracking-tight line-clamp-5">{title}</span>
-      <span className="text-sm font-semibold opacity-80">RatnLabs · @ratn_labs</span>
+    <div className="relative aspect-[3/4] w-full overflow-hidden" style={{ backgroundColor: 'var(--surface-muted)' }}>
+      {src ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={src} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-70 blur-2xl" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={`Cover of the post: ${title}`}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          />
+        </>
+      ) : (
+        <div
+          className="absolute inset-0 flex flex-col justify-between p-5 text-white"
+          style={{ background: 'linear-gradient(150deg, var(--accent-500), color-mix(in srgb, var(--accent-500) 50%, #000))' }}
+        >
+          <span className="text-[11px] font-bold uppercase tracking-[0.18em] opacity-80">{kind}</span>
+          <span className="text-xl font-extrabold leading-tight tracking-tight line-clamp-5">{title}</span>
+          <span className="text-xs font-semibold opacity-80">@ratn_labs</span>
+        </div>
+      )}
     </div>
   );
 }
 
-function Highlights({ reels }: { reels: Reel[] }) {
-  return (
-    <nav aria-label="Jump to a post" className="-mx-4 px-4 sm:mx-0 sm:px-0">
-      <ul className="flex gap-5 overflow-x-auto pb-2 snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {reels.map((reel) => {
-          const thumb = usableThumb(reel);
-          return (
-            <li key={reel.slug} className="snap-start shrink-0 w-[72px]">
-              <a href={`#${reel.slug}`} className="flex flex-col items-center gap-1.5 group" aria-label={reel.title}>
-                <Ring size={72}>
-                  {thumb ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={thumb} alt="" width={72} height={72} loading="lazy" className="h-full w-full object-cover" />
-                  ) : (
-                    <span className="text-lg font-black" style={{ color: 'var(--accent-500)' }}>R</span>
-                  )}
-                </Ring>
-                <span className="w-full truncate text-center text-[11px] font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  {reel.title}
-                </span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
-  );
-}
-
-function Post({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
+function Tile({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
   const blogLink = reel.links.find((l) => /blog/i.test(l.label) || l.url.includes('blog.ratnesh-maurya.com'));
-  const others = reel.links.filter((l) => l !== blogLink);
+  const extra = reel.links.filter((l) => l !== blogLink);
   const readHref = blogLink ? withUtm(blogLink.url, reel.slug) : reel.reel_url;
   const kind = kindOf(blogLink?.url);
-  const thumb = usableThumb(reel);
-  const external = blogLink ? false : true;
+  const newTab = !blogLink;
 
   return (
-    <article id={reel.slug} className="scroll-mt-24 overflow-hidden rounded-2xl" style={glass}>
-      <header className="flex items-center gap-3 px-4 py-3">
-        <Ring size={40}>
-          <Avatar size={34} />
-        </Ring>
-        <div className="min-w-0 leading-tight">
-          <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
-            ratn_labs
-          </p>
-          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            {kind}
-          </p>
-        </div>
+    <article
+      id={reel.slug}
+      className="group relative flex scroll-mt-24 flex-col overflow-hidden rounded-2xl transition-all duration-200 hover:-translate-y-1 target:ring-2 target:ring-[var(--accent-500)]"
+      style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', boxShadow: 'var(--glass-shadow-sm)' }}
+    >
+      {/* One big target: the whole card opens the post. Secondary links sit above it (z-10). */}
+      <a
+        href={readHref}
+        {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        className="absolute inset-0 z-0 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2"
+        style={{ outlineColor: 'var(--accent-500)' }}
+        aria-label={blogLink ? `Read: ${reel.title}` : `Watch on Instagram: ${reel.title}`}
+      />
+
+      <div className="pointer-events-none relative">
+        <Cover src={usableThumb(reel)} title={reel.title} kind={kind} />
         {isLatest && (
-          <span className="ml-auto rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white" style={{ backgroundColor: 'var(--accent-500)' }}>
+          <span className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm" style={{ backgroundColor: 'var(--accent-500)' }}>
             Latest
           </span>
         )}
-      </header>
+        {/* Hover hint on pointer devices; the label under the cover covers touch. */}
+        <span
+          className="absolute bottom-3 right-3 hidden items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100 [@media(hover:hover)]:inline-flex"
+          style={{ backgroundColor: 'rgba(0,0,0,0.72)' }}
+        >
+          {blogLink ? 'Read' : 'Watch'}
+          <Arrow className="w-3.5 h-3.5" />
+        </span>
+      </div>
 
-      {/* The cover is the biggest tap target: it opens the post itself. */}
-      <a
-        href={readHref}
-        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        aria-label={blogLink ? `Read: ${reel.title}` : `Watch on Instagram: ${reel.title}`}
-        className="group relative block aspect-square w-full overflow-hidden"
-        style={{ backgroundColor: 'var(--surface-muted)' }}
-      >
-        {thumb ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={thumb}
-            alt={`Cover slide for ${reel.title}`}
-            width={640}
-            height={640}
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <CoverFallback title={reel.title} kind={kind} />
-        )}
-      </a>
-
-      {/* Instagram's "Learn more" bar: one obvious way to read it. */}
-      <a
-        href={readHref}
-        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        className="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold transition-colors hover:brightness-95"
-        style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--accent-500)', borderBottom: '1px solid var(--glass-border)' }}
-      >
-        <span>{blogLink ? `Read the ${kind.toLowerCase()}` : 'Watch on Instagram'}</span>
-        <Chevron />
-      </a>
-
-      <div className="space-y-3 px-4 pb-4 pt-3">
-        <div>
-          <h2 className="text-[15px] font-semibold leading-snug" style={{ color: 'var(--text-primary)' }}>
-            {reel.title}
-          </h2>
-          {reel.description && (
-            <p className="mt-1 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              {reel.description}
-            </p>
-          )}
-        </div>
-
-        {others.length > 0 && (
-          <ul className="flex flex-wrap gap-2">
-            {others.map((l) => (
-              <li key={l.url}>
-                <a
-                  href={withUtm(l.url, reel.slug)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all hover:-translate-y-0.5"
-                  style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
-                >
-                  <span>{l.label}</span>
-                  <span style={{ color: 'var(--text-muted)' }}>{domainOf(l.url)}</span>
-                  <External className="w-3 h-3" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <div className="flex items-center justify-between pt-1">
-          <time dateTime={reel.posted_at} className="text-[11px] font-medium uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
-            {longDate(reel.posted_at)}
+      <div className="pointer-events-none relative flex flex-1 flex-col gap-1.5 p-3.5 sm:p-4">
+        <span className="text-[10.5px] font-bold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-500)' }}>
+          {kind}
+        </span>
+        <h2 className="text-sm font-semibold leading-snug line-clamp-2 sm:text-[15px]" style={{ color: 'var(--text-primary)' }}>
+          {reel.title}
+        </h2>
+        <div className="mt-auto flex items-center gap-2 pt-2">
+          <time dateTime={reel.posted_at} className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>
+            {shortDate(reel.posted_at)}
           </time>
-          <a
-            href={reel.reel_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold hover:underline"
-            style={{ color: 'var(--text-muted)' }}
-          >
-            <InstagramGlyph className="w-3.5 h-3.5" />
-            View on Instagram
-          </a>
+          <div className="pointer-events-auto relative z-10 ml-auto flex items-center gap-1">
+            {extra.map((l) => (
+              <a
+                key={l.url}
+                href={withUtm(l.url, reel.slug)}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={l.label}
+                aria-label={`${l.label} (opens in a new tab)`}
+                className="inline-flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:brightness-95"
+                style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)' }}
+              >
+                {l.url.includes('github.com') ? <GitHubGlyph /> : <Arrow className="w-3.5 h-3.5 -rotate-45" />}
+              </a>
+            ))}
+            {blogLink && (
+              <a
+                href={reel.reel_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View on Instagram"
+                aria-label={`View "${reel.title}" on Instagram (opens in a new tab)`}
+                className="inline-flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:brightness-95"
+                style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)' }}
+              >
+                <InstagramGlyph className="w-3.5 h-3.5" />
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </article>
@@ -252,81 +178,73 @@ function Post({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
 }
 
 export function LinksView({ reels }: { reels: Reel[] }) {
-  const linkCount = reels.reduce((n, r) => n + r.links.length, 0);
-
   return (
     <div className="min-h-screen">
       <div className="hero-gradient-bg">
-        <header className="mx-auto max-w-xl px-4 pt-20 pb-6 sm:pt-24">
-          <div className="flex items-center gap-5 sm:gap-8">
-            <Ring size={96}>
-              <Avatar size={84} />
-            </Ring>
+        <header className="mx-auto max-w-6xl px-4 pb-8 pt-20 sm:px-6 sm:pt-24 lg:px-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7">
+            <div className="flex items-center gap-4 sm:contents">
+              <span className="inline-flex shrink-0 rounded-full p-[3px]" style={{ background: STORY_RING }}>
+                <span
+                  className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-black text-white sm:h-24 sm:w-24 sm:text-4xl"
+                  style={{ backgroundColor: 'var(--accent-500)', border: '3px solid var(--background)' }}
+                  aria-hidden="true"
+                >
+                  R
+                </span>
+              </span>
+              <div className="sm:hidden">
+                <h1 className="text-xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>Ratn Labs</h1>
+                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>@ratn_labs</p>
+              </div>
+            </div>
+
             <div className="min-w-0 flex-1">
-              <h1 className="text-xl font-bold tracking-tight sm:text-2xl" style={{ color: 'var(--text-primary)' }}>
-                ratn_labs
-              </h1>
-              <dl className="mt-2 flex gap-5 text-sm">
-                <div className="flex gap-1">
-                  <dt className="sr-only">Posts</dt>
-                  <dd className="font-bold" style={{ color: 'var(--text-primary)' }}>{reels.length}</dd>
-                  <span style={{ color: 'var(--text-secondary)' }}>posts</span>
-                </div>
-                <div className="flex gap-1">
-                  <dt className="sr-only">Links</dt>
-                  <dd className="font-bold" style={{ color: 'var(--text-primary)' }}>{linkCount}</dd>
-                  <span style={{ color: 'var(--text-secondary)' }}>links</span>
-                </div>
-              </dl>
+              <div className="hidden items-baseline gap-3 sm:flex">
+                <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>Ratn Labs</h1>
+                <span className="text-sm" style={{ color: 'var(--text-muted)' }}>@ratn_labs</span>
+              </div>
+              <p className="mt-1 max-w-2xl text-sm leading-relaxed sm:text-[15px]" style={{ color: 'var(--text-secondary)' }}>
+                Systems, backend &amp; AI engineering. Tap any post to read the full write-up behind it.
+              </p>
+              <p className="mt-1 text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+                {`${reels.length} post${reels.length === 1 ? '' : 's'} · latest first`}
+              </p>
+            </div>
+
+            <div className="flex gap-2 sm:shrink-0">
+              <a
+                href={PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all hover:brightness-110 sm:flex-none"
+                style={{ backgroundColor: 'var(--accent-500)' }}
+              >
+                <InstagramGlyph />
+                Follow
+              </a>
+              <a
+                href={`${SITE_URL}/blog/`}
+                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all hover:brightness-95 sm:flex-none"
+                style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
+              >
+                All articles
+                <Arrow className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
-
-          <div className="mt-4 text-sm leading-relaxed">
-            <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>Ratn Labs</p>
-            <p style={{ color: 'var(--text-secondary)' }}>code, meme, coffee</p>
-            <p style={{ color: 'var(--text-secondary)' }}>Systems, backend &amp; AI engineering — every link from my posts, in one place.</p>
-            <a href={SITE_URL} className="font-semibold hover:underline" style={{ color: 'var(--accent-500)' }}>
-              blog.ratnesh-maurya.com
-            </a>
-          </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            <a
-              href={PROFILE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all hover:brightness-110"
-              style={{ backgroundColor: 'var(--accent-500)' }}
-            >
-              <InstagramGlyph />
-              Follow
-            </a>
-            <a
-              href={`${SITE_URL}/blog/`}
-              className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold transition-all hover:brightness-95"
-              style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
-            >
-              Read the blog
-            </a>
-          </div>
-
-          {reels.length > 1 && (
-            <div className="mt-6">
-              <Highlights reels={reels} />
-            </div>
-          )}
         </header>
       </div>
 
-      <main className="mx-auto max-w-xl px-4 pb-16 pt-6">
+      <main className="mx-auto max-w-6xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
         {reels.length === 0 ? (
           <p className="py-10 text-center text-sm" style={{ color: 'var(--text-muted)' }}>
             No posts yet. Check back soon.
           </p>
         ) : (
-          <div className="space-y-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
             {reels.map((reel, i) => (
-              <Post key={reel.slug} reel={reel} isLatest={i === 0} />
+              <Tile key={reel.slug} reel={reel} isLatest={i === 0} />
             ))}
           </div>
         )}

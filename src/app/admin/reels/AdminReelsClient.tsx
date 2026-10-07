@@ -229,11 +229,11 @@ export default function AdminReelsClient() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const refreshThumbs = async () => {
+  const refreshThumbs = async (all = false) => {
     if (!secret) return flash('err', 'Set secret first');
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/reels?action=refresh-thumbs', {
+      const res = await fetch(`/api/admin/reels?action=refresh-thumbs${all ? '&all=1' : ''}`, {
         method: 'PATCH',
         headers: { 'x-admin-secret': secret },
       });
@@ -551,16 +551,28 @@ export default function AdminReelsClient() {
             <h2 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
               Existing reels ({reels.length})
             </h2>
-            <button
-              type="button"
-              onClick={refreshThumbs}
-              disabled={loading || reels.length === 0}
-              className="rounded-xl px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
-              style={inputStyle}
-              title="Pull the cover image from each Instagram post that has no stored thumbnail"
-            >
-              Fix missing thumbnails
-            </button>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => refreshThumbs(false)}
+                disabled={loading || reels.length === 0}
+                className="rounded-xl px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
+                style={inputStyle}
+                title="Pull the cover image from each Instagram post that has no stored thumbnail"
+              >
+                Fix missing thumbnails
+              </button>
+              <button
+                type="button"
+                onClick={() => confirm('Re-pull the cover of every Instagram post? Uploaded thumbnails will be replaced.') && refreshThumbs(true)}
+                disabled={loading || reels.length === 0}
+                className="rounded-xl px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
+                style={inputStyle}
+                title="Replace every cover with the full uncropped first slide from Instagram"
+              >
+                Re-pull all covers
+              </button>
+            </div>
           </div>
           {reels.length === 0 ? (
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>None yet.</p>

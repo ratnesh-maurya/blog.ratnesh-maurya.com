@@ -33,13 +33,33 @@ export function isInstagramPostUrl(url: string): boolean {
 }
 
 /**
- * Current cover image of a public Instagram post, read from the og:image tag
- * Instagram serves to link-preview crawlers. The returned link is signed and
+ * Current cover image of a public Instagram post, as a signed CDN link that
  * expires within weeks — pass it straight to storeThumb.
+ *
+ * Prefers `/media/?size=l`, which redirects to the full-frame first slide
+ * (1080×1440 for a 3:4 carousel). Falls back to the og:image link-preview tag,
+ * which is a centre-cropped square, for posts where that endpoint fails (reels).
  */
 export async function fetchInstagramCover(postUrl: string): Promise<string> {
   if (!isInstagramPostUrl(postUrl)) throw new Error('Not an Instagram post URL');
-  const res = await fetch(postUrl, { headers: { 'user-agent': PREVIEW_UA }, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
+  const base = postUrl.split('?')[0].replace(/\/?$/, '/');
+
+  try {
+    const full = await fetch(`${base}media/?size=l`, {
+      headers: { 'user-agent': PREVIEW_UA },
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+      redirect: 'follow',
+    });
+    if (full.ok && (full.headers.get('content-type') ?? '').startsWith('image/') && isExpiringCdnUrl(full.url)) {
+      await full.body?.cancel();
+      return full.url;
+    }
+    await full.body?.cancel();
+  } catch {
+    // fall through to the preview tag
+  }
+
+  const res = await fetch(base, { headers: { 'user-agent': PREVIEW_UA }, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`Instagram returned HTTP ${res.status}`);
   const html = await res.text();
   const m = html.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i);
