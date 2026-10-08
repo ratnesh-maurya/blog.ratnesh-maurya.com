@@ -41,6 +41,31 @@ export function coverPathKey(url: string): string | null {
   }
 }
 
+/** Cross-process mutex: mkdir is atomic. A lock older than 15 s is treated as abandoned. */
+async function withLock<T>(dir: string, fn: () => T): Promise<T> {
+  const deadline = Date.now() + 20_000;
+  for (;;) {
+    try {
+      fs.mkdirSync(dir);
+      break;
+    } catch (e) {
+      if ((e as NodeJS.ErrnoException).code !== 'EEXIST') throw e;
+      try {
+        if (Date.now() - fs.statSync(dir).mtimeMs > 15_000) fs.rmSync(dir, { recursive: true, force: true });
+      } catch {
+        // released between the two calls
+      }
+      if (Date.now() > deadline) throw new Error(`Timed out waiting for ${dir}`);
+      await new Promise((r) => setTimeout(r, 50 + Math.random() * 100));
+    }
+  }
+  try {
+    return fn();
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 function readManifest(): CoverManifest {
   try {
     const m = JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) as Partial<CoverManifest>;
@@ -68,12 +93,17 @@ export async function exportCover(firstSlide: string, slug: string, postUrl?: st
   // Content hash in the URL so browsers and the CDN pick up a re-rendered cover immediately.
   const url = `/reels/covers/${slug}.webp?v=${crypto.createHash('sha1').update(webp).digest('hex').slice(0, 8)}`;
 
-  const m = readManifest();
-  m.bySlug[slug] = url;
-  const key = postUrl ? coverPathKey(postUrl) : null;
-  if (key) m.byPath[key] = url;
   fs.mkdirSync(path.dirname(MANIFEST), { recursive: true });
-  fs.writeFileSync(MANIFEST, JSON.stringify({ bySlug: sorted(m.bySlug), byPath: sorted(m.byPath) }, null, 2) + '\n');
+  // Several carousels can render at once: serialise the read-modify-write so no entry is lost.
+  await withLock(`${MANIFEST}.lock`, () => {
+    const m = readManifest();
+    m.bySlug[slug] = url;
+    const key = postUrl ? coverPathKey(postUrl) : null;
+    if (key) m.byPath[key] = url;
+    const tmp = `${MANIFEST}.${process.pid}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify({ bySlug: sorted(m.bySlug), byPath: sorted(m.byPath) }, null, 2) + '\n');
+    fs.renameSync(tmp, MANIFEST);
+  });
   return url;
 }
 

@@ -1,6 +1,7 @@
 {
   "bySlug": {
     "amazon-sns": "/reels/covers/amazon-sns.webp?v=2f3878cd",
+    "backpressure": "/reels/covers/backpressure.webp?v=acb1b4f6",
     "bloom-filter": "/reels/covers/bloom-filter.webp?v=16578faf",
     "building-this-blog": "/reels/covers/building-this-blog.webp?v=20325e1c",
     "caching-strategies-v2": "/reels/covers/caching-strategies-v2.webp?v=3b4a4d70",
@@ -11,15 +12,19 @@
     "consistent-hashing": "/reels/covers/consistent-hashing.webp?v=afbfa40e",
     "cursor-claude-personas-v2": "/reels/covers/cursor-claude-personas-v2.webp?v=7ae042f2",
     "go-1-26-2": "/reels/covers/go-1-26-2.webp?v=05f6220d",
+    "go-defer-in-loops": "/reels/covers/go-defer-in-loops.webp?v=c9edcc09",
     "go-struct-layout": "/reels/covers/go-struct-layout.webp?v=c6c4d614",
     "how-files-are-stored": "/reels/covers/how-files-are-stored.webp?v=aacfc365",
     "http-query-method": "/reels/covers/http-query-method.webp?v=5f612e04",
     "idempotency": "/reels/covers/idempotency.webp?v=9e78a8a1",
+    "kubectl-cheatsheet": "/reels/covers/kubectl-cheatsheet.webp?v=ce4ce826",
+    "lsm-tree": "/reels/covers/lsm-tree.webp?v=f94db712",
     "nanoc-s3-deploy": "/reels/covers/nanoc-s3-deploy.webp?v=d64b3aad",
     "news-latest": "/reels/covers/news-latest.webp?v=20a79861",
     "qr-codes": "/reels/covers/qr-codes.webp?v=7452bd6f",
     "ride-app-architecture": "/reels/covers/ride-app-architecture.webp?v=d955c7f0",
     "s3-policies": "/reels/covers/s3-policies.webp?v=61e65c1f",
+    "two-phase-commit": "/reels/covers/two-phase-commit.webp?v=da52c1ee",
     "write-ahead-logging": "/reels/covers/write-ahead-logging.webp?v=0de36940"
   },
   "byPath": {
@@ -37,12 +42,17 @@
     "/blog/rfc-10008-http-query-method-explained": "/reels/covers/http-query-method.webp?v=5f612e04",
     "/blog/the-mechanics-of-compression-how-100gb-becomes-25gb": "/reels/covers/compression.webp?v=f553023e",
     "/blog/understanding-s3-and-s3-policies": "/reels/covers/s3-policies.webp?v=61e65c1f",
+    "/cheatsheets/kubectl": "/reels/covers/kubectl-cheatsheet.webp?v=ce4ce826",
     "/news/ai-dev-digest-openais-experimentation-focus-chatgpt-imagegen-industrial-ai-vision-and-open-source-llm-breakthroughs": "/reels/covers/news-latest.webp?v=20a79861",
+    "/technical-terms/backpressure": "/reels/covers/backpressure.webp?v=acb1b4f6",
     "/technical-terms/bloom-filter": "/reels/covers/bloom-filter.webp?v=16578faf",
     "/technical-terms/cap-theorem": "/reels/covers/cap-theorem.webp?v=9564eaf9",
     "/technical-terms/circuit-breaker": "/reels/covers/circuit-breaker.webp?v=3a6323aa",
     "/technical-terms/consistent-hashing": "/reels/covers/consistent-hashing.webp?v=afbfa40e",
     "/technical-terms/idempotency": "/reels/covers/idempotency.webp?v=9e78a8a1",
-    "/technical-terms/write-ahead-logging-wal": "/reels/covers/write-ahead-logging.webp?v=0de36940"
+    "/technical-terms/lsm-tree": "/reels/covers/lsm-tree.webp?v=f94db712",
+    "/technical-terms/two-phase-commit-2pc": "/reels/covers/two-phase-commit.webp?v=da52c1ee",
+    "/technical-terms/write-ahead-logging-wal": "/reels/covers/write-ahead-logging.webp?v=0de36940",
+    "/til/go-defer-loop-gotcha": "/reels/covers/go-defer-in-loops.webp?v=c9edcc09"
   }
 }

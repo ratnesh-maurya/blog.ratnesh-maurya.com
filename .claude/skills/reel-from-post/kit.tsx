@@ -14,6 +14,7 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 import { exportCover } from '../../../scripts/reel-covers';
+import { formatReport, lintCaption } from './caption';
 
 // ─── Canvas ──────────────────────────────────────────────────────────────────
 /** 3:4 portrait — Instagram's grid ratio. Every slide in a carousel must match. */
@@ -221,24 +222,51 @@ export function Cross({ size = 28, color = T.error }: { size?: number; color?: s
 }
 
 /**
- * Wrapping text with highlighted phrases: wrap a phrase in ** to colour/bold it.
- *   <Rich text="Two keys: **only the ones you need**." size={TYPE.body} color={T.text2} accent={A.a600} />
+ * Wrapping text with highlighted phrases. Inside `text`:
+ *   **bold phrase**  → accent colour, bold
+ *   `code`           → monospace chip
+ *   <Rich text="Block on **the full channel**, then `make(chan T, 100)` waits." size={TYPE.body} color={T.text2} accent={A.a600} />
  * Every word is its own node with an explicit gap. Mixing plain text and a coloured <span> in one div
  * makes Satori space the words unevenly (or drop the space between them), so use this instead.
+ * Punctuation typed straight after a **bold** or `code` span stays attached to it, and never wraps onto a line alone.
+ * Inside a flex row, wrap it in a div with `flex: 1`, or it overflows instead of wrapping.
  */
 export function Rich({ text, size, color, accent, weight = 500, lineHeight = 1.35, maxWidth }: { text: string; size: number; color: string; accent: string; weight?: 500 | 700; lineHeight?: number; maxWidth?: number }) {
-  const parts = text.split('**');
-  const words: Array<{ w: string; hl: boolean }> = [];
-  parts.forEach((part, i) => {
-    for (const w of part.split(/\s+/).filter(Boolean)) words.push({ w, hl: i % 2 === 1 });
-  });
+  type Node = { w: string; kind: 'plain' | 'bold' | 'code' };
+  const units: Node[][] = []; // a unit never wraps internally: a word plus punctuation glued to it
+  let prevEndsSpace = true;
+  for (const seg of text.split(/(\*\*[^*]+\*\*|`[^`]+`)/).filter((x) => x !== '')) {
+    const kind: Node['kind'] = seg.startsWith('**') ? 'bold' : seg.startsWith('`') ? 'code' : 'plain';
+    const raw = kind === 'bold' ? seg.slice(2, -2) : kind === 'code' ? seg.slice(1, -1) : seg;
+    const words = kind === 'code' ? [raw.trim()] : raw.split(/\s+/).filter(Boolean);
+    const leadingSpace = kind !== 'code' && /^\s/.test(raw);
+    words.forEach((w, i) => {
+      const glue = i === 0 && !leadingSpace && !prevEndsSpace && units.length > 0;
+      if (glue) units[units.length - 1].push({ w, kind });
+      else units.push([{ w, kind }]);
+    });
+    prevEndsSpace = kind !== 'code' && /\s$/.test(raw);
+  }
+  const chipBg = /^#[0-9a-f]{6}$/i.test(accent) ? `${accent}1A` : 'rgba(0,0,0,0.06)';
+  const first = (u: Node[]) => u[0].kind;
+  const last = (u: Node[]) => u[u.length - 1].kind;
   return (
     // Satori crashes on a style key whose value is undefined, so maxWidth is only added when set.
-    <div style={{ display: 'flex', flexWrap: 'wrap', fontSize: size, lineHeight, ...(maxWidth ? { maxWidth } : {}) }}>
-      {words.map((x, i) => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', fontSize: size, lineHeight, ...(maxWidth ? { maxWidth } : {}) }}>
+      {units.map((u, i) => (
         // Bold words come out ~0.1em wider apart than regular ones, so bold→bold gets a smaller gap.
-        <div key={i} style={{ display: 'flex', marginRight: size * (x.hl && words[i + 1]?.hl ? 0.1 : 0.15), color: x.hl ? accent : color, fontWeight: x.hl ? 700 : weight }}>
-          {x.w}
+        <div key={i} style={{ display: 'flex', marginRight: size * (last(u) === 'bold' && units[i + 1] && first(units[i + 1]) === 'bold' ? 0.1 : 0.15) }}>
+          {u.map((n, j) =>
+            n.kind === 'code' ? (
+              <div key={j} style={{ display: 'flex', whiteSpace: 'pre', fontFamily: FONT.mono, fontSize: size * 0.88, fontWeight: 500, color: accent, backgroundColor: chipBg, padding: `0 ${size * 0.2}px`, borderRadius: size * 0.2 }}>
+                {n.w}
+              </div>
+            ) : (
+              <div key={j} style={{ display: 'flex', color: n.kind === 'bold' ? accent : color, fontWeight: n.kind === 'bold' ? 700 : weight }}>
+                {n.w}
+              </div>
+            ),
+          )}
         </div>
       ))}
     </div>
@@ -526,8 +554,10 @@ export interface Slide {
 }
 
 export interface CarouselMeta {
-  /** Instagram caption → caption.txt. */
+  /** Instagram caption → caption.txt. Linted: ≤ 5 hashtags, first line is the hook, one ask. */
   caption: string;
+  /** Phrases the post should be found for in Instagram search (checked against the caption). */
+  searchTerms?: string[];
   /** Entry for the /links page (Admin → Reels). reel_url is filled in after posting. */
   links: {
     slug: string;
@@ -543,7 +573,9 @@ function validate(slides: Slide[], meta: CarouselMeta) {
   slides.forEach((s, i) => {
     if (!s.alt?.trim()) problems.push(`slide ${i + 1} (${s.label}) has no alt text`);
   });
-  if (meta.caption.length > 2200) problems.push(`Instagram caption is ${meta.caption.length} chars (max 2200)`);
+  for (const c of lintCaption(meta.caption, meta.searchTerms).checks) {
+    if (c.status === 'FAIL') problems.push(`caption ${c.name}: ${c.detail}`);
+  }
   if (problems.length) throw new Error(`Carousel is not ready:\n  - ${problems.join('\n  - ')}`);
 }
 
@@ -574,6 +606,7 @@ export async function renderCarousel(slides: Slide[], meta: CarouselMeta, dir = 
 
   const write = (name: string, text: string) => fs.writeFileSync(path.join(dir, name), text.trim() + '\n');
   write('caption.txt', meta.caption);
+  console.log(`\n${formatReport(lintCaption(meta.caption, meta.searchTerms))}`);
   write('alt.txt', slides.map((s, i) => `${files[i]}\n${s.alt.trim()}`).join('\n\n'));
   write('links.json', JSON.stringify({ ...meta.links, reel_url: '<paste Instagram post URL>' }, null, 2));
 

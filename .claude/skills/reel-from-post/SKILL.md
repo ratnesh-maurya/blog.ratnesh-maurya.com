@@ -29,6 +29,14 @@ the `Code` card, and all exports. **Everything inside the frame is designed fres
 the topic.** If someone could produce the same slides without reading the
 source, the design failed.
 
+## Step 0 — Read the voice file
+
+Read [voice.md](voice.md) first. It says how @ratn_labs sounds, what is off
+limits, and which claims are real. Lines marked `{{…}}` are blank: do not guess
+them. If a hook or slide needs a first-person number or story that is not in
+`voice.md` or the source post, write it as `{{your number}}` and flag it in
+the report. Facts come from the source post only.
+
 ## Step 1 — Resolve the source
 
 Accept a slug, a URL, or a fuzzy name ("the caching post", "today's news",
@@ -51,6 +59,18 @@ tags, `questions`, H2s, code blocks, numbers, comparisons and any vivid line.
 ## Step 2 — Pick the playbook for the content kind
 
 Slide count is a range, not a target. Don't pad; don't cut a real idea.
+
+Two rules for every carousel with 6 or more slides:
+
+- **Slide 2 must stand on its own.** Instagram can show a carousel again
+  starting from a later slide to people who skipped the first. So slide 2 is a
+  second cover: a claim, a number or a result, not "here is the setup". Put the
+  setup inside the slide that needs it.
+- **Add a recap slide before the CTA.** The whole carousel as a short list or
+  table, readable with no context. It is the slide people screenshot and send,
+  and sends are the strongest signal a post can earn. (Skip it on 3–5 slide
+  carousels, where the CTA slide is close enough.) Put the "Save for later"
+  chip (`save` on `Frame`) on it.
 
 **Blog (6–9 slides)** — teach one idea well.
 Hook → the problem/pain → 2–4 insight slides (one idea each, each with a
@@ -80,7 +100,11 @@ Hook (the symptom or question) → the answer/command → why it works → CTA.
 Write this down in your own reasoning before any code:
 
 - **Hook (≤ 8 words).** Clear at a glance beats clever. Imperative, surprising
-  number, or a sharp question. Often *not* the post title.
+  number, or a sharp question. Often *not* the post title. Pick **one formula**
+  from [hooks.md](hooks.md) and name it. When several carousels are made in one
+  batch, the caller assigns each a different formula so covers don't all sound
+  alike. The cover is read as a thumbnail in the grid: keep it large and keep
+  the text out of the outer ~120 px.
   - "Reorder Go struct fields. Save 152 MB."
   - "Five caching strategies. One question: which?"
   - "Why Write-Back loses your data."
@@ -175,10 +199,13 @@ Fill the frame — a slide with a dead bottom third reads as unfinished. Keep
 - **`alt`** is required on every slide; `renderCarousel` refuses to run
   without it. Describe what the slide says and shows in 1–3 sentences.
 - **`Check` / `Cross`** are SVG icons (`<Check size={26} color="#FFFFFF" />`).
-- **`Rich`** lays out wrapping text with highlighted phrases — wrap a phrase in
-  `**…**`: `<Rich text="Only **the secrets you need**." size={TYPE.body} color={T.text2} accent={A.a600} />`.
+- **`Rich`** lays out wrapping text with highlighted phrases: `**bold**` is
+  coloured, `` `code` `` becomes a monospace chip, and punctuation typed right
+  after either stays attached to it:
+  `<Rich text="Only **the secrets you need**, plus `make(chan T)`." size={TYPE.body} color={T.text2} accent={A.a600} />`.
   Use it instead of mixing plain text and a coloured `<span>` in one div, which
-  Satori spaces unevenly (or joins with no space at all).
+  Satori spaces unevenly (or joins with no space at all). **Inside a flex row,
+  wrap it in a div with `flex: 1`**, or it overflows instead of wrapping.
 
 **Satori rules (break these and rendering fails or looks wrong):**
 1. Every `<div>` with more than one child needs `display: 'flex'` (or `'none'`).
@@ -211,7 +238,8 @@ Fill the frame — a slide with a dead bottom third reads as unfinished. Keep
 12. Satori ignores `flexWrap` on a row of mixed text nodes and can drop the
     space between them — use `Rich`, or give each word its own node with an
     explicit `marginRight`.
-13. The render prints a Node `module.register()` deprecation warning. It is
+13. `justifyContent: 'space-evenly'` is not supported — use `'space-around'`.
+14. The render prints a Node `module.register()` deprecation warning. It is
     harmless.
 
 ## Step 6 — Render
@@ -226,24 +254,34 @@ re-run. Don't retry blindly.
 ## Step 7 — Caption (`caption`, ≤ 2,200 chars, aim < 900)
 
 ```
-{hook line — punchier than the post title}
+{hook line — concrete, under ~120 characters, lands whole in the feed}
 
 {2–3 short lines of value written for IG, conversational, no jargon walls}
 
-{one line: what they'll get by swiping / from the full post}
+{the ONE ask: usually "Save it for …"}
 
 🔗 Full breakdown: blog.ratnesh-maurya.com/<kind>/<slug>/
 (link in bio → @ratn_labs)
 
-#ratnlabs #tag2 #tag3 …
+#ratnlabs #topic1 #topic2 #topic3 #topic4
 ```
 
+- **First line = the hook.** The feed shows only ~125 characters before "… more".
+  The linter prints exactly that window.
+- **At most 5 hashtags** (Instagram's cap since 18 Dec 2025): `#ratnlabs` plus the
+  4 most specific topics for this post. Never generic tags (`#viral`, `#fyp`,
+  `#reels`). Put the phrase you want to be found for in the caption text as
+  normal words as well: Instagram search reads the caption.
+- **One ask.** Usually "Save it …". Don't also say "swipe", "follow" and "share".
+  The URL line and "link in bio" are pointers, not asks.
 - **Always include the full post URL** exactly as `blog.ratnesh-maurya.com/<kind>/<slug>/`.
-- 8–15 hashtags: `#ratnlabs` always, slugified post tags, then 3–5 niche
-  staples that fit (`#systemdesign #backend #softwareengineering #devtools
-  #databases #golang #distributedsystems #ainews #llm`).
-- `renderCarousel` refuses to run if the caption is over 2,200 characters or
-  any slide lacks alt text.
+  The admin's Quick add reads it to fill in the related links. (Links in
+  captions aren't clickable, so the URL is for Quick add and for people who copy it.)
+- Pass `searchTerms: ['bloom filter', …]` to `renderCarousel` to check those phrases appear.
+- `renderCarousel` runs [caption.ts](caption.ts), prints the feed preview and any
+  warnings, and **refuses to run** on: > 5 hashtags, > 2,200 characters, a first
+  line that is blank or starts with `#`/`@`, or missing search terms. It also
+  refuses if any slide lacks alt text. Read the warnings and decide each one.
 
 ## Step 8 — Visual QA (mandatory)
 
@@ -256,6 +294,7 @@ open any slide that looks off at full size. Check:
   bar, `@ratn_labs` and `N / total`.
 - Code cards: no line runs past the card edge.
 - Visual variety — not the same layout with swapped text.
+- Slide 2 works as a second cover, and (6+ slides) a recap slide sits before the CTA.
 - Facts match the source.
 
 Fix and re-render until it passes. This step is not optional.
