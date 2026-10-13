@@ -87,22 +87,21 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
   };
 
   const shareButtons = [
-    { key: 'twitter',   label: 'Twitter / X', icon: <TwitterIcon />,  colorIdx: 0 },
-    { key: 'linkedin',  label: 'LinkedIn',     icon: <LinkedInIcon />, colorIdx: 1 },
-    { key: 'facebook',  label: 'Facebook',     icon: <FacebookIcon />, colorIdx: 2 },
-    { key: 'whatsapp',  label: 'WhatsApp',     icon: <WhatsAppIcon />, colorIdx: 3 },
-    { key: 'reddit',    label: 'Reddit',       icon: <RedditIcon />,   colorIdx: 4 },
-    { key: 'hackernews',label: 'HN',           icon: <HackerNewsIcon />, colorIdx: 5 },
+    { key: 'twitter',   label: 'Twitter / X', icon: <TwitterIcon /> },
+    { key: 'linkedin',  label: 'LinkedIn',     icon: <LinkedInIcon /> },
+    { key: 'facebook',  label: 'Facebook',     icon: <FacebookIcon /> },
+    { key: 'whatsapp',  label: 'WhatsApp',     icon: <WhatsAppIcon /> },
+    { key: 'reddit',    label: 'Reddit',       icon: <RedditIcon /> },
+    { key: 'hackernews',label: 'HN',           icon: <HackerNewsIcon /> },
   ] as const;
 
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
-      {shareButtons.map(({ key, label, icon, colorIdx }) => (
+      {shareButtons.map(({ key, label, icon }) => (
         <button
           key={key}
           onClick={() => openShare(key)}
-          className="nb-btn text-xs font-bold"
-          style={{ backgroundColor: `var(--nb-card-${colorIdx})`, color: '#1C1C1A' }}
+          className="nb-btn nb-btn-tint text-xs font-bold"
           aria-label={`Share on ${label}`}
         >
           {icon}
@@ -112,11 +111,8 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
 
       <button
         onClick={copyToClipboard}
-        className="nb-btn text-xs font-bold"
-        style={copied
-          ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }
-          : { backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }
-        }
+        className={`nb-btn text-xs font-bold ${copied ? '' : 'nb-btn-tint'}`}
+        style={copied ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' } : undefined}
         aria-label="Copy link"
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
@@ -125,8 +121,7 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
 
       <button
         onClick={openUtmBuilder}
-        className="nb-btn text-xs font-bold"
-        style={{ backgroundColor: 'var(--nb-card-0)', color: '#1C1C1A' }}
+        className="nb-btn nb-btn-tint text-xs font-bold"
         aria-label="Open UTM builder"
       >
         <UtmIcon />

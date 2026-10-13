@@ -45,8 +45,8 @@ export default function AnalyticsPage() {
                 Analytics dashboard
               </h1>
               <p className="text-sm sm:text-base leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
-                See how posts perform over time: overall footprint, today&apos;s stats, content leaders, and UTM-driven sessions.
-                Drag section headers to reorder the layout to match how you think.
+                How many people read this site, where they come from, and what they read. The numbers are public and
+                update live. The summary below answers the main question; open any section below it for details.
               </p>
             </div>
             <div className="w-full lg:w-auto">
@@ -61,12 +61,12 @@ export default function AnalyticsPage() {
                 }}
               >
                 <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                  How to read this page
+                  How to use this page
                 </p>
                 <ul className="space-y-1 list-disc pl-4" style={{ color: 'var(--text-secondary)' }}>
-                  <li>Use the top cards to check overall health.</li>
-                  <li>Use the date pickers to zoom in on launches.</li>
-                  <li>Use UTM charts to validate campaigns.</li>
+                  <li>Start with the summary: it says how this week compares with last.</li>
+                  <li>Use the bar to jump between parts, or filter by type of content.</li>
+                  <li>Click a section title to open or close it. Unsure about a word? See &quot;What do these terms mean?&quot; at the bottom.</li>
                 </ul>
               </div>
             </div>

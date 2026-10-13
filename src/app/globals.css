@@ -1470,20 +1470,12 @@ html, body {
   --nb-shadow-sm:  var(--glass-shadow-sm);
   --nb-shadow-lg:  var(--glass-shadow-lg);
 
-  /* Vibrant translucent card palette — indexed for cycling */
-  --nb-card-0:       rgba(200, 250, 208, 0.82);   /* mint green  */
-  --nb-card-1:       rgba(237, 224, 255, 0.82);   /* lavender    */
-  --nb-card-2:       rgba(255, 228, 204, 0.82);   /* peach       */
-  --nb-card-3:       rgba(255, 249, 204, 0.82);   /* pale yellow */
-  --nb-card-4:       rgba(255, 214, 236, 0.82);   /* blush       */
-  --nb-card-5:       rgba(204, 232, 255, 0.82);   /* sky blue    */
-  --nb-card-featured: rgba(255, 228, 204, 0.82);  /* hero card   */
-
-  /* Vibrant action colors */
-  --nb-orange-v:   #EA580C;
-  --nb-green-v:    #16A34A;
-  --nb-purple-v:   #7C3AED;
-  --nb-yellow-v:   #CA8A04;
+  /* Themed card surface: a light wash of the current accent over glass.
+     Every card/button that used to cycle through pastel colours uses this, so the
+     whole site follows the chosen theme accent. */
+  --surface-tint:        color-mix(in srgb, var(--accent-500) 7%, rgba(255, 255, 255, 0.86));
+  --surface-tint-strong: color-mix(in srgb, var(--accent-500) 15%, rgba(255, 255, 255, 0.86));
+  --surface-tint-border: color-mix(in srgb, var(--accent-500) 26%, rgba(255, 255, 255, 0.5));
 
   /* Badge/button primary follows current accent */
   --nb-badge-bg:   var(--accent-500);
@@ -1500,15 +1492,10 @@ html, body {
   --nb-shadow-sm: var(--glass-shadow-sm);
   --nb-shadow-lg: var(--glass-shadow-lg);
 
-  /* Card palette — same vibrant pastels, translucent on dark stage */
-  --nb-card-0:       rgba(200, 250, 208, 0.82);   /* mint green  */
-  --nb-card-1:       rgba(237, 224, 255, 0.82);   /* lavender    */
-  --nb-card-2:       rgba(255, 228, 204, 0.82);   /* peach       */
-  --nb-card-3:       rgba(255, 249, 204, 0.82);   /* pale yellow */
-  --nb-card-4:       rgba(255, 214, 236, 0.82);   /* blush       */
-  --nb-card-5:       rgba(204, 232, 255, 0.82);   /* sky blue    */
-  --nb-card-featured: rgba(255, 228, 204, 0.82);  /* hero card   */
-
+  /* Themed card surface on the dark stage: accent wash over translucent white */
+  --surface-tint:        color-mix(in srgb, var(--accent-500) 13%, rgba(255, 255, 255, 0.05));
+  --surface-tint-strong: color-mix(in srgb, var(--accent-500) 24%, rgba(255, 255, 255, 0.05));
+  --surface-tint-border: color-mix(in srgb, var(--accent-500) 38%, rgba(255, 255, 255, 0.10));
   /* Dark badge/button primary also follows current accent */
   --nb-badge-bg:   var(--accent-500);
   --nb-badge-text: #FFFEF0;
@@ -1534,8 +1521,8 @@ html, body {
   border-color: color-mix(in srgb, var(--accent-300) 70%, rgba(255,255,255,0.6));
 }
 
-/* Dark mode: cards are bright pastels on dark background.
-   Cascade light-theme text/border tokens so all children read correctly
+/* Dark mode: cards are translucent accent-tinted glass on a dark stage.
+   Cascade light text/border tokens so all children read correctly
    — no individual component needs updating, everything inherits from here. */
 [data-theme="dark"] .nb-card,
 [data-theme="dark"] .nb-card-sm {
@@ -1559,7 +1546,7 @@ html, body {
   --neutral-900:      #F0EBE4;
 }
 
-/* Utility: apply to any element with a var(--nb-card-*) background that isn't .nb-card.
+/* Utility: apply to any element with a var(--surface-tint) background that isn't .nb-card.
    Cascades the same light-theme text tokens so children read correctly in dark mode. */
 [data-theme="dark"] .on-card {
   --text-primary:     #F0EBE4;
@@ -1622,6 +1609,14 @@ html, body {
   box-shadow: var(--glass-shadow-sm);
 }
 
+.nb-btn-tint {
+  background-color: var(--surface-tint);
+  border-color: var(--surface-tint-border);
+  color: var(--text-primary);
+}
+.nb-btn-tint:hover {
+  background-color: var(--surface-tint-strong);
+}
 .nb-btn-lg {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
@@ -1758,21 +1753,6 @@ html, body {
   background-color: var(--nb-badge-bg);
   color: var(--nb-badge-text);
   border-color: var(--nb-badge-bg);
-}
-
-/* ── Orange CTA (stays orange in both themes) ── */
-.nb-btn-orange {
-  background-color: #EA580C;
-  color: #FFFEF0;
-  border-color: rgba(234, 88, 12, 0.6);
-  box-shadow: 0 4px 20px rgba(234, 88, 12, 0.28), 0 1px 4px rgba(234, 88, 12, 0.20), inset 0 1px 0 rgba(255,255,255,0.25);
-}
-.nb-btn-orange:hover {
-  box-shadow: 0 8px 32px rgba(234, 88, 12, 0.38), 0 2px 6px rgba(234, 88, 12, 0.28), inset 0 1px 0 rgba(255,255,255,0.30);
-}
-[data-theme="dark"] .nb-btn-orange {
-  border-color: rgba(255, 144, 50, 0.4);
-  box-shadow: 0 4px 20px rgba(234, 88, 12, 0.35), 0 1px 4px rgba(234, 88, 12, 0.25), inset 0 1px 0 rgba(255,255,255,0.20);
 }
 
 /* ─── Accessibility + INP perf: skip backdrop-filter for users who prefer

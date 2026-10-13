@@ -52,7 +52,7 @@ export default function CorrectionsPage() {
         </div>
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-0)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               What counts as a correction
             </h2>
@@ -63,7 +63,7 @@ export default function CorrectionsPage() {
             </ul>
           </section>
 
-          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-1)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               How to report an issue
             </h2>
@@ -71,13 +71,13 @@ export default function CorrectionsPage() {
               Send the URL, the problematic snippet (quote or screenshot), and what you believe is correct.
             </p>
             <div className="mt-4">
-              <a href="/contact" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
+              <a href="/contact" className="nb-btn text-sm nb-btn-tint">
                 Contact →
               </a>
             </div>
           </section>
 
-          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-2)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               How updates are shown
             </h2>

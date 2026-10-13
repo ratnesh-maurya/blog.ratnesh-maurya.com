@@ -38,10 +38,10 @@ export function RelatedPosts({ currentSlug, currentCategory, currentTags, allPos
         Related & Recent Blogs
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {related.map((post, i) => (
+        {related.map((post) => (
           <Link key={post.slug} href={`/blog/${post.slug}`}
             className="group nb-card flex flex-col gap-1.5 p-4"
-            style={{ backgroundColor: `var(--nb-card-${i % 6})` }}>
+            style={{ backgroundColor: 'var(--surface-tint)' }}>
             <span className="nb-badge nb-badge-muted self-start">
               {post.category}
             </span>

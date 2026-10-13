@@ -92,7 +92,7 @@ export default function NotFound() {
 
         {/* Quick Links */}
         <div className="rounded-2xl p-6"
-          style={{ backgroundColor: 'var(--nb-card-0)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
+          style={{ backgroundColor: 'var(--surface-tint)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
           <h2 className="text-base font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
             Popular Content
           </h2>

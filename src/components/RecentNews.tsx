@@ -24,12 +24,12 @@ export function RecentNews({ news, currentSlug, count = 3 }: RecentNewsProps) {
         Recent News
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {recent.map((item, i) => (
+        {recent.map((item) => (
           <Link
             key={item.slug}
             href={`/news/${item.slug}`}
             className="group nb-card flex flex-col gap-1.5 p-4 transition-all duration-200 hover:-translate-y-1"
-            style={{ backgroundColor: `var(--nb-card-${(i + 3) % 6})` }}
+            style={{ backgroundColor: 'var(--surface-tint)' }}
           >
             <span className="nb-badge nb-badge-muted self-start">
               News Digest

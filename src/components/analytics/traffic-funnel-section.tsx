@@ -92,8 +92,8 @@ function FunnelConnector() {
   );
 }
 
-function SectionHead({ title, count, total }: {
-  title: string; count: number; total: number; color?: string;
+function SectionHead({ title, count, total, unit }: {
+  title: string; count: number; total: number; unit?: string; color?: string;
 }) {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
   return (
@@ -109,11 +109,13 @@ function SectionHead({ title, count, total }: {
       </span>
       <div className="flex items-center gap-2">
         <span className="text-lg font-black tabular-nums" style={{ color: 'var(--text-primary)' }}>{count}</span>
-        {total > 0 && (
+        {unit ? (
+          <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>{unit}</span>
+        ) : total > 0 ? (
           <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
-            ({pct}% of total)
+            ({Math.min(pct, 100)}% of all views)
           </span>
-        )}
+        ) : null}
       </div>
     </div>
   );
@@ -166,7 +168,7 @@ export function TrafficFunnelSection() {
         type,
         label: CONTENT_LABELS[type] ?? type,
         views,
-        color: CONTENT_COLORS[type] ?? '#6366f1',
+        color: CONTENT_COLORS[type] ?? 'var(--accent-500)',
       }))
       .sort((a, b) => b.views - a.views);
   }, [events]);
@@ -245,7 +247,7 @@ export function TrafficFunnelSection() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
-                  Total views
+                  Page views that day
                 </p>
                 <p className="text-4xl font-black tabular-nums" style={{ color: 'var(--accent-500)' }}>
                   {totalViews.toLocaleString()}
@@ -254,7 +256,7 @@ export function TrafficFunnelSection() {
               {utmTotal > 0 && (
                 <div className="text-right">
                   <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
-                    via tracked links
+                    from campaign links
                   </p>
                   <p className="text-4xl font-black tabular-nums" style={{ color: 'var(--text-primary)' }}>
                     {utmTotal.toLocaleString()}
@@ -290,7 +292,7 @@ export function TrafficFunnelSection() {
             <>
               <FunnelConnector />
               <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-                <SectionHead title="By UTM source" count={utmTotal} total={totalViews} />
+                <SectionHead title="From campaign links" count={utmTotal} total={totalViews} />
                 <div className="space-y-2">
                   {sources.map((s, i) => (
                     <FunnelBar
@@ -311,7 +313,7 @@ export function TrafficFunnelSection() {
             <>
               <FunnelConnector />
               <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-                <SectionHead title="By referral (?ref=)" count={refs.reduce((s, r) => s + r.count, 0)} total={totalViews} />
+                <SectionHead title="From ?ref= links" count={refs.reduce((s, r) => s + r.count, 0)} total={totalViews} />
                 <div className="space-y-2">
                   {refs.map((r, i) => (
                     <FunnelBar
@@ -332,7 +334,7 @@ export function TrafficFunnelSection() {
             <>
               <FunnelConnector />
               <div className="nb-card p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-                <SectionHead title="Top landing pages" count={topPages.reduce((s, p) => s + p.count, 0)} total={utmTotal} />
+                <SectionHead title="Where visits started" count={topPages.reduce((s, p) => s + p.count, 0)} total={0} unit="visits" />
                 <div className="space-y-2">
                   {topPages.map((p, i) => (
                     <FunnelBar
@@ -357,7 +359,7 @@ export function TrafficFunnelSection() {
             >
               On <strong style={{ color: 'var(--text-primary)' }}>{displayDate}</strong>,
               {' '}<strong style={{ color: 'var(--accent-500)' }}>{totalViews}</strong> total views were recorded.
-              {' '}<strong style={{ color: 'var(--text-primary)' }}>{utmTotal}</strong> came via tracked links
+              {' '}<strong style={{ color: 'var(--text-primary)' }}>{utmTotal}</strong> came from campaign links (links tagged with ?utm_source=…)
               {sources[0] && (
                 <> — top source: <strong style={{ color: 'var(--text-primary)' }}>{sources[0].source}</strong> ({sources[0].count})</>
               )}

@@ -13,17 +13,10 @@ import {
   YAxis,
 } from 'recharts';
 
+// Shades of the current theme accent, alternating light and dark so neighbouring slices stay distinguishable.
 const UTM_CHART_COLORS = [
-  '#3b82f6',
-  '#8b5cf6',
-  '#ec4899',
-  '#f59e0b',
-  '#10b981',
-  '#06b6d4',
-  '#6366f1',
-  '#f97316',
-  '#14b8a6',
-  '#a855f7',
+  'var(--accent-500)', 'var(--accent-300)', 'var(--accent-700)', 'var(--accent-400)', 'var(--accent-600)',
+  'var(--accent-200)', 'var(--accent-800, var(--accent-700))', 'var(--accent-300)', 'var(--accent-500)', 'var(--accent-700)',
 ];
 
 export interface UtmAnalyticsData {
@@ -132,8 +125,7 @@ export function UtmAnalyticsCharts() {
             <button
               type="button"
               onClick={handleApplyRange}
-              className="nb-btn text-sm"
-              style={{ backgroundColor: 'var(--nb-card-2)', color: '#1C1C1A' }}
+              className="nb-btn text-sm nb-btn-tint"
             >
               Apply
             </button>
@@ -148,7 +140,7 @@ export function UtmAnalyticsCharts() {
 
         {data && (
           <>
-            <div className="nb-card p-5 mb-6" style={{ backgroundColor: 'var(--nb-card-0)' }}>
+            <div className="nb-card p-5 mb-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
               <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
                 Total UTM visits (date range)
               </p>
@@ -161,7 +153,7 @@ export function UtmAnalyticsCharts() {
             </div>
 
             {data.bySource.length > 0 && (
-              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-1)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By UTM Source
                 </h3>
@@ -192,7 +184,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.byMedium.length > 0 && (
-              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-5)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By UTM Medium
                 </h3>
@@ -223,7 +215,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.byCampaign.length > 0 && (
-              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-2)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By UTM Campaign
                 </h3>
@@ -254,7 +246,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.byRef.length > 0 && (
-              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-3)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By Referral (<code>?ref=</code>)
                 </h3>
@@ -280,7 +272,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.byContent.length > 0 && (
-              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-4)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By UTM Content
                 </h3>
@@ -306,7 +298,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.byTerm.length > 0 && (
-              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-0)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   By UTM Term
                 </h3>
@@ -364,7 +356,7 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.daily.length > 0 && (
-              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--nb-card-3)' }}>
+              <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
                 <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
                   Visits per day
                 </h3>
@@ -392,9 +384,9 @@ export function UtmAnalyticsCharts() {
                         type="monotone"
                         dataKey="count"
                         name="Visits"
-                        stroke="#3b82f6"
+                        stroke="var(--accent-500)"
                         strokeWidth={2}
-                        dot={{ fill: '#3b82f6', r: 2 }}
+                        dot={{ fill: 'var(--accent-500)', r: 2 }}
                         activeDot={{ r: 4 }}
                       />
                     </LineChart>

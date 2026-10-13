@@ -52,7 +52,7 @@ export default function EditorialPolicyPage() {
         </div>
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-0)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               What gets published
             </h2>
@@ -63,7 +63,7 @@ export default function EditorialPolicyPage() {
             </ul>
           </section>
 
-          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-1)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               Accuracy & sourcing
             </h2>
@@ -74,7 +74,7 @@ export default function EditorialPolicyPage() {
             </ul>
           </section>
 
-          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-2)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               Updates & corrections
             </h2>
@@ -82,13 +82,13 @@ export default function EditorialPolicyPage() {
               If something is wrong or outdated, I prefer fixing it quickly and noting the change. See the corrections policy for how updates are tracked.
             </p>
             <div className="mt-4">
-              <a href="/corrections" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
+              <a href="/corrections" className="nb-btn text-sm nb-btn-tint">
                 Read the corrections policy →
               </a>
             </div>
           </section>
 
-          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-3)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               Disclosures
             </h2>
@@ -98,7 +98,7 @@ export default function EditorialPolicyPage() {
             </ul>
           </section>
 
-          <section className="nb-card p-6" style={{ backgroundColor: 'var(--nb-card-4)' }}>
+          <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
             <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               Contact
             </h2>
@@ -106,7 +106,7 @@ export default function EditorialPolicyPage() {
               If you want to report an issue or suggest an improvement, use the contact page.
             </p>
             <div className="mt-4">
-              <a href="/contact" className="nb-btn text-sm" style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
+              <a href="/contact" className="nb-btn text-sm nb-btn-tint">
                 Contact →
               </a>
             </div>

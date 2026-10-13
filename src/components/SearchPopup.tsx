@@ -430,7 +430,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                       : isTerm
                         ? 'var(--accent-50)'
                         : isNews
-                          ? 'var(--nb-card-3)'
+                          ? 'var(--surface-tint)'
                           : 'var(--surface-muted)';
                   const iconTextColor = isBlog
                     ? 'var(--accent-500)'

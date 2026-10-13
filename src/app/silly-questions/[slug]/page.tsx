@@ -184,7 +184,7 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
               <div
                 className="px-5 py-3 flex items-center gap-2.5"
                 style={{
-                  backgroundColor: 'var(--nb-card-0)',
+                  backgroundColor: 'var(--surface-tint)',
                   borderBottom: '2px solid var(--nb-border)',
                 }}
               >

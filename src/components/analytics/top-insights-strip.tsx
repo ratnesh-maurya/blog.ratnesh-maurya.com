@@ -104,6 +104,22 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
   const viewsDelta = deltaPct(curViews, prevViews);
   const upvotesDelta = deltaPct(curUpvotes, prevUpvotes);
 
+  // One plain sentence that answers "how are we doing?" before any chart.
+  const summary = (() => {
+    if (loading || error) return null;
+    if (curViews === 0 && prevViews === 0) return 'No page views were recorded in the last two weeks yet.';
+    const trend =
+      prevViews === 0
+        ? 'none the week before'
+        : viewsDelta === 0
+          ? `the same as the week before (${formatNumber(prevViews)})`
+          : `${viewsDelta > 0 ? 'up' : 'down'} ${Math.abs(viewsDelta)}% from ${formatNumber(prevViews)} the week before`;
+    const parts = [`${formatNumber(curViews)} page views in the last 7 days, ${trend}.`];
+    if (topType) parts.push(`${topType.label} is the most-read type.`);
+    if (curUpvotes > 0) parts.push(`Readers gave ${formatNumber(curUpvotes)} upvote${curUpvotes === 1 ? '' : 's'}.`);
+    return parts.join(' ');
+  })();
+
   const rangeLabel = `${new Date(curFrom + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}–${new Date(curTo + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
 
   return (
@@ -120,17 +136,22 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
       <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-            Top insights
+            This week at a glance
           </p>
           <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-            Last 7 days ({rangeLabel}) vs previous 7 days
+            {rangeLabel}, compared with the 7 days before
           </p>
         </div>
         <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-          Uses Supabase events (views/upvotes)
+          Based on page views and upvotes
         </div>
       </div>
 
+      {summary && (
+        <p className="text-base sm:text-lg font-semibold leading-snug mb-4" style={{ color: 'var(--text-primary)' }}>
+          {summary}
+        </p>
+      )}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[1, 2, 3].map((i) => (
@@ -152,7 +173,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
             <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-              Views (7d)
+              Page views, last 7 days
             </p>
             <div className="mt-1 flex items-baseline gap-2">
               <p className="text-xl font-bold tabular-nums" style={{ color: 'var(--accent-500)' }}>
@@ -171,13 +192,13 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
               </span>
             </div>
             <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-              Prev: {formatNumber(prevViews)}
+              Week before: {formatNumber(prevViews)}
             </p>
           </div>
 
           <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
             <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-              Upvotes (7d)
+              Upvotes, last 7 days
             </p>
             <div className="mt-1 flex items-baseline gap-2">
               <p className="text-xl font-bold tabular-nums" style={{ color: 'var(--text-primary)' }}>
@@ -196,13 +217,13 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
               </span>
             </div>
             <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-              Prev: {formatNumber(prevUpvotes)}
+              Week before: {formatNumber(prevUpvotes)}
             </p>
           </div>
 
           <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
             <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-              Top type (views)
+              Most-read type
             </p>
             {topType ? (
               <>
@@ -210,7 +231,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
                   {topType.label}
                 </p>
                 <p className="text-xs mt-1 tabular-nums" style={{ color: 'var(--text-muted)' }}>
-                  {formatNumber(topType.views)} views in last 7 days
+                  {formatNumber(topType.views)} views in the last 7 days
                 </p>
               </>
             ) : (

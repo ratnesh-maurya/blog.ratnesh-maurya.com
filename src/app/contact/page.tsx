@@ -84,7 +84,7 @@ export default function ContactPage() {
               {channels.map(ch => (
                 <a key={ch.label} href={ch.href} target="_blank" rel="noopener noreferrer"
                   className="nb-card flex flex-col items-center gap-3 p-6 transition-all duration-150 hover:-translate-y-1 group"
-                  style={{ backgroundColor: 'var(--nb-card-2)' }}>
+                  style={{ backgroundColor: 'var(--surface-tint)' }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors"
                     style={{ backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }}>
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -105,7 +105,7 @@ export default function ContactPage() {
 
           {/* For corrections */}
           <section className="rounded-2xl border p-6"
-            style={{ backgroundColor: 'var(--nb-card-1)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
+            style={{ backgroundColor: 'var(--surface-tint)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
             <h2 className="nb-section-label mb-4"
               style={{ color: 'var(--text-muted)' }}>
               For corrections
@@ -114,8 +114,7 @@ export default function ContactPage() {
               If you found an error in a post (typo, broken command, inaccurate claim), please include the URL and what you think should be changed.
               I track corrections publicly.
             </p>
-            <a href="/corrections" className="nb-btn inline-flex items-center gap-1.5 text-sm"
-              style={{ backgroundColor: 'var(--nb-card-5)', color: '#1C1C1A' }}>
+            <a href="/corrections" className="nb-btn inline-flex items-center gap-1.5 text-sm nb-btn-tint">
               Read the corrections policy
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

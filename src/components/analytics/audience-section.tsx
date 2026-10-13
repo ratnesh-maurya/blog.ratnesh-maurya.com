@@ -34,6 +34,16 @@ const COUNTRY_NAME: Record<string, string> = {
   BR: 'Brazil', ID: 'Indonesia', PK: 'Pakistan', BD: 'Bangladesh', NG: 'Nigeria',
 };
 
+/** ISO code → English country name (CN → China). Falls back to the code if the runtime can't resolve it. */
+const regionNames = typeof Intl !== 'undefined' && 'DisplayNames' in Intl ? new Intl.DisplayNames(['en'], { type: 'region' }) : null;
+function countryName(code: string): string {
+  try {
+    return COUNTRY_NAME[code] ?? regionNames?.of(code.toUpperCase()) ?? code;
+  } catch {
+    return code;
+  }
+}
+
 function BarList({ title, items, note }: {
   title: string;
   items: Array<{ label: string; count: number }>;
@@ -118,7 +128,7 @@ export function AudienceSection() {
   const countryItems = (data?.byCountry ?? [])
     .filter((c) => c.country !== 'unknown')
     .slice(0, 10)
-    .map((c) => ({ label: COUNTRY_NAME[c.country] ?? c.country, count: c.count }));
+    .map((c) => ({ label: countryName(c.country), count: c.count }));
 
   return (
     <div className="space-y-4">

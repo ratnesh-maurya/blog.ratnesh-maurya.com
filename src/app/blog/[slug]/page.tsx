@@ -166,8 +166,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 lg:py-16">
           <Link
             href="/blog"
-            className="nb-btn inline-flex items-center gap-2 text-sm mb-8"
-            style={{ backgroundColor: 'var(--nb-card-0)', color: '#1C1C1A' }}
+            className="nb-btn inline-flex items-center gap-2 text-sm mb-8 nb-btn-tint"
           >
             <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -343,8 +342,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                           title: post.title,
                           description: post.description || '',
                         }).toString()}`}
-                        className="nb-btn inline-flex items-center gap-1.5 text-xs"
-                        style={{ backgroundColor: 'var(--nb-card-2)', color: '#1C1C1A' }}
+                        className="nb-btn inline-flex items-center gap-1.5 text-xs nb-btn-tint"
                       >
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
@@ -439,8 +437,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div className="pt-6 flex items-center justify-between">
                   <Link
                     href="/blog"
-                    className="nb-btn inline-flex items-center gap-2 text-sm"
-                    style={{ backgroundColor: 'var(--nb-card-0)', color: '#1C1C1A' }}
+                    className="nb-btn inline-flex items-center gap-2 text-sm nb-btn-tint"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

@@ -8,10 +8,10 @@ function formatNumber(n: number) {
 }
 
 const CARD_STYLES = [
-  { label: 'Footer total views', sub: 'Blog + Technical Terms + Silly Q + Cheatsheets', accent: true },
-  { label: 'All views', sub: 'Across all content types (respecting filter above)', accent: false },
-  { label: 'Total upvotes', sub: 'All time (filtered)', accent: false },
-  { label: 'Reports', sub: 'All time (filtered)', accent: false },
+  { label: 'Views shown in the footer', sub: 'Blog, tech terms, silly questions and cheatsheets', accent: true },
+  { label: 'All views', sub: 'Every content type, using the "Show" filter above', accent: false },
+  { label: 'Upvotes', sub: 'All time, using the "Show" filter', accent: false },
+  { label: 'Reports', sub: 'Problems readers flagged, all time', accent: false },
 ];
 
 interface OverallSectionProps {

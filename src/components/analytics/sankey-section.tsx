@@ -99,7 +99,7 @@ export function SankeySection() {
         ))}
         {total > 0 && (
           <span className="text-xs ml-auto" style={{ color: 'var(--text-muted)' }}>
-            {total.toLocaleString()} tracked visits
+            {total.toLocaleString()} visits in this range
           </span>
         )}
       </div>

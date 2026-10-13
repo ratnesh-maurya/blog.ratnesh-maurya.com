@@ -304,7 +304,7 @@ export default function UtmBuilderPage() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         <div
           className="nb-card p-5 sm:p-6"
-          style={{ backgroundColor: 'var(--nb-card-1)' }}
+          style={{ backgroundColor: 'var(--surface-tint)' }}
         >
           <div className="flex items-start justify-between gap-4 mb-6">
             <div>
@@ -321,7 +321,7 @@ export default function UtmBuilderPage() {
           </div>
 
           {(initialTitle || initialDescription) && (
-            <div className="mb-6 rounded-xl p-4" style={{ backgroundColor: 'var(--nb-card-3)', border: '2px solid var(--nb-border)' }}>
+            <div className="mb-6 rounded-xl p-4" style={{ backgroundColor: 'var(--surface-tint)', border: '2px solid var(--nb-border)' }}>
               <div className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
                 Context
               </div>

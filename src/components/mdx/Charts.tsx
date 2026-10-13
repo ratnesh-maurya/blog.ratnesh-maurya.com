@@ -43,7 +43,8 @@ const DEMO_PIE_DATA = [
   { name: 'Social', value: 7 },
 ];
 
-const CHART_COLORS_TAIL = ['#6366f1', '#d97706', '#475569']; // indigo, amber, slate
+// Shades of the theme accent, alternating light and dark so neighbouring slices stay distinguishable.
+const CHART_COLORS_TAIL = ['var(--accent-300)', 'var(--accent-700)', 'var(--accent-400)'];
 
 const CACHING_ADOPTION_DATA = [
   { name: 'Cache Aside', value: 65 },
@@ -54,7 +55,7 @@ const CACHING_ADOPTION_DATA = [
   { name: 'Refresh-Ahead', value: 2 },
 ];
 
-const CACHING_ADOPTION_COLORS_TAIL = ['#4f46e5', '#f59e0b', '#db2777', '#64748b', '#10b981'];
+const CACHING_ADOPTION_COLORS_TAIL = ['var(--accent-300)', 'var(--accent-700)', 'var(--accent-400)', 'var(--accent-600)', 'var(--accent-200)'];
 
 const CACHING_TRADEOFF_DATA = [
   { name: 'Cache Aside', consistency: 5, writeSpeed: 6 },
@@ -311,7 +312,7 @@ export function CachingTradeoffChart() {
             <Bar
               dataKey="consistency"
               name="Data safety (consistency)"
-              fill="#4f46e5"
+              fill="var(--accent-300)"
               radius={[0, 4, 4, 0]}
               barSize={10}
             />

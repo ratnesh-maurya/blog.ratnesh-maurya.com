@@ -254,7 +254,7 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
             <div className="nb-card-sm overflow-hidden" style={glassCard}>
               <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--glass-border)' }}>
                 <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-                  Pages accessed (via tracked links)
+                  Where today&apos;s visits started
                 </p>
               </div>
               <ul className="divide-y" style={{ borderColor: 'var(--glass-border)' }}>
