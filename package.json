@@ -15,7 +15,8 @@
     "serve": "npx serve@latest out",
     "news:fetch": "tsx scripts/fetch-news.ts",
     "news:test": "tsx scripts/news/selftest.ts",
-    "reels:covers": "tsx scripts/reel-covers.ts"
+    "reels:covers": "tsx scripts/reel-covers.ts",
+    "og:regen": "tsx scripts/build-og-all.tsx --force"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

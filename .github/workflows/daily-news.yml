@@ -45,16 +45,21 @@ jobs:
           NEWS_FORCE: ${{ inputs.force }}
         run: npm run news:fetch
 
+      # Render the new digest's social image now and commit it with the digest,
+      # so the site build never has to render images.
+      - name: Generate OG image for the new digest
+        run: npx tsx scripts/build-og-all.tsx
+
       - name: Commit and push if changed
         run: |
-          if [ -z "$(git status --porcelain content/news)" ]; then
+          if [ -z "$(git status --porcelain content/news public/og)" ]; then
             echo "No changes to commit"
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content/news
+          git add content/news public/og
           git commit -m "chore(news): daily tavily digest"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

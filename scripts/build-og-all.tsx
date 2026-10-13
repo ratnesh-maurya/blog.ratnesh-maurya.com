@@ -1,16 +1,21 @@
 /**
- * Generate all OG images at build time into public/og/.
- * Uses @vercel/og; no Next server. Run in postbuild.
+ * Generate OG images into public/og/. The images are COMMITTED to git, so a normal
+ * build renders only the ones that are missing (e.g. a brand-new news digest) and
+ * usually nothing at all. Uses @vercel/og; no Next server. Runs in postbuild.
+ *
+ *   npm run og:regen     re-render every image (after a template change), then commit public/og
+ *   npx tsx scripts/build-og-all.tsx     render only missing images (what the build does)
  *
  * Design: Liquid Glass — matches the site design system.
  * Light frosted-glass card over soft accent gradient orbs,
  * Geist headlines + Source Serif subtitles, per-section accent
  * hues drawn from the site's real accent palettes (globals.css).
  *
- * Bump TEMPLATE_VERSION whenever the visual template changes —
- * all images regenerate on the next build.
+ * After changing the visual template, run `npm run og:regen` and commit public/og.
  */
+import { spawn } from 'child_process';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import React from 'react';
 import { fileURLToPath } from 'url';
@@ -30,13 +35,15 @@ import { getCheatsheet, getCheatsheetSlugs } from '../src/lib/static-content';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
-// Render into .next/cache (restored between Vercel builds) so unchanged images are
-// skipped, then copy the result into public/og for serving.
-const outDir = path.join(rootDir, '.next', 'cache', 'og');
-const publicOgDir = path.join(rootDir, 'public', 'og');
+// Written straight into public/og (committed). Existing files are skipped unless --force.
+const outDir = path.join(rootDir, 'public', 'og');
+const FORCE_ALL = process.argv.includes('--force') || process.env.OG_FORCE === '1';
 
-const TEMPLATE_VERSION = 2;
-const versionFile = path.join(outDir, '.template-version');
+/** Losslessly recompress a PNG (about a third of satori's output) so the committed files stay small. */
+async function compressPng(buf: Buffer): Promise<Buffer> {
+  const sharp = (await import('sharp')).default;
+  return sharp(buf).png({ compressionLevel: 9, effort: 10 }).toBuffer();
+}
 
 // ─── Fonts (committed TTFs, embedded so satori never falls back) ─────────────
 const fontDir = path.join(__dirname, 'og-fonts');
@@ -384,16 +391,50 @@ const STALE_SECTION_FILES = ['now.png', 'uses.png'];
 async function main() {
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
-  // Template-version based invalidation: bump TEMPLATE_VERSION → full regen
-  const currentVersion = fs.existsSync(versionFile) ? fs.readFileSync(versionFile, 'utf8').trim() : '';
-  const force = currentVersion !== String(TEMPLATE_VERSION);
-  if (force) console.log(`OG template v${TEMPLATE_VERSION} (was "${currentVersion || 'none'}") — regenerating all images`);
+  const isWorker = process.env.OG_WORKER === '1';
+  const shards = Number(process.env.OG_SHARDS || 1);
+  const shard = Number(process.env.OG_SHARD || 0);
+  const force = isWorker ? process.env.OG_FORCE === '1' : FORCE_ALL;
+  const startedAt = Date.now();
+
+  if (!isWorker && force) {
+    console.log('Re-rendering every OG image (--force)');
+    // Rendering is CPU-bound, so a cold run is split across all cores (the build machine has 2).
+    const n = Number(process.env.OG_WORKERS) || Math.min(os.availableParallelism(), 4);
+    if (n > 1) {
+      console.log(`Rendering on ${n} workers…`);
+      const codes = await Promise.all(
+        Array.from({ length: n }, (_, i) =>
+          new Promise<number>((resolve) => {
+            const child = spawn(process.execPath, [...process.execArgv, process.argv[1]], {
+              stdio: 'inherit',
+              env: { ...process.env, OG_WORKER: '1', OG_FORCE: '1', OG_SHARDS: String(n), OG_SHARD: String(i) },
+            });
+            child.on('exit', (code) => resolve(code ?? 1));
+            child.on('error', () => resolve(1));
+          }),
+        ),
+      );
+      if (codes.some((c) => c !== 0)) throw new Error(`OG worker failed (exit codes: ${codes.join(', ')})`);
+      console.log(`\nOG images re-rendered on ${n} workers in ${((Date.now() - startedAt) / 1000).toFixed(0)}s. Commit public/og.`);
+      return;
+    }
+  }
+
+  /** Each image belongs to exactly one worker, chosen from its path so all workers agree. */
+  const ownedByThisWorker = (relPath: string) => {
+    if (!isWorker) return true;
+    let h = 0;
+    for (const ch of relPath) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    return h % shards === shard;
+  };
 
   const { ImageResponse } = await import('@vercel/og');
   const fonts = loadFonts();
   let total = 0;
 
   async function write(relPath: string, element: React.ReactElement) {
+    if (!ownedByThisWorker(relPath)) return;
     const outPath = path.join(outDir, relPath);
     if (!force && fs.existsSync(outPath)) { process.stdout.write('-'); return; }
     const dir = path.dirname(outPath);
@@ -401,7 +442,7 @@ async function main() {
     try {
       const res = new ImageResponse(element, { width: 1200, height: 630, fonts });
       const buf = await res.arrayBuffer();
-      fs.writeFileSync(outPath, Buffer.from(buf));
+      fs.writeFileSync(outPath, await compressPng(Buffer.from(buf)));
       total++;
       process.stdout.write('.');
     } catch (e) {
@@ -413,6 +454,7 @@ async function main() {
   // 1200×630) instead of the templated card. Returns false → caller falls back.
   async function writeHeroOg(relPath: string, heroImage?: string): Promise<boolean> {
     if (!heroImage || !heroImage.startsWith('/')) return false;
+    if (!ownedByThisWorker(relPath)) return true;
     const src = path.join(rootDir, 'public', heroImage);
     if (!fs.existsSync(src)) return false;
     const outPath = path.join(outDir, relPath);
@@ -421,7 +463,7 @@ async function main() {
       const sharp = (await import('sharp')).default;
       const buf = await sharp(src)
         .resize(1200, 630, { fit: 'cover' })
-        .png()
+        .png({ compressionLevel: 9, effort: 10 })
         .toBuffer();
       const dir = path.dirname(outPath);
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -565,10 +607,11 @@ async function main() {
     }));
   }
 
-  fs.writeFileSync(versionFile, String(TEMPLATE_VERSION));
-  fs.rmSync(publicOgDir, { recursive: true, force: true });
-  fs.cpSync(outDir, publicOgDir, { recursive: true, filter: (src) => path.basename(src) !== '.template-version' });
-  console.log(`\nOG images: ${total} rendered, then synced to public/og/ (- = reused from cache, template v${TEMPLATE_VERSION})`);
+  if (isWorker) {
+    console.log(`\n[worker ${shard + 1}/${shards}] rendered ${total} images in ${((Date.now() - startedAt) / 1000).toFixed(0)}s`);
+    return;
+  }
+  console.log(`\nOG images: ${total} rendered in ${((Date.now() - startedAt) / 1000).toFixed(0)}s (- = already in public/og)`);
 }
 
 main().catch(e => {
