@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { oembedAlternate } from '@/lib/oembed';
+import { SITE_URL } from '@/lib/site';
 
-const BASE = 'https://blog.ratnesh-maurya.com';
+const BASE = SITE_URL;
 
 export interface ArticleMetadataOptions {
   /** Document <title> (template from layout appends site name unless it already includes it) */

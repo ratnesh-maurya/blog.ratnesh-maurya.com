@@ -7,16 +7,17 @@ import { getStoredOgImageUrl } from '@/lib/og';
 import { getNowContent, getUsesContent } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { PORTFOLIO_HOST, PORTFOLIO_URL, SITE_HOST, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'About — Ratnesh Maurya',
   description: 'Ratnesh Maurya is a backend engineer specialising in system design, distributed systems, and scalable architecture. Based in India, building and writing about what matters in software.',
   keywords: ['Ratnesh Maurya', 'backend engineer', 'system design', 'distributed systems', 'Go', 'TypeScript', 'about', 'now', 'uses'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/about', types: { ...oembedAlternate('/about') } },
+  alternates: { canonical: `${SITE_URL}/about`, types: { ...oembedAlternate('/about') } },
   openGraph: {
     title: 'About — Ratnesh Maurya',
     description: 'Backend engineer specialising in system design, distributed systems, and scalable architecture.',
-    url: 'https://blog.ratnesh-maurya.com/about',
+    url: `${SITE_URL}/about`,
     siteName: 'Ratn Labs',
     type: 'profile',
     locale: 'en_US',
@@ -42,10 +43,10 @@ const skills = [
 ];
 
 const projects = [
-  { name: 'Personal Tracker', desc: 'A comprehensive personal tracker to help you build better habits.', href: 'https://tracker.ratnesh-maurya.com/' },
-  { name: 'Rehabify', desc: 'A comprehensive management platform for Nasha Mukti Kendras (de-addiction centers).', href: 'https://rehabify.ratnesh-maurya.com/home' },
-  { name: 'JSONic', desc: 'A lightweight and powerful utility for working with JSON data.', href: 'https://jsonic.ratnesh-maurya.com/' },
-  { name: 'MDConverter', desc: 'Instantly transform any text into beautiful markdown. Just paste and watch.', href: 'https://mdconverter.ratnesh-maurya.com/' },
+  { name: 'Personal Tracker', desc: 'A comprehensive personal tracker to help you build better habits.', href: `https://tracker.${PORTFOLIO_HOST}/` },
+  { name: 'Rehabify', desc: 'A comprehensive management platform for Nasha Mukti Kendras (de-addiction centers).', href: `https://rehabify.${PORTFOLIO_HOST}/home` },
+  { name: 'JSONic', desc: 'A lightweight and powerful utility for working with JSON data.', href: `https://jsonic.${PORTFOLIO_HOST}/` },
+  { name: 'MDConverter', desc: 'Instantly transform any text into beautiful markdown. Just paste and watch.', href: `https://mdconverter.${PORTFOLIO_HOST}/` },
 ];
 
 const timeline = [
@@ -64,7 +65,7 @@ const aboutFAQ = [
   {
     slug: 'who-is-ratnesh-maurya',
     question: 'Who is Ratnesh Maurya?',
-    answer: 'Ratnesh Maurya is a Software Development Engineer at Initializ, based in Gurugram, India. He builds high-traffic backend systems, RAG-based AI assistants, and Kubernetes infrastructure using Go, Elixir, PostgreSQL, and AWS. He also writes about distributed systems, system design, and AI engineering on Ratn Labs (blog.ratnesh-maurya.com).',
+    answer: `Ratnesh Maurya is a Software Development Engineer at Initializ, based in Gurugram, India. He builds high-traffic backend systems, RAG-based AI assistants, and Kubernetes infrastructure using Go, Elixir, PostgreSQL, and AWS. He also writes about distributed systems, system design, and AI engineering on Ratn Labs (${SITE_HOST}).`,
   },
   {
     slug: 'where-does-ratnesh-work',
@@ -79,12 +80,12 @@ const aboutFAQ = [
   {
     slug: 'how-to-contact-ratnesh',
     question: 'How can I contact Ratnesh Maurya?',
-    answer: 'You can reach Ratnesh on LinkedIn (linkedin.com/in/ratnesh-maurya), Twitter/X (@_ratneshmaurya), or GitHub (github.com/ratnesh-maurya). For professional inquiries and full-time or contract roles, his portfolio at ratnesh-maurya.com has contact details.',
+    answer: `You can reach Ratnesh on LinkedIn (linkedin.com/in/ratnesh-maurya), Twitter/X (@_ratneshmaurya), or GitHub (github.com/ratnesh-maurya). For professional inquiries and full-time or contract roles, his portfolio at ${PORTFOLIO_HOST} has contact details.`,
   },
   {
     slug: 'does-ratnesh-have-newsletter',
     question: 'Does Ratnesh Maurya have a newsletter?',
-    answer: 'Yes — Ratn Labs has a newsletter at blog.ratnesh-maurya.com/newsletter where Ratnesh sends occasional posts on backend architecture, system design, and AI engineering. There is also a daily AI and developer news digest at blog.ratnesh-maurya.com/news and an RSS feed at blog.ratnesh-maurya.com/feed.xml.',
+    answer: `Yes — Ratn Labs has a newsletter at ${SITE_HOST}/newsletter where Ratnesh sends occasional posts on backend architecture, system design, and AI engineering. There is also a daily AI and developer news digest at ${SITE_HOST}/news and an RSS feed at ${SITE_HOST}/feed.xml.`,
   },
 ];
 
@@ -95,8 +96,8 @@ export default async function AboutPage() {
   const { sections: usesSections } = getUsesContent();
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'About', url: 'https://blog.ratnesh-maurya.com/about' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'About', url: `${SITE_URL}/about` },
   ];
 
   return (
@@ -148,7 +149,7 @@ export default async function AboutPage() {
                       {s.label}
                     </a>
                   ))}
-                  <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer"
+                  <a href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer"
                     className="nb-badge nb-badge-primary inline-flex items-center gap-1.5 transition-opacity duration-150 hover:opacity-75">
                     Portfolio &rarr;
                   </a>
@@ -295,7 +296,7 @@ export default async function AboutPage() {
                 style={{ color: 'var(--text-muted)' }}>
                 Projects
               </h2>
-              <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer"
+              <a href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer"
                 className="text-xs font-semibold"
                 style={{ color: 'var(--accent-500)' }}>
                 See all &#8599;

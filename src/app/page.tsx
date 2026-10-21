@@ -7,6 +7,7 @@ import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Ratn Labs - Systems, Backend and AI Engineering',
@@ -17,16 +18,16 @@ export const metadata: Metadata = {
     'Kubernetes', 'AWS', 'microservices', 'API design', 'software engineering blog',
   ],
   alternates: {
-    canonical: 'https://blog.ratnesh-maurya.com',
+    canonical: SITE_URL,
     types: {
-      'application/rss+xml': 'https://blog.ratnesh-maurya.com/feed.xml',
+      'application/rss+xml': `${SITE_URL}/feed.xml`,
       ...oembedAlternate('/'),
     },
   },
   openGraph: {
     title: 'Ratn Labs - Systems, Backend and AI Engineering Blog',
     description: 'Systems thinking, backend architecture, and AI engineering by Ratnesh Maurya.',
-    url: 'https://blog.ratnesh-maurya.com',
+    url: SITE_URL,
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',
@@ -92,7 +93,7 @@ export default async function Home() {
   const rightFeatured = featured.slice(3, 5);
   const hasMagazineLayout = featured.length >= 3;
 
-  const breadcrumbItems = [{ name: 'Home', url: 'https://blog.ratnesh-maurya.com' }];
+  const breadcrumbItems = [{ name: 'Home', url: SITE_URL }];
 
   const faqs = [
     {

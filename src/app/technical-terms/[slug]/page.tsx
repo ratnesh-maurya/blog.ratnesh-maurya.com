@@ -12,8 +12,9 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { SITE_URL } from '@/lib/site';
 
-const BASE = 'https://blog.ratnesh-maurya.com';
+const BASE = SITE_URL;
 
 export async function generateStaticParams() {
   return getTechnicalTermSlugs().map((slug) => ({ slug }));

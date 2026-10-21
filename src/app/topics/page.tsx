@@ -6,16 +6,17 @@ import { getStoredOgImageUrl } from '@/lib/og';
 import { getTopicsMeta } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Topics — Ratn Labs',
   description: 'Browse topics covered on Ratn Labs: system design, Go, AWS, web development, and more. Jump into categories and tags →',
   keywords: ['topics', 'categories', 'system design', 'golang', 'AWS', 'web development', 'backend engineering'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/topics/', types: { ...oembedAlternate('/topics') } },
+  alternates: { canonical: `${SITE_URL}/topics/`, types: { ...oembedAlternate('/topics') } },
   openGraph: {
     title: 'Topics — Ratn Labs',
     description: 'Browse all topics covered on Ratn Labs: system design, Go, AWS, web development, and more.',
-    url: 'https://blog.ratnesh-maurya.com/topics/',
+    url: `${SITE_URL}/topics/`,
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',
@@ -56,8 +57,8 @@ export default async function TopicsPage() {
   ])).sort();
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Topics', url: 'https://blog.ratnesh-maurya.com/topics' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Topics', url: `${SITE_URL}/topics` },
   ];
 
   const allCategories = Array.from(new Set([

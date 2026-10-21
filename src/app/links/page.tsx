@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import { getAllReels } from '@/lib/reels';
+import { SITE_URL } from '@/lib/site';
 import { LinksView } from './LinksView';
-
-const SITE_URL = 'https://blog.ratnesh-maurya.com';
 
 // Purged on demand by /api/admin/reels (revalidatePath), no timed re-render.
 export const revalidate = false;

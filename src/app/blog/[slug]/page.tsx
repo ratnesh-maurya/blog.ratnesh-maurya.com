@@ -29,6 +29,7 @@ import { notFound } from 'next/navigation';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import { PORTFOLIO_URL, SITE_URL } from '@/lib/site';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -60,7 +61,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     title: post.title,
     description: post.description,
     keywords: post.tags,
-    authors: [{ name: post.author, url: 'https://ratnesh-maurya.com' }],
+    authors: [{ name: post.author, url: PORTFOLIO_URL }],
     category: post.category,
     referrer: 'origin-when-cross-origin',
     formatDetection: {
@@ -69,9 +70,9 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       telephone: false,
     },
     alternates: {
-      canonical: `https://blog.ratnesh-maurya.com/blog/${post.slug}/`,
+      canonical: `${SITE_URL}/blog/${post.slug}/`,
       languages: {
-        'en-US': `https://blog.ratnesh-maurya.com/blog/${post.slug}/`,
+        'en-US': `${SITE_URL}/blog/${post.slug}/`,
       },
       types: { ...oembedAlternate(`/blog/${post.slug}`) },
     },
@@ -81,9 +82,9 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       type: 'article',
       publishedTime,
       modifiedTime,
-      authors: [`https://ratnesh-maurya.com`],
+      authors: [`${PORTFOLIO_URL}`],
       tags: post.tags,
-      url: `https://blog.ratnesh-maurya.com/blog/${post.slug}/`,
+      url: `${SITE_URL}/blog/${post.slug}/`,
       siteName: 'Ratn Labs',
       locale: 'en_US',
       countryName: 'India',
@@ -91,7 +92,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       article: {
         publishedTime,
         modifiedTime,
-        authors: [`https://ratnesh-maurya.com`],
+        authors: [`${PORTFOLIO_URL}`],
         section: post.category,
         tags: post.tags,
       },
@@ -150,9 +151,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' },
-    { name: post.title, url: `https://blog.ratnesh-maurya.com/blog/${post.slug}` }
+    { name: 'Home', url: SITE_URL },
+    { name: 'Blog', url: `${SITE_URL}/blog` },
+    { name: post.title, url: `${SITE_URL}/blog/${post.slug}` }
   ];
 
   return (
@@ -387,7 +388,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       Writing about distributed systems, AWS, and the bugs that cost me hours.
                     </p>
                     <div className="flex flex-wrap gap-3">
-                      <a href="https://ratnesh-maurya.com" target="_blank" rel="noopener noreferrer author"
+                      <a href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer author"
                         className="text-xs font-semibold transition-colors" style={{ color: 'var(--accent-500)' }}>
                         Portfolio ↗
                       </a>

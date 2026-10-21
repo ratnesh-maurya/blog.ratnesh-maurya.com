@@ -8,13 +8,15 @@
  * primary signal Google uses to pick the right one for the brand SERP.
  */
 
-export const PERSON_ID = 'https://ratnesh-maurya.com/#person';
-export const ORG_ID = 'https://blog.ratnesh-maurya.com/#organization';
-export const WEBSITE_ID = 'https://blog.ratnesh-maurya.com/#website';
-export const BLOG_ID = 'https://blog.ratnesh-maurya.com/#blog';
+import { PORTFOLIO_URL as PORTFOLIO_ORIGIN, SITE_URL } from '@/lib/site';
 
-export const PORTFOLIO_URL = 'https://ratnesh-maurya.com';
-export const BLOG_URL = 'https://blog.ratnesh-maurya.com';
+export const PERSON_ID = `${PORTFOLIO_ORIGIN}/#person`;
+export const ORG_ID = `${SITE_URL}/#organization`;
+export const WEBSITE_ID = `${SITE_URL}/#website`;
+export const BLOG_ID = `${SITE_URL}/#blog`;
+
+export const PORTFOLIO_URL = PORTFOLIO_ORIGIN;
+export const BLOG_URL = SITE_URL;
 
 export const PERSON_SAME_AS: readonly string[] = [
   'https://github.com/ratnesh-maurya',

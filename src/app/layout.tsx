@@ -7,6 +7,7 @@ import type { Metadata, Viewport } from "next";
 import { oembedAlternate } from "@/lib/oembed";
 import "./fonts.css";
 import "./globals.css";
+import { PORTFOLIO_URL, SITE_URL } from '@/lib/site';
 
 
 export const viewport: Viewport = {
@@ -20,7 +21,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://blog.ratnesh-maurya.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Ratn Labs — Systems, Backend & AI Engineering",
     template: "%s | Ratn Labs"
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
   ],
   authors: [{
     name: "Ratnesh Maurya",
-    url: "https://ratnesh-maurya.com"
+    url: PORTFOLIO_URL
   }],
   creator: "Ratnesh Maurya",
   publisher: "Ratnesh Maurya",
@@ -58,16 +59,16 @@ export const metadata: Metadata = {
     telephone: false,
   },
   alternates: {
-    canonical: "https://blog.ratnesh-maurya.com",
+    canonical: SITE_URL,
     types: {
-      'application/rss+xml': 'https://blog.ratnesh-maurya.com/feed.xml',
+      'application/rss+xml': `${SITE_URL}/feed.xml`,
       ...oembedAlternate('/'),
     },
   },
   openGraph: {
     title: "Ratn Labs — Systems, Backend & AI Engineering",
     description: "Systems thinking, backend architecture, and AI engineering. Building scalable systems and sharing technical insights.",
-    url: "https://blog.ratnesh-maurya.com",
+    url: SITE_URL,
     siteName: "Ratn Labs",
     type: "website",
     locale: "en_US",

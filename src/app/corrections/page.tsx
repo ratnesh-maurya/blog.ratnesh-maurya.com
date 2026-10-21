@@ -3,15 +3,16 @@ import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Corrections Policy — Ratn Labs',
   description: 'How Ratn Labs handles corrections, updates, and reader-reported issues.',
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/corrections', types: { ...oembedAlternate('/corrections') } },
+  alternates: { canonical: `${SITE_URL}/corrections`, types: { ...oembedAlternate('/corrections') } },
   openGraph: {
     title: 'Corrections Policy — Ratn Labs',
     description: 'How Ratn Labs handles corrections, updates, and reader-reported issues.',
-    url: 'https://blog.ratnesh-maurya.com/corrections',
+    url: `${SITE_URL}/corrections`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('home'), width: 1200, height: 630, alt: 'Corrections Policy — Ratn Labs' }],
@@ -27,8 +28,8 @@ export const metadata: Metadata = {
 
 export default function CorrectionsPage() {
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Corrections', url: 'https://blog.ratnesh-maurya.com/corrections' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Corrections', url: `${SITE_URL}/corrections` },
   ];
 
   return (

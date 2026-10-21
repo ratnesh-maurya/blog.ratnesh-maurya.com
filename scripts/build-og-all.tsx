@@ -6,10 +6,9 @@
  *   npm run og:regen     re-render every image (after a template change), then commit public/og
  *   npx tsx scripts/build-og-all.tsx     render only missing images (what the build does)
  *
- * Design: Liquid Glass — matches the site design system.
- * Light frosted-glass card over soft accent gradient orbs,
- * Geist headlines + Source Serif subtitles, per-section accent
- * hues drawn from the site's real accent palettes (globals.css).
+ * Design: the light "OG Images" card from Claude Design (grid + generative pattern or ghost
+ * glyph, accent bar, chip / title / subtitle-or-tags, author footer). The card itself lives in
+ * ./og-card.tsx; this file only maps each page type onto it.
  *
  * After changing the visual template, run `npm run og:regen` and commit public/og.
  */
@@ -32,6 +31,7 @@ import {
   getTILSlugs
 } from '../src/lib/content';
 import { getCheatsheet, getCheatsheetSlugs } from '../src/lib/static-content';
+import { buildCard, loadOgFonts, type PatternKind } from './og-card';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
@@ -45,110 +45,11 @@ async function compressPng(buf: Buffer): Promise<Buffer> {
   return sharp(buf).png({ compressionLevel: 9, effort: 10 }).toBuffer();
 }
 
-// ─── Fonts (committed TTFs, embedded so satori never falls back) ─────────────
-const fontDir = path.join(__dirname, 'og-fonts');
-function loadFonts() {
-  return [
-    { name: 'Geist', data: fs.readFileSync(path.join(fontDir, 'geist-500.ttf')), weight: 500 as const, style: 'normal' as const },
-    { name: 'Geist', data: fs.readFileSync(path.join(fontDir, 'geist-700.ttf')), weight: 700 as const, style: 'normal' as const },
-    { name: 'Source Serif 4', data: fs.readFileSync(path.join(fontDir, 'source-serif-600.ttf')), weight: 600 as const, style: 'normal' as const },
-  ];
-}
-
-// ─── Accent palettes (mirrors globals.css data-accent scales) ─────────────────
-type AccentName = 'blue' | 'green' | 'purple' | 'rose' | 'orange' | 'teal';
-
-type Accent = { a50: string; a100: string; a400: string; a500: string; a600: string; a700: string };
-
-const ACCENTS: Record<AccentName, Accent> = {
-  blue:   { a50: '#EBF5FF', a100: '#CCE8FF', a400: '#33A3FF', a500: '#0066CC', a600: '#005299', a700: '#003D73' },
-  green:  { a50: '#ECFDF5', a100: '#D1FAE5', a400: '#34D399', a500: '#059669', a600: '#047857', a700: '#065F46' },
-  purple: { a50: '#F5F3FF', a100: '#EDE9FE', a400: '#A78BFA', a500: '#7C3AED', a600: '#6D28D9', a700: '#5B21B6' },
-  rose:   { a50: '#FFF1F2', a100: '#FFE4E6', a400: '#FB7185', a500: '#E11D48', a600: '#BE123C', a700: '#9F1239' },
-  orange: { a50: '#FFF7ED', a100: '#FFEDD5', a400: '#FB923C', a500: '#EA580C', a600: '#C2410C', a700: '#9A3412' },
-  teal:   { a50: '#F0FDFA', a100: '#CCFBF1', a400: '#2DD4BF', a500: '#0D9488', a600: '#0F766E', a700: '#115E59' },
-};
-
-// Section → accent mapping (site brand is blue; sections get site palette hues)
-const SECTION_ACCENT: Record<string, AccentName> = {
-  default: 'blue',
-  blog: 'blue',
-  news: 'rose',
-  'technical-terms': 'purple',
-  til: 'teal',
-  cheatsheets: 'green',
-  silly: 'orange',
-};
-
-const INK = '#1C1C1A';
-const INK_MUTED = '#6A6A64';
-const CANVAS = '#FAFAF8';
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function sanitize(text: string, maxLen?: number): string {
   const t = String(text).replace(/^["']|["']$/g, '').trim();
   if (!maxLen || t.length <= maxLen) return t;
   return t.slice(0, maxLen - 1).trim() + '…';
-}
-
-function charUnitWidth(char: string): number {
-  if (char === ' ') return 0.38;
-  if (/[-/.:]/.test(char)) return 0.5;
-  if (/[A-ZMW@#%&]/.test(char)) return 1.15;
-  if (/[il1'.,:;|]/.test(char)) return 0.62;
-  return 0.95;
-}
-
-function estimateLineCount(text: string, fontSize: number, maxWidth: number): number {
-  const unitPx = fontSize * 0.56;
-  const lines = text.split('\n');
-  let totalLines = 0;
-  for (const line of lines) {
-    if (!line) { totalLines += 1; continue; }
-    const tokens = line.split(/(\s+|​)/).filter(t => t.length > 0);
-    let cur = 0, lc = 1;
-    for (const token of tokens) {
-      if (token === '​') continue;
-      if (/^\s+$/.test(token)) {
-        const sw = token.length * charUnitWidth(' ') * unitPx;
-        if (cur > 0 && cur + sw <= maxWidth) cur += sw;
-        continue;
-      }
-      let tw = 0;
-      for (const c of token) tw += charUnitWidth(c) * unitPx;
-      if (tw <= maxWidth) {
-        if (cur > 0 && cur + tw > maxWidth) { lc++; cur = tw; }
-        else cur += tw;
-      } else {
-        for (const c of token) {
-          const cw = charUnitWidth(c) * unitPx;
-          if (cur > 0 && cur + cw > maxWidth) { lc++; cur = 0; }
-          cur += cw;
-        }
-      }
-    }
-    totalLines += lc;
-  }
-  return totalLines;
-}
-
-function getSoftWrappedTitle(title: string): string {
-  return title.replace(/([\-/:])/g, '$1​');
-}
-
-function getAdaptiveTitleStyle(title: string): { fontSize: number; lineHeight: number } {
-  const containerWidth = 920;
-  const minSize = 32;
-  const maxSize = 76;
-  const maxLines = 4;
-  const maxHeight = 236;
-  let fontSize = minSize;
-  for (let size = maxSize; size >= minSize; size--) {
-    const lh = size <= 48 ? 1.14 : size <= 62 ? 1.08 : 1.05;
-    const lines = estimateLineCount(title, size, containerWidth);
-    if (lines <= maxLines && lines * size * lh <= maxHeight) { fontSize = size; break; }
-  }
-  return { fontSize, lineHeight: fontSize <= 48 ? 1.14 : fontSize <= 62 ? 1.08 : 1.05 };
 }
 
 function slugifyTag(tag: string): string {
@@ -158,231 +59,61 @@ function slugifyTag(tag: string): string {
     .replace(/-+/g, '-').replace(/^-|-$/g, '') || 'tag';
 }
 
+// UTC so the same file renders the same text on any machine (dates are YYYY-MM-DD).
 function formatDate(iso?: string): string | undefined {
   if (!iso) return undefined;
   const d = new Date(iso);
   if (isNaN(d.getTime())) return undefined;
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
 
-// ─── Main OG builder ──────────────────────────────────────────────────────────
-type OgProps = {
-  title: string;
-  label: string;            // section label shown in top pill (e.g. "Blog")
-  accentName: AccentName;
-  subtitle?: string;        // section pages: short description under title
-  metaItems?: string[];     // posts: ["Jun 12, 2026", "6 min read"]
-  tags?: string[];          // posts: up to 2 tag pills
-  countBadge?: string;      // section pages: "70 daily digests"
-};
-
-function buildOgElement(props: OgProps): React.ReactElement {
-  const accent = ACCENTS[props.accentName];
-  const wrapped = getSoftWrappedTitle(props.title);
-  const titleStyle = getAdaptiveTitleStyle(wrapped);
-  const metaItems = props.metaItems?.filter(Boolean) ?? [];
-  const tags = (props.tags ?? []).slice(0, 2);
-
-  return (
-    <div
-      style={{
-        width: '1200px',
-        height: '630px',
-        display: 'flex',
-        position: 'relative',
-        background: CANVAS,
-        fontFamily: 'Geist',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Gradient orbs — echo the site hero background */}
-      <div style={{
-        position: 'absolute', top: '-260px', left: '240px', width: '860px', height: '620px',
-        borderRadius: '50%',
-        background: `radial-gradient(circle at 50% 50%, ${accent.a100} 0%, rgba(255,255,255,0) 68%)`,
-      }} />
-      <div style={{
-        position: 'absolute', bottom: '-300px', left: '-220px', width: '720px', height: '680px',
-        borderRadius: '50%',
-        background: `radial-gradient(circle at 50% 50%, ${accent.a50} 0%, rgba(255,255,255,0) 70%)`,
-      }} />
-      <div style={{
-        position: 'absolute', top: '120px', right: '-240px', width: '640px', height: '560px',
-        borderRadius: '50%',
-        background: `radial-gradient(circle at 50% 50%, ${accent.a100} 0%, rgba(255,255,255,0) 66%)`,
-        opacity: 0.8,
-      }} />
-
-      {/* Glass card */}
-      <div style={{
-        position: 'absolute',
-        top: '44px', left: '44px', right: '44px', bottom: '44px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: '46px 58px 42px 58px',
-        borderRadius: '32px',
-        background: 'rgba(255,255,255,0.72)',
-        border: '1.5px solid rgba(255,255,255,0.95)',
-        boxShadow: '0 24px 60px rgba(28,28,26,0.10)',
-      }}>
-        {/* Top row: section pill + count/domain */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '9px',
-            background: accent.a50,
-            border: `1px solid ${accent.a100}`,
-            borderRadius: '100px',
-            padding: '9px 20px',
-          }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: accent.a500 }} />
-            <div style={{
-              fontSize: '14px', letterSpacing: '0.16em', fontWeight: 700,
-              color: accent.a700, textTransform: 'uppercase',
-            }}>
-              {props.label}
-            </div>
-          </div>
-          {props.countBadge ? (
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
-              background: 'rgba(255,255,255,0.8)',
-              border: '1px solid rgba(28,28,26,0.08)',
-              borderRadius: '100px',
-              padding: '9px 20px',
-              fontSize: '14px', fontWeight: 500, color: INK_MUTED,
-            }}>
-              {props.countBadge}
-            </div>
-          ) : (
-            <div style={{ fontSize: '14px', fontWeight: 500, color: INK_MUTED, letterSpacing: '0.04em' }}>
-              blog.ratnesh-maurya.com
-            </div>
-          )}
-        </div>
-
-        {/* Middle: accent bar + title (+ subtitle / meta) */}
-        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center', paddingTop: '14px', paddingBottom: '14px' }}>
-          <div style={{
-            width: '56px', height: '4px', borderRadius: '2px',
-            background: `linear-gradient(90deg, ${accent.a500}, ${accent.a400})`,
-            marginBottom: '26px',
-          }} />
-          <div style={{
-            fontSize: `${titleStyle.fontSize}px`,
-            fontFamily: 'Geist',
-            fontWeight: 700,
-            lineHeight: titleStyle.lineHeight,
-            color: INK,
-            letterSpacing: '-0.025em',
-            maxWidth: '940px',
-            overflowWrap: 'break-word',
-            wordBreak: 'break-word',
-          }}>
-            {wrapped}
-          </div>
-          {props.subtitle ? (
-            <div style={{
-              fontSize: '26px',
-              fontFamily: 'Source Serif 4',
-              fontWeight: 600,
-              color: INK_MUTED,
-              marginTop: '20px',
-              maxWidth: '820px',
-              lineHeight: 1.4,
-            }}>
-              {props.subtitle}
-            </div>
-          ) : null}
-          {(metaItems.length > 0 || tags.length > 0) ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '26px' }}>
-              {metaItems.map((item, i) => (
-                <div key={`m${i}`} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  {i > 0 ? <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: INK_MUTED, opacity: 0.6 }} /> : null}
-                  <div style={{ fontSize: '17px', fontWeight: 500, color: INK_MUTED }}>{item}</div>
-                </div>
-              ))}
-              {tags.map((tag, i) => (
-                <div key={`t${i}`} style={{
-                  display: 'flex',
-                  background: accent.a100,
-                  color: accent.a700,
-                  borderRadius: '100px',
-                  padding: '5px 15px',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  marginLeft: i === 0 && metaItems.length > 0 ? '6px' : '0px',
-                }}>
-                  {tag}
-                </div>
-              ))}
-            </div>
-          ) : null}
-        </div>
-
-        {/* Bottom row: author + wordmark */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: '42px', height: '42px', borderRadius: '50%',
-              background: `linear-gradient(135deg, ${accent.a400}, ${accent.a600})`,
-              color: '#ffffff', fontSize: '18px', fontWeight: 700,
-              border: '2px solid rgba(255,255,255,0.9)',
-              boxShadow: '0 4px 12px rgba(28,28,26,0.12)',
-            }}>
-              R
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ fontSize: '16px', fontWeight: 700, color: INK }}>Ratnesh Maurya</div>
-              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: INK_MUTED, opacity: 0.6 }} />
-              <div style={{ fontSize: '15px', fontWeight: 500, color: INK_MUTED }}>blog.ratnesh-maurya.com</div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '14px', height: '14px', borderRadius: '4px', background: accent.a500 }} />
-            <div style={{
-              fontSize: '13px', letterSpacing: '0.26em', fontWeight: 700,
-              color: INK_MUTED, textTransform: 'uppercase',
-            }}>
-              Ratn Labs
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+function dayOfMonth(iso?: string): string {
+  const d = iso ? new Date(iso) : null;
+  return d && !isNaN(d.getTime()) ? String(d.getUTCDate()) : '';
 }
+
+const firstChar = (s: string) => ([...s.trim()][0] ?? '').toUpperCase();
 
 // ─── Section pages ────────────────────────────────────────────────────────────
 type SectionPage = {
   path: string;
   title: string;
   subtitle: string;
-  label: string;
-  accent?: AccentName;
   countKey?: 'blog' | 'news' | 'terms' | 'til' | 'cheatsheets' | 'silly';
 };
 
 const SECTION_PAGES: SectionPage[] = [
-  { path: 'home',            title: 'Practical engineering for real-world systems', subtitle: 'Backend, distributed systems & AI engineering — by Ratnesh Maurya.', label: 'Ratn Labs' },
-  { path: 'blog',            title: 'Blog',             subtitle: 'Deep dives on systems, backend, and AI.',                        label: 'Blog',            accent: 'blue',   countKey: 'blog' },
-  { path: 'news',            title: 'Daily News',       subtitle: 'Curated AI & tech digest for builders who ship.',                label: 'News',            accent: 'rose',   countKey: 'news' },
-  { path: 'silly-questions', title: 'Silly Questions',  subtitle: 'Common coding mistakes and lessons learned.',                    label: 'Silly Questions', accent: 'orange', countKey: 'silly' },
-  { path: 'technical-terms', title: 'Technical Terms',  subtitle: 'Indexing, CAP, ACID, replication, and more — explained simply.', label: 'Technical Terms', accent: 'purple', countKey: 'terms' },
-  { path: 'til',             title: 'Today I Learned',  subtitle: 'Short dev notes from daily work.',                               label: 'TIL',             accent: 'teal',   countKey: 'til' },
-  { path: 'cheatsheets',     title: 'Cheatsheets',      subtitle: 'Quick reference for Go, Docker, PostgreSQL, Kubernetes.',        label: 'Cheatsheets',     accent: 'green',  countKey: 'cheatsheets' },
-  { path: 'about',           title: 'About Ratnesh',    subtitle: 'Backend engineer specialising in system design.',                label: 'About' },
-  { path: 'topics',          title: 'Topics',           subtitle: 'Browse every post by category and tag.',                         label: 'Topics' },
-  { path: 'search',          title: 'Search',           subtitle: 'Search posts, questions, terms, and news.',                      label: 'Search' },
-  { path: 'newsletter',      title: 'Newsletter',       subtitle: 'Engineering updates without the noise.',                         label: 'Newsletter' },
-  { path: 'privacy-policy',  title: 'Privacy Policy',   subtitle: 'How this site handles your data.',                               label: 'Privacy' },
-  { path: 'resources',       title: 'Resources',        subtitle: 'Curated books, tools, and talks.',                               label: 'Resources' },
-  { path: 'series',          title: 'Series',           subtitle: 'Multi-part learning paths.',                                     label: 'Series' },
-  { path: 'glossary',        title: 'Glossary',         subtitle: 'Backend and system design terms.',                               label: 'Glossary',        accent: 'purple', countKey: 'terms' },
-  { path: 'contact',         title: 'Contact',          subtitle: 'Get in touch — questions, feedback, collaboration.',             label: 'Contact' },
-  { path: 'analytics',       title: 'Analytics',        subtitle: 'Public, transparent traffic stats for this site.',               label: 'Analytics' },
+  { path: 'blog',            title: 'Blog',                       subtitle: 'Backend engineering, system design, distributed systems, and AI engineering — practical posts you can use.', countKey: 'blog' },
+  { path: 'news',            title: 'Daily News',                 subtitle: 'Curated daily digests for builders who ship.',                                                              countKey: 'news' },
+  { path: 'silly-questions', title: 'Silly Questions & Mistakes', subtitle: 'Silly mistakes while coding, with the lessons learned — so you can debug faster.',                          countKey: 'silly' },
+  { path: 'technical-terms', title: 'Technical Terms',            subtitle: 'Definitions for indexing, clustering, CAP, ACID, replication, and other backend and system design terms.',  countKey: 'terms' },
+  { path: 'til',             title: 'Today I Learned',            subtitle: 'Short, practical learnings from real engineering work.',                                                    countKey: 'til' },
+  { path: 'cheatsheets',     title: 'Cheatsheets',                subtitle: 'Quick reference for Go, Docker, PostgreSQL, and Kubernetes.',                                               countKey: 'cheatsheets' },
+  { path: 'about',           title: 'About Ratnesh',              subtitle: 'Software Engineer at Initializ. Writing about systems, backend architecture, and AI engineering.' },
+  { path: 'topics',          title: 'Topics',                     subtitle: 'Browse every post by subject.' },
+  { path: 'search',          title: 'Search',                     subtitle: 'Search posts, questions, terms, and news.' },
+  { path: 'newsletter',      title: 'Newsletter',                 subtitle: 'New posts, cheatsheets, and technical terms — delivered occasionally.' },
+  { path: 'privacy-policy',  title: 'Privacy Policy',             subtitle: 'What is collected, and what is not.' },
+  { path: 'resources',       title: 'Resources',                  subtitle: 'Books, tools and talks worth your time.' },
+  { path: 'series',          title: 'Series',                     subtitle: 'Multi-part deep dives, in order.' },
+  { path: 'glossary',        title: 'Glossary',                   subtitle: 'Backend and system design terms.',                                                                          countKey: 'terms' },
+  { path: 'contact',         title: 'Contact',                    subtitle: 'Get in touch with Ratnesh Maurya.' },
+  { path: 'analytics',       title: 'Analytics',                  subtitle: 'Open stats for this blog.' },
 ];
+
+// The design hands out patterns by position in its sitemap (home is always dots). Keep that order
+// so a page keeps its pattern; pages the design does not list continue the cycle.
+const PATTERN_KINDS: PatternKind[] = ['network', 'rings', 'flow', 'bars', 'dots'];
+const DESIGN_ORDER = [
+  'home', 'blog', 'technical-terms', 'cheatsheets', 'til', 'silly-questions', 'news', 'topics', 'series',
+  'resources', 'about', 'bookmarks', 'newsletter', 'contact', 'editorial-policy', 'corrections', 'analytics',
+  'privacy-policy', 'search', 'glossary',
+];
+const patternFor = (page: string): PatternKind =>
+  page === 'home' ? 'dots' : PATTERN_KINDS[Math.max(0, DESIGN_ORDER.indexOf(page)) % PATTERN_KINDS.length];
+
+// Short mono glyph for each cheatsheet's ghost; anything else falls back to the slug's first letters.
+const SHEET_GHOST: Record<string, string> = { docker: '$_', go: 'go', kubectl: 'k8s', postgres: 'pg' };
 
 // Section pages removed from generation (routes redirect; images unused)
 const STALE_SECTION_FILES = ['now.png', 'uses.png'];
@@ -430,8 +161,9 @@ async function main() {
   };
 
   const { ImageResponse } = await import('@vercel/og');
-  const fonts = loadFonts();
+  const fonts = loadOgFonts();
   let total = 0;
+  let failed = 0;
 
   async function write(relPath: string, element: React.ReactElement) {
     if (!ownedByThisWorker(relPath)) return;
@@ -446,34 +178,8 @@ async function main() {
       total++;
       process.stdout.write('.');
     } catch (e) {
+      failed++;
       console.error(`\n${relPath}: ${e instanceof Error ? e.message : e}`);
-    }
-  }
-
-  // Posts with a local hero image reuse it as the OG image (cover-cropped to
-  // 1200×630) instead of the templated card. Returns false → caller falls back.
-  async function writeHeroOg(relPath: string, heroImage?: string): Promise<boolean> {
-    if (!heroImage || !heroImage.startsWith('/')) return false;
-    if (!ownedByThisWorker(relPath)) return true;
-    const src = path.join(rootDir, 'public', heroImage);
-    if (!fs.existsSync(src)) return false;
-    const outPath = path.join(outDir, relPath);
-    if (!force && fs.existsSync(outPath)) { process.stdout.write('-'); return true; }
-    try {
-      const sharp = (await import('sharp')).default;
-      const buf = await sharp(src)
-        .resize(1200, 630, { fit: 'cover' })
-        .png({ compressionLevel: 9, effort: 10 })
-        .toBuffer();
-      const dir = path.dirname(outPath);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(outPath, buf);
-      total++;
-      process.stdout.write('.');
-      return true;
-    } catch (e) {
-      console.error(`\n${relPath} (hero): ${e instanceof Error ? e.message : e}`);
-      return false;
     }
   }
 
@@ -487,21 +193,36 @@ async function main() {
 
   const counts: Record<NonNullable<SectionPage['countKey']>, string> = {
     blog: `${blogSlugs.length} posts`,
-    news: `${newsSlugs.length} daily digests`,
+    news: `${newsSlugs.length} digests`,
     terms: `${termSlugs.length} terms`,
-    til: `${tilSlugs.length} notes`,
+    til: `${tilSlugs.length} entries`,
     cheatsheets: `${csSlugs.length} cheatsheets`,
     silly: `${sqSlugs.length} questions`,
   };
 
+  // Home
+  await write('home.png', buildCard({
+    id: 'home',
+    type: 'home',
+    path: '/',
+    chip: 'Systems · Backend · AI Engineering',
+    title: 'Practical engineering for real-world systems',
+    subtitle: 'Deep dives on backend, distributed systems, and AI engineering.',
+    meta: `${counts.blog} · ${counts.terms} · ${counts.news}`,
+    pattern: patternFor('home'),
+  }));
+
   // Section pages
   for (const section of SECTION_PAGES) {
-    await write(section.path + '.png', buildOgElement({
+    await write(section.path + '.png', buildCard({
+      id: section.path,
+      type: 'section',
+      path: `/${section.path}/`,
+      chip: 'Section',
       title: section.title,
       subtitle: section.subtitle,
-      label: section.label,
-      accentName: section.accent ?? 'blue',
-      countBadge: section.countKey ? counts[section.countKey] : undefined,
+      meta: section.countKey ? counts[section.countKey] : undefined,
+      pattern: patternFor(section.path),
     }));
   }
 
@@ -511,51 +232,57 @@ async function main() {
     if (fs.existsSync(p)) { fs.unlinkSync(p); console.log(`\nremoved stale ${file}`); }
   }
 
-  // Blog posts (hero image reused as OG when present; templated card otherwise)
+  // Blog posts
+  const tagPosts = new Map<string, { label: string; posts: Set<string> }>();
   for (const slug of blogSlugs) {
     const post = await getBlogPostListingMeta(slug);
     if (!post) continue;
-    if (await writeHeroOg(path.join('blog', slug + '.png'), post.image)) continue;
-    await write(path.join('blog', slug + '.png'), buildOgElement({
+    await write(path.join('blog', slug + '.png'), buildCard({
+      id: `blog/${slug}`,
+      type: 'post',
+      path: `/blog/${slug}/`,
+      chip: post.category || 'Blog',
       title: sanitize(post.title),
-      label: 'Blog',
-      accentName: 'blue',
-      metaItems: [formatDate(post.date), post.readingTime].filter(Boolean) as string[],
-      tags: post.tags,
+      subtitle: sanitize(post.description || '') || undefined,
+      meta: [formatDate(post.date), post.readingTime].filter(Boolean).join(' · '),
     }));
+    for (const label of [...(post.tags ?? []), post.category]) {
+      if (!label || !label.trim()) continue;
+      const tagSlug = slugifyTag(label.trim());
+      const entry = tagPosts.get(tagSlug) ?? { label: label.trim(), posts: new Set<string>() };
+      entry.posts.add(slug);
+      tagPosts.set(tagSlug, entry);
+    }
   }
 
   // News posts
   for (const slug of newsSlugs) {
     const post = await getNewsPostListingMeta(slug);
     if (!post) continue;
-    await write(path.join('news', slug + '.png'), buildOgElement({
+    await write(path.join('news', slug + '.png'), buildCard({
+      id: `news/${slug}`,
+      type: 'news',
+      path: `/news/${slug}/`,
+      chip: 'Daily Digest',
       title: sanitize(post.title),
-      label: 'Daily News',
-      accentName: 'rose',
-      metaItems: [formatDate(post.date)].filter(Boolean) as string[],
-      tags: post.tags,
+      subtitle: 'Curated daily digest for builders who ship.',
+      meta: formatDate(post.date),
+      ghost: dayOfMonth(post.date),
     }));
   }
 
   // Blog tags
-  const allTagLabels = new Set<string>();
-  for (const slug of blogSlugs) {
-    const post = await getBlogPostListingMeta(slug);
-    if (post?.tags) post.tags.forEach((t: string) => allTagLabels.add(t.trim()));
-    if (post?.category) allTagLabels.add(post.category.trim());
-  }
-  const seenTagSlugs = new Set<string>();
-  for (const label of allTagLabels) {
-    const slug = slugifyTag(label);
-    if (seenTagSlugs.has(slug)) continue;
-    seenTagSlugs.add(slug);
+  for (const [slug, { label, posts }] of tagPosts) {
     const tagLabel = label.replace(/\b\w/g, c => c.toUpperCase());
-    await write(path.join('blog', 'tag', slug + '.png'), buildOgElement({
-      title: `Posts tagged "${tagLabel}"`,
-      subtitle: `Browse blog posts about ${tagLabel} from Ratn Labs.`,
-      label: 'Blog',
-      accentName: 'blue',
+    await write(path.join('blog', 'tag', slug + '.png'), buildCard({
+      id: `blog/tag/${slug}`,
+      type: 'post',
+      path: `/blog/tag/${slug}/`,
+      chip: 'Topic',
+      title: tagLabel,
+      subtitle: `Blog posts about ${tagLabel} from Ratn Labs.`,
+      meta: `${posts.size} ${posts.size === 1 ? 'post' : 'posts'}`,
+      ghost: '#',
     }));
   }
 
@@ -563,10 +290,14 @@ async function main() {
   for (const slug of sqSlugs) {
     const q = await getSillyQuestion(slug);
     if (!q) continue;
-    await write(path.join('silly-questions', slug + '.png'), buildOgElement({
+    await write(path.join('silly-questions', slug + '.png'), buildCard({
+      id: `silly-questions/${slug}`,
+      type: 'question',
+      path: `/silly-questions/${slug}/`,
+      chip: 'Silly Question',
       title: sanitize(q.question),
-      label: 'Silly Questions',
-      accentName: 'orange',
+      meta: 'Mistake · Fix · Lesson',
+      ghost: '?',
     }));
   }
 
@@ -574,11 +305,15 @@ async function main() {
   for (const slug of termSlugs) {
     const term = await getTechnicalTermListingMeta(slug);
     if (!term) continue;
-    await write(path.join('technical-terms', slug + '.png'), buildOgElement({
+    await write(path.join('technical-terms', slug + '.png'), buildCard({
+      id: `technical-terms/${slug}`,
+      type: 'term',
+      path: `/technical-terms/${slug}/`,
+      chip: 'Technical Term',
       title: sanitize(term.title),
-      subtitle: sanitize(term.description || '', 110) || undefined,
-      label: 'Technical Terms',
-      accentName: 'purple',
+      subtitle: sanitize(term.description || '') || undefined,
+      meta: 'Definition · Use cases · Trade-offs',
+      ghost: firstChar(term.title),
     }));
   }
 
@@ -586,12 +321,15 @@ async function main() {
   for (const slug of tilSlugs) {
     const entry = await getTILEntry(slug);
     if (!entry) continue;
-    await write(path.join('til', slug + '.png'), buildOgElement({
+    await write(path.join('til', slug + '.png'), buildCard({
+      id: `til/${slug}`,
+      type: 'til',
+      path: `/til/${slug}/`,
+      chip: entry.category ? `TIL · ${entry.category}` : 'TIL',
       title: sanitize(entry.title),
-      label: 'Today I Learned',
-      accentName: 'teal',
-      metaItems: [formatDate(entry.date)].filter(Boolean) as string[],
-      tags: entry.tags,
+      tags: (entry.tags ?? []).slice(0, 3),
+      meta: formatDate(entry.date),
+      ghost: 'TIL',
     }));
   }
 
@@ -599,19 +337,26 @@ async function main() {
   for (const slug of csSlugs) {
     const data = getCheatsheet(slug);
     if (!data) continue;
-    await write(path.join('cheatsheets', slug + '.png'), buildOgElement({
-      title: sanitize(data.title),
-      subtitle: sanitize(data.description || '', 110) || undefined,
-      label: 'Cheatsheets',
-      accentName: 'green',
+    // "Go Cheatsheet — Syntax, Concurrency & CLI" → "Go"
+    const name = data.title.split(/\s+[—–-]\s+/)[0].replace(/\s+cheat\s?sheet$/i, '').trim();
+    await write(path.join('cheatsheets', slug + '.png'), buildCard({
+      id: `cheatsheets/${slug}`,
+      type: 'sheet',
+      path: `/cheatsheets/${slug}/`,
+      chip: 'Cheatsheet',
+      title: sanitize(name),
+      subtitle: sanitize(data.subtitle || data.description || '') || undefined,
+      tags: (data.keywords ?? []).filter(k => k.toLowerCase() !== name.toLowerCase()).slice(0, 3),
+      meta: 'Quick reference',
+      ghost: SHEET_GHOST[slug] ?? slug.slice(0, 2),
     }));
   }
 
   if (isWorker) {
-    console.log(`\n[worker ${shard + 1}/${shards}] rendered ${total} images in ${((Date.now() - startedAt) / 1000).toFixed(0)}s`);
+    console.log(`\n[worker ${shard + 1}/${shards}] rendered ${total} images in ${((Date.now() - startedAt) / 1000).toFixed(0)}s${failed ? ` (${failed} FAILED)` : ''}`);
     return;
   }
-  console.log(`\nOG images: ${total} rendered in ${((Date.now() - startedAt) / 1000).toFixed(0)}s (- = already in public/og)`);
+  console.log(`\nOG images: ${total} rendered in ${((Date.now() - startedAt) / 1000).toFixed(0)}s (- = already in public/og)${failed ? ` — ${failed} FAILED` : ''}`);
 }
 
 main().catch(e => {

@@ -9,8 +9,9 @@ import {
 } from '@/lib/seo/person';
 import { BlogPost, NewsPost, SillyQuestion, TILEntry } from '@/types/blog';
 import { getSocialImageUrl } from './BlogImage';
+import { PORTFOLIO_URL, SITE_URL } from '@/lib/site';
 
-const BLOG_BASE = 'https://blog.ratnesh-maurya.com';
+const BLOG_BASE = SITE_URL;
 
 function absoluteOgImageUrl(path: string): string {
   return path.startsWith('http') ? path : `${BLOG_BASE}${path.startsWith('/') ? path : `/${path}`}`;
@@ -56,9 +57,9 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
     dateModified,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': withTrailingSlash(`https://blog.ratnesh-maurya.com/blog/${post.slug}`),
+      '@id': withTrailingSlash(`${SITE_URL}/blog/${post.slug}`),
     },
-    url: withTrailingSlash(`https://blog.ratnesh-maurya.com/blog/${post.slug}`),
+    url: withTrailingSlash(`${SITE_URL}/blog/${post.slug}`),
     keywords: post.tags.join(', '),
     articleSection: post.category,
     wordCount: post.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0).length,
@@ -87,7 +88,7 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
       '@type': 'Blog',
       '@id': BLOG_ID,
       name: 'Ratn Labs',
-      url: 'https://blog.ratnesh-maurya.com',
+      url: SITE_URL,
     },
   };
 
@@ -106,7 +107,7 @@ interface SillyQuestionStructuredDataProps {
 export function SillyQuestionStructuredData({ question }: SillyQuestionStructuredDataProps) {
   // Convert date to ISO 8601 format with timezone
   const dateWithTimezone = new Date(question.date).toISOString();
-  const questionUrl = `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`;
+  const questionUrl = `${SITE_URL}/silly-questions/${question.slug}`;
   const answerText = question.answer.replace(/<[^>]*>/g, '');
 
   const ogImageUrl = `${BLOG_BASE}/silly-questions/${question.slug}/opengraph-image`;
@@ -153,13 +154,13 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://blog.ratnesh-maurya.com'
+          item: SITE_URL
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Silly Questions',
-          item: 'https://blog.ratnesh-maurya.com/silly-questions'
+          item: `${SITE_URL}/silly-questions`
         },
         {
           '@type': 'ListItem',
@@ -186,19 +187,19 @@ export function WebsiteStructuredData() {
     '@id': WEBSITE_ID,
     name: "Ratn Labs",
     description: 'Systems thinking, backend architecture, and AI engineering. Notes on building scalable software in Go, Elixir, and TypeScript.',
-    url: withTrailingSlash('https://blog.ratnesh-maurya.com'),
+    url: withTrailingSlash(SITE_URL),
     inLanguage: 'en-US',
     author: { '@id': PERSON_ID },
     potentialAction: [{
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://blog.ratnesh-maurya.com/search/?q={search_term_string}'
+        urlTemplate: `${SITE_URL}/search/?q={search_term_string}`
       },
       'query-input': 'required name=search_term_string',
     }, {
       '@type': 'ReadAction',
-      target: [withTrailingSlash('https://blog.ratnesh-maurya.com/blog')],
+      target: [withTrailingSlash(`${SITE_URL}/blog`)],
     }],
   };
 
@@ -229,7 +230,7 @@ export function OrganizationStructuredData() {
     '@context': 'https://schema.org',
     ...publisherOrg(),
     sameAs: [
-      'https://ratnesh-maurya.com',
+      PORTFOLIO_URL,
       'https://github.com/ratnesh-maurya',
       'https://www.linkedin.com/in/ratnesh-maurya/',
       'https://twitter.com/_ratneshmaurya',
@@ -254,7 +255,7 @@ export function SiteEntitiesStructuredData() {
       {
         ...publisherOrg(),
         sameAs: [
-          'https://ratnesh-maurya.com',
+          PORTFOLIO_URL,
           'https://github.com/ratnesh-maurya',
           'https://www.linkedin.com/in/ratnesh-maurya/',
           'https://twitter.com/_ratneshmaurya',
@@ -266,7 +267,7 @@ export function SiteEntitiesStructuredData() {
       {
         '@type': 'WebSite',
         '@id': WEBSITE_ID,
-        url: 'https://blog.ratnesh-maurya.com/',
+        url: `${SITE_URL}/`,
         name: 'Ratn Labs',
         inLanguage: 'en-US',
         publisher: { '@id': ORG_ID },
@@ -275,13 +276,13 @@ export function SiteEntitiesStructuredData() {
             '@type': 'SearchAction',
             target: {
               '@type': 'EntryPoint',
-              urlTemplate: 'https://blog.ratnesh-maurya.com/search/?q={search_term_string}',
+              urlTemplate: `${SITE_URL}/search/?q={search_term_string}`,
             },
             'query-input': 'required name=search_term_string',
           },
           {
             '@type': 'ReadAction',
-            target: ['https://blog.ratnesh-maurya.com/blog/'],
+            target: [`${SITE_URL}/blog/`],
           },
         ],
       },
@@ -371,7 +372,7 @@ export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
     '@type': 'CollectionPage',
     name: 'All Blog Posts — Ratn Labs',
     description: 'Explore articles on web development, backend engineering, system design, and more.',
-    url: withTrailingSlash('https://blog.ratnesh-maurya.com/blog'),
+    url: withTrailingSlash(`${SITE_URL}/blog`),
     inLanguage: 'en-US',
     author: { '@id': PERSON_ID },
     publisher: { '@id': ORG_ID },
@@ -380,7 +381,7 @@ export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
       itemListElement: posts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: withTrailingSlash(`https://blog.ratnesh-maurya.com/blog/${post.slug}`),
+        url: withTrailingSlash(`${SITE_URL}/blog/${post.slug}`),
         name: post.title,
         description: post.description,
       })),
@@ -410,14 +411,14 @@ export function NewsListStructuredData({ posts }: NewsListStructuredDataProps) {
     '@type': 'CollectionPage',
     name: 'AI & Software Development News — Ratn Labs',
     description: 'Daily AI and software development news digests with source links and summaries.',
-    url: withTrailingSlash('https://blog.ratnesh-maurya.com/news'),
+    url: withTrailingSlash(`${SITE_URL}/news`),
     inLanguage: 'en-US',
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: posts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: withTrailingSlash(`https://blog.ratnesh-maurya.com/news/${post.slug}`),
+        url: withTrailingSlash(`${SITE_URL}/news/${post.slug}`),
         name: post.title,
         description: post.description,
       })),
@@ -454,9 +455,9 @@ export function NewsArticleStructuredData({ post }: NewsArticleStructuredDataPro
     keywords: post.tags.join(', '),
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': withTrailingSlash(`https://blog.ratnesh-maurya.com/news/${post.slug}`),
+      '@id': withTrailingSlash(`${SITE_URL}/news/${post.slug}`),
     },
-    url: withTrailingSlash(`https://blog.ratnesh-maurya.com/news/${post.slug}`),
+    url: withTrailingSlash(`${SITE_URL}/news/${post.slug}`),
     isAccessibleForFree: true,
   };
 
@@ -490,8 +491,8 @@ export function AboutPageStructuredData() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
-    '@id': 'https://blog.ratnesh-maurya.com/about/#about',
-    url: 'https://blog.ratnesh-maurya.com/about/',
+    '@id': `${SITE_URL}/about/#about`,
+    url: `${SITE_URL}/about/`,
     name: 'About Ratnesh Maurya — Backend Engineer · Ratn Labs',
     inLanguage: 'en-US',
     isPartOf: { '@id': WEBSITE_ID },
@@ -516,18 +517,18 @@ export function GlossaryStructuredData({ terms }: GlossaryStructuredDataProps) {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTermSet',
-    '@id': 'https://blog.ratnesh-maurya.com/glossary#termset',
+    '@id': `${SITE_URL}/glossary#termset`,
     name: 'Backend Engineering Glossary',
     description: 'Definitions for common backend, system design, Go, and distributed systems terms.',
-    url: 'https://blog.ratnesh-maurya.com/glossary',
+    url: `${SITE_URL}/glossary`,
     publisher: { '@id': PERSON_ID },
     hasDefinedTerm: terms.flatMap(cat =>
       cat.items.map(item => ({
         '@type': 'DefinedTerm',
         name: item.term,
         description: item.def,
-        inDefinedTermSet: 'https://blog.ratnesh-maurya.com/glossary#termset',
-        url: `https://blog.ratnesh-maurya.com/glossary#${item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+        inDefinedTermSet: `${SITE_URL}/glossary#termset`,
+        url: `${SITE_URL}/glossary#${item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
       }))
     ),
   };
@@ -546,14 +547,14 @@ interface TechnicalTermStructuredDataProps {
 }
 
 export function TechnicalTermStructuredData({ title, description, slug, ogImageUrl }: TechnicalTermStructuredDataProps) {
-  const url = withTrailingSlash(`https://blog.ratnesh-maurya.com/technical-terms/${slug}`);
+  const url = withTrailingSlash(`${SITE_URL}/technical-terms/${slug}`);
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
     name: title,
     description,
     url,
-    inDefinedTermSet: 'https://blog.ratnesh-maurya.com/technical-terms#termset',
+    inDefinedTermSet: `${SITE_URL}/technical-terms#termset`,
     ...(ogImageUrl && {
       image: {
         '@type': 'ImageObject',
@@ -570,7 +571,7 @@ export function TechnicalTermStructuredData({ title, description, slug, ogImageU
     },
     isPartOf: {
       '@type': 'DefinedTermSet',
-      '@id': 'https://blog.ratnesh-maurya.com/technical-terms#termset',
+      '@id': `${SITE_URL}/technical-terms#termset`,
       name: 'Technical Terms — Backend & System Design',
     },
   };
@@ -626,17 +627,17 @@ export function TechnicalTermsStructuredData({ terms }: TechnicalTermsStructured
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTermSet',
-    '@id': 'https://blog.ratnesh-maurya.com/technical-terms#termset',
+    '@id': `${SITE_URL}/technical-terms#termset`,
     name: 'Technical Terms — Backend & System Design',
     description: 'Definitions for indexing, clustering, CAP, ACID, replication, and other backend and system design terms.',
-    url: withTrailingSlash('https://blog.ratnesh-maurya.com/technical-terms'),
+    url: withTrailingSlash(`${SITE_URL}/technical-terms`),
     publisher: { '@id': PERSON_ID },
     hasDefinedTerm: terms.map((t) => ({
       '@type': 'DefinedTerm' as const,
       name: t.title,
       description: t.description,
-      inDefinedTermSet: 'https://blog.ratnesh-maurya.com/technical-terms#termset',
-      url: withTrailingSlash(`https://blog.ratnesh-maurya.com/technical-terms/${t.slug}`),
+      inDefinedTermSet: `${SITE_URL}/technical-terms#termset`,
+      url: withTrailingSlash(`${SITE_URL}/technical-terms/${t.slug}`),
     })),
   };
   return (
@@ -661,7 +662,7 @@ export function CheatsheetStructuredData({ title, description, slug, keywords }:
     '@type': 'TechArticle',
     headline: title,
     description,
-    url: `https://blog.ratnesh-maurya.com/cheatsheets/${slug}`,
+    url: `${SITE_URL}/cheatsheets/${slug}`,
     inLanguage: 'en-US',
     isAccessibleForFree: true,
     keywords: keywords.join(', '),
@@ -669,7 +670,7 @@ export function CheatsheetStructuredData({ title, description, slug, keywords }:
     publisher: publisherOrg(),
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://blog.ratnesh-maurya.com/cheatsheets/${slug}`,
+      '@id': `${SITE_URL}/cheatsheets/${slug}`,
     },
     image: {
       '@type': 'ImageObject',
@@ -679,7 +680,7 @@ export function CheatsheetStructuredData({ title, description, slug, keywords }:
     },
     isPartOf: {
       '@type': 'WebSite',
-      '@id': 'https://blog.ratnesh-maurya.com/#website',
+      '@id': `${SITE_URL}/#website`,
     },
   };
   return (
@@ -699,7 +700,7 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
     description: `Today I Learned: ${entry.title}. A short engineering note about ${entry.category}.`,
     datePublished: new Date(entry.date).toISOString(),
     dateModified: new Date(entry.date).toISOString(),
-    url: withTrailingSlash(`https://blog.ratnesh-maurya.com/til/${entry.slug}`),
+    url: withTrailingSlash(`${SITE_URL}/til/${entry.slug}`),
     keywords: entry.tags.join(', '),
     articleSection: entry.category,
     inLanguage: 'en-US',
@@ -708,7 +709,7 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
     publisher: publisherOrg(),
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': withTrailingSlash(`https://blog.ratnesh-maurya.com/til/${entry.slug}`),
+      '@id': withTrailingSlash(`${SITE_URL}/til/${entry.slug}`),
     },
     image: {
       '@type': 'ImageObject',
@@ -718,7 +719,7 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
     },
     isPartOf: {
       '@type': 'Blog',
-      '@id': 'https://blog.ratnesh-maurya.com/#blog',
+      '@id': `${SITE_URL}/#blog`,
       name: 'Ratn Labs',
     },
     speakable: {
@@ -741,13 +742,13 @@ export function TILListStructuredData({ entries }: TILListStructuredDataProps) {
     '@type': 'ItemList',
     name: 'Today I Learned — Ratn Labs',
     description: 'Short practical learnings from real engineering work — Go, PostgreSQL, Kubernetes, AWS, Docker.',
-    url: withTrailingSlash('https://blog.ratnesh-maurya.com/til'),
+    url: withTrailingSlash(`${SITE_URL}/til`),
     numberOfItems: entries.length,
     itemListElement: entries.map((entry, idx) => ({
       '@type': 'ListItem',
       position: idx + 1,
       name: entry.title,
-      url: withTrailingSlash(`https://blog.ratnesh-maurya.com/til/${entry.slug}`),
+      url: withTrailingSlash(`${SITE_URL}/til/${entry.slug}`),
       description: `TIL about ${entry.category}: ${entry.title}`,
     })),
   };

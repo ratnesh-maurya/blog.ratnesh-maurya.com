@@ -5,16 +5,17 @@ import { getAllTILEntries } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Today I Learned — Ratn Labs',
   description: 'Short, practical learnings from real engineering work — Go, PostgreSQL, Kubernetes, AWS, Docker, and backend systems.',
   keywords: ['TIL', 'today I learned', 'Go tips', 'Kubernetes tips', 'PostgreSQL tips', 'AWS tips', 'backend engineering', 'developer learnings'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/til/', types: { ...oembedAlternate('/til') } },
+  alternates: { canonical: `${SITE_URL}/til/`, types: { ...oembedAlternate('/til') } },
   openGraph: {
     title: 'Today I Learned — Ratn Labs',
     description: 'Short, practical learnings from real engineering work.',
-    url: 'https://blog.ratnesh-maurya.com/til/',
+    url: `${SITE_URL}/til/`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('til'), width: 1200, height: 630, alt: 'Today I Learned' }],
@@ -35,8 +36,8 @@ export default async function TILPage() {
   const categories = Array.from(new Set(entries.map(e => e.category)));
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'TIL', url: 'https://blog.ratnesh-maurya.com/til' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'TIL', url: `${SITE_URL}/til` },
   ];
 
   return (

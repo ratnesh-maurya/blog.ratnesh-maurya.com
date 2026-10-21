@@ -3,15 +3,16 @@ import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Editorial Policy — Ratn Labs',
   description: 'How Ratn Labs publishes and maintains engineering content: sourcing, accuracy, updates, and disclosure.',
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/editorial-policy', types: { ...oembedAlternate('/editorial-policy') } },
+  alternates: { canonical: `${SITE_URL}/editorial-policy`, types: { ...oembedAlternate('/editorial-policy') } },
   openGraph: {
     title: 'Editorial Policy — Ratn Labs',
     description: 'How Ratn Labs publishes and maintains engineering content: sourcing, accuracy, updates, and disclosure.',
-    url: 'https://blog.ratnesh-maurya.com/editorial-policy',
+    url: `${SITE_URL}/editorial-policy`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('home'), width: 1200, height: 630, alt: 'Editorial Policy — Ratn Labs' }],
@@ -27,8 +28,8 @@ export const metadata: Metadata = {
 
 export default function EditorialPolicyPage() {
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Editorial Policy', url: 'https://blog.ratnesh-maurya.com/editorial-policy' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Editorial Policy', url: `${SITE_URL}/editorial-policy` },
   ];
 
   return (

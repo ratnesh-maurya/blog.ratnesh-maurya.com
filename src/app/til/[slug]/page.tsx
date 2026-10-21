@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { SITE_URL } from '@/lib/site';
 
 interface TILPageProps {
   params: Promise<{ slug: string }>;
@@ -50,9 +51,9 @@ export default async function TILEntryPage({ params }: TILPageProps) {
   const nextEntry = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'TIL', url: 'https://blog.ratnesh-maurya.com/til' },
-    { name: entry.title, url: `https://blog.ratnesh-maurya.com/til/${slug}` },
+    { name: 'Home', url: SITE_URL },
+    { name: 'TIL', url: `${SITE_URL}/til` },
+    { name: entry.title, url: `${SITE_URL}/til/${slug}` },
   ];
 
   return (

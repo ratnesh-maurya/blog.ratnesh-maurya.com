@@ -5,6 +5,7 @@ import { BlogListingClient } from '@/components/BlogListingClient';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { SITE_URL } from '@/lib/site';
 
 interface TagPageProps {
   params: Promise<{ tag: string }>;
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
   const tagLabel = decodeTag(tag);
   const title = `Posts tagged "${tagLabel}"`;
   const description = `Browse all blog posts tagged "${tagLabel}" from Ratn Labs.`;
-  const canonicalUrl = `https://blog.ratnesh-maurya.com/blog/tag/${tag}/`;
+  const canonicalUrl = `${SITE_URL}/blog/tag/${tag}/`;
   const ogImage = getStoredOgImageUrl('blog-tag', undefined, tag);
 
   return {
@@ -84,9 +85,9 @@ export default async function BlogTagPage({ params }: TagPageProps) {
   );
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' },
-    { name: `Tag: ${tagLabel}`, url: `https://blog.ratnesh-maurya.com/blog/tag/${tag}` },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Blog', url: `${SITE_URL}/blog` },
+    { name: `Tag: ${tagLabel}`, url: `${SITE_URL}/blog/tag/${tag}` },
   ];
 
   return (

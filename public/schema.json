@@ -2,8 +2,8 @@
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Ratnesh Maurya",
-  "url": "https://ratnesh-maurya.com",
-  "image": "https://ratnesh-maurya.com/profile.jpg",
+  "url": "https://ratneshmaurya.com",
+  "image": "https://ratneshmaurya.com/profile.jpg",
   "jobTitle": "Software Development Engineer",
   "worksFor": {
     "@type": "Organization",

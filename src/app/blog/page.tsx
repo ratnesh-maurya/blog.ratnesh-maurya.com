@@ -5,6 +5,7 @@ import { getAllBlogPostsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImagePath } from '@/lib/og';
 import { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export async function generateMetadata(): Promise<Metadata> {
   const ogImage = getStoredOgImagePath('blog') || '/og/home.png';
@@ -14,13 +15,13 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ["blog posts", "web development", "programming", "javascript", "typescript", "react", "nextjs", "technology"],
     authors: [{ name: "Ratnesh Maurya" }],
     alternates: {
-      canonical: "https://blog.ratnesh-maurya.com/blog/",
+      canonical: `${SITE_URL}/blog/`,
       types: { ...oembedAlternate('/blog') },
     },
     openGraph: {
       title: "Blog — Ratn Labs",
       description: "Backend engineering, system design, distributed systems, and AI engineering—practical posts you can use.",
-      url: "https://blog.ratnesh-maurya.com/blog/",
+      url: `${SITE_URL}/blog/`,
       siteName: "Ratn Labs",
       type: "website",
       locale: 'en_US',
@@ -52,8 +53,8 @@ export default async function BlogPage() {
   const blogPosts = await getAllBlogPostsForListing();
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Blog', url: 'https://blog.ratnesh-maurya.com/blog' }
+    { name: 'Home', url: SITE_URL },
+    { name: 'Blog', url: `${SITE_URL}/blog` }
   ];
 
   return (

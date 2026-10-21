@@ -4,6 +4,7 @@ import path from 'path';
 import { getAllBlogPosts, getAllNewsPosts, getAllSillyQuestions, getAllTILEntries, getTechnicalTermSlugs } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export const dynamic = 'force-static';
 
@@ -32,7 +33,7 @@ function maxDate(dates: (string | Date | undefined)[]): Date {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://blog.ratnesh-maurya.com';
+  const baseUrl = SITE_URL;
 
   const [blogPosts, newsPosts, sillyQuestions, tilEntries] = await Promise.all([
     getAllBlogPosts(),

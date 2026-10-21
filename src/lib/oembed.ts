@@ -1,4 +1,5 @@
-const BASE = 'https://blog.ratnesh-maurya.com';
+import { SITE_URL } from '@/lib/site';
+const BASE = SITE_URL;
 const OEMBED_ENDPOINT = `${BASE}/api/oembed`;
 
 /**

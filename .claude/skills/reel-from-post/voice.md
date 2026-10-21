@@ -15,7 +15,7 @@ story or opinion that is not written here or in the source post, it gets a
 
 ## Who I am
 
-- **Name / handle:** Ratnesh Maurya · @ratn_labs · brand "Ratn Labs", blog.ratnesh-maurya.com
+- **Name / handle:** Ratnesh Maurya · @ratn_labs · brand "Ratn Labs", blog.ratneshmaurya.com
 - **What I do:** Software Development Engineer at Initializ (Gurugram, India). Builds
   high-traffic backend systems, RAG-based AI assistants and Kubernetes
   infrastructure with Go, Elixir, PostgreSQL and AWS.
@@ -74,4 +74,4 @@ first-person claim ("I cut latency by…") stays a `{{your number}}` placeholder
 - **Pointer, not an ask:** "Full breakdown: <blog URL>" and "link in bio → @ratn_labs".
   The blog URL stays in the caption because the admin's Quick add reads it.
 - **Keyword CTA ("comment X"):** none.
-- **Where the link goes:** blog.ratnesh-maurya.com/<section>/<slug>/, listed on /links.
+- **Where the link goes:** blog.ratneshmaurya.com/<section>/<slug>/, listed on /links.

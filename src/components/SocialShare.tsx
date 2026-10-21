@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { SITE_URL } from '@/lib/site';
 
-const BASE = 'https://blog.ratnesh-maurya.com';
+const BASE = SITE_URL;
 const UTM_MEDIUM = 'social';
 const UTM_CAMPAIGN = 'share';
 

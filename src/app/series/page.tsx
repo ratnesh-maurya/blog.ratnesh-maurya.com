@@ -6,16 +6,17 @@ import { getStoredOgImageUrl } from '@/lib/og';
 import { getSeriesConfig } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Series — Learning Paths',
   description: 'Grouped learning paths for backend engineering topics—system design, AWS, Go, and more. Read posts in the right order →',
   keywords: ['backend engineering series', 'system design series', 'Go learning path', 'AWS series', 'developer reading path'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/series/', types: { ...oembedAlternate('/series') } },
+  alternates: { canonical: `${SITE_URL}/series/`, types: { ...oembedAlternate('/series') } },
   openGraph: {
     title: 'Series — Ratn Labs',
     description: 'Grouped reading paths for backend engineering — system design, AWS, Go.',
-    url: 'https://blog.ratnesh-maurya.com/series/',
+    url: `${SITE_URL}/series/`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('series'), width: 1200, height: 630, alt: 'Series — Ratn Labs' }],
@@ -61,8 +62,8 @@ export default async function SeriesPage() {
   }).filter(s => s.posts.length > 0); // hide empty series
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Series', url: 'https://blog.ratnesh-maurya.com/series' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Series', url: `${SITE_URL}/series` },
   ];
 
   return (

@@ -3,15 +3,16 @@ import { AnalyticsDashboard } from '@/components/analytics/dashboard';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Post Analytics — Ratn Labs',
   description: 'Views, upvotes, and engagement analytics across blog, technical terms, silly questions, and cheatsheets.',
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/analytics', types: { ...oembedAlternate('/analytics') } },
+  alternates: { canonical: `${SITE_URL}/analytics`, types: { ...oembedAlternate('/analytics') } },
   openGraph: {
     title: 'Post Analytics — Ratn Labs',
     description: 'Public, transparent traffic stats for this site.',
-    url: 'https://blog.ratnesh-maurya.com/analytics',
+    url: `${SITE_URL}/analytics`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('analytics'), width: 1200, height: 630, alt: 'Post Analytics — Ratn Labs' }],
@@ -26,8 +27,8 @@ export const metadata: Metadata = {
 };
 
 const breadcrumbItems = [
-  { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-  { name: 'Analytics', url: 'https://blog.ratnesh-maurya.com/analytics' },
+  { name: 'Home', url: SITE_URL },
+  { name: 'Analytics', url: `${SITE_URL}/analytics` },
 ];
 
 export default function AnalyticsPage() {

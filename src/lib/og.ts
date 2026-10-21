@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/site';
 export interface OgOptions {
   title: string;
   subtitle: string;
@@ -5,7 +6,7 @@ export interface OgOptions {
   accent?: string;
 }
 
-const BASE = 'https://blog.ratnesh-maurya.com';
+const BASE = SITE_URL;
 
 /** OPENGRAPH-SETUP §3 — default OG image path (resolved with metadataBase) */
 export const defaultOgImageUrl = `${BASE}/og/home.png`;

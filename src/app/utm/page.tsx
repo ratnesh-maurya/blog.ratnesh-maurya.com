@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { SITE_URL } from '@/lib/site';
 
-const BASE = 'https://blog.ratnesh-maurya.com';
+const BASE = SITE_URL;
 
 type OptionsState = {
   sources: string[];

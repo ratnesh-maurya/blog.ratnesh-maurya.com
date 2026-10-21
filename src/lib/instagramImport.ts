@@ -1,7 +1,7 @@
 import { PREVIEW_UA, fetchInstagramCover, isInstagramPostUrl } from '@/lib/reelThumbs';
+import { ALL_SITE_HOSTS_PATTERN, PORTFOLIO_HOST, isSiteHost, isSiteUrl, toCurrentSiteUrl } from '@/lib/site';
 
 const FETCH_TIMEOUT_MS = 10_000;
-const SITE_HOST = 'blog.ratnesh-maurya.com';
 const SECTION_SUFFIXES = new Set(['Technical Terms', 'Daily News', 'News', 'TIL', 'Silly Questions', 'Cheatsheets', 'Blog']);
 const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
@@ -66,7 +66,7 @@ const TRAILING_PUNCT = /[.,;:!?)\]]+$/;
 /** URLs written in a caption, with or without https://, limited to hosts worth linking. */
 export function extractLinks(caption: string): string[] {
   const found: string[] = [];
-  const re = /https?:\/\/[^\s"'<>]+|\b(?:blog\.ratnesh-maurya\.com|ratnesh-maurya\.com|github\.com)\/[^\s"'<>]*/gi;
+  const re = new RegExp(`https?:\\/\\/[^\\s"'<>]+|\\b(?:${ALL_SITE_HOSTS_PATTERN}|${PORTFOLIO_HOST.replace(/\./g, '\\.')}|github\\.com)\\/[^\\s"'<>]*`, 'gi');
   for (const m of caption.matchAll(re)) {
     let url = m[0].replace(TRAILING_PUNCT, '');
     if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
@@ -90,7 +90,7 @@ export function extractLinks(caption: string): string[] {
 export function labelFor(url: string): string {
   const u = new URL(url);
   const host = u.hostname.replace(/^www\./, '');
-  if (host === SITE_HOST) {
+  if (isSiteHost(host)) {
     const section = u.pathname.split('/').filter(Boolean)[0];
     return (
       ({ blog: 'Blog post', 'technical-terms': 'Technical term', news: 'Daily news digest', til: 'Today I learned', cheatsheets: 'Cheatsheet', 'silly-questions': 'Silly question' } as Record<string, string>)[section] ??
@@ -126,8 +126,9 @@ export function cleanPageTitle(raw: string): string {
 /** Title and description of one of our own pages. Only our domain is ever fetched. */
 async function fetchPageMeta(url: string): Promise<{ title: string | null; description: string | null }> {
   try {
-    if (new URL(url).hostname !== SITE_HOST) return { title: null, description: null };
-    const res = await fetch(url, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS), headers: { 'user-agent': 'Mozilla/5.0 (reel-import)' } });
+    if (!isSiteUrl(url)) return { title: null, description: null };
+    // Only ever fetch our own current host; a former-host link is rewritten rather than followed.
+    const res = await fetch(toCurrentSiteUrl(url), { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS), headers: { 'user-agent': 'Mozilla/5.0 (reel-import)' } });
     if (!res.ok) return { title: null, description: null };
     const html = await res.text();
     const rawTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1];
@@ -142,7 +143,7 @@ function proseParagraphs(caption: string): string[] {
   return caption
     .split(/\n\s*\n/)
     .map((p) => p.trim())
-    .filter((p) => p && !/^#/.test(p) && !/https?:\/\/|blog\.ratnesh-maurya\.com|link in bio/i.test(p));
+    .filter((p) => p && !/^#/.test(p) && !new RegExp(`https?:\\/\\/|${ALL_SITE_HOSTS_PATTERN}|link in bio`, 'i').test(p));
 }
 
 export async function importInstagramPost(rawUrl: string): Promise<ReelDraft & { notes: string[] }> {
@@ -156,8 +157,8 @@ export async function importInstagramPost(rawUrl: string): Promise<ReelDraft & {
 
   const notes: string[] = [];
   const linkUrls = extractLinks(meta.caption);
-  const links = linkUrls.map((url) => ({ label: labelFor(url), url }));
-  const siteLink = linkUrls.find((u) => new URL(u).hostname === SITE_HOST);
+  const links = linkUrls.map((url) => ({ label: labelFor(url), url: toCurrentSiteUrl(url) }));
+  const siteLink = linkUrls.find((u) => isSiteUrl(u));
   const page = siteLink ? await fetchPageMeta(siteLink) : { title: null, description: null };
 
   const lines = meta.caption.split('\n').map((l) => l.trim()).filter(Boolean);

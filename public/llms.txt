@@ -70,14 +70,14 @@ backend engineering, golang backend developer, distributed systems engineer, clo
 ---
 
 ## Blog & Resources
-- [Blog](https://blog.ratnesh-maurya.com)
-- [Bloom Filter explainer](https://blog.ratnesh-maurya.com/technical-terms/bloom-filter/)
-- [Full post index](https://blog.ratnesh-maurya.com/llms-full.txt)
+- [Blog](https://blog.ratneshmaurya.com)
+- [Bloom Filter explainer](https://blog.ratneshmaurya.com/technical-terms/bloom-filter/)
+- [Full post index](https://blog.ratneshmaurya.com/llms-full.txt)
 
 ---
 
 ## Social Links
-- [Website](https://ratnesh-maurya.com)
+- [Website](https://ratneshmaurya.com)
 - [GitHub](https://github.com/ratnesh-maurya)
 - [LinkedIn](https://www.linkedin.com/in/ratnesh-maurya)
 - [Instagram](https://www.instagram.com/ratn_labs/)
@@ -129,7 +129,7 @@ backend engineering, golang backend developer, distributed systems engineer, clo
 
 ## Call to Action
 - Hire for backend engineering, system design, and cloud-native work
-- [Visit portfolio](https://ratnesh-maurya.com)
+- [Visit portfolio](https://ratneshmaurya.com)
 - Contact: ratneshmaurya2311@gmail.com
 
 ---
@@ -164,8 +164,8 @@ backend engineering, golang backend developer, distributed systems engineer, clo
     "Database Optimization",
     "AI Backend Systems"
   ],
-  "website": "https://ratnesh-maurya.com",
-  "blog": "https://blog.ratnesh-maurya.com",
+  "website": "https://ratneshmaurya.com",
+  "blog": "https://blog.ratneshmaurya.com",
   "github": "https://github.com/ratnesh-maurya",
   "linkedin": "https://www.linkedin.com/in/ratnesh-maurya",
   "instagram": "https://www.instagram.com/ratn_labs/",

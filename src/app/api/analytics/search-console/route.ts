@@ -1,9 +1,11 @@
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
+import { SITE_URL as SITE_ORIGIN } from '@/lib/site';
 
 export const revalidate = 3600; // Search Console data lags ~2 days; cache 1h
 
-const SITE_URL = 'https://blog.ratnesh-maurya.com/';
+// Must equal a URL-prefix property verified in Search Console (trailing slash included).
+const SITE_URL = `${SITE_ORIGIN}/`;
 
 /**
  * Google Search Console: top queries + pages for the last 28 days.

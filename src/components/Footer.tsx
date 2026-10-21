@@ -2,6 +2,7 @@
 
 import { TotalViews } from '@/components/TotalViews';
 import Link from 'next/link';
+import { PORTFOLIO_URL } from '@/lib/site';
 
 const contentLinks = [
   { label: 'Blog Posts', href: '/blog' },
@@ -54,7 +55,7 @@ const socialLinks = [
   },
   {
     label: 'Portfolio',
-    href: 'https://ratnesh-maurya.com',
+    href: PORTFOLIO_URL,
     path: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9m0 9c-5 0-9-4-9-9s4-9 9-9',
     isStroke: true,
   },

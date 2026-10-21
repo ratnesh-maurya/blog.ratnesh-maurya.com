@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getBlogPost, getSillyQuestion, getTechnicalTerm, getTILEntry } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { PORTFOLIO_URL, SITE_HOST, SITE_URL, isSiteHost } from '@/lib/site';
 
-const BASE = 'https://blog.ratnesh-maurya.com';
+const BASE = SITE_URL;
 const AUTHOR = 'Ratnesh Maurya';
 const PROVIDER = 'Ratn Labs';
 
@@ -37,7 +38,7 @@ function buildResponse(
     type: 'rich',
     title,
     author_name: AUTHOR,
-    author_url: 'https://ratnesh-maurya.com',
+    author_url: PORTFOLIO_URL,
     provider_name: PROVIDER,
     provider_url: BASE,
     thumbnail_url: thumbnailUrl,
@@ -140,8 +141,8 @@ export async function GET(request: NextRequest) {
   let pathname: string;
   try {
     const parsed = new URL(url);
-    if (parsed.hostname !== 'blog.ratnesh-maurya.com') {
-      return NextResponse.json({ error: 'URL must be from blog.ratnesh-maurya.com' }, { status: 404 });
+    if (!isSiteHost(parsed.hostname)) {
+      return NextResponse.json({ error: `URL must be from ${SITE_HOST}` }, { status: 404 });
     }
     pathname = parsed.pathname;
   } catch {

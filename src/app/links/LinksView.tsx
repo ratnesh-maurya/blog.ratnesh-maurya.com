@@ -1,9 +1,9 @@
 import covers from '@/data/reel-covers.json';
 import { isExpiringCdnUrl } from '@/lib/reelThumbs';
 import { withUtm, type Reel } from '@/lib/reels';
+import { SITE_URL, isSiteHost, isSiteUrl } from '@/lib/site';
 
 const PROFILE_URL = 'https://www.instagram.com/ratn_labs/';
-const SITE_URL = 'https://blog.ratnesh-maurya.com';
 
 /** Instagram's brand gradient — only on the avatar ring, so the page reads as "from Instagram" without copying it. */
 const STORY_RING = 'linear-gradient(45deg, #f9ce34 0%, #ee2a7b 55%, #6228d7 100%)';
@@ -61,7 +61,7 @@ const coverByPath: Record<string, string> = covers.byPath;
 function pathKey(url: string): string | null {
   try {
     const u = new URL(url);
-    if (u.hostname.replace(/^www\./, '') !== 'blog.ratnesh-maurya.com') return null;
+    if (!isSiteHost(u.hostname)) return null;
     return u.pathname.replace(/\/+$/, '').toLowerCase() || null;
   } catch {
     return null;
@@ -119,7 +119,7 @@ function Cover({ src, title, kind }: { src: string | null; title: string; kind: 
 }
 
 function Tile({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
-  const blogLink = reel.links.find((l) => /blog/i.test(l.label) || l.url.includes('blog.ratnesh-maurya.com'));
+  const blogLink = reel.links.find((l) => /blog/i.test(l.label) || isSiteUrl(l.url));
   const extra = reel.links.filter((l) => l !== blogLink);
   const readHref = blogLink ? withUtm(blogLink.url, reel.slug) : reel.reel_url;
   const kind = kindOf(blogLink?.url);

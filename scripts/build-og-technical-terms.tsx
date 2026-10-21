@@ -7,6 +7,7 @@ import matter from 'gray-matter';
 import path from 'path';
 import React from 'react';
 import { fileURLToPath } from 'url';
+import { SITE_HOST } from '../src/lib/site';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
@@ -122,7 +123,7 @@ function buildOgElement(title: string, subtitle: string): React.ReactElement {
       />
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 16, color: BRAND.textLow }}>
-          <span>blog.ratnesh-maurya.com</span>
+          <span>{SITE_HOST}</span>
           <span style={{ color: BRAND.separator }}>›</span>
           <span style={{ color: BRAND.accent }}>Technical Terms</span>
         </div>

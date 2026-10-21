@@ -3,6 +3,7 @@ import { getAllNewsPostsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Daily AI & Software Development News',
@@ -16,14 +17,14 @@ export const metadata: Metadata = {
     'engineering updates',
   ],
   alternates: {
-    canonical: 'https://blog.ratnesh-maurya.com/news/',
+    canonical: `${SITE_URL}/news/`,
     types: { ...oembedAlternate('/news') },
   },
   openGraph: {
     title: 'Daily AI & Software Development News — Ratn Labs',
     description:
       'Daily curated AI and software development news digests with source links, images, and quick summaries.',
-    url: 'https://blog.ratnesh-maurya.com/news/',
+    url: `${SITE_URL}/news/`,
     siteName: 'Ratn Labs',
     type: 'website',
     locale: 'en_US',
@@ -69,8 +70,8 @@ export default async function NewsPage() {
   const months = [...monthMap.entries()];
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'News', url: 'https://blog.ratnesh-maurya.com/news' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'News', url: `${SITE_URL}/news` },
   ];
 
   return (

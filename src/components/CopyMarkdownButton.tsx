@@ -2,8 +2,9 @@
 
 import { trackEvent } from '@/lib/analytics';
 import { useState } from 'react';
+import { SITE_URL } from '@/lib/site';
 
-const BASE_URL = 'https://blog.ratnesh-maurya.com';
+const BASE_URL = SITE_URL;
 
 interface CopyMarkdownButtonProps {
   rawContent: string;

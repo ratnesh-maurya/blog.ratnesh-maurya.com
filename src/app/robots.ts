@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -33,7 +34,7 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: 'YouBot',         allow: '/' }, // You.com AI search
       { userAgent: 'Diffbot',        allow: '/' }, // Powers many AI knowledge graphs
     ],
-    sitemap: 'https://blog.ratnesh-maurya.com/sitemap.xml',
-    host: 'https://blog.ratnesh-maurya.com',
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

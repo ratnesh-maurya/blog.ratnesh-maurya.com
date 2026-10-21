@@ -6,8 +6,9 @@ import rehypeStringify from 'rehype-stringify';
 import { remark } from 'remark';
 import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
+import { SITE_URL } from '@/lib/site';
 
-const baseUrl = 'https://blog.ratnesh-maurya.com';
+const baseUrl = SITE_URL;
 
 function toAbsoluteUrl(url: string): string {
   if (!url) return '';

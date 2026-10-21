@@ -5,8 +5,9 @@ import { getAllTechnicalTermsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
-const BASE = 'https://blog.ratnesh-maurya.com';
+const BASE = SITE_URL;
 
 export const metadata: Metadata = {
   title: 'Technical Terms — Backend & System Design',

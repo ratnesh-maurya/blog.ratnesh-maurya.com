@@ -3,15 +3,16 @@ import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact — Ratn Labs',
   description: 'Contact Ratnesh Maurya (Ratn Labs). Ways to reach out about writing, backend engineering, system design, and collaboration.',
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/contact', types: { ...oembedAlternate('/contact') } },
+  alternates: { canonical: `${SITE_URL}/contact`, types: { ...oembedAlternate('/contact') } },
   openGraph: {
     title: 'Contact — Ratn Labs',
     description: 'Ways to reach out about writing, backend engineering, system design, and collaboration.',
-    url: 'https://blog.ratnesh-maurya.com/contact',
+    url: `${SITE_URL}/contact`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('contact'), width: 1200, height: 630, alt: 'Contact — Ratn Labs' }],
@@ -48,8 +49,8 @@ const channels = [
 
 export default function ContactPage() {
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Contact', url: 'https://blog.ratnesh-maurya.com/contact' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Contact', url: `${SITE_URL}/contact` },
   ];
 
   return (

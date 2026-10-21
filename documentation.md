@@ -1,6 +1,6 @@
 # Ratnesh Maurya — Brand Identity & Theme Documentation
 
-This document defines the **brand identity** and **design system** for ratnesh-maurya.com and how to apply the same theme to sub-products (e.g. blog.ratnesh-maurya.com).
+This document defines the **brand identity** and **design system** for ratneshmaurya.com and how to apply the same theme to sub-products (e.g. blog.ratneshmaurya.com).
 
 ---
 
@@ -8,8 +8,8 @@ This document defines the **brand identity** and **design system** for ratnesh-m
 
 ### 1.1 Positioning
 
-- **Primary site:** ratnesh-maurya.com — portfolio and hub.
-- **Sub-products:** blog (blog.ratnesh-maurya.com), tools (e.g. tracker, jsonic, mdconverter on subdomains).
+- **Primary site:** ratneshmaurya.com — portfolio and hub.
+- **Sub-products:** blog (blog.ratneshmaurya.com), tools (e.g. tracker, jsonic, mdconverter on subdomains).
 - **Positioning:** Backend Engineer, Go & Elixir, cloud-native systems. Professional but approachable; technical depth with clarity.
 
 ### 1.2 Voice & tone
@@ -22,7 +22,7 @@ This document defines the **brand identity** and **design system** for ratnesh-m
 
 - **Primary:** “Ratnesh Maurya”
 - **Short / nav:** “RM” (e.g. “RM / Now”)
-- **Domain:** ratnesh-maurya.com (canonical); subdomains for blog, tools.
+- **Domain:** ratneshmaurya.com (canonical); subdomains for blog, tools.
 
 ---
 
@@ -140,7 +140,7 @@ In `src/app/layout.tsx`:
 
 ### 3.6 Metadata & OG
 
-- **metadataBase:** `https://ratnesh-maurya.com`
+- **metadataBase:** `https://ratneshmaurya.com`
 - **themeColor:** `#030d0e`
 - **OG/Twitter:** Title, description, `og:image` per route (root and section-specific `opengraph-image.tsx`).
 - **OG image style:** Same palette (background `#030d0e`, gradient, dot grid, teal glow, teal accent text). Implemented in `src/app/opengraph-image.tsx` and `src/lib/og-image.tsx` (`buildOgImage`).
@@ -159,7 +159,7 @@ In `src/app/layout.tsx`:
 
 ## 5. Applying the theme to the blog (or other sub-products)
 
-Use this to keep blog.ratnesh-maurya.com (or any sub-product) visually aligned with the portfolio.
+Use this to keep blog.ratneshmaurya.com (or any sub-product) visually aligned with the portfolio.
 
 ### 5.1 Copy design tokens
 
@@ -185,7 +185,7 @@ If the blog uses a different stack (e.g. Hugo, Astro, another CMS):
 ### 5.3 Layout structure on the blog
 
 - **Background:** Full-bleed `#030d0e` with optional orbs (`.orb-sky`, `.orb-indigo`) for key pages.
-- **Header:** Fixed or sticky bar with logo/link “Ratnesh Maurya” (teal), nav links (mid gray, teal on hover), and optional “Back to portfolio” → ratnesh-maurya.com.
+- **Header:** Fixed or sticky bar with logo/link “Ratnesh Maurya” (teal), nav links (mid gray, teal on hover), and optional “Back to portfolio” → ratneshmaurya.com.
 - **Content width:** Match portfolio (e.g. `max-w-3xl` for articles).
 - **Typography:** Inter body; JetBrains Mono for code blocks.
 - **Links:** Default `#94a3b8`, hover `#2dd4bf` or `#14b8a6`.
@@ -198,14 +198,14 @@ If the blog uses a different stack (e.g. Hugo, Astro, another CMS):
   - Dot grid: `radial-gradient(circle, rgba(20,184,166,0.15) 1px, transparent 1px)`, 40px
   - Radial glow: teal `rgba(20,184,166,0.12)` circle
   - Text: title in `#f0fdfa`, subtitle/breadcrumb in `#64748b` / `#475569`, accent `#14b8a6`
-  - Breadcrumb: “blog.ratnesh-maurya.com › [Section]” or “blog.ratnesh-maurya.com”
+  - Breadcrumb: “blog.ratneshmaurya.com › [Section]” or “blog.ratneshmaurya.com”
 - **Option B:** If the blog has a different generator (e.g. serverless function), pass the same hex values and layout (title + subtitle + optional breadcrumb) so OG images feel like one family.
 
 ### 5.5 Metadata and cross-links
 
-- **metadataBase:** `https://blog.ratnesh-maurya.com` (or the blog’s canonical origin).
+- **metadataBase:** `https://blog.ratneshmaurya.com` (or the blog’s canonical origin).
 - **themeColor:** `#030d0e`.
-- **Cross-links:** In blog header/footer, link “Portfolio” → `https://ratnesh-maurya.com`; in portfolio, link “Blog” → `https://blog.ratnesh-maurya.com` (already done in nav and Footer).
+- **Cross-links:** In blog header/footer, link “Portfolio” → `https://ratneshmaurya.com`; in portfolio, link “Blog” → `https://blog.ratneshmaurya.com` (already done in nav and Footer).
 
 ### 5.6 Blog-specific checklist
 
@@ -214,7 +214,7 @@ If the blog uses a different stack (e.g. Hugo, Astro, another CMS):
 - [ ] Set body and scrollbar to match portfolio.
 - [ ] OG images: same palette and layout (title, subtitle, optional breadcrumb).
 - [ ] metadataBase and themeColor set for the blog domain.
-- [ ] Header/footer link to ratnesh-maurya.com; portfolio already links to blog.
+- [ ] Header/footer link to ratneshmaurya.com; portfolio already links to blog.
 
 ---
 
@@ -291,7 +291,7 @@ Draw in this order so overlapping is correct:
 **4a. Breadcrumb (optional)**
 
 - Shown for section/post pages; can omit for home.
-- Format: `[site] › [section]` e.g. `blog.ratnesh-maurya.com › Blog` or `blog.ratnesh-maurya.com › [Post title]`.
+- Format: `[site] › [section]` e.g. `blog.ratneshmaurya.com › Blog` or `blog.ratneshmaurya.com › [Post title]`.
 - Style: font size 16, colour `#475569` for site; separator `#334155`; section/post in accent.
 - Spacing: 8 px between items.
 
@@ -310,7 +310,7 @@ Draw in this order so overlapping is correct:
 
 **4d. URL or badge (optional)**
 
-- **URL line:** e.g. `ratnesh-maurya.com` or `blog.ratnesh-maurya.com`. Font size 18, colour `#334155`; margin top 8 px.
+- **URL line:** e.g. `ratneshmaurya.com` or `blog.ratneshmaurya.com`. Font size 18, colour `#334155`; margin top 8 px.
 - **Badge (section style):** pill with dot + text e.g. “Ratnesh Maurya” or “Go · Elixir · Cloud Native”. Background `accent + "14"` (0.08) or `rgba(20,184,166,0.1)`, border `accent + "33"` (0.2) or `rgba(20,184,166,0.25)`, border-radius 100, padding 6 px 16 px. Dot: 8×8 circle, accent fill. Text: 14 px, weight 600, accent colour; letter-spacing 1 for short tags.
 
 ### 7.4 Two variants
@@ -321,11 +321,11 @@ Draw in this order so overlapping is correct:
 - Badge: “Go · Elixir · Cloud Native” (or similar).
 - Title: “Ratnesh Maurya” (large, optionally gradient).
 - Subtitle: “Backend Engineer · Go · Elixir · Kubernetes”.
-- URL line: “ratnesh-maurya.com”.
+- URL line: “ratneshmaurya.com”.
 
 **B. Section or post (parameterised)**
 
-- **Inputs:** `title`, `subtitle`, `breadcrumb` (optional), `siteLabel` (e.g. `blog.ratnesh-maurya.com`), `accent` (default `#14b8a6`).
+- **Inputs:** `title`, `subtitle`, `breadcrumb` (optional), `siteLabel` (e.g. `blog.ratneshmaurya.com`), `accent` (default `#14b8a6`).
 - Breadcrumb: `[siteLabel]` or `[siteLabel] › [breadcrumb]`.
 - Title: page or post title (72 px).
 - Subtitle: short description or tagline.

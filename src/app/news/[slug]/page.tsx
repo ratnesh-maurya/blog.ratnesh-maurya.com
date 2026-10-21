@@ -16,6 +16,7 @@ import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { SITE_URL } from '@/lib/site';
 
 interface NewsPostPageProps {
   params: Promise<{ slug: string }>;
@@ -71,9 +72,9 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
   const olderPost = index < allNews.length - 1 ? allNews[index + 1] : null;
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'News', url: 'https://blog.ratnesh-maurya.com/news' },
-    { name: post.title, url: `https://blog.ratnesh-maurya.com/news/${post.slug}` },
+    { name: 'Home', url: SITE_URL },
+    { name: 'News', url: `${SITE_URL}/news` },
+    { name: post.title, url: `${SITE_URL}/news/${post.slug}` },
   ];
 
   return (

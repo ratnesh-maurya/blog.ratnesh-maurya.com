@@ -8,8 +8,10 @@
  * Yandex: POST https://yandex.com/indexnow
  */
 
+import { SITE_HOST } from '../src/lib/site';
+
 const KEY = '6241a419bfa9c01e7a4abaf8340e5cce';
-const HOST = 'blog.ratnesh-maurya.com';
+const HOST = SITE_HOST;
 const BASE = `https://${HOST}`;
 const KEY_LOCATION = `${BASE}/${KEY}.txt`;
 

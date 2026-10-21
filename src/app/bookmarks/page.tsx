@@ -1,6 +1,7 @@
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { BookmarksList } from '@/components/BookmarksList';
 import { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Bookmarks — Ratn Labs',
@@ -9,8 +10,8 @@ export const metadata: Metadata = {
 };
 
 const breadcrumbItems = [
-  { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-  { name: 'Bookmarks', url: 'https://blog.ratnesh-maurya.com/bookmarks' },
+  { name: 'Home', url: SITE_URL },
+  { name: 'Bookmarks', url: `${SITE_URL}/bookmarks` },
 ];
 
 export default function BookmarksPage() {

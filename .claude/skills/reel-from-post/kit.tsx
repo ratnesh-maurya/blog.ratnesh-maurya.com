@@ -14,6 +14,7 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 import { exportCover } from '../../../scripts/reel-covers';
+import { SITE_HOST, isSiteUrl } from '../../../src/lib/site';
 import { formatReport, lintCaption } from './caption';
 
 // ─── Canvas ──────────────────────────────────────────────────────────────────
@@ -27,7 +28,7 @@ export const BODY_W = W - 2 * PAD;
 const repoRoot = path.resolve(__dirname, '../../..');
 
 export const HANDLE = '@ratn_labs';
-export const SITE = 'blog.ratnesh-maurya.com';
+export const SITE = SITE_HOST;
 
 // ─── Brand tokens (mirror src/app/globals.css) ───────────────────────────────
 export const T = {
@@ -625,7 +626,7 @@ export async function renderCarousel(slides: Slide[], meta: CarouselMeta, dir = 
     .toFile(path.join(dir, 'contact-sheet.png'));
 
   // The /links page shows this exact first slide, so visitors recognise the Instagram post.
-  const postUrl = meta.links.links.map((l) => l.url).find((u) => u.includes('blog.ratnesh-maurya.com'));
+  const postUrl = meta.links.links.map((l) => l.url).find((u) => isSiteUrl(u));
   const cover = await exportCover(path.join(dir, files[0]), meta.links.slug, postUrl);
 
   console.log(`\n✓ ${files.length} slides → ${path.relative(process.cwd(), dir)}/`);

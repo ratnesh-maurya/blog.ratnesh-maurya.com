@@ -5,6 +5,7 @@ import { getAllSillyQuestionsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export async function generateMetadata(): Promise<Metadata> {
   const ogImage = getStoredOgImageUrl('silly-questions');
@@ -28,13 +29,13 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     authors: [{ name: "Ratnesh Maurya" }],
     alternates: {
-      canonical: "https://blog.ratnesh-maurya.com/silly-questions/",
+      canonical: `${SITE_URL}/silly-questions/`,
       types: { ...oembedAlternate('/silly-questions') },
     },
     openGraph: {
       title: "Silly Questions & Mistakes | Ratn Labs",
       description: "We all make silly mistakes while coding. Here are some of mine, with the lessons learned—so you can debug faster.",
-      url: "https://blog.ratnesh-maurya.com/silly-questions/",
+      url: `${SITE_URL}/silly-questions/`,
       siteName: "Ratn Labs",
       type: "website",
       locale: 'en_US',
@@ -67,8 +68,8 @@ export default async function SillyQuestionsPage() {
   const allCategories = Array.from(new Set(questions.map(q => q.category).filter(Boolean)));
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Silly Questions', url: 'https://blog.ratnesh-maurya.com/silly-questions' }
+    { name: 'Home', url: SITE_URL },
+    { name: 'Silly Questions', url: `${SITE_URL}/silly-questions` }
   ];
 
   return (

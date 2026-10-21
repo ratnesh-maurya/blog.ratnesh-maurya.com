@@ -5,16 +5,17 @@ import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Search — Ratn Labs',
   description: 'Search across blog posts, daily news digests, technical terms, cheatsheets, TILs, and silly questions. Find system design, Go, AWS, and backend topics fast →',
   keywords: ['search', 'blog search', 'find articles', 'system design', 'Go', 'backend engineering'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/search/', types: { ...oembedAlternate('/search') } },
+  alternates: { canonical: `${SITE_URL}/search/`, types: { ...oembedAlternate('/search') } },
   openGraph: {
     title: 'Search — Ratn Labs',
     description: 'Search all blog posts and Q&As on Ratn Labs.',
-    url: 'https://blog.ratnesh-maurya.com/search/',
+    url: `${SITE_URL}/search/`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('search'), width: 1200, height: 630, alt: 'Search — Ratn Labs' }],
@@ -42,8 +43,8 @@ function SearchFallback() {
 
 export default function SearchPage() {
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Search', url: 'https://blog.ratnesh-maurya.com/search' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Search', url: `${SITE_URL}/search` },
   ];
 
   return (

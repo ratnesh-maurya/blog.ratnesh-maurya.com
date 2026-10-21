@@ -10,6 +10,7 @@ import { getStoredOgImageUrl } from '@/lib/og';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { PORTFOLIO_URL, SITE_URL } from '@/lib/site';
 
 interface SillyQuestionPageProps {
   params: Promise<{ slug: string }>;
@@ -50,10 +51,10 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
       'programming tips',
       'learn from mistakes'
     ],
-    authors: [{ name: "Ratnesh Maurya", url: "https://ratnesh-maurya.com" }],
+    authors: [{ name: "Ratnesh Maurya", url: PORTFOLIO_URL }],
     category: question.category,
     alternates: {
-      canonical: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
+      canonical: `${SITE_URL}/silly-questions/${question.slug}`,
       types: { ...oembedAlternate(`/silly-questions/${question.slug}`) },
     },
     openGraph: {
@@ -65,7 +66,7 @@ export async function generateMetadata({ params }: SillyQuestionPageProps) {
       authors: ["Ratnesh Maurya"],
       tags: question.tags,
       section: question.category,
-      url: `https://blog.ratnesh-maurya.com/silly-questions/${question.slug}`,
+      url: `${SITE_URL}/silly-questions/${question.slug}`,
       siteName: 'Ratn Labs',
       locale: 'en_US',
       images: [{ url: getStoredOgImageUrl('silly-question', question.slug), width: 1200, height: 630, alt: question.question }],

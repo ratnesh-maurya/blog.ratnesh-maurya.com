@@ -276,18 +276,18 @@ This project is open source and available under the [MIT License](LICENSE).
 
 If you have questions or need help, feel free to:
 - Open an issue on GitHub
-- Visit [ratnesh-maurya.com](https://ratnesh-maurya.com)
+- Visit [ratneshmaurya.com](https://ratneshmaurya.com)
 
 ---
 
-Built with ❤️ by [Ratnesh Maurya](https://ratnesh-maurya.com)
+Built with ❤️ by [Ratnesh Maurya](https://ratneshmaurya.com)
 
 ---
 
 ### Links
 
-- 🌐 Blog: https://blog.ratnesh-maurya.com/
-- 💼 Portfolio: https://ratnesh-maurya.com/
+- 🌐 Blog: https://blog.ratneshmaurya.com/
+- 💼 Portfolio: https://ratneshmaurya.com/
 
-[![Blog](https://img.shields.io/badge/Blog-Visit-blue?style=for-the-badge)](https://blog.ratnesh-maurya.com/)
-[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-black?style=for-the-badge)](https://ratnesh-maurya.com/)
+[![Blog](https://img.shields.io/badge/Blog-Visit-blue?style=for-the-badge)](https://blog.ratneshmaurya.com/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-black?style=for-the-badge)](https://ratneshmaurya.com/)

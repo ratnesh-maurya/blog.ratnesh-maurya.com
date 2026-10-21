@@ -5,16 +5,17 @@ import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Newsletter — Ratn Labs',
   description: 'Subscribe to get new articles on system design, Go, AWS, and backend engineering delivered straight to your inbox. No spam, unsubscribe anytime.',
   keywords: ['newsletter', 'backend engineering newsletter', 'system design newsletter', 'Go newsletter', 'developer newsletter'],
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/newsletter', types: { ...oembedAlternate('/newsletter') } },
+  alternates: { canonical: `${SITE_URL}/newsletter`, types: { ...oembedAlternate('/newsletter') } },
   openGraph: {
     title: 'Newsletter — Ratn Labs',
     description: 'Get new articles on system design, Go, and backend engineering in your inbox.',
-    url: 'https://blog.ratnesh-maurya.com/newsletter',
+    url: `${SITE_URL}/newsletter`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('newsletter'), width: 1200, height: 630, alt: 'Newsletter — Ratn Labs' }],
@@ -41,8 +42,8 @@ export default async function NewsletterPage() {
   const recentPosts = posts.slice(0, 4);
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Newsletter', url: 'https://blog.ratnesh-maurya.com/newsletter' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Newsletter', url: `${SITE_URL}/newsletter` },
   ];
 
   return (

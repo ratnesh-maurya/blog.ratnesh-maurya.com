@@ -14,7 +14,7 @@ Legend: `[x]` done in repo · `[ ]` todo · `—` ongoing / off-site
 - [ ] Publish 1 cornerstone post per quarter (original benchmarks, war stories, not digests)
 
 ### Entity SEO (off-site — "Ratnesh Maurya" SERP)
-- [ ] GitHub profile README → link `blog.ratnesh-maurya.com` + portfolio
+- [ ] GitHub profile README → link `blog.ratneshmaurya.com` + portfolio
 - [ ] LinkedIn Featured → pin top 3 blog posts
 - [ ] Verify every URL in `src/lib/seo/person.ts` `PERSON_SAME_AS` returns 200 and links back
 - [ ] Google Search Console: submit sitemap, monitor "Ratnesh Maurya" + "Ratn Labs"

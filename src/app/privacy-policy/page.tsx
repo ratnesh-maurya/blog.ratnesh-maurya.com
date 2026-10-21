@@ -5,15 +5,16 @@ import { getStoredOgImageUrl } from '@/lib/og';
 import { getPrivacyPolicyContent } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE_HOST, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Ratn Labs',
-  description: 'Privacy policy for Ratn Labs (blog.ratnesh-maurya.com). How we collect, use, and protect your information.',
-  alternates: { canonical: 'https://blog.ratnesh-maurya.com/privacy-policy', types: { ...oembedAlternate('/privacy-policy') } },
+  description: `Privacy policy for Ratn Labs (${SITE_HOST}). How we collect, use, and protect your information.`,
+  alternates: { canonical: `${SITE_URL}/privacy-policy`, types: { ...oembedAlternate('/privacy-policy') } },
   openGraph: {
     title: 'Privacy Policy — Ratn Labs',
     description: 'How we collect, use, and protect your information.',
-    url: 'https://blog.ratnesh-maurya.com/privacy-policy',
+    url: `${SITE_URL}/privacy-policy`,
     siteName: 'Ratn Labs',
     type: 'website',
     images: [{ url: getStoredOgImageUrl('privacy-policy'), width: 1200, height: 630, alt: 'Privacy Policy — Ratn Labs' }],
@@ -30,8 +31,8 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   const { lastRevised, tldr, sections } = getPrivacyPolicyContent();
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://blog.ratnesh-maurya.com' },
-    { name: 'Privacy Policy', url: 'https://blog.ratnesh-maurya.com/privacy-policy' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'Privacy Policy', url: `${SITE_URL}/privacy-policy` },
   ];
 
   return (
@@ -52,7 +53,7 @@ export default function PrivacyPolicyPage() {
               Privacy Policy
             </h1>
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              Applies to blog.ratnesh-maurya.com · Last revised: {lastRevised}
+              Applies to {SITE_HOST} · Last revised: {lastRevised}
             </p>
           </div>
         </div>

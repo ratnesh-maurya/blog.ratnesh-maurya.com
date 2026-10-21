@@ -4,7 +4,7 @@ Generic API for **views** and **upvotes** across all page types (blog, til, sill
 
 **Scope:** Views and upvotes only. Indexing/reindex is **not** part of this API (stays in the blog).
 
-**Base URL (example):** `https://api.example.com` or `https://blog-api.ratnesh-maurya.com`  
+**Base URL (example):** `https://api.example.com` or `https://blog-api.ratneshmaurya.com`  
 The blog uses an env var (e.g. `NEXT_PUBLIC_API_BASE`) and calls `{base}/stats/...` instead of `/api/...`.
 
 ---
@@ -242,7 +242,7 @@ Slug is always the segment(s) that identify the page within that type (no leadin
 
 ## CORS and base URL
 
-- Allow the blog origin in CORS (e.g. `https://blog.ratnesh-maurya.com`).
+- Allow the blog origin in CORS (e.g. `https://blog.ratneshmaurya.com`).
 - Blog will call `{API_BASE}/stats`, `{API_BASE}/stats/by-type`, `{API_BASE}/stats/total` (e.g. `NEXT_PUBLIC_API_BASE`).
 
 ---

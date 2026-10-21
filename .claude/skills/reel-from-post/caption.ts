@@ -12,6 +12,8 @@
  *    a second call to action.
  */
 
+import { ALL_SITE_HOSTS } from '../../../src/lib/site';
+
 export const CAPTION_LIMIT = 2200;
 /** Roughly where the feed cuts to "… more". The real cut moves with the device. */
 export const FEED_CUT = 125;
@@ -22,7 +24,6 @@ const HASHTAG_RE = /(?:^|\s)(#[A-Za-z0-9_]+)/g;
 const LINK_RE = /https?:\/\/\S+|\bwww\.\S+|\b[a-z0-9-]+\.(?:com|co|io|net|org|ai|app|dev)\/\S*/gi;
 const EMOJI_RE = /[\u{1F300}-\u{1FAFF}☀-➿←-⇿️]/gu;
 const CONCRETE_RE = /\$\s?\d|\b\d[\d,.]*\b|(?<!^)\b[A-Z][a-z]{2,}\b/gm;
-const OWN_HOST = 'blog.ratnesh-maurya.com';
 
 const ASKS: Array<[RegExp, string]> = [
   [/\bcomment (?:the word |")?[A-Z0-9]{2,}\b/i, 'comment a keyword'],
@@ -62,8 +63,8 @@ export function lintCaption(caption: string, searchTerms: string[] = []): Captio
   const chars = text.length;
   const firstLine = (text.split('\n')[0] ?? '').trim();
   const tags = matches(HASHTAG_RE, text).map((m) => m[1]);
-  // Our own host is blanked first: the pattern would otherwise read "ratnesh-maurya.com/…" out of a blog URL as a separate link.
-  const links = matches(LINK_RE, text.split(OWN_HOST).join('')).map((m) => m[0]);
+  // Our own host is blanked first: the pattern would otherwise read "ratneshmaurya.com/…" out of a blog URL as a separate link.
+  const links = matches(LINK_RE, ALL_SITE_HOSTS.reduce((t, h) => t.split(h).join(''), text)).map((m) => m[0]);
   const emoji = matches(EMOJI_RE, text);
   const visible = chars <= FEED_CUT ? text : text.slice(0, FEED_CUT);
   const truncated = chars > FEED_CUT;

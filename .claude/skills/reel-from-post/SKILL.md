@@ -260,7 +260,7 @@ re-run. Don't retry blindly.
 
 {the ONE ask: usually "Save it for …"}
 
-🔗 Full breakdown: blog.ratnesh-maurya.com/<kind>/<slug>/
+🔗 Full breakdown: blog.ratneshmaurya.com/<kind>/<slug>/
 (link in bio → @ratn_labs)
 
 #ratnlabs #topic1 #topic2 #topic3 #topic4
@@ -274,7 +274,7 @@ re-run. Don't retry blindly.
   normal words as well: Instagram search reads the caption.
 - **One ask.** Usually "Save it …". Don't also say "swipe", "follow" and "share".
   The URL line and "link in bio" are pointers, not asks.
-- **Always include the full post URL** exactly as `blog.ratnesh-maurya.com/<kind>/<slug>/`.
+- **Always include the full post URL** exactly as `blog.ratneshmaurya.com/<kind>/<slug>/`.
   The admin's Quick add reads it to fill in the related links. (Links in
   captions aren't clickable, so the URL is for Quick add and for people who copy it.)
 - Pass `searchTerms: ['bloom filter', …]` to `renderCarousel` to check those phrases appear.

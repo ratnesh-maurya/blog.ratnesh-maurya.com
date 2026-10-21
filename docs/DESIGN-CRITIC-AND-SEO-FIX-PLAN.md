@@ -1,8 +1,8 @@
-# SCON Design Critic + SEO Fix Plan — blog.ratnesh-maurya.com
+# SCON Design Critic + SEO Fix Plan — blog.ratneshmaurya.com
 
 **Reviewer:** Senior Design + SEO Critic
 **Date:** 2026-05-03
-**Subject:** Ratn Labs — `https://blog.ratnesh-maurya.com`
+**Subject:** Ratn Labs — `https://blog.ratneshmaurya.com`
 **Method:** SCON — **S**trength · **C**oncern · **O**bservation · **N**ext-step
 **Goal:** rank #1 for `Ratnesh Maurya`, `Ratn Labs`, primary tech-blog queries; achieve pixel-perfect metadata; meet Core Web Vitals 2026 thresholds.
 
@@ -55,9 +55,9 @@ Top 5 levers, ranked by ROI:
 | | |
 |---|---|
 | **S** | Clean reading column, TOC, reading progress, copy-as-MD button, related posts, related terms, social share, post navigation, view counter, oEmbed alt link. This is **publisher-grade**. |
-| **C** | (1) `publishedTime` and `modifiedTime` are identical — Google distrusts this. (2) Author URL is `https://ratnesh-maurya.com` (good) but `Person` `@id` is not URI-stable across pages, breaking entity de-dup. (3) Code highlight uses `github-dark-dimmed` even in light theme — strong contrast clash. |
+| **C** | (1) `publishedTime` and `modifiedTime` are identical — Google distrusts this. (2) Author URL is `https://ratneshmaurya.com` (good) but `Person` `@id` is not URI-stable across pages, breaking entity de-dup. (3) Code highlight uses `github-dark-dimmed` even in light theme — strong contrast clash. |
 | **O** | Word count, `articleBody`, `headline` ≤ 110 chars not asserted in schema. Pinterest rich pin meta tag is set but no `pinterest-domain-verify` — half-configured. |
-| **N** | (a) Track real `lastModified` from frontmatter `updated:` field; fallback to `date` only if missing. (b) Light-theme code block: switch to `github-light` via `prefers-color-scheme`. (c) Add `wordCount`, `articleBody` (truncated 2k chars), enforce `headline.length <= 110`. (d) Stable Person `@id`: `https://ratnesh-maurya.com/#person`. |
+| **N** | (a) Track real `lastModified` from frontmatter `updated:` field; fallback to `date` only if missing. (b) Light-theme code block: switch to `github-light` via `prefers-color-scheme`. (c) Add `wordCount`, `articleBody` (truncated 2k chars), enforce `headline.length <= 110`. (d) Stable Person `@id`: `https://ratneshmaurya.com/#person`. |
 
 ### 1.5 Typography & rhythm
 
@@ -89,7 +89,7 @@ Top 5 levers, ranked by ROI:
 | # | Item | Where | Fix |
 |---|------|-------|-----|
 | 1 | `dateModified` always equals `datePublished` | `src/app/blog/[slug]/page.tsx:74,84` | Add `updated` field to MDX frontmatter; fall back if absent. |
-| 2 | Person `@id` not stable across pages | `StructuredData.tsx` (15 `sameAs` blocks) | Single `Person` node with `@id: https://ratnesh-maurya.com/#person`, referenced everywhere. |
+| 2 | Person `@id` not stable across pages | `StructuredData.tsx` (15 `sameAs` blocks) | Single `Person` node with `@id: https://ratneshmaurya.com/#person`, referenced everywhere. |
 | 3 | No `mainEntityOfPage` on articles | `BlogStructuredData` | Add `mainEntityOfPage: { @type: WebPage, @id: <article-canonical> }`. |
 | 4 | Title length not enforced | All `generateMetadata` | Truncate/template guard at 60 chars. Currently default + template = `Post Title | Ratn Labs` can exceed. |
 | 5 | Description length not enforced | Same | Soft target 140–155 chars; lint script. |
@@ -147,8 +147,8 @@ schema (home):     WebSite + Organization + Person + FAQPage
 - **Role:** Software Development Engineer, **Initializ** (≈ 2 yrs)
 - **Stack:** Go, Elixir, PostgreSQL, Kubernetes, AWS, RAG pipelines
 - **Location:** Gurugram, India
-- **Personal site:** `ratnesh-maurya.com`
-- **Blog:** `blog.ratnesh-maurya.com` (Ratn Labs)
+- **Personal site:** `ratneshmaurya.com`
+- **Blog:** `blog.ratneshmaurya.com` (Ratn Labs)
 - **GitHub:** `ratnesh-maurya` (41 repos, handle `deadlock.go`)
 - **LinkedIn:** `linkedin.com/in/ratnesh-maurya`
 - **Twitter/X:** `@_ratneshmaurya`
@@ -166,7 +166,7 @@ schema (home):     WebSite + Organization + Person + FAQPage
    ```json
    {
      "@type": "Person",
-     "@id": "https://ratnesh-maurya.com/#person",
+     "@id": "https://ratneshmaurya.com/#person",
      "name": "Ratnesh Maurya",
      "alternateName": ["Ratn", "deadlock.go"],
      "givenName": "Ratnesh",
@@ -175,8 +175,8 @@ schema (home):     WebSite + Organization + Person + FAQPage
      "worksFor": { "@type": "Organization", "name": "Initializ", "url": "https://initializ.ai" },
      "alumniOf": "Dr. Ambedkar Institute of Technology for Handicapped",
      "address": { "@type": "PostalAddress", "addressLocality": "Gurugram", "addressCountry": "IN" },
-     "url": "https://ratnesh-maurya.com",
-     "image": "https://ratnesh-maurya.com/avatar.jpg",
+     "url": "https://ratneshmaurya.com",
+     "image": "https://ratneshmaurya.com/avatar.jpg",
      "sameAs": [
        "https://github.com/ratnesh-maurya",
        "https://www.linkedin.com/in/ratnesh-maurya/",
@@ -185,14 +185,14 @@ schema (home):     WebSite + Organization + Person + FAQPage
        "https://www.instagram.com/ratn_labs/",
        "https://leetcode.com/ratnesh_maurya/",
        "https://codeforces.com/profile/ratnesh_",
-       "https://blog.ratnesh-maurya.com"
+       "https://blog.ratneshmaurya.com"
      ],
      "knowsAbout": ["Go", "Elixir", "Distributed Systems", "Kubernetes", "AWS", "PostgreSQL", "Backend Architecture", "RAG", "AI Engineering"],
      "knowsLanguage": ["en", "hi"]
    }
    ```
 2. **Same Person `@id` referenced** (not redefined) on every article (`author`), about page (`mainEntity`), home (`mentions`).
-3. **Bidirectional links** from every owned profile back to `ratnesh-maurya.com`. Verify each `sameAs` URL responds 200 and links back. (Currently `instagram.com/ratn_labs` and `peerlist.io/ratnesh_maurya` need confirming.)
+3. **Bidirectional links** from every owned profile back to `ratneshmaurya.com`. Verify each `sameAs` URL responds 200 and links back. (Currently `instagram.com/ratn_labs` and `peerlist.io/ratnesh_maurya` need confirming.)
 4. **Wikidata + Wikipedia (long-game):** create a Wikidata item `Q...` for "Ratnesh Maurya (software engineer)" with `sitelinks` to portfolio + blog. Wikidata feeds Google Knowledge Panel.
 5. **About page hardening:** `/about` should declare `AboutPage` schema with `mainEntity` = Person. Add an FAQ block ("Who is Ratnesh Maurya?", "Where does Ratnesh work?", "What does Ratn Labs cover?") — these answer People-Also-Ask boxes verbatim.
 6. **Brand SERP cleanup:** the `RocketReach` and `ZoomInfo` results currently outrank some owned properties. Submit takedown / opt-out. File `https://www.linkedin.com/in/ratnesh-maurya/` and the portfolio in Google Search Console for indexing first.
@@ -329,7 +329,7 @@ Google's 2026 ranking heavily weights **Experience** signals + **author authorit
 - Google CWV docs — https://developers.google.com/search/docs/appearance/core-web-vitals
 - web.dev Vitals — https://web.dev/articles/vitals
 - 7 SEO + AI Search Trends 2026 — https://www.squarespace.com/blog/seo-trends
-- Ratnesh portfolio — https://www.ratnesh-maurya.com/
+- Ratnesh portfolio — https://ratneshmaurya.com/
 - Ratnesh GitHub — https://github.com/ratnesh-maurya
 - Ratnesh LinkedIn — https://www.linkedin.com/in/ratnesh-maurya/
 - Ratn Labs Peerlist — https://peerlist.io/ratnesh_maurya/project/all-blog-posts--ratn-labs

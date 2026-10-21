@@ -14,6 +14,7 @@
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
+import { isSiteHost } from '../src/lib/site';
 
 const root = path.resolve(__dirname, '..');
 const COVER_DIR = path.join(root, 'public', 'reels', 'covers');
@@ -29,11 +30,11 @@ export type CoverManifest = {
   byPath: Record<string, string>;
 };
 
-/** "https://blog.ratnesh-maurya.com/blog/Foo-Bar/?utm=x" → "/blog/foo-bar" */
+/** "https://<blog host>/blog/Foo-Bar/?utm=x" → "/blog/foo-bar" (current or former host) */
 export function coverPathKey(url: string): string | null {
   try {
     const u = new URL(url);
-    if (u.hostname.replace(/^www\./, '') !== 'blog.ratnesh-maurya.com') return null;
+    if (!isSiteHost(u.hostname)) return null;
     const p = u.pathname.replace(/\/+$/, '').toLowerCase();
     return p || null;
   } catch {

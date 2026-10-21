@@ -44,7 +44,7 @@ Only **technical terms** support a stored OG image so metadata can point to a st
 
 - **Where they are stored:** `public/technical-terms/{slug}.png` (e.g. `public/technical-terms/indexing.png`).
 - **How they are built:** Script `scripts/build-og-technical-terms.tsx` (run at build time, e.g. in `postbuild`) generates one PNG per term from `content/technical-terms/*.md` and writes to `public/technical-terms/`.
-- **How the page uses them:** In `app/technical-terms/[slug]/page.tsx`, `generateMetadata()` checks for `public/technical-terms/${slug}.png`. If it exists, `openGraph.images` and `twitter.images` are set to `https://blog.ratnesh-maurya.com/technical-terms/{slug}.png`; otherwise no static image is set and crawlers may use the runtime route `/technical-terms/{slug}/opengraph-image` if linked elsewhere.
+- **How the page uses them:** In `app/technical-terms/[slug]/page.tsx`, `generateMetadata()` checks for `public/technical-terms/${slug}.png`. If it exists, `openGraph.images` and `twitter.images` are set to `https://blog.ratneshmaurya.com/technical-terms/{slug}.png`; otherwise no static image is set and crawlers may use the runtime route `/technical-terms/{slug}/opengraph-image` if linked elsewhere.
 
 So: **all OG images are generated at runtime** by the routes above; **only technical term pages** can use a **stored** image from `public/technical-terms/` when that file exists.
 
@@ -85,7 +85,7 @@ Set **metadataBase** and point **openGraph.images** / **twitter.images** to the 
 ```tsx
 // src/app/layout.tsx (excerpt)
 
-const BASE_URL = 'https://ratnesh-maurya.com';
+const BASE_URL = 'https://ratneshmaurya.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -222,7 +222,7 @@ export default async function Image() {
 
           {/* URL */}
           <div style={{ fontSize: 18, color: '#334155', marginTop: 8 }}>
-            ratnesh-maurya.com
+            ratneshmaurya.com
           </div>
         </div>
       </div>
@@ -303,7 +303,7 @@ export function buildOgImage({ title, subtitle, breadcrumb, accent = '#14b8a6' }
         <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 12 }}>
           {/* Breadcrumb */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 16, color: '#475569' }}>
-            <span>ratnesh-maurya.com</span>
+            <span>ratneshmaurya.com</span>
             {breadcrumb && (
               <>
                 <span style={{ color: '#334155' }}>›</span>
@@ -438,11 +438,11 @@ Pages can override Open Graph (e.g. title/description). The **image** is taken f
 export const metadata: Metadata = {
   title: 'Now',
   description: "...",
-  alternates: { canonical: 'https://ratnesh-maurya.com/now' },
+  alternates: { canonical: 'https://ratneshmaurya.com/now' },
   openGraph: {
     title: 'Now — Ratnesh Maurya',
     description: "Focused on learning Go and Elixir. Backend, concurrency, OTP.",
-    url: 'https://ratnesh-maurya.com/now',
+    url: 'https://ratneshmaurya.com/now',
     // No images: Next.js uses /now/opengraph-image automatically
   },
 };
@@ -497,7 +497,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 }
 ```
 
-If your shared `buildOgImage` doesn’t accept a `siteLabel`, you can extend it (e.g. `siteLabel: 'blog.ratnesh-maurya.com'`) and use it in the breadcrumb for the blog.
+If your shared `buildOgImage` doesn’t accept a `siteLabel`, you can extend it (e.g. `siteLabel: 'blog.ratneshmaurya.com'`) and use it in the breadcrumb for the blog.
 
 ---
 

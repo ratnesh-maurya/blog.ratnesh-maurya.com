@@ -11,8 +11,9 @@ import { getCheatsheet, getCheatsheetSlugs } from '@/lib/static-content';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { SITE_URL } from '@/lib/site';
 
-const BASE = 'https://blog.ratnesh-maurya.com';
+const BASE = SITE_URL;
 
 export async function generateStaticParams() {
   return getCheatsheetSlugs().map((slug) => ({ slug }));
