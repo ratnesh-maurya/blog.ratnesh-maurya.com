@@ -111,7 +111,7 @@ export function CustomDropdown({
               }}
               onMouseEnter={(e) => {
                 if (option.value !== value) {
-                  e.currentTarget.style.backgroundColor = 'var(--muted)';
+                  e.currentTarget.style.backgroundColor = 'var(--hover)';
                 }
               }}
               onMouseLeave={(e) => {
