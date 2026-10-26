@@ -89,7 +89,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
                   title: entry.title,
                   description: `TIL: ${entry.title}`,
                 }).toString()}`}
-                className="ml-auto inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors hover:border-[var(--marigold)] hover:text-[var(--text)]"
+                className="ml-auto inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors hover:border-[var(--accent)] hover:text-[var(--text)]"
                 style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}
               >
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
