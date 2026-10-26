@@ -51,6 +51,7 @@ export default function SearchPage() {
     <>
       <OgImageInBody src={getStoredOgImageUrl('search')} alt="Search — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
+      <h1 className="sr-only">Search Ratn Labs</h1>
       <Suspense fallback={<SearchFallback />}>
         <SearchPageClient />
       </Suspense>

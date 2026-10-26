@@ -1,6 +1,6 @@
 # plan.md — Migrate the blog to the "Ledger" design system
 
-Source of truth for the target look: [DESIGN.md](DESIGN.md). This file only says **what changes, in what order, and how we know it is done**. When this file and DESIGN.md disagree on a visual value, DESIGN.md wins.
+Source of truth for the target look: the live portfolio at [ratneshmaurya.com](https://ratneshmaurya.com), then [DESIGN.md](DESIGN.md). This file only says **what changes, in what order, and how we know it is done**. Where the portfolio and DESIGN.md disagree (for example pink kickers, filled cards), the portfolio wins.
 
 ## Decisions (confirmed)
 
@@ -13,26 +13,48 @@ Source of truth for the target look: [DESIGN.md](DESIGN.md). This file only says
 
 ## Progress
 
-| Phase | Status | Commit |
+All phases done on branch `design/ledger` (not pushed).
+
+| Phase | What shipped | Commit |
 |---|---|---|
-| 0 Baseline | done (screenshots of 6 routes in `docs/ledger-baseline/`, counts in `docs/ledger-baseline.md`) | 520dc98 |
-| 1 Tokens, fonts, theme | done | 99913af |
-| 2 Primitives | done | 6fce5ff |
-| 3 Global chrome | done | 21060c9 |
-| 4–11 | not started | |
+| 0 Baseline | screenshots of 6 routes in `docs/ledger-baseline/` (gitignored), counts in `docs/ledger-baseline.md` | 520dc98 |
+| 1 Tokens, fonts, theme | Ledger tokens, Instrument Serif / JetBrains Mono / Tiro Devanagari, dark default | 99913af |
+| 2 Primitives | pills, chips, tags, cards, rows, inputs, prose, token-only code theme | 6fce5ff |
+| 3 Global chrome | header, mobile drawer, footer with रत्न wordmark; accent picker deleted | 21060c9 |
+| 4 Home + blog list | portfolio-style hero (नमस्ते greeting, Ratn *Labs*, fact row, stats, रत्न rail), flat cards, no pink | 1253df2 |
+| 5 Typography + post page | serif h1–h3 site-wide, mono labels, quiet tags, no emoji icons, chart palette, callouts | 9df61af |
+| 6–7 Sections, static, 404 | portfolio 404 (४०४ + terminal trace), grey kickers, TIL prose, /links | 9db0d67 |
+| 8 Analytics | `--chart-1…6`, `--bad` / `--ok-text` / `--warning`, no raw hex | a53251b |
+| 9 OG + icons | portfolio-style OG card, all 256 images re-rendered, new icons, dark manifest, print styles | 972d38d |
+| 10 Cleanup | 1,130 token renames, 96 aliases + 37 dead rules + unused fonts removed, README design section | 876e2be |
+| 11 QA | see below | (this commit) |
 
-Deviations from the spec made so far (revisit if you disagree):
+### QA results (phase 11)
 
-- **No status pill and no "hire" pill in the header.** DESIGN.md has them, but they need copy about availability that I should not invent.
-- **Breakpoints stay at Tailwind defaults** (sm 640, md 768, lg 1024). The spec's 520/720/900/1100 would shift every existing `md:`/`lg:` class. Ledger-specific CSS uses the spec widths directly in media queries.
-- **Mobile keeps the hamburger drawer** instead of a scrolling second nav row. The drawer tested better at 390px.
-- **Footer wordmark is "रत्न"** (decorative, `aria-hidden`). Change it in `Footer.tsx` if you want other text.
-- **`--radius-sm/md/lg` follow the spec (12/18/26px)**, so Tailwind `rounded-sm/md/lg` are now rounder everywhere. `rounded-xl/2xl` are unchanged.
-- **Accent-coloured buttons with white text became ink pills** (`--pill` / `--on-pill`). The old pairing fails contrast against the dark-mode accent.
-- **highlight.js now uses a token-only theme**, and `highlight.js/styles/github.css` is no longer imported.
-- Still to check: light theme visually (only dark was reviewed so far), and a Lighthouse comparison against the baseline.
+- **Layout:** 35 routes × 2 widths (390, 1280) × 2 themes = 140 checks. No horizontal overflow, no uncaught JS errors.
+  The only console errors are Supabase calls failing against the placeholder URL used locally.
+- **Contrast (WCAG AA, text ≥ 4.5:1):** all role pairs pass in both themes. Light `--warning` was 3.4:1 and is now
+  `#A84A00` (5.5:1). The gradient italic word is decorative large type (≈2.5:1 on light paper), as DESIGN.md notes.
+- **Headings:** every route has an `<h1>`. `/search` got a visually hidden one.
+- **Touch targets:** on touch devices the existing `pointer: coarse` rule gives every link and button a 44px minimum.
+  With a mouse at 390px, small inline links remain on /about, /uses and /now (tab chips and tool links).
+- **Build:** `tsc`, `eslint src` (0 errors, 5 old warnings) and `npm run build` pass.
+- **Not done:** a Lighthouse comparison against the baseline, and a keyboard-only walkthrough by a person.
 
-## Where we are now (facts from the repo)
+### Deviations from DESIGN.md (revisit if you disagree)
+
+- **Kickers are grey, not `--rose`; cards are flat.** Matches the portfolio. Pink appears only inside the gradient word.
+- **No status or "hire" pill in the header.** They need availability copy I should not invent.
+- **Breakpoints stay at Tailwind defaults** (sm 640, md 768, lg 1024). Ledger CSS uses the spec widths in its own media queries.
+- **Mobile keeps the hamburger drawer** instead of a scrolling second nav row.
+- **Errors use a new `--bad` brick red** instead of `--rose`, so error text is not pink.
+- **Charts use `--chart-1…6`** (marigold, green, bronze, grey, amber, ink), not pink.
+- **OG watermark is a PNG** (`scripts/og-assets/ratn-watermark.png`) because satori cannot shape Devanagari conjuncts.
+- **`kasavu.ts` was not created.** The buti ornament is a CSS mask (`--buti`) and the OG card has no handloom frame,
+  matching the portfolio card.
+- **Copy I wrote:** the home hero lead paragraph, the "Writes about" line, the `/blog` greeting "लेख," and the 404 text.
+
+## Starting point (facts from the repo before the migration)
 
 - Next 15.5.9, React 19.1, Tailwind v4 (`@tailwindcss/postcss`), `recharts` 3.7. No `lucide-react` (icons are inline SVG today).
 - `src/app/globals.css`: 1,799 lines. Blue accent ramp, neutral greys, `--text-primary`-style token names, a "Liquid Glass" layer plus leftover "Neo-Brutalist" naming, film-grain overlay, 6 extra accent palettes.

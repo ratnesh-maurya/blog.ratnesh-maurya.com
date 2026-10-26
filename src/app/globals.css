@@ -141,7 +141,7 @@
 
   --neutral-300: var(--line);
 
-  --warning: #E65F00;
+  --warning: #A84A00; /* marigold-dark: 5.5:1 on --bg, passes AA as text */
 
   /* Flat by default, like ratneshmaurya.com: no fill, no shadow, hairline only.
      Overlays (search, menus, drawer) set --surface explicitly. */
