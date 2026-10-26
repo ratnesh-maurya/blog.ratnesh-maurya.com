@@ -61,8 +61,8 @@ export function Comments() {
   if (!enabled) return null;
 
   return (
-    <div className="pt-10" style={{ borderTop: '1px solid var(--border)' }}>
-      <h3 className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: 'var(--text-muted)' }}>
+    <div className="pt-10" style={{ borderTop: '1px solid var(--line)' }}>
+      <h3 className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: 'var(--muted)' }}>
         Discussion
       </h3>
       <div ref={ref} />

@@ -38,7 +38,7 @@ export function ContinueReading() {
               className="group rounded-2xl p-4 transition-transform duration-200 hover:-translate-y-0.5"
               style={{
                 backgroundColor: 'var(--glass-bg)',
-                border: '1px solid var(--glass-border)',
+                border: '1px solid var(--line)',
                 boxShadow: 'var(--glass-shadow-sm)',
                 backdropFilter: 'blur(10px) saturate(160%)',
                 WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -47,17 +47,17 @@ export function ContinueReading() {
               <div className="flex items-center justify-between mb-2">
                 <span
                   className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md"
-                  style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-700)' }}
+                  style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent)' }}
                 >
                   {TYPE_LABEL[entry.type] ?? entry.type}
                 </span>
-                <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+                <span className="text-xs font-medium" style={{ color: 'var(--muted)' }}>
                   {entry.progress}% read
                 </span>
               </div>
               <p
                 className="text-sm font-semibold leading-snug mb-3 line-clamp-2 group-hover:underline"
-                style={{ color: 'var(--text-primary)' }}
+                style={{ color: 'var(--text)' }}
               >
                 {entry.title}
               </p>
@@ -67,7 +67,7 @@ export function ContinueReading() {
               >
                 <div
                   className="h-full rounded-full"
-                  style={{ width: `${entry.progress}%`, backgroundColor: 'var(--accent-500)' }}
+                  style={{ width: `${entry.progress}%`, backgroundColor: 'var(--accent)' }}
                 />
               </div>
             </Link>

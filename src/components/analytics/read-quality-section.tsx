@@ -45,7 +45,7 @@ export function ReadQualitySection({ selectedType }: ReadQualitySectionProps) {
   if (filtered.length === 0) {
     return (
       <div className="nb-card-sm p-6" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+        <p className="text-sm" style={{ color: 'var(--muted)' }}>
           No engagement data yet. Read-depth events (50% / 90% scroll) start collecting once this deploy is live —
           give it a few days of traffic.
         </p>
@@ -56,30 +56,30 @@ export function ReadQualitySection({ selectedType }: ReadQualitySectionProps) {
   return (
     <div className="nb-card-sm p-5" style={{ backgroundColor: 'var(--glass-bg)' }}>
       <div className="flex items-baseline justify-between mb-4">
-        <h3 className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
+        <h3 className="text-sm font-bold" style={{ color: 'var(--text)' }}>
           Completion rate — views vs actually read
         </h3>
-        <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>last 30 days · min 5 views</span>
+        <span className="text-[11px]" style={{ color: 'var(--muted)' }}>last 30 days · min 5 views</span>
       </div>
       <div className="space-y-3">
         {filtered.map((row) => (
           <div key={`${row.type}:${row.slug}`}>
             <div className="flex items-center justify-between gap-3 mb-1">
-              <span className="text-xs font-medium truncate" style={{ color: 'var(--text-secondary)' }} title={row.slug}>
+              <span className="text-xs font-medium truncate" style={{ color: 'var(--body)' }} title={row.slug}>
                 {row.slug.replace(/-/g, ' ')}
               </span>
-              <span className="text-[11px] flex-shrink-0 font-semibold" style={{ color: 'var(--text-muted)' }}>
+              <span className="text-[11px] flex-shrink-0 font-semibold" style={{ color: 'var(--muted)' }}>
                 {row.views} views · {row.halfRate}% reach half · {row.completeRate}% finish
               </span>
             </div>
-            <div className="h-2 rounded-full overflow-hidden flex" style={{ backgroundColor: 'var(--glass-bg-subtle)', border: '1px solid var(--glass-border)' }}>
-              <div style={{ width: `${row.completeRate}%`, backgroundColor: 'var(--accent-500)' }} />
+            <div className="h-2 rounded-full overflow-hidden flex" style={{ backgroundColor: 'var(--glass-bg-subtle)', border: '1px solid var(--line)' }}>
+              <div style={{ width: `${row.completeRate}%`, backgroundColor: 'var(--accent)' }} />
               <div style={{ width: `${Math.max(0, row.halfRate - row.completeRate)}%`, backgroundColor: 'var(--accent-200)' }} />
             </div>
           </div>
         ))}
       </div>
-      <p className="text-[11px] mt-4" style={{ color: 'var(--text-muted)' }}>
+      <p className="text-[11px] mt-4" style={{ color: 'var(--muted)' }}>
         Dark bar = readers who finished (90% scroll) · light bar = reached halfway. Low completion on high-view posts
         signals a mismatch between the hook and the content.
       </p>

@@ -93,7 +93,7 @@ export function UpvoteCounter({
 
   if (isLoading) {
     return (
-      <span className={className} style={{ color: 'var(--text-muted)' }}>
+      <span className={className} style={{ color: 'var(--muted)' }}>
         {showLabel && '––– '}upvotes
       </span>
     );
@@ -109,8 +109,8 @@ export function UpvoteCounter({
         className={`inline-flex flex-row items-center justify-center gap-1.5 px-3 py-2 border rounded-md transition-all duration-200 disabled:cursor-not-allowed ${className}`}
         style={
           hasUpvoted
-            ? { borderColor: 'var(--nb-border)', backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }
-            : { borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }
+            ? { borderColor: 'var(--line)', backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }
+            : { borderColor: 'var(--line)', backgroundColor: 'var(--surface)', color: 'var(--body)' }
         }
         title={hasUpvoted ? 'Already upvoted' : 'Upvote this post'}
       >
@@ -128,7 +128,7 @@ export function UpvoteCounter({
           />
         </svg>
         <span className="text-sm font-semibold">{formattedUpvotes}</span>
-        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+        <span className="text-xs" style={{ color: 'var(--muted)' }}>
           Upvote
         </span>
       </button>
@@ -140,7 +140,7 @@ export function UpvoteCounter({
       onClick={handleUpvote}
       disabled={hasUpvoted || isUpvoting}
       className={`inline-flex items-center gap-1.5 transition-colors duration-200 disabled:cursor-not-allowed ${className}`}
-      style={{ color: hasUpvoted ? 'var(--accent-500)' : 'var(--text-muted)' }}
+      style={{ color: hasUpvoted ? 'var(--accent)' : 'var(--muted)' }}
       title={hasUpvoted ? 'Already upvoted' : 'Upvote this post'}
     >
       <svg

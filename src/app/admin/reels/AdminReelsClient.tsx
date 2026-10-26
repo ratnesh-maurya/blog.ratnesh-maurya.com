@@ -30,7 +30,7 @@ const emptyForm = (): Reel => ({
 
 const cardStyle: React.CSSProperties = {
   backgroundColor: 'var(--glass-bg)',
-  border: '1px solid var(--glass-border)',
+  border: '1px solid var(--line)',
   boxShadow: 'var(--glass-shadow-sm)',
   backdropFilter: 'blur(12px) saturate(160%)',
   WebkitBackdropFilter: 'blur(12px) saturate(160%)',
@@ -38,8 +38,8 @@ const cardStyle: React.CSSProperties = {
 
 const inputStyle: React.CSSProperties = {
   backgroundColor: 'var(--glass-bg-subtle)',
-  border: '1px solid var(--glass-border)',
-  color: 'var(--text-primary)',
+  border: '1px solid var(--line)',
+  color: 'var(--text)',
 };
 
 export default function AdminReelsClient() {
@@ -278,10 +278,10 @@ export default function AdminReelsClient() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="rounded-2xl p-8 max-w-md w-full" style={cardStyle}>
-          <h1 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="text-xl font-bold mb-2" style={{ color: 'var(--text)' }}>
             Reels Admin
           </h1>
-          <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm mb-5" style={{ color: 'var(--body)' }}>
             Enter the admin secret to manage reels.
           </p>
           <input
@@ -311,10 +311,10 @@ export default function AdminReelsClient() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
         <header className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-extrabold" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-2xl font-extrabold" style={{ color: 'var(--text)' }}>
               Reels Admin
             </h1>
-            <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
               Manage entries on /links
             </p>
           </div>
@@ -333,7 +333,7 @@ export default function AdminReelsClient() {
             style={{
               backgroundColor: 'var(--surface-2)',
               color: msg.type === 'ok' ? 'var(--ok-text)' : 'var(--bad)',
-              border: '1px solid var(--glass-border)',
+              border: '1px solid var(--line)',
             }}
           >
             {msg.text}
@@ -341,10 +341,10 @@ export default function AdminReelsClient() {
         )}
 
         <section className="rounded-2xl p-6 space-y-3" style={cardStyle}>
-          <h2 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
+          <h2 className="font-bold text-lg" style={{ color: 'var(--text)' }}>
             Quick add from Instagram
           </h2>
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-sm" style={{ color: 'var(--muted)' }}>
             Paste the link to your Instagram post. The title, description, date, blog link and thumbnail are filled in from it.
           </p>
           <div className="flex flex-col sm:flex-row gap-2">
@@ -377,7 +377,7 @@ export default function AdminReelsClient() {
               onClick={() => importFromInstagram(true)}
               disabled={loading}
               className="rounded-xl px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
-              style={{ backgroundColor: 'var(--accent-500)' }}
+              style={{ backgroundColor: 'var(--accent)' }}
               title="Fetch everything and save it in one step"
             >
               Fetch &amp; save
@@ -386,7 +386,7 @@ export default function AdminReelsClient() {
         </section>
 
         <form onSubmit={submit} className="rounded-2xl p-6 space-y-4" style={cardStyle}>
-          <h2 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
+          <h2 className="font-bold text-lg" style={{ color: 'var(--text)' }}>
             Add / update reel
           </h2>
 
@@ -452,7 +452,7 @@ export default function AdminReelsClient() {
                   src={thumbData ?? form.thumb_url ?? ''}
                   alt=""
                   className="w-16 aspect-square object-cover rounded-lg shrink-0"
-                  style={{ border: '1px solid var(--glass-border)' }}
+                  style={{ border: '1px solid var(--line)' }}
                 />
               ) : null}
               <div className="flex-1 space-y-2">
@@ -473,7 +473,7 @@ export default function AdminReelsClient() {
                   className="w-full rounded-xl px-3 py-2 text-sm"
                   style={inputStyle}
                 />
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                <p className="text-xs" style={{ color: 'var(--muted)' }}>
                   Leave empty to pull the cover from the Instagram post automatically, or upload the cover slide
                   (e.g. reels/&lt;slug&gt;/01-hook.png). A permanent copy is stored on save.
                 </p>
@@ -482,7 +482,7 @@ export default function AdminReelsClient() {
           </Field>
 
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+            <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
               Related links
             </label>
             <div className="space-y-2 mt-2">
@@ -548,7 +548,7 @@ export default function AdminReelsClient() {
 
         <section className="space-y-3">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="font-bold text-lg" style={{ color: 'var(--text)' }}>
               Existing reels ({reels.length})
             </h2>
             <div className="flex gap-2">
@@ -575,16 +575,16 @@ export default function AdminReelsClient() {
             </div>
           </div>
           {reels.length === 0 ? (
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>None yet.</p>
+            <p className="text-sm" style={{ color: 'var(--muted)' }}>None yet.</p>
           ) : (
             <ul className="space-y-2">
               {reels.map((r) => (
                 <li key={r.slug} className="rounded-2xl p-4 flex items-center gap-3" style={cardStyle}>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-sm truncate" style={{ color: 'var(--text-primary)' }}>
+                    <p className="font-semibold text-sm truncate" style={{ color: 'var(--text)' }}>
                       {r.title}
                     </p>
-                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>
                       {r.slug} · {r.posted_at} · {r.links?.length ?? 0} link{r.links?.length === 1 ? '' : 's'}
                     </p>
                   </div>
@@ -615,8 +615,8 @@ export default function AdminReelsClient() {
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div>
-      <label className="text-xs font-semibold uppercase tracking-wider block mb-1" style={{ color: 'var(--text-muted)' }}>
-        {label} {required && <span style={{ color: 'var(--accent-500)' }}>*</span>}
+      <label className="text-xs font-semibold uppercase tracking-wider block mb-1" style={{ color: 'var(--muted)' }}>
+        {label} {required && <span style={{ color: 'var(--accent)' }}>*</span>}
       </label>
       {children}
     </div>

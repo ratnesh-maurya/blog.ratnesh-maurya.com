@@ -7,13 +7,13 @@ export default function Loading() {
       <div className="text-center">
         <div
           className="inline-block animate-spin rounded-full h-10 w-10 border-2 border-t-transparent"
-          style={{ borderColor: 'var(--accent-300)', borderTopColor: 'transparent' }}
+          style={{ borderColor: 'var(--marigold)', borderTopColor: 'transparent' }}
           role="status"
           aria-label="Loading"
         >
           <span className="sr-only">Loading...</span>
         </div>
-        <p className="mt-4 text-sm font-medium" style={{ color: 'var(--text-muted)' }}>
+        <p className="mt-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
           Loading…
         </p>
       </div>

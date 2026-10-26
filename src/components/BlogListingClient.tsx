@@ -42,7 +42,7 @@ function MetaRow({ post, stats, isLoadingStats }: {
   isLoadingStats: boolean;
 }) {
   return (
-    <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--text-muted)' }}>
+    <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--muted)' }}>
       <time dateTime={post.date}>
         {format(new Date(post.date), 'MMM d, yyyy')}
       </time>
@@ -91,7 +91,7 @@ function CoverImage({ post, sizes, priority = false, aspectClass = 'aspect-video
       className={`relative ${aspectClass} w-full overflow-hidden flex items-center justify-center`}
       style={{ backgroundColor: 'var(--glass-bg-subtle)' }}
     >
-      <span className="text-4xl font-bold" style={{ color: 'var(--text-muted)' }}>
+      <span className="text-4xl font-bold" style={{ color: 'var(--muted)' }}>
         {post.title.charAt(0)}
       </span>
     </div>
@@ -116,13 +116,13 @@ function SmallCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
         className="nb-card flex flex-col gap-3 h-full p-3"
         style={{
           backgroundColor: 'var(--glass-bg)',
-          border: '1px solid var(--glass-border)',
+          border: '1px solid var(--line)',
           boxShadow: 'var(--glass-shadow-sm)',
           backdropFilter: 'blur(10px) saturate(160%)',
           WebkitBackdropFilter: 'blur(10px) saturate(160%)',
         }}
       >
-        <div className="rounded-lg overflow-hidden" style={{ border: '1px solid var(--nb-border)' }}>
+        <div className="rounded-lg overflow-hidden" style={{ border: '1px solid var(--line)' }}>
           <CoverImage
             post={post}
             sizes="(max-width: 768px) 100vw, 25vw"
@@ -132,7 +132,7 @@ function SmallCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
         <div>
           <h2
             className="font-semibold text-[15px] leading-snug mb-1 nb-title-hover"
-            style={{ color: 'var(--text-primary)' }}
+            style={{ color: 'var(--text)' }}
           >
             {post.title}
           </h2>
@@ -160,13 +160,13 @@ function HeroCard({ post, stats, isLoadingStats }: {
         className="nb-card flex flex-col gap-4 h-full p-5"
         style={{
           backgroundColor: 'var(--glass-bg)',
-          border: '1px solid var(--glass-border)',
+          border: '1px solid var(--line)',
           boxShadow: 'var(--glass-shadow)',
           backdropFilter: 'blur(12px) saturate(160%)',
           WebkitBackdropFilter: 'blur(12px) saturate(160%)',
         }}
       >
-        <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--nb-border)' }}>
+        <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--line)' }}>
           <CoverImage
             post={post}
             sizes="(max-width: 768px) 100vw, 40vw"
@@ -178,12 +178,12 @@ function HeroCard({ post, stats, isLoadingStats }: {
           <span className="nb-badge nb-badge-primary self-start">{post.category}</span>
           <h2
             className="font-semibold text-xl md:text-2xl lg:text-3xl leading-snug nb-title-hover"
-            style={{ color: 'var(--text-primary)' }}
+            style={{ color: 'var(--text)' }}
           >
             {post.title}
           </h2>
           {post.description && (
-            <p className="text-sm md:text-base leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm md:text-base leading-relaxed line-clamp-2" style={{ color: 'var(--body)' }}>
               {post.description}
             </p>
           )}
@@ -212,13 +212,13 @@ function GridCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
         className="nb-card flex flex-col gap-3 h-full"
         style={{
           backgroundColor: 'var(--glass-bg)',
-          border: '1px solid var(--glass-border)',
+          border: '1px solid var(--line)',
           boxShadow: 'var(--glass-shadow-sm)',
           backdropFilter: 'blur(10px) saturate(160%)',
           WebkitBackdropFilter: 'blur(10px) saturate(160%)',
         }}
       >
-        <div className="rounded-t-[10px] overflow-hidden" style={{ borderBottom: '1px solid var(--nb-border)' }}>
+        <div className="rounded-t-[10px] overflow-hidden" style={{ borderBottom: '1px solid var(--line)' }}>
           <CoverImage
             post={post}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -229,12 +229,12 @@ function GridCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
           <span className="nb-badge nb-badge-primary self-start">{post.category}</span>
           <h2
             className="font-semibold text-base leading-snug nb-title-hover"
-            style={{ color: 'var(--text-primary)' }}
+            style={{ color: 'var(--text)' }}
           >
             {post.title}
           </h2>
           {post.description && (
-            <p className="text-sm leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm leading-relaxed line-clamp-2" style={{ color: 'var(--body)' }}>
               {post.description}
             </p>
           )}
@@ -448,8 +448,8 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
         ) : (
           /* ━━━ No Results ━━━ */
           <div className="text-center py-20">
-            <p className="text-lg mb-2" style={{ color: 'var(--text-primary)' }}>No stories found</p>
-            <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-lg mb-2" style={{ color: 'var(--text)' }}>No stories found</p>
+            <p className="text-sm mb-6" style={{ color: 'var(--muted)' }}>
               {selectedTag
                 ? `No posts tagged "${selectedTag}". Try another topic.`
                 : 'No blog posts available yet. Check back soon!'}

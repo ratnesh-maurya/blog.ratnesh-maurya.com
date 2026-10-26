@@ -316,7 +316,7 @@ export function AnalyticsDashboard() {
         className="sticky top-16 z-30 -mx-1 px-1 py-2 rounded-2xl"
         style={{
           backgroundColor: 'var(--glass-bg)',
-          border: '1px solid var(--glass-border)',
+          border: '1px solid var(--line)',
           boxShadow: 'var(--glass-shadow-sm)',
           backdropFilter: 'blur(12px) saturate(160%)',
           WebkitBackdropFilter: 'blur(12px) saturate(160%)',
@@ -336,14 +336,14 @@ export function AnalyticsDashboard() {
                 }}
                 aria-current={on ? 'true' : undefined}
                 className="shrink-0 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-semibold transition-colors duration-200"
-                style={on ? { backgroundColor: 'var(--pill)', color: 'var(--on-pill)' } : { backgroundColor: 'var(--surface-tint)', color: 'var(--text-secondary)' }}
+                style={on ? { backgroundColor: 'var(--pill)', color: 'var(--on-pill)' } : { backgroundColor: 'var(--surface-tint)', color: 'var(--body)' }}
               >
                 {g.label}
               </a>
             );
           })}
         </nav>
-        <div className="flex flex-nowrap items-center gap-2 px-3 pt-1.5 text-xs overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ color: 'var(--text-muted)' }}>
+        <div className="flex flex-nowrap items-center gap-2 px-3 pt-1.5 text-xs overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ color: 'var(--muted)' }}>
           <span className="font-semibold shrink-0">Show:</span>
           {TYPE_FILTERS.map((f) => (
             <button
@@ -352,7 +352,7 @@ export function AnalyticsDashboard() {
               onClick={() => setSelectedType(f.id)}
               aria-pressed={selectedType === f.id}
               className="shrink-0 px-2.5 py-1 rounded-full font-semibold transition-colors duration-200"
-              style={selectedType === f.id ? { backgroundColor: 'var(--surface-tint-strong)', color: 'var(--text-primary)', border: '1px solid var(--surface-tint-border)' } : { color: 'var(--text-secondary)', border: '1px solid transparent' }}
+              style={selectedType === f.id ? { backgroundColor: 'var(--surface-tint-strong)', color: 'var(--text)', border: '1px solid var(--surface-tint-border)' } : { color: 'var(--body)', border: '1px solid transparent' }}
             >
               {f.label}
             </button>
@@ -365,9 +365,9 @@ export function AnalyticsDashboard() {
       {GROUPS.map((g) => (
         <section key={g.id} id={`group-${g.id}`} aria-labelledby={`group-title-${g.id}`} className="scroll-mt-40 space-y-3">
           <header className="px-1">
-            <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>{g.label}</p>
-            <h2 id={`group-title-${g.id}`} className="text-xl sm:text-2xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>{g.question}</h2>
-            <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>{g.blurb}</p>
+            <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>{g.label}</p>
+            <h2 id={`group-title-${g.id}`} className="text-xl sm:text-2xl font-black tracking-tight" style={{ color: 'var(--text)' }}>{g.question}</h2>
+            <p className="text-sm mt-0.5" style={{ color: 'var(--body)' }}>{g.blurb}</p>
           </header>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={(e) => handleDragEnd(g.id, e)}>
             <SortableContext items={order[g.id] ?? g.sections} strategy={verticalListSortingStrategy}>
@@ -390,17 +390,17 @@ export function AnalyticsDashboard() {
       ))}
 
       <details className="nb-card rounded-2xl group/glossary" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <summary className="cursor-pointer list-none flex items-center justify-between gap-3 px-5 py-4 text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
+        <summary className="cursor-pointer list-none flex items-center justify-between gap-3 px-5 py-4 text-sm font-bold" style={{ color: 'var(--text)' }}>
           <span>What do these terms mean?</span>
-          <svg className="w-4 h-4 transition-transform duration-300 group-open/glossary:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--text-muted)' }} aria-hidden="true">
+          <svg className="w-4 h-4 transition-transform duration-300 group-open/glossary:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--muted)' }} aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </summary>
         <dl className="px-5 pb-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
           {GLOSSARY.map(([term, meaning]) => (
             <div key={term}>
-              <dt className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{term}</dt>
-              <dd className="text-xs leading-relaxed mt-0.5" style={{ color: 'var(--text-secondary)' }}>{meaning}</dd>
+              <dt className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{term}</dt>
+              <dd className="text-xs leading-relaxed mt-0.5" style={{ color: 'var(--body)' }}>{meaning}</dd>
             </div>
           ))}
         </dl>

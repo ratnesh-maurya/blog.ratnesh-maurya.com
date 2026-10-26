@@ -19,8 +19,8 @@ export function RelatedTerms({ terms, currentSlug, count = 10 }: RelatedTermsPro
   if (displayTerms.length === 0) return null;
 
   return (
-    <aside aria-label="Related technical terms" className="mt-10 pt-8" style={{ borderTop: '1px solid var(--border)' }}>
-      <h3 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>
+    <aside aria-label="Related technical terms" className="mt-10 pt-8" style={{ borderTop: '1px solid var(--line)' }}>
+      <h3 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--muted)' }}>
         Explore Technical Terms
       </h3>
       <div className="flex flex-wrap gap-2">

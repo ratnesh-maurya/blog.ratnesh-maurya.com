@@ -32,13 +32,13 @@ export function TILListingClient({ entries, categories }: TILListingClientProps)
     <>
       {/* Category filter tabs — Medium style */}
       <nav className="flex items-center gap-2 overflow-x-auto pb-3 mb-8 scrollbar-hide"
-        style={{ borderBottom: '1px solid var(--border)' }}>
+        style={{ borderBottom: '1px solid var(--line)' }}>
         <button
           onClick={() => setActiveCategory(null)}
           className="whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors font-medium"
           style={!activeCategory
-            ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
-            : { color: 'var(--text-muted)' }
+            ? { backgroundColor: 'var(--text)', color: 'var(--bg)' }
+            : { color: 'var(--muted)' }
           }
         >
           All
@@ -48,8 +48,8 @@ export function TILListingClient({ entries, categories }: TILListingClientProps)
             onClick={() => setActiveCategory(activeCategory === cat ? null : cat)}
             className="whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors font-medium"
             style={activeCategory === cat
-              ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
-              : { color: 'var(--text-muted)' }
+              ? { backgroundColor: 'var(--text)', color: 'var(--bg)' }
+              : { color: 'var(--muted)' }
             }
           >
             {cat}
@@ -72,12 +72,12 @@ export function TILListingClient({ entries, categories }: TILListingClientProps)
 
                 {/* Title */}
                 <h2 className="text-[20px] md:text-[22px] font-bold leading-snug mb-1.5 group-hover:underline decoration-1 underline-offset-2"
-                  style={{ color: 'var(--text-primary)' }}>
+                  style={{ color: 'var(--text)' }}>
                   {entry.title}
                 </h2>
 
                 {/* Meta row */}
-                <div className="flex items-center gap-1 text-[13px] flex-wrap" style={{ color: 'var(--text-muted)' }}>
+                <div className="flex items-center gap-1 text-[13px] flex-wrap" style={{ color: 'var(--muted)' }}>
                   <time dateTime={entry.date}>
                     {format(new Date(entry.date), 'MMM d, yyyy')}
                   </time>
@@ -97,20 +97,20 @@ export function TILListingClient({ entries, categories }: TILListingClientProps)
               </article>
             </Link>
             {index < filteredEntries.length - 1 && (
-              <hr className="border-0" style={{ borderTop: '1px solid var(--border)' }} />
+              <hr className="border-0" style={{ borderTop: '1px solid var(--line)' }} />
             )}
           </div>
         ))}
       </div>
 
       {filteredEntries.length === 0 && (
-        <div className="text-center py-20" style={{ color: 'var(--text-muted)' }}>
+        <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
                     <p className="text-base font-medium">
             {activeCategory ? `No entries in "${activeCategory}" yet.` : 'First TIL entry coming soon.'}
           </p>
           {activeCategory && (
             <button onClick={() => setActiveCategory(null)}
-              className="mt-3 text-sm font-medium" style={{ color: 'var(--accent-500)' }}>
+              className="mt-3 text-sm font-medium" style={{ color: 'var(--accent)' }}>
               Show all entries →
             </button>
           )}

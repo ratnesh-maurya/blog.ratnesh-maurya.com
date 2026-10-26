@@ -127,7 +127,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
       className="nb-card p-4 md:p-5"
       style={{
         backgroundColor: 'var(--glass-bg)',
-        border: '1px solid var(--glass-border)',
+        border: '1px solid var(--line)',
         boxShadow: 'var(--glass-shadow-sm)',
         backdropFilter: 'blur(10px) saturate(160%)',
         WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -135,20 +135,20 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
     >
       <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
             This week at a glance
           </p>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm mt-1" style={{ color: 'var(--body)' }}>
             {rangeLabel}, compared with the 7 days before
           </p>
         </div>
-        <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
+        <div className="text-xs" style={{ color: 'var(--muted)' }}>
           Based on page views and upvotes
         </div>
       </div>
 
       {summary && (
-        <p className="text-base sm:text-lg font-semibold leading-snug mb-4" style={{ color: 'var(--text-primary)' }}>
+        <p className="text-base sm:text-lg font-semibold leading-snug mb-4" style={{ color: 'var(--text)' }}>
           {summary}
         </p>
       )}
@@ -165,77 +165,77 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
       ) : error ? (
         <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
           <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
-          <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
             Try widening the range from the “Post views” section if data is sparse.
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-            <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
               Page views, last 7 days
             </p>
             <div className="mt-1 flex items-baseline gap-2">
-              <p className="text-xl font-bold tabular-nums" style={{ color: 'var(--accent-500)' }}>
+              <p className="text-xl font-bold tabular-nums" style={{ color: 'var(--accent)' }}>
                 {formatNumber(curViews)}
               </p>
               <span
                 className="text-xs font-semibold tabular-nums px-2 py-0.5 rounded-full"
                 style={{
                   backgroundColor: viewsDelta >= 0 ? 'var(--glass-bg-subtle)' : 'rgba(185, 28, 28, 0.08)',
-                  color: viewsDelta >= 0 ? 'var(--accent-700)' : 'rgb(185 28 28)',
-                  border: '1px solid var(--glass-border)',
+                  color: viewsDelta >= 0 ? 'var(--accent)' : 'rgb(185 28 28)',
+                  border: '1px solid var(--line)',
                 }}
               >
                 {viewsDelta >= 0 ? '+' : ''}
                 {viewsDelta}%
               </span>
             </div>
-            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
               Week before: {formatNumber(prevViews)}
             </p>
           </div>
 
           <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-            <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
               Upvotes, last 7 days
             </p>
             <div className="mt-1 flex items-baseline gap-2">
-              <p className="text-xl font-bold tabular-nums" style={{ color: 'var(--text-primary)' }}>
+              <p className="text-xl font-bold tabular-nums" style={{ color: 'var(--text)' }}>
                 {formatNumber(curUpvotes)}
               </p>
               <span
                 className="text-xs font-semibold tabular-nums px-2 py-0.5 rounded-full"
                 style={{
                   backgroundColor: upvotesDelta >= 0 ? 'var(--glass-bg-subtle)' : 'rgba(185, 28, 28, 0.08)',
-                  color: upvotesDelta >= 0 ? 'var(--accent-700)' : 'rgb(185 28 28)',
-                  border: '1px solid var(--glass-border)',
+                  color: upvotesDelta >= 0 ? 'var(--accent)' : 'rgb(185 28 28)',
+                  border: '1px solid var(--line)',
                 }}
               >
                 {upvotesDelta >= 0 ? '+' : ''}
                 {upvotesDelta}%
               </span>
             </div>
-            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
               Week before: {formatNumber(prevUpvotes)}
             </p>
           </div>
 
           <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-            <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
               Most-read type
             </p>
             {topType ? (
               <>
-                <p className="text-xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>
+                <p className="text-xl font-bold mt-1" style={{ color: 'var(--text)' }}>
                   {topType.label}
                 </p>
-                <p className="text-xs mt-1 tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                <p className="text-xs mt-1 tabular-nums" style={{ color: 'var(--muted)' }}>
                   {formatNumber(topType.views)} views in the last 7 days
                 </p>
               </>
             ) : (
-              <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-sm mt-2" style={{ color: 'var(--muted)' }}>
                 Not enough data yet.
               </p>
             )}

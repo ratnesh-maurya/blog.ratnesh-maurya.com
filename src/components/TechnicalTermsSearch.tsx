@@ -94,14 +94,14 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
           className="w-full rounded-xl border px-4 py-3 pl-10 text-base"
           style={{
             backgroundColor: 'var(--surface)',
-            borderColor: 'var(--border)',
-            color: 'var(--text-primary)',
+            borderColor: 'var(--line)',
+            color: 'var(--text)',
           }}
           aria-describedby="search-results-count"
         />
         <svg
           className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none"
-          style={{ color: 'var(--text-muted)' }}
+          style={{ color: 'var(--muted)' }}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -113,7 +113,7 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
       {/* Most read */}
       {!query.trim() && popular.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+          <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
             Most read
           </span>
           {popular.map((t) => (
@@ -123,7 +123,7 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
               className="text-xs font-semibold px-3 py-1.5 rounded-full transition-colors hover:brightness-95"
               style={{
                 backgroundColor: 'var(--accent-50)',
-                color: 'var(--accent-700)',
+                color: 'var(--accent)',
                 border: '1px solid var(--accent-100)',
               }}
             >
@@ -145,9 +145,9 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
               disabled={!isActive}
               className="w-8 h-8 rounded-lg text-xs font-semibold flex items-center justify-center transition-colors"
               style={{
-                backgroundColor: isSelected ? 'var(--nb-badge-bg)' : isActive ? 'var(--surface)' : 'transparent',
-                color: isSelected ? 'var(--nb-badge-text)' : isActive ? 'var(--text-primary)' : 'var(--text-muted)',
-                border: isActive ? '1px solid var(--nb-border)' : '1px solid transparent',
+                backgroundColor: isSelected ? 'var(--pill)' : isActive ? 'var(--surface)' : 'transparent',
+                color: isSelected ? 'var(--on-pill)' : isActive ? 'var(--text)' : 'var(--muted)',
+                border: isActive ? '1px solid var(--line)' : '1px solid transparent',
                 opacity: isActive ? 1 : 0.4,
                 cursor: isActive ? 'pointer' : 'default',
               }}
@@ -158,7 +158,7 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
         })}
       </div>
 
-      <p id="search-results-count" className="text-sm" style={{ color: 'var(--text-muted)' }}>
+      <p id="search-results-count" className="text-sm" style={{ color: 'var(--muted)' }}>
         {filtered.length} {filtered.length === 1 ? 'term' : 'terms'}
         {query.trim() ? ` matching "${query}"` : ''}
       </p>
@@ -168,11 +168,11 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
         {grouped.map(([letter, letterTerms]) => (
           <div key={letter} id={`letter-${letter}`}>
             <div className="sticky top-16 z-10 py-2 px-1 -mx-1 backdrop-blur-sm"
-              style={{ backgroundColor: 'color-mix(in srgb, var(--background) 85%, transparent)' }}>
-              <span className="text-sm font-bold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
+              style={{ backgroundColor: 'color-mix(in srgb, var(--bg) 85%, transparent)' }}>
+              <span className="text-sm font-bold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
                 {letter}
               </span>
-              <span className="text-xs ml-2" style={{ color: 'var(--text-muted)' }}>
+              <span className="text-xs ml-2" style={{ color: 'var(--muted)' }}>
                 {letterTerms.length}
               </span>
             </div>
@@ -184,13 +184,13 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
                 >
                   <article>
                     <h2 className="text-[18px] md:text-[20px] font-bold leading-snug mb-1 group-hover:underline decoration-1 underline-offset-2"
-                      style={{ color: 'var(--text-primary)' }}>
+                      style={{ color: 'var(--text)' }}>
                       {term.title}
                     </h2>
-                    <p className="text-[14px] leading-relaxed line-clamp-2 mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    <p className="text-[14px] leading-relaxed line-clamp-2 mb-2" style={{ color: 'var(--body)' }}>
                       {term.description}
                     </p>
-                    <div className="flex items-center gap-1 text-[13px]" style={{ color: 'var(--text-muted)' }}>
+                    <div className="flex items-center gap-1 text-[13px]" style={{ color: 'var(--muted)' }}>
                       {statsLoaded && stats.views[term.slug] != null && (
                         <>
                           <ViewCounter type="technical-terms" slug={term.slug} showLabel={false} className="text-[13px]" initialCount={stats.views[term.slug] ?? 0} />
@@ -198,7 +198,7 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
                           <span className="mx-1">·</span>
                         </>
                       )}
-                      <span className="text-xs font-semibold flex items-center gap-1" style={{ color: 'var(--accent-500)' }}>
+                      <span className="text-xs font-semibold flex items-center gap-1" style={{ color: 'var(--accent)' }}>
                         Read definition
                         <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -208,7 +208,7 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
                   </article>
                 </Link>
                 {index < letterTerms.length - 1 && (
-                  <hr className="border-0" style={{ borderTop: '1px solid var(--border)' }} />
+                  <hr className="border-0" style={{ borderTop: '1px solid var(--line)' }} />
                 )}
               </div>
             ))}
@@ -216,7 +216,7 @@ export function TechnicalTermsSearch({ terms }: { terms: TermCard[] }) {
         ))}
       </div>
       {filtered.length === 0 && (
-        <p className="text-center py-8" style={{ color: 'var(--text-muted)' }}>
+        <p className="text-center py-8" style={{ color: 'var(--muted)' }}>
           No terms match your search. Try a different keyword.
         </p>
       )}

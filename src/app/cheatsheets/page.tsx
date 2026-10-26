@@ -53,19 +53,19 @@ export default function CheatsheetsPage() {
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
-              style={{ color: 'var(--accent-500)' }}>
+              style={{ color: 'var(--accent)' }}>
               Quick Reference
             </p>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3"
-              style={{ color: 'var(--text-primary)' }}>
+              style={{ color: 'var(--text)' }}>
               Cheatsheets
             </h1>
-            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'var(--muted)' }}>
               The commands and syntax I look up most. Bookmarkable quick references for the tools in my daily stack.
             </p>
 
             {/* Stats */}
-            <div className="flex flex-wrap items-center gap-3 mt-6 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
+            <div className="flex flex-wrap items-center gap-3 mt-6 pt-6" style={{ borderTop: '1px solid var(--line)' }}>
               <span className="nb-badge nb-badge-muted">
                 {sheets.length} cheatsheets
               </span>
@@ -75,9 +75,9 @@ export default function CheatsheetsPage() {
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
           <CheatsheetsListingClient sheets={sheets} />
-          <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--line)' }}>
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-4"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               Share this page
             </h2>
             <SocialShare

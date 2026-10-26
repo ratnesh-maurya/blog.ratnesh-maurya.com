@@ -16,7 +16,7 @@ const THRESHOLDS: Record<string, { good: number; poor: number; unit: string }> =
 
 function ratingColor(metric: string, p75: number): string {
   const t = THRESHOLDS[metric];
-  if (!t) return 'var(--text-primary)';
+  if (!t) return 'var(--text)';
   if (p75 <= t.good) return 'var(--ok-text)';
   if (p75 <= t.poor) return 'var(--warning)';
   return 'var(--bad)';
@@ -52,7 +52,7 @@ export function WebVitalsSection() {
   if (!summary || summary.byMetric.length === 0) {
     return (
       <div className="nb-card-sm p-6" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+        <p className="text-sm" style={{ color: 'var(--muted)' }}>
           No web-vitals samples yet. Real-user metrics start collecting once this deploy is live.
         </p>
       </div>
@@ -64,13 +64,13 @@ export function WebVitalsSection() {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {summary.byMetric.map((m) => (
           <div key={m.metric} className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-            <p className="text-[11px] font-bold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-[11px] font-bold uppercase tracking-wider mb-1" style={{ color: 'var(--muted)' }}>
               {m.metric}
             </p>
             <p className="text-xl font-black" style={{ color: ratingColor(m.metric, m.p75) }}>
               {formatValue(m.metric, m.p75)}
             </p>
-            <p className="text-[11px] mt-1" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-[11px] mt-1" style={{ color: 'var(--muted)' }}>
               p75 · {m.count.toLocaleString()} samples · {m.goodPct}% good
             </p>
           </div>
@@ -79,15 +79,15 @@ export function WebVitalsSection() {
 
       {summary.worstLcpPaths.length > 0 && (
         <div className="nb-card-sm p-5" style={{ backgroundColor: 'var(--glass-bg)' }}>
-          <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+          <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>
             Slowest pages by LCP (p75)
           </h3>
           <div className="space-y-2">
             {summary.worstLcpPaths.map((p) => (
               <div key={p.path} className="flex items-center justify-between gap-3">
-                <span className="text-xs font-medium truncate" style={{ color: 'var(--text-secondary)' }}>{p.path}</span>
+                <span className="text-xs font-medium truncate" style={{ color: 'var(--body)' }}>{p.path}</span>
                 <span className="text-xs font-bold flex-shrink-0" style={{ color: ratingColor('LCP', p.p75) }}>
-                  {Math.round(p.p75)}ms <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>({p.count})</span>
+                  {Math.round(p.p75)}ms <span style={{ color: 'var(--muted)', fontWeight: 500 }}>({p.count})</span>
                 </span>
               </div>
             ))}

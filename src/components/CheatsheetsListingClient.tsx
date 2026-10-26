@@ -37,7 +37,7 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
           className="on-card group flex flex-col rounded-2xl p-6 transition-all duration-150 hover:-translate-y-1"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow-sm)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -46,19 +46,19 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
           <div className="flex items-start justify-between mb-4">
             {statsLoaded && stats.views[sheet.slug] != null && (
               <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium"
-                style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}>
+                style={{ backgroundColor: 'var(--surface-2)', color: 'var(--muted)' }}>
                 <ViewCounter type="cheatsheets" slug={sheet.slug} showLabel={false} className="text-xs" initialCount={stats.views[sheet.slug] ?? 0} />
                 <span>views</span>
               </span>
             )}
           </div>
 
-          <h2 className="text-lg font-extrabold leading-snug mb-1.5 group-hover:text-[var(--accent-500)] transition-colors"
-            style={{ color: 'var(--text-primary)' }}>
+          <h2 className="text-lg font-extrabold leading-snug mb-1.5 group-hover:text-[var(--accent)] transition-colors"
+            style={{ color: 'var(--text)' }}>
             {sheet.title}
           </h2>
           <p className="text-sm leading-relaxed mb-4 flex-1"
-            style={{ color: 'var(--text-secondary)' }}>
+            style={{ color: 'var(--body)' }}>
             {sheet.subtitle}
           </p>
 
@@ -71,7 +71,7 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
           </div>
 
           <span className="mt-auto text-xs font-semibold flex items-center gap-1"
-            style={{ color: 'var(--accent-500)' }}>
+            style={{ color: 'var(--accent)' }}>
             Open cheatsheet
             <svg className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

@@ -87,13 +87,13 @@ export function DemoBarChart() {
       className="my-8 rounded-2xl p-4 md:p-6"
       style={{
         backgroundColor: 'var(--surface)',
-        border: '1px solid var(--border)',
+        border: '1px solid var(--line)',
       }}
     >
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+      <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
         Demo chart
       </p>
-      <p className="mb-3 text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+      <p className="mb-3 text-sm font-semibold" style={{ color: 'var(--text)' }}>
         Views by section
       </p>
       <div
@@ -104,19 +104,19 @@ export function DemoBarChart() {
           <BarChart data={DEMO_BAR_DATA} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <XAxis
               dataKey="name"
-              tick={{ fill: 'var(--text-muted)', fontSize: 12 }}
+              tick={{ fill: 'var(--muted)', fontSize: 12 }}
               stroke="var(--line)"
             />
             <YAxis
-              tick={{ fill: 'var(--text-muted)', fontSize: 12 }}
+              tick={{ fill: 'var(--muted)', fontSize: 12 }}
               stroke="var(--line)"
             />
             <Tooltip
               contentStyle={{
                 backgroundColor: 'var(--surface)',
-                border: '1px solid var(--border)',
+                border: '1px solid var(--line)',
                 borderRadius: 12,
-                color: 'var(--text-primary)',
+                color: 'var(--text)',
               }}
             />
             <Legend />
@@ -147,13 +147,13 @@ export function DemoPieChart() {
       className="my-8 rounded-2xl p-4 md:p-6"
       style={{
         backgroundColor: 'var(--surface)',
-        border: '1px solid var(--border)',
+        border: '1px solid var(--line)',
       }}
     >
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+      <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
         Demo chart
       </p>
-      <p className="mb-3 text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+      <p className="mb-3 text-sm font-semibold" style={{ color: 'var(--text)' }}>
         Traffic sources
       </p>
       <div
@@ -178,9 +178,9 @@ export function DemoPieChart() {
             <Tooltip
               contentStyle={{
                 backgroundColor: 'var(--surface)',
-                border: '1px solid var(--border)',
+                border: '1px solid var(--line)',
                 borderRadius: 12,
-                color: 'var(--text-primary)',
+                color: 'var(--text)',
               }}
             />
           </PieChart>
@@ -201,13 +201,13 @@ export function CachingAdoptionPieChart() {
       className="my-8 rounded-2xl p-4 md:p-6"
       style={{
         backgroundColor: 'var(--surface)',
-        border: '1px solid var(--border)',
+        border: '1px solid var(--line)',
       }}
     >
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+      <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
         Industry adoption
       </p>
-      <p className="mb-3 text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+      <p className="mb-3 text-sm font-semibold" style={{ color: 'var(--text)' }}>
         Estimated usage in distributed systems (%)
       </p>
       <div className="w-full overflow-hidden" style={{ height: 280, minHeight: 280 }}>
@@ -231,9 +231,9 @@ export function CachingAdoptionPieChart() {
             <Tooltip
               contentStyle={{
                 backgroundColor: 'var(--surface)',
-                border: '1px solid var(--border)',
+                border: '1px solid var(--line)',
                 borderRadius: 12,
-                color: 'var(--text-primary)',
+                color: 'var(--text)',
               }}
               formatter={(value: number | undefined) => [`${value ?? 0}%`, 'Usage']}
             />
@@ -242,19 +242,19 @@ export function CachingAdoptionPieChart() {
       </div>
       <ul className="mt-4 grid grid-cols-2 gap-2 text-xs">
         {CACHING_ADOPTION_DATA.map((item, i) => (
-          <li key={item.name} className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
+          <li key={item.name} className="flex items-center gap-2" style={{ color: 'var(--body)' }}>
             <span
               className="h-2.5 w-2.5 rounded-full"
               style={{ backgroundColor: CACHING_ADOPTION_COLORS[i % CACHING_ADOPTION_COLORS.length] }}
             />
             <span className="truncate">{item.name}</span>
-            <span className="ml-auto font-semibold" style={{ color: 'var(--text-primary)' }}>
+            <span className="ml-auto font-semibold" style={{ color: 'var(--text)' }}>
               {item.value}%
             </span>
           </li>
         ))}
       </ul>
-      <p className="mt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
+      <p className="mt-3 text-xs" style={{ color: 'var(--muted)' }}>
         <strong>Insight:</strong> Cache Aside dominates due to resilience—if the cache fails, the app can still read from the database.
       </p>
     </div>
@@ -271,13 +271,13 @@ export function CachingTradeoffChart() {
       className="my-8 rounded-2xl p-4 md:p-6"
       style={{
         backgroundColor: 'var(--surface)',
-        border: '1px solid var(--border)',
+        border: '1px solid var(--line)',
       }}
     >
-      <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+      <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
         Trade-off
       </p>
-      <p className="mb-3 text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+      <p className="mb-3 text-sm font-semibold" style={{ color: 'var(--text)' }}>
         Consistency vs write speed (1–10)
       </p>
       <div className="w-full overflow-hidden" style={{ height: 280, minHeight: 280 }}>
@@ -290,22 +290,22 @@ export function CachingTradeoffChart() {
             <XAxis
               type="number"
               domain={[0, 11]}
-              tick={{ fill: 'var(--text-muted)', fontSize: 11 }}
+              tick={{ fill: 'var(--muted)', fontSize: 11 }}
               stroke="var(--line)"
             />
             <YAxis
               type="category"
               dataKey="name"
               width={80}
-              tick={{ fill: 'var(--text-muted)', fontSize: 11 }}
+              tick={{ fill: 'var(--muted)', fontSize: 11 }}
               stroke="var(--line)"
             />
             <Tooltip
               contentStyle={{
                 backgroundColor: 'var(--surface)',
-                border: '1px solid var(--border)',
+                border: '1px solid var(--line)',
                 borderRadius: 12,
-                color: 'var(--text-primary)',
+                color: 'var(--text)',
               }}
             />
             <Legend />
@@ -326,7 +326,7 @@ export function CachingTradeoffChart() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <p className="mt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
+      <p className="mt-3 text-xs" style={{ color: 'var(--muted)' }}>
         <strong>Insight:</strong> Write Back is fastest for writes but riskiest; Write Through is safest but slowest on writes.
       </p>
     </div>

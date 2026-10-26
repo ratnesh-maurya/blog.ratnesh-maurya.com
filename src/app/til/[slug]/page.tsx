@@ -63,8 +63,8 @@ export default async function TILEntryPage({ params }: TILPageProps) {
           {/* Back navigation */}
           <Link
             href="/til"
-            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent-500)]"
-            style={{ color: 'var(--text-muted)' }}
+            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent)]"
+            style={{ color: 'var(--muted)' }}
           >
             <svg className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -75,11 +75,11 @@ export default async function TILEntryPage({ params }: TILPageProps) {
           {/* Header */}
           <header className="mb-10">
             {/* Metadata row */}
-            <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+            <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--muted)' }}>
               <span className="nb-badge nb-badge-muted inline-flex items-center gap-1.5">
                 {entry.category}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--border)' }}>·</span>
+              <span aria-hidden="true" style={{ color: 'var(--line)' }}>·</span>
               <time dateTime={entry.date}>
                 {format(new Date(entry.date), 'MMMM dd, yyyy')}
               </time>
@@ -89,8 +89,8 @@ export default async function TILEntryPage({ params }: TILPageProps) {
                   title: entry.title,
                   description: `TIL: ${entry.title}`,
                 }).toString()}`}
-                className="ml-auto inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors hover:border-[var(--accent-400)] hover:text-[var(--text-primary)]"
-                style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+                className="ml-auto inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors hover:border-[var(--marigold)] hover:text-[var(--text)]"
+                style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}
               >
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
@@ -102,7 +102,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
             {/* Title */}
             <h1
               className="font-extrabold text-3xl md:text-4xl tracking-tight leading-tight mb-4"
-              style={{ color: 'var(--text-primary)' }}
+              style={{ color: 'var(--text)' }}
             >
               {entry.title}
             </h1>
@@ -113,7 +113,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
                 <span
                   key={tag}
                   className="text-xs px-2 py-0.5 rounded-md"
-                  style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}
+                  style={{ backgroundColor: 'var(--surface-2)', color: 'var(--muted)' }}
                 >
                   #{tag}
                 </span>

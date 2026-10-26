@@ -4,7 +4,7 @@ A modern, SEO-optimized blog built with Next.js, featuring markdown-based conten
 
 ## 🚀 Features 
 
-- **Modern Design**: Clean, responsive design inspired by Medium
+- **Ledger design**: the same design system as [ratneshmaurya.com](https://ratneshmaurya.com): warm paper and ink, Instrument Serif headings, mono labels, one marigold→kumkum gradient word per heading, dark by default (see [Design](#-design))
 - **Markdown-Based**: Write blog posts and silly questions in markdown
 - **SEO Optimized**: Comprehensive SEO with meta tags, structured data, sitemap, and RSS feed
 - **Static Export**: Fully static site generation for fast loading and easy deployment
@@ -12,6 +12,23 @@ A modern, SEO-optimized blog built with Next.js, featuring markdown-based conten
 - **Syntax Highlighting**: Beautiful code highlighting for technical content
 - **Responsive**: Mobile-first design that works on all devices
 - **Fast**: Optimized for performance with Next.js
+
+## 🎨 Design
+
+The site uses the "Ledger" design system described in [DESIGN.md](DESIGN.md). The live portfolio at
+[ratneshmaurya.com](https://ratneshmaurya.com) is the visual reference: when the spec and the portfolio
+disagree, match the portfolio.
+
+- **Tokens:** `src/app/globals.css` (`:root` and `:root[data-theme="dark"]`). Components use role tokens only
+  (`--bg`, `--surface`, `--text`, `--body`, `--muted`, `--line`, `--rule`, `--accent`, `--pill`, `--on-pill`),
+  never raw hex. Charts use `--chart-1…6`; error states use `--bad`.
+- **Fonts:** self-hosted in `public/fonts` and declared in `src/app/fonts.css`: Instrument Serif (headings),
+  Geist (body), JetBrains Mono (labels, dates, tags), Tiro Devanagari Hindi (the रत्न rail and footer wordmark).
+- **Theme:** dark is rendered on the server; a pre-paint script switches to light only if the visitor chose it.
+- **OG images:** `scripts/og-card.tsx`, rendered by `scripts/build-og-all.tsx` into `public/og` (run with
+  `--force` after changing the card). The Devanagari watermark is a pre-rendered PNG because satori cannot
+  shape conjuncts.
+- **Migration notes:** [plan.md](plan.md).
 
 ## 📁 Project Structure
 

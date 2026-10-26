@@ -76,22 +76,22 @@ export default async function SeriesPage() {
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
-              style={{ color: 'var(--accent-500)' }}>
+              style={{ color: 'var(--accent)' }}>
               Learning Paths
             </p>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
-              style={{ color: 'var(--text-primary)' }}>
+              style={{ color: 'var(--text)' }}>
               Series
             </h1>
-            <p className="text-base leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-base leading-relaxed max-w-xl" style={{ color: 'var(--body)' }}>
               Related posts grouped into reading paths. New posts are added automatically when you publish with the matching category or tag.
             </p>
-            <div className="flex flex-wrap gap-4 mt-6 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
-              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
-                <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{series.length}</span> series
+            <div className="flex flex-wrap gap-4 mt-6 pt-6" style={{ borderTop: '1px solid var(--line)' }}>
+              <span className="text-sm" style={{ color: 'var(--muted)' }}>
+                <span className="font-semibold" style={{ color: 'var(--text)' }}>{series.length}</span> series
               </span>
-              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
-                <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+              <span className="text-sm" style={{ color: 'var(--muted)' }}>
+                <span className="font-semibold" style={{ color: 'var(--text)' }}>
                   {series.reduce((sum, s) => sum + s.posts.length, 0)}
                 </span> posts total
               </span>
@@ -104,7 +104,7 @@ export default async function SeriesPage() {
             <section key={s.id}
               className="rounded-2xl overflow-hidden"
               style={{
-                border: '1px solid var(--glass-border)',
+                border: '1px solid var(--line)',
                 boxShadow: 'var(--glass-shadow)',
                 backdropFilter: 'blur(10px) saturate(160%)',
                 WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -114,14 +114,14 @@ export default async function SeriesPage() {
               <div className="on-card px-6 pt-6 pb-4"
                 style={{
                   backgroundColor: 'var(--glass-bg)',
-                  borderBottom: '1px solid var(--glass-border)',
+                  borderBottom: '1px solid var(--line)',
                 }}>
                 <div className="flex items-start gap-3">
                   <div>
-                    <h2 className="text-xl font-extrabold tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>
+                    <h2 className="text-xl font-extrabold tracking-tight mb-1" style={{ color: 'var(--text)' }}>
                       {s.title}
                     </h2>
-                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{s.desc}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--body)' }}>{s.desc}</p>
                     <span className="nb-badge nb-badge-muted mt-2 inline-block">
                       {s.posts.length} {s.posts.length === 1 ? 'post' : 'posts'}
                     </span>
@@ -134,9 +134,9 @@ export default async function SeriesPage() {
                 {s.posts.map((post, idx) => (
                   <Link key={post.slug} href={`/blog/${post.slug}`}
                     className="flex items-start gap-4 px-6 py-4 transition-colors group"
-                    style={{ borderTop: idx > 0 ? '1px solid var(--border)' : undefined }}>
+                    style={{ borderTop: idx > 0 ? '1px solid var(--line)' : undefined }}>
                     <span className="text-base font-black flex-shrink-0 w-6 text-right mt-0.5"
-                      style={{ color: 'var(--text-muted)' }}>
+                      style={{ color: 'var(--muted)' }}>
                       {idx + 1}
                     </span>
                     <div className="flex-1 min-w-0">
@@ -144,15 +144,15 @@ export default async function SeriesPage() {
                         {post.category}
                       </p>
                       <h3 className="text-sm font-semibold leading-snug group-hover:underline underline-offset-2 transition-colors"
-                        style={{ color: 'var(--text-primary)' }}>
+                        style={{ color: 'var(--text)' }}>
                         {post.title}
                       </h3>
-                      <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                      <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>
                         {post.readingTime}
                       </p>
                     </div>
                     <svg className="w-4 h-4 flex-shrink-0 mt-1 transition-transform group-hover:translate-x-0.5"
-                      style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      style={{ color: 'var(--muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </Link>

@@ -130,7 +130,7 @@ export function FloatingUpvoteButton({ type, slug }: FloatingUpvoteButtonProps) 
         />
       </svg>
       <span className="text-sm font-semibold">{formattedUpvotes}</span>
-      <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+      <span className="text-xs" style={{ color: 'var(--muted)' }}>
         Upvote
       </span>
     </button>

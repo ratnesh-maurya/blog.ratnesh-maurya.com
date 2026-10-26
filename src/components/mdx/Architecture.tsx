@@ -38,7 +38,7 @@ export function ArchitectureColumns({
         style={{
           borderRadius: '1rem',
           padding: '1.25rem',
-          border: '1px solid var(--border)',
+          border: '1px solid var(--line)',
           backgroundColor: 'var(--surface)',
         }}
       >
@@ -65,7 +65,7 @@ export function ArchitectureCard({
     <div
       className="relative flex flex-col rounded-xl border p-5 pl-6"
       style={{
-        borderColor: 'var(--border)',
+        borderColor: 'var(--line)',
         backgroundColor: 'var(--surface)',
       }}
     >
@@ -74,11 +74,11 @@ export function ArchitectureCard({
         style={{ backgroundColor: accent }}
       />
       <div className="mb-3">
-        <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+        <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
           {title}
         </p>
         {subtitle && (
-          <p className="mt-1 text-xs" style={{ color: 'var(--text-muted)' }}>
+          <p className="mt-1 text-xs" style={{ color: 'var(--muted)' }}>
             {subtitle}
           </p>
         )}
@@ -86,7 +86,7 @@ export function ArchitectureCard({
       {children && (
         <p
           className="mt-auto text-sm leading-relaxed"
-          style={{ color: 'var(--text-secondary)' }}
+          style={{ color: 'var(--body)' }}
         >
           {children}
         </p>
@@ -163,7 +163,7 @@ export function FlowStep({
       className="relative flex min-w-[220px] max-w-xs flex-col overflow-hidden rounded-xl border p-5"
       style={{
         backgroundColor: 'var(--surface)',
-        borderColor: 'var(--border)',
+        borderColor: 'var(--line)',
       }}
     >
       <div
@@ -172,14 +172,14 @@ export function FlowStep({
       />
       <p
         className="mb-2 text-sm font-semibold"
-        style={{ color: 'var(--text-primary)' }}
+        style={{ color: 'var(--text)' }}
       >
         {title}
       </p>
       {children && (
         <p
           className="text-xs leading-relaxed"
-          style={{ color: 'var(--text-secondary)' }}
+          style={{ color: 'var(--body)' }}
         >
           {children}
         </p>
@@ -216,7 +216,7 @@ export function PerformanceComparison({
       <div
         className="rounded-xl border"
         style={{
-          borderColor: 'var(--border)',
+          borderColor: 'var(--line)',
           backgroundColor: 'var(--surface)',
           overflow: 'hidden',
         }}
@@ -225,9 +225,9 @@ export function PerformanceComparison({
           <thead>
             <tr
               style={{
-                color: 'var(--text-muted)',
+                color: 'var(--muted)',
                 backgroundColor: 'transparent',
-                borderBottom: '1px solid var(--border)',
+                borderBottom: '1px solid var(--line)',
               }}
             >
               <th
@@ -277,20 +277,20 @@ export function PerformanceRow({
     <tr
       className="border-b last:border-b-0"
       style={{
-        borderColor: 'var(--border)',
-        backgroundColor: improved ? 'color-mix(in srgb, var(--accent-500) 6%, transparent)' : 'transparent',
+        borderColor: 'var(--line)',
+        backgroundColor: improved ? 'color-mix(in srgb, var(--accent) 6%, transparent)' : 'transparent',
       }}
     >
       <td className="py-3.5 pl-5 pr-4">
         <div className="flex flex-col gap-0.5">
           <span
             className="text-sm font-medium"
-            style={{ color: 'var(--text-primary)' }}
+            style={{ color: 'var(--text)' }}
           >
             {metric}
           </span>
           {unit && (
-            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-xs" style={{ color: 'var(--muted)' }}>
               {unit}
             </span>
           )}
@@ -298,7 +298,7 @@ export function PerformanceRow({
       </td>
       <td
         className="py-3.5 px-4 text-right text-sm tabular-nums"
-        style={{ color: 'var(--text-secondary)' }}
+        style={{ color: 'var(--body)' }}
       >
         {before}
       </td>
@@ -306,7 +306,7 @@ export function PerformanceRow({
         <span
           className="inline-flex items-center justify-end gap-1.5 text-sm font-semibold tabular-nums"
           style={{
-            color: improved ? 'var(--accent-500)' : 'var(--text-primary)',
+            color: improved ? 'var(--accent)' : 'var(--text)',
           }}
         >
           {after}

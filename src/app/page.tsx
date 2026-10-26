@@ -212,7 +212,7 @@ export default async function Home() {
               <Link
                 href="/blog"
                 className="text-sm font-bold pb-px"
-                style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--glass-border)', textDecoration: 'none' }}
+                style={{ color: 'var(--text)', borderBottom: '1px solid var(--line)', textDecoration: 'none' }}
               >
                 Browse all →
               </Link>
@@ -230,7 +230,7 @@ export default async function Home() {
                         {post.image && (
                           <div
                             className="relative w-full aspect-[16/9] rounded-lg overflow-hidden"
-                            style={{ border: '1px solid var(--glass-border)' }}
+                            style={{ border: '1px solid var(--line)' }}
                           >
                             <Image src={post.image} alt={post.title} fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover" />
                           </div>
@@ -239,10 +239,10 @@ export default async function Home() {
                           <span className="nb-badge nb-badge-primary mb-2 inline-block" style={{ fontSize: '0.6rem' }}>
                             {post.category}
                           </span>
-                          <h3 className="font-semibold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                          <h3 className="font-semibold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text)' }}>
                             {post.title}
                           </h3>
-                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
+                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--muted)' }}>
                             {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                           </p>
                         </div>
@@ -260,20 +260,20 @@ export default async function Home() {
                           backgroundColor: 'var(--glass-bg)',
                           backdropFilter: 'blur(12px) saturate(160%)',
                           WebkitBackdropFilter: 'blur(12px) saturate(160%)',
-                          border: '1px solid var(--glass-border)',
+                          border: '1px solid var(--line)',
                           boxShadow: 'var(--glass-shadow)',
                           borderRadius: '20px',
                         }}
                       >
                         <div
                           className="relative w-full aspect-[16/9] rounded-xl overflow-hidden"
-                          style={{ border: '1px solid var(--glass-border)', backgroundColor: 'var(--surface-muted)' }}
+                          style={{ border: '1px solid var(--line)', backgroundColor: 'var(--surface-2)' }}
                         >
                           {post.image ? (
                             <Image src={post.image} alt={post.title} fill sizes="50vw" className="object-cover" priority />
                           ) : (
                             <div className="absolute inset-0 flex items-center justify-center">
-                              <span className="text-5xl font-semibold" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                              <span className="text-5xl font-semibold" style={{ color: 'var(--muted)', opacity: 0.3 }}>
                                 {post.title.charAt(0)}
                               </span>
                             </div>
@@ -281,15 +281,15 @@ export default async function Home() {
                         </div>
                         <div className="flex-1">
                           <span className="nb-badge nb-badge-primary mb-3 inline-block">{post.category}</span>
-                          <h3 className="font-semibold text-xl md:text-2xl leading-snug nb-title-hover mt-2" style={{ color: 'var(--text-primary)' }}>
+                          <h3 className="font-semibold text-xl md:text-2xl leading-snug nb-title-hover mt-2" style={{ color: 'var(--text)' }}>
                             {post.title}
                           </h3>
                           {post.description && (
-                            <p className="mt-2 text-sm font-medium leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
+                            <p className="mt-2 text-sm font-medium leading-relaxed line-clamp-2" style={{ color: 'var(--body)' }}>
                               {post.description}
                             </p>
                           )}
-                          <p className="text-xs font-semibold mt-4" style={{ color: 'var(--text-muted)' }}>
+                          <p className="text-xs font-semibold mt-4" style={{ color: 'var(--muted)' }}>
                             {post.author} · {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                           </p>
                         </div>
@@ -308,7 +308,7 @@ export default async function Home() {
                         {post.image && (
                           <div
                             className="relative w-full aspect-[16/9] rounded-lg overflow-hidden"
-                            style={{ border: '1px solid var(--glass-border)' }}
+                            style={{ border: '1px solid var(--line)' }}
                           >
                             <Image src={post.image} alt={post.title} fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover" />
                           </div>
@@ -317,10 +317,10 @@ export default async function Home() {
                           <span className="nb-badge nb-badge-primary mb-2 inline-block" style={{ fontSize: '0.6rem' }}>
                             {post.category}
                           </span>
-                          <h3 className="font-semibold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                          <h3 className="font-semibold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text)' }}>
                             {post.title}
                           </h3>
-                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
+                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--muted)' }}>
                             {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                           </p>
                         </div>
@@ -339,13 +339,13 @@ export default async function Home() {
                     >
                       <div
                         className="relative w-full aspect-[16/10] rounded-t-2xl overflow-hidden"
-                        style={{ borderBottom: '1px solid var(--glass-border)' }}
+                        style={{ borderBottom: '1px solid var(--line)' }}
                       >
                         {post.image ? (
                           <Image src={post.image} alt={post.title} fill sizes="33vw" className="object-cover" />
                         ) : (
-                          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'var(--surface-muted)' }}>
-                            <span className="text-4xl font-semibold" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'var(--surface-2)' }}>
+                            <span className="text-4xl font-semibold" style={{ color: 'var(--muted)', opacity: 0.3 }}>
                               {post.title.charAt(0)}
                             </span>
                           </div>
@@ -353,10 +353,10 @@ export default async function Home() {
                       </div>
                       <div className="p-5">
                         <span className="nb-badge nb-badge-primary mb-3 inline-block">{post.category}</span>
-                        <h3 className="font-semibold text-base nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                        <h3 className="font-semibold text-base nb-title-hover" style={{ color: 'var(--text)' }}>
                           {post.title}
                         </h3>
-                        <p className="text-xs font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
+                        <p className="text-xs font-semibold mt-2" style={{ color: 'var(--muted)' }}>
                           {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                         </p>
                       </div>
@@ -381,7 +381,7 @@ export default async function Home() {
               <Link
                 href="/blog"
                 className="text-sm font-bold pb-px"
-                style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--glass-border)', textDecoration: 'none' }}
+                style={{ color: 'var(--text)', borderBottom: '1px solid var(--line)', textDecoration: 'none' }}
               >
                 All posts →
               </Link>
@@ -397,7 +397,7 @@ export default async function Home() {
                     {post.image && (
                       <div
                         className="relative w-full aspect-[16/10] overflow-hidden rounded-t-2xl"
-                        style={{ borderBottom: '1px solid var(--glass-border)' }}
+                        style={{ borderBottom: '1px solid var(--line)' }}
                       >
                         <Image
                           src={post.image}
@@ -412,7 +412,7 @@ export default async function Home() {
                       <span className="nb-badge nb-badge-primary self-start">{post.category}</span>
                       <h3
                         className="text-base font-semibold leading-snug nb-title-hover line-clamp-2"
-                        style={{ color: 'var(--text-primary)' }}
+                        style={{ color: 'var(--text)' }}
                       >
                         {post.title}
                       </h3>
@@ -420,13 +420,13 @@ export default async function Home() {
                         <span
                           className="inline-flex w-6 h-6 rounded-full items-center justify-center flex-shrink-0"
                           style={{
-                            background: 'color-mix(in srgb, var(--accent-500) 12%, transparent)',
-                            border: '1px solid color-mix(in srgb, var(--accent-500) 25%, transparent)',
+                            background: 'color-mix(in srgb, var(--accent) 12%, transparent)',
+                            border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
                           }}
                         >
-                          <span className="text-[8px] font-semibold" style={{ color: 'var(--accent-500)' }}>RM</span>
+                          <span className="text-[8px] font-semibold" style={{ color: 'var(--accent)' }}>RM</span>
                         </span>
-                        <p className="text-[11px] font-semibold" style={{ color: 'var(--text-muted)' }}>
+                        <p className="text-[11px] font-semibold" style={{ color: 'var(--muted)' }}>
                           {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                         </p>
                       </div>
@@ -477,8 +477,8 @@ export default async function Home() {
                 <div className="space-y-3">
                   {faqs.map((f) => (
                     <div key={f.q} className="p-5" style={{ ...glassCard, borderRadius: '14px' }}>
-                      <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{f.q}</p>
-                      <p className="text-sm mt-2 leading-relaxed font-medium" style={{ color: 'var(--text-secondary)' }}>
+                      <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{f.q}</p>
+                      <p className="text-sm mt-2 leading-relaxed font-medium" style={{ color: 'var(--body)' }}>
                         {f.a}
                       </p>
                     </div>
@@ -489,10 +489,10 @@ export default async function Home() {
               <div className="sticky top-24">
                 <div className="p-6" style={{ ...glassCard, borderRadius: '20px' }}>
                   <span className="nb-badge nb-badge-primary mb-4 inline-block">Newsletter</span>
-                  <h3 className="text-xl font-semibold mt-3" style={{ color: 'var(--text-primary)' }}>
+                  <h3 className="text-xl font-semibold mt-3" style={{ color: 'var(--text)' }}>
                     Updates without noise.
                   </h3>
-                  <p className="text-sm font-medium mt-2 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  <p className="text-sm font-medium mt-2 leading-relaxed" style={{ color: 'var(--body)' }}>
                     New posts, cheatsheets, and technical terms delivered occasionally.
                   </p>
                   <div className="mt-5 flex flex-col gap-3">
@@ -505,14 +505,14 @@ export default async function Home() {
                     <Link
                       href="/about"
                       className="w-full inline-flex justify-center items-center rounded-xl py-3 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
-                      style={{ backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--text-primary)', textDecoration: 'none', border: '1px solid var(--glass-border)' }}
+                      style={{ backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--text)', textDecoration: 'none', border: '1px solid var(--line)' }}
                     >
                       About Ratnesh
                     </Link>
                   </div>
-                  <p className="mt-5 text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                  <p className="mt-5 text-xs font-semibold" style={{ color: 'var(--muted)' }}>
                     Prefer RSS?{' '}
-                    <a href="/feed.xml" className="font-bold underline decoration-1" style={{ color: 'var(--text-secondary)' }}>
+                    <a href="/feed.xml" className="font-bold underline decoration-1" style={{ color: 'var(--body)' }}>
                       feed.xml
                     </a>
                   </p>

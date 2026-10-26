@@ -56,14 +56,14 @@ export default async function NewsletterPage() {
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
-              style={{ color: 'var(--accent-500)' }}>
+              style={{ color: 'var(--accent)' }}>
               Newsletter
             </p>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4"
-              style={{ color: 'var(--text-primary)' }}>
+              style={{ color: 'var(--text)' }}>
               Engineering insights,<br />straight to you
             </h1>
-            <p className="text-lg leading-relaxed mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-lg leading-relaxed mb-8 max-w-2xl mx-auto" style={{ color: 'var(--body)' }}>
               New articles on system design, Go, AWS, and backend engineering — delivered when something worth reading is ready. No fluff, no weekly filler.
             </p>
 
@@ -80,7 +80,7 @@ export default async function NewsletterPage() {
               />
             </div>
 
-            <p className="text-xs mt-3" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-xs mt-3" style={{ color: 'var(--muted)' }}>
               No spam. Unsubscribe any time. ~{posts.length} articles published so far.
             </p>
           </div>
@@ -91,7 +91,7 @@ export default async function NewsletterPage() {
           {/* What you'll get */}
           <section>
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6 text-center"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               What you&apos;ll receive
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -99,15 +99,15 @@ export default async function NewsletterPage() {
                 <div key={p.title} className="on-card p-6 rounded-2xl transition-all duration-150 hover:-translate-y-0.5"
                   style={{
                     backgroundColor: 'var(--glass-bg)',
-                    border: '1px solid var(--glass-border)',
+                    border: '1px solid var(--line)',
                     boxShadow: 'var(--glass-shadow-sm)',
                     backdropFilter: 'blur(10px) saturate(160%)',
                     WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
-                  <h3 className="text-sm font-bold mb-1.5" style={{ color: 'var(--text-primary)' }}>
+                  <h3 className="text-sm font-bold mb-1.5" style={{ color: 'var(--text)' }}>
                     {p.title}
                   </h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--body)' }}>
                     {p.desc}
                   </p>
                 </div>
@@ -119,10 +119,10 @@ export default async function NewsletterPage() {
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: 'var(--text-muted)' }}>
+                style={{ color: 'var(--muted)' }}>
                 Recent articles
               </h2>
-              <Link href="/blog" className="text-xs font-semibold" style={{ color: 'var(--accent-500)' }}>
+              <Link href="/blog" className="text-xs font-semibold" style={{ color: 'var(--accent)' }}>
                 All posts →
               </Link>
             </div>
@@ -132,23 +132,23 @@ export default async function NewsletterPage() {
                   className="on-card flex items-start gap-4 p-4 rounded-2xl transition-all duration-150 hover:-translate-y-0.5 group"
                   style={{
                     backgroundColor: 'var(--glass-bg)',
-                    border: '1px solid var(--glass-border)',
+                    border: '1px solid var(--line)',
                     boxShadow: 'var(--glass-shadow-sm)',
                     backdropFilter: 'blur(10px) saturate(160%)',
                     WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-0.5"
-                      style={{ color: 'var(--accent-500)' }}>
+                      style={{ color: 'var(--accent)' }}>
                       {post.category}
                     </p>
-                    <p className="text-sm font-semibold leading-snug line-clamp-1 group-hover:text-[var(--accent-500)] transition-colors"
-                      style={{ color: 'var(--text-primary)' }}>
+                    <p className="text-sm font-semibold leading-snug line-clamp-1 group-hover:text-[var(--accent)] transition-colors"
+                      style={{ color: 'var(--text)' }}>
                       {post.title}
                     </p>
                   </div>
                   <svg className="w-4 h-4 flex-shrink-0 mt-0.5 transition-transform group-hover:translate-x-0.5"
-                    style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    style={{ color: 'var(--muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>
@@ -160,15 +160,15 @@ export default async function NewsletterPage() {
           <section className="on-card rounded-2xl p-8 text-center"
             style={{
               backgroundColor: 'var(--glass-bg)',
-              border: '1px solid var(--glass-border)',
+              border: '1px solid var(--line)',
               boxShadow: 'var(--glass-shadow)',
               backdropFilter: 'blur(12px) saturate(160%)',
               WebkitBackdropFilter: 'blur(12px) saturate(160%)',
             }}>
-            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text)' }}>
               Ready to level up?
             </h2>
-            <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm mb-6" style={{ color: 'var(--body)' }}>
               Join engineers who read Ratn Labs for real engineering insights.
             </p>
             <div className="max-w-md mx-auto w-full">

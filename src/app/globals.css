@@ -129,119 +129,26 @@
   --dur-fast:.15s; --dur-med:.3s; --ease:ease;
   --buti: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24'%3E%3Cpath d='M0 12h72M128 12h72' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M100 2l10 10-10 10-10-10z' fill='none' stroke='%23000' stroke-width='1.2'/%3E%3Cpath d='M100 8l4 4-4 4-4-4z' fill='%23000'/%3E%3Ccircle cx='78' cy='12' r='2' fill='%23000'/%3E%3Ccircle cx='122' cy='12' r='2' fill='%23000'/%3E%3Ccircle cx='68' cy='12' r='1.2' fill='%23000'/%3E%3Ccircle cx='132' cy='12' r='1.2' fill='%23000'/%3E%3C/svg%3E");
 
-  /* ── LEGACY-ALIAS: remove in Phase 10 ──
-     Old token names, pointing at Ledger roles so unmigrated components keep working. */
-  --background: var(--bg);
-  --foreground: var(--text);
-  --text-primary: var(--text);
-  --text-secondary: var(--body);
-  --text-muted: var(--muted);
-  --text-inverse: var(--on-pill);
-  --border: var(--line);
-  --border-color: var(--line);
-  --surface-elevated: var(--surface);
-  --surface-muted: var(--surface-2);
+  /* ── Compatibility tokens still referenced by components ──
+     Tints of the accent and the flat "glass" roles. Everything else uses the Ledger roles above. */
 
   --accent-50:  color-mix(in srgb, var(--marigold) 6%,  var(--bg));
   --accent-100: color-mix(in srgb, var(--marigold) 11%, var(--bg));
   --accent-200: color-mix(in srgb, var(--marigold) 20%, var(--bg));
-  --accent-300: var(--marigold);
-  --accent-400: var(--marigold);
-  --accent-450: var(--marigold);
-  --accent-500: var(--accent);
   --accent-600: color-mix(in srgb, var(--accent) 80%, var(--kumkum));
-  --accent-700: var(--accent);
-  --accent-800: var(--accent);
-  --accent-900: var(--accent);
 
   --coral-50:  var(--accent-50);
-  --coral-100: var(--accent-100);
-  --coral-200: var(--accent-200);
-  --coral-300: var(--marigold);
-  --coral-400: var(--accent);
-  --coral-500: var(--accent);
-  --coral-600: var(--accent);
-  --gold-50:  color-mix(in srgb, var(--peacock) 10%, var(--bg));
-  --gold-100: color-mix(in srgb, var(--peacock) 18%, var(--bg));
-  --gold-200: color-mix(in srgb, var(--peacock) 30%, var(--bg));
-  --gold-300: var(--peacock);
-  --gold-400: var(--peacock);
-  --gold-500: var(--marigold);
-  --gold-600: var(--accent);
 
-  --neutral-50:  var(--bg);
-  --neutral-100: var(--surface-2);
-  --neutral-200: var(--line-2);
   --neutral-300: var(--line);
-  --neutral-400: var(--faint);
-  --neutral-500: var(--muted);
-  --neutral-600: var(--body);
-  --neutral-700: var(--secondary);
-  --neutral-800: var(--secondary);
-  --neutral-900: var(--text);
-  --neutral-950: var(--text);
 
-  --footer-bg:            var(--bg);
-  --footer-surface:       var(--surface);
-  --footer-surface-hover: var(--hover);
-  --footer-text-primary:  var(--text);
-  --footer-text-secondary:var(--body);
-  --footer-text-muted:    var(--muted);
-  --footer-border:        var(--line);
-
-  --success: var(--ok);
   --warning: #E65F00;
-  --error:   var(--bad);
-  --info:    var(--muted);
 
-  --shadow-sm: var(--shadow);
-  --shadow-md: var(--shadow);
-  --shadow-lg: var(--shadow);
-  --shadow-xl: var(--shadow);
-
-  --space-xs:  0.25rem;
-  --space-sm:  0.5rem;
-  --space-md:  1rem;
-  --space-lg:  1.5rem;
-  --space-xl:  2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-
-  --card:                 var(--surface);
-  --card-foreground:      var(--text);
-  --popover:              var(--surface);
-  --popover-foreground:   var(--text);
-  --primary:              var(--pill);
-  --primary-foreground:   var(--on-pill);
-  --muted-foreground:     var(--muted);
-  --accent-foreground:    var(--on-pill);
-  --destructive:          var(--bad);
-  --destructive-foreground: var(--on-pill);
-  --input:                var(--line);
-  --ring:                 var(--accent);
-  --radius:               0.5rem;
-
-  --pwa-primary: var(--marigold);
-  --pwa-primary-dark: var(--accent);
-  --pwa-accent: var(--kumkum);
-  --pwa-background: var(--bg);
-  --pwa-surface: var(--surface);
-
-  /* Liquid Glass material → Ledger glass (translucent --glass, blur 16, saturate 1.3) */
-  --glass-blur:         16px;
-  --glass-blur-sm:      8px;
-  --glass-blur-lg:      24px;
-  --glass-saturate:     130%;
   /* Flat by default, like ratneshmaurya.com: no fill, no shadow, hairline only.
      Overlays (search, menus, drawer) set --surface explicitly. */
   --glass-bg:           transparent;
-  --glass-bg-hover:     var(--hover);
   --glass-bg-subtle:    transparent;
-  --glass-border:       var(--line);
-  --glass-border-outer: var(--line);
   --glass-shadow-sm:    none;
   --glass-shadow:       none;
-  --glass-shadow-hover: none;
   --glass-shadow-lg:    0 18px 48px rgba(30, 20, 40, .2);
 }
 
@@ -289,8 +196,8 @@ nav a:hover,
 nav button:hover {
   color: var(--muted);
 }
+
 .header-nav h1,
-.header-nav .nav-title,
 header h1,
 nav h1 {
   color: var(--text);
@@ -528,14 +435,12 @@ body::before {
   box-shadow: none;
   transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
-.card:hover,
-.card-interactive:hover { border-color: var(--muted); }
-.card-elevated { box-shadow: var(--shadow); }
-.card-interactive { cursor: pointer; }
+
+.card:hover{ border-color: var(--muted); }
 
 /* Glass card + 2px gradient hairline inset 24px at the top edge */
-.glass,
-.blog-card-glass {
+
+.glass{
   position: relative;
   background: var(--surface);
   border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
@@ -544,8 +449,8 @@ body::before {
   -webkit-backdrop-filter: blur(16px) saturate(1.3);
   backdrop-filter: blur(16px) saturate(1.3);
 }
-.glass::before,
-.blog-card-glass::before {
+
+.glass::before{
   content: "";
   position: absolute;
   top: -1px;
@@ -556,7 +461,6 @@ body::before {
   opacity: .85;
   pointer-events: none;
 }
-.blog-card-glass:hover { border-color: var(--muted); }
 
 /* Inverted ink panel (contact, lead-story facts) */
 .panel {
@@ -566,17 +470,6 @@ body::before {
   color: var(--panel-text);
   border-radius: 28px;
 }
-
-.magazine-card {
-  overflow: hidden;
-  background: transparent;
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  transition: border-color var(--dur-fast) var(--ease);
-}
-.magazine-card:hover { border-color: var(--muted); }
-.magazine-card-image { transition: opacity var(--dur-fast) var(--ease); }
-.magazine-card:hover .magazine-card-image { opacity: .92; }
 
 .project-card,
 .resource-card { transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease); }
@@ -653,8 +546,6 @@ h2.sec-title {
 /* ─── Topic nav ─── */
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
-.medium-topic-tab { cursor: pointer; border: none; background: none; }
-.medium-topic-tab:hover:not(.medium-topic-tab--active) { color: var(--text) !important; }
 
 /* ─── Inputs: pill, surface, hairline; hover/focus border --rule ─── */
 .input,
@@ -909,34 +800,10 @@ html, body {
 
 /* ─── Base reset ─── */
 * {
-  border-color: var(--border);
+  border-color: var(--line);
 }
 
 /* ─── Animations ─── */
-.animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
-.animate-slide-up { animation: slideUp 0.5s ease-out; }
-.animate-fade-in-up { animation: fadeInUp 0.6s ease-out; }
-.animate-scale-in { animation: scaleIn 0.3s ease-out; }
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
 
 .bg-text-marquee {
   animation: bgTextMarquee 45s linear infinite;
@@ -965,46 +832,9 @@ html, body {
 }
 
 /* Content grid — responsive 1→2→3 column layout */
-.content-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-@media (min-width: 640px) {
-  .content-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 1024px) {
-  .content-grid { grid-template-columns: repeat(3, 1fr); }
-}
 
 /* Author strip */
-.author-strip {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-}
-.author-avatar {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.625rem;
-  font-weight: 700;
-  flex-shrink: 0;
-}
 
-@supports (content-visibility: auto) {
-  .cv-auto {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 800px;
-  }
-}
-
-.gradient-primary { background: var(--saffron); }
 .gradient-text-primary {
   background-image: var(--saffron);
   -webkit-background-clip: text;
@@ -1013,7 +843,6 @@ html, body {
 }
 /* The body already carries the glow; page-top wrappers stay transparent. */
 .hero-gradient-bg { background: transparent; }
-.coral-gradient-bg { background: none; }
 
 /* ─── Accessibility ─── */
 .sr-only {
@@ -1040,16 +869,12 @@ html, body {
 }
 
 .focus-visible:focus-visible {
-  outline: 2px solid var(--accent-500);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
 @media (prefers-contrast: high) {
   :root {
-    --text-primary: #000000;
-    --text-secondary: #000000;
-    --background: #ffffff;
-    --border-color: #000000;
   }
 
   .btn {
@@ -1067,23 +892,6 @@ html, body {
 
 /* ─── Performance ─── */
 .will-change-transform { will-change: transform; }
-.will-change-opacity { will-change: opacity; }
-.gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-.loading-shimmer {
-  background: linear-gradient(90deg, var(--neutral-200) 25%, var(--neutral-300) 50%, var(--neutral-200) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
 
 /* ─── Print ─── */
 @media print {
@@ -1106,27 +914,21 @@ html, body {
 }
 
 /* ══════════════════════════════════════════════════════════
-   LEGACY .nb-* COMPONENT NAMES, re-skinned to Ledger.
-   LEGACY-ALIAS: remove in Phase 10 once markup uses the primitives above.
+   .nb-* COMPONENT NAMES (used across ~40 components), styled as Ledger primitives.
    ══════════════════════════════════════════════════════════ */
 :root {
-  --nb-border:     var(--line);
   --nb-border-w:   1px;
   --nb-shadow:     none;
   --nb-shadow-sm:  none;
-  --nb-shadow-lg:  none;
   /* Former accent-tinted card fills: now neutral paper */
   --surface-tint:        transparent;
   --surface-tint-strong: var(--hover);
   --surface-tint-border: var(--line);
-  --nb-badge-bg:   var(--pill);
-  --nb-badge-text: var(--on-pill);
-  --nb-surface-card: transparent;
 }
 
 .nb-card {
   background: transparent;
-  border: var(--nb-border-w) solid var(--nb-border);
+  border: var(--nb-border-w) solid var(--line);
   border-radius: var(--r-lg);
   box-shadow: none;
   transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
@@ -1134,7 +936,7 @@ html, body {
 .nb-card:hover { border-color: var(--muted); }
 .nb-card-sm {
   background: transparent;
-  border: var(--nb-border-w) solid var(--nb-border);
+  border: var(--nb-border-w) solid var(--line);
   border-radius: var(--r-md);
   box-shadow: none;
   transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
@@ -1160,7 +962,7 @@ html, body {
 .nb-btn:hover { border-color: var(--rule); }
 .nb-btn-tint { background: var(--surface); border-color: var(--num); color: var(--text); }
 .nb-btn-tint:hover { background: var(--surface); border-color: var(--rule); }
-.nb-btn-lg { padding: 15px 26px; font-size: 16px; min-height: 48px; }
+
 .nb-btn-primary { background: var(--pill); color: var(--on-pill); border-color: var(--pill); }
 .nb-btn-primary:hover { background: color-mix(in srgb, var(--pill) 82%, var(--kumkum)); border-color: transparent; }
 
@@ -1170,42 +972,20 @@ html, body {
   align-items: center;
   justify-content: center;
   padding: 5px 10px;
-  border: 1px solid var(--nb-border);
+  border: 1px solid var(--line);
   border-radius: 999px;
   font: 500 11px/1.3 var(--font-mono);
   letter-spacing: .1em;
   text-transform: uppercase;
   text-decoration: none;
 }
-.nb-badge-primary { background: var(--nb-badge-bg); color: var(--nb-badge-text); border-color: var(--nb-badge-bg); }
-.nb-badge-muted { background: var(--surface-2); color: var(--muted); border-color: var(--nb-border); }
-.nb-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 8px;
-  border: 0;
-  border-radius: 6px;
-  background: var(--tag-bg);
-  color: var(--secondary);
-  font: 400 11.5px/1.4 var(--font-mono);
-}
+.nb-badge-primary { background: var(--pill); color: var(--on-pill); border-color: var(--pill); }
+.nb-badge-muted { background: var(--surface-2); color: var(--muted); border-color: var(--line); }
 
 .nb-separator { border: none; border-top: 1px solid var(--line); }
 .nb-title-hover:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-.nb-gradient-text {
-  background: var(--saffron);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+
 /* Active nav item: neutral, no glass pill (header is rebuilt in Phase 3) */
-.nb-nav-active {
-  background: var(--surface-2) !important;
-  color: var(--text) !important;
-  border-color: var(--rule) !important;
-  box-shadow: none !important;
-}
-.nb-dropdown-item:hover { background-color: var(--hover); color: var(--text); }
 
 /* ─── Reduced motion: no blur layers either (INP on low-end Android) ─── */
 @media (prefers-reduced-motion: reduce) {
@@ -1577,7 +1357,6 @@ html, body {
 }
 .lg-blog .lg\:col-span-2 h2 { font-size: clamp(30px, 3.4vw, 40px); line-height: 1.05; }
 
-
 /* ══════════════════════════════════════════════════════════
    SITE-WIDE TYPOGRAPHY (phases 5–7)
    Every heading in page content is the display serif at 400, like the portfolio.
@@ -1617,8 +1396,7 @@ main :is(h1, h2, h3, h4, p, span, div).uppercase,
 
 /* Old "accent-coloured half heading" spans become the italic gradient word */
 main :is(h1, h2) :is(span, em)[style*="--accent-"],
-main :is(h1, h2) .gradient-text-primary,
-main :is(h1, h2) .nb-gradient-text {
+main :is(h1, h2) .gradient-text-primary {
   font-style: italic;
   background-image: var(--saffron);
   -webkit-background-clip: text;

@@ -31,9 +31,9 @@ export function CodeCopyButton() {
         right: '8px',
         padding: '6px',
         borderRadius: '6px',
-        border: '1px solid var(--border)',
+        border: '1px solid var(--line)',
         background: 'var(--surface)',
-        color: 'var(--text-muted)',
+        color: 'var(--muted)',
         cursor: 'pointer',
         opacity: '0',
         transition: 'opacity 150ms ease, background 150ms ease',
@@ -54,11 +54,11 @@ export function CodeCopyButton() {
         try {
           await navigator.clipboard.writeText(text);
           btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-          btn.style.color = 'var(--accent-500)';
+          btn.style.color = 'var(--accent)';
           trackEvent('code_copy', 'Engagement', window.location.pathname);
           setTimeout(() => {
             btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>`;
-            btn.style.color = 'var(--text-muted)';
+            btn.style.color = 'var(--muted)';
           }, 2000);
         } catch {
           // Clipboard API not available

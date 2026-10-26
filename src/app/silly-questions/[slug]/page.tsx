@@ -125,8 +125,8 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
           {/* Back navigation */}
           <Link
             href="/silly-questions"
-            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent-500)]"
-            style={{ color: 'var(--text-muted)' }}
+            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent)]"
+            style={{ color: 'var(--muted)' }}
           >
             <svg className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -138,11 +138,11 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
             {/* Header */}
             <header className="mb-10">
               {/* Metadata row */}
-              <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+              <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--muted)' }}>
                 <span className="nb-badge nb-badge-primary inline-flex items-center">
                   {question.category}
                 </span>
-                <span aria-hidden="true" style={{ color: 'var(--border)' }}>·</span>
+                <span aria-hidden="true" style={{ color: 'var(--line)' }}>·</span>
                 <time dateTime={question.date}>
                   {format(new Date(question.date), 'MMMM d, yyyy')}
                 </time>
@@ -152,8 +152,8 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
                     title: question.question,
                     description: `A silly coding mistake: ${question.question}`,
                   }).toString()}`}
-                  className="ml-auto inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors hover:border-[var(--accent-400)] hover:text-[var(--text-primary)]"
-                  style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+                  className="ml-auto inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors hover:border-[var(--marigold)] hover:text-[var(--text)]"
+                  style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}
                 >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2l3 8 4-16 4 16 3-8h2" />
@@ -165,7 +165,7 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
               {/* Question title */}
               <h1
                 className="font-extrabold text-3xl md:text-4xl tracking-tight leading-tight mb-4"
-                style={{ color: 'var(--text-primary)' }}
+                style={{ color: 'var(--text)' }}
               >
                 {question.question}
               </h1>
@@ -181,21 +181,21 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
             </header>
 
             {/* Answer section */}
-            <div className="rounded-2xl overflow-hidden" style={{ border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
+            <div className="rounded-2xl overflow-hidden" style={{ border: '2px solid var(--line)', boxShadow: 'var(--nb-shadow)' }}>
               <div
                 className="px-5 py-3 flex items-center gap-2.5"
                 style={{
                   backgroundColor: 'var(--surface-tint)',
-                  borderBottom: '2px solid var(--nb-border)',
+                  borderBottom: '2px solid var(--line)',
                 }}
               >
                 <div
                   className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold"
-                  style={{ backgroundColor: 'var(--accent-500)' }}
+                  style={{ backgroundColor: 'var(--accent)' }}
                 >
                   A
                 </div>
-                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--body)' }}>
                   The Answer
                 </span>
               </div>
@@ -211,10 +211,10 @@ export default async function SillyQuestionPage({ params }: SillyQuestionPagePro
             {/* Footer */}
             <div className="mt-12 space-y-8">
               {/* Share */}
-              <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+              <div className="pt-8" style={{ borderTop: '1px solid var(--line)' }}>
                 <h3
                   className="text-xs font-semibold uppercase tracking-widest mb-4"
-                  style={{ color: 'var(--text-muted)' }}
+                  style={{ color: 'var(--muted)' }}
                 >
                   Share this question
                 </h3>

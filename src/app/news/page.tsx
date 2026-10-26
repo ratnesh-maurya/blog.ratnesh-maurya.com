@@ -82,10 +82,10 @@ export default async function NewsPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <header className="mb-10 pt-4">
           <span className="nb-badge nb-badge-primary mb-3 inline-block">Newsroom</span>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight" style={{ color: 'var(--text)' }}>
             Daily AI + Software Development News
           </h1>
-          <p className="mt-3 text-base leading-relaxed max-w-3xl font-medium" style={{ color: 'var(--text-muted)' }}>
+          <p className="mt-3 text-base leading-relaxed max-w-3xl font-medium" style={{ color: 'var(--muted)' }}>
             One digest per day, focused on practical updates for engineers: launches, tooling updates, open-source releases,
             and research signals that are worth tracking. These are curated roundups — not long-form original posts.
           </p>
@@ -94,13 +94,13 @@ export default async function NewsPage() {
         <div
           className="mb-8 p-4 rounded-xl text-sm font-medium"
           style={{
-            backgroundColor: 'color-mix(in srgb, var(--accent-500) 8%, var(--glass-bg))',
-            border: '1px solid color-mix(in srgb, var(--accent-500) 22%, var(--glass-border))',
-            color: 'var(--text-secondary)',
+            backgroundColor: 'color-mix(in srgb, var(--accent) 8%, var(--glass-bg))',
+            border: '1px solid color-mix(in srgb, var(--accent) 22%, var(--line))',
+            color: 'var(--body)',
           }}
         >
           Looking for original writing? Start with the{' '}
-          <Link href="/blog/" className="font-bold" style={{ color: 'var(--accent-500)' }}>
+          <Link href="/blog/" className="font-bold" style={{ color: 'var(--accent)' }}>
             Blog
           </Link>
           {' '}— deep dives and architecture notes by Ratnesh Maurya.
@@ -111,16 +111,16 @@ export default async function NewsPage() {
             className="nb-card p-8"
             style={{
               backgroundColor: 'var(--glass-bg)',
-              border: '1px solid var(--glass-border)',
+              border: '1px solid var(--line)',
               boxShadow: 'var(--glass-shadow-sm)',
               backdropFilter: 'blur(10px) saturate(160%)',
               WebkitBackdropFilter: 'blur(10px) saturate(160%)',
             }}
           >
-            <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text)' }}>
               No digests yet
             </h2>
-            <p style={{ color: 'var(--text-secondary)' }}>
+            <p style={{ color: 'var(--body)' }}>
               The first automated digest will appear here after the scheduled GitHub workflow runs.
             </p>
           </div>
@@ -132,7 +132,7 @@ export default async function NewsPage() {
                 className="nb-card p-6 sm:p-8"
                 style={{
                   background: 'linear-gradient(135deg, var(--glass-bg) 0%, color-mix(in srgb, var(--accent-50) 55%, var(--glass-bg)) 100%)',
-                  border: '1px solid color-mix(in srgb, var(--accent-500) 25%, var(--glass-border))',
+                  border: '1px solid color-mix(in srgb, var(--accent) 25%, var(--line))',
                   boxShadow: 'var(--glass-shadow-sm)',
                   backdropFilter: 'blur(10px) saturate(160%)',
                   WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -145,14 +145,14 @@ export default async function NewsPage() {
                   >
                     {latestIsToday ? 'Today' : 'Latest'}
                   </span>
-                  <time className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                  <time className="text-xs font-semibold" style={{ color: 'var(--muted)' }}>
                     {fmtDate(latest.date)}
                   </time>
                 </div>
-                <h2 className="text-xl sm:text-2xl font-extrabold leading-snug mb-2 group-hover:underline" style={{ color: 'var(--text-primary)' }}>
+                <h2 className="text-xl sm:text-2xl font-extrabold leading-snug mb-2 group-hover:underline" style={{ color: 'var(--text)' }}>
                   {latest.title}
                 </h2>
-                <p className="text-sm sm:text-base leading-relaxed max-w-3xl" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-sm sm:text-base leading-relaxed max-w-3xl" style={{ color: 'var(--body)' }}>
                   {latest.description}
                 </p>
                 <div className="mt-4 flex flex-wrap items-center gap-1.5">
@@ -160,12 +160,12 @@ export default async function NewsPage() {
                     <span
                       key={tag}
                       className="text-[11px] font-semibold px-2 py-1 rounded-full"
-                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-700)' }}
+                      style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent)' }}
                     >
                       {tag}
                     </span>
                   ))}
-                  <span className="ml-auto inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: 'var(--accent-500)' }}>
+                  <span className="ml-auto inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: 'var(--accent)' }}>
                     Read the digest
                     <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -180,7 +180,7 @@ export default async function NewsPage() {
               <section key={month}>
                 <h2
                   className="text-xs font-bold uppercase tracking-widest mb-4 pb-2"
-                  style={{ color: 'var(--text-muted)', borderBottom: '1px solid var(--nb-border)' }}
+                  style={{ color: 'var(--muted)', borderBottom: '1px solid var(--line)' }}
                 >
                   {month} <span style={{ fontWeight: 500 }}>· {monthPosts.length} digest{monthPosts.length === 1 ? '' : 's'}</span>
                 </h2>
@@ -191,21 +191,21 @@ export default async function NewsPage() {
                         className="nb-card h-full p-5 flex flex-col gap-3"
                         style={{
                           backgroundColor: 'var(--glass-bg)',
-                          border: '1px solid var(--glass-border)',
+                          border: '1px solid var(--line)',
                           boxShadow: 'var(--glass-shadow-sm)',
                           backdropFilter: 'blur(10px) saturate(160%)',
                           WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                         }}
                       >
-                        <time className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                        <time className="text-xs font-semibold" style={{ color: 'var(--muted)' }}>
                           {fmtDate(post.date)}
                         </time>
 
-                        <h3 className="text-lg font-extrabold leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                        <h3 className="text-lg font-extrabold leading-snug nb-title-hover" style={{ color: 'var(--text)' }}>
                           {post.title}
                         </h3>
 
-                        <p className="text-sm leading-relaxed line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
+                        <p className="text-sm leading-relaxed line-clamp-3" style={{ color: 'var(--body)' }}>
                           {post.description}
                         </p>
 
@@ -214,7 +214,7 @@ export default async function NewsPage() {
                             <span
                               key={tag}
                               className="text-[11px] font-semibold px-2 py-1 rounded-full"
-                              style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}
+                              style={{ backgroundColor: 'var(--surface-2)', color: 'var(--muted)' }}
                             >
                               {tag}
                             </span>

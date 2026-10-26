@@ -95,14 +95,14 @@ export default function ResourcesPage() {
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
-              style={{ color: 'var(--accent-500)' }}>
+              style={{ color: 'var(--accent)' }}>
               Reading List
             </p>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
-              style={{ color: 'var(--text-primary)' }}>
+              style={{ color: 'var(--text)' }}>
               Resources
             </h1>
-            <p className="text-base leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-base leading-relaxed max-w-xl" style={{ color: 'var(--body)' }}>
               Books, talks, tools, and newsletters that shaped how I think about backend engineering and systems. No padding — only things I have actually used.
             </p>
           </div>
@@ -112,7 +112,7 @@ export default function ResourcesPage() {
           {resources.map(section => (
             <section key={section.category}>
               <h2 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-6"
-                style={{ color: 'var(--text-muted)' }}>
+                style={{ color: 'var(--muted)' }}>
                 {section.category}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -121,25 +121,25 @@ export default function ResourcesPage() {
                     className="on-card resource-card flex flex-col gap-3 rounded-2xl p-5 transition-all duration-150 hover:-translate-y-1 group"
                     style={{
                       backgroundColor: 'var(--glass-bg)',
-                      border: '1px solid var(--glass-border)',
+                      border: '1px solid var(--line)',
                       boxShadow: 'var(--glass-shadow-sm)',
                       backdropFilter: 'blur(10px) saturate(160%)',
                       WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                     }}>
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-baseline gap-2 mb-1.5">
-                        <h3 className="text-sm font-bold group-hover:text-[var(--accent-500)] transition-colors"
-                          style={{ color: 'var(--text-primary)' }}>
+                        <h3 className="text-sm font-bold group-hover:text-[var(--accent)] transition-colors"
+                          style={{ color: 'var(--text)' }}>
                           {item.title}
                         </h3>
                       </div>
-                      <p className="text-xs font-medium mb-2" style={{ color: 'var(--text-muted)' }}>by {item.author}</p>
-                      <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                      <p className="text-xs font-medium mb-2" style={{ color: 'var(--muted)' }}>by {item.author}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: 'var(--body)' }}>
                         {item.desc}
                       </p>
                     </div>
                     <div className="flex items-center gap-1 text-xs font-semibold mt-auto pt-2"
-                      style={{ color: 'var(--accent-500)' }}>
+                      style={{ color: 'var(--accent)' }}>
                       Visit
                       <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5"
                         fill="none" stroke="currentColor" viewBox="0 0 24 24">

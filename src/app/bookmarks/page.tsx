@@ -20,13 +20,13 @@ export default function BookmarksPage() {
       <BreadcrumbStructuredData items={breadcrumbItems} />
       <div className="min-h-screen hero-gradient-bg" style={{ backgroundColor: 'transparent' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-16">
-          <p className="nb-section-label mb-2" style={{ color: 'var(--accent-500)' }}>
+          <p className="nb-section-label mb-2" style={{ color: 'var(--accent)' }}>
             Reading list
           </p>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-3" style={{ color: 'var(--text)' }}>
             Bookmarks
           </h1>
-          <p className="text-sm sm:text-base leading-relaxed max-w-xl mb-10" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm sm:text-base leading-relaxed max-w-xl mb-10" style={{ color: 'var(--body)' }}>
             Posts you saved for later. Stored privately in this browser — nothing leaves your device.
           </p>
           <BookmarksList />

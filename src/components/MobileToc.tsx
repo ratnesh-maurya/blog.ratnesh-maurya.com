@@ -42,7 +42,7 @@ export function MobileToc() {
       className="lg:hidden mb-8 rounded-2xl overflow-hidden"
       style={{
         backgroundColor: 'var(--glass-bg)',
-        border: '1px solid var(--glass-border)',
+        border: '1px solid var(--line)',
         boxShadow: 'var(--glass-shadow-sm)',
       }}
     >
@@ -51,17 +51,17 @@ export function MobileToc() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         className="w-full flex items-center justify-between px-5 py-3.5 text-sm font-semibold"
-        style={{ color: 'var(--text-primary)' }}
+        style={{ color: 'var(--text)' }}
       >
         <span className="flex items-center gap-2">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--accent-500)' }}>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--accent)' }}>
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h10M4 18h14" />
           </svg>
           On this page
         </span>
         <svg
           className="w-4 h-4 transition-transform"
-          style={{ transform: open ? 'rotate(180deg)' : 'none', color: 'var(--text-muted)' }}
+          style={{ transform: open ? 'rotate(180deg)' : 'none', color: 'var(--muted)' }}
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -76,7 +76,7 @@ export function MobileToc() {
                   type="button"
                   onClick={() => jump(h.id)}
                   className="text-left text-sm leading-snug hover:underline"
-                  style={{ color: h.level === 2 ? 'var(--text-secondary)' : 'var(--text-muted)' }}
+                  style={{ color: h.level === 2 ? 'var(--body)' : 'var(--muted)' }}
                 >
                   {h.text}
                 </button>

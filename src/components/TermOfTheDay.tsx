@@ -33,13 +33,13 @@ export function TermOfTheDay({ terms }: TermOfTheDayProps) {
             <Link href={`/technical-terms/${term.slug}`} className="group">
               <h2
                 className="font-display text-4xl sm:text-5xl mb-2 group-hover:underline"
-                style={{ color: 'var(--text-primary)' }}
+                style={{ color: 'var(--text)' }}
               >
                 {term.title}
               </h2>
             </Link>
             {term.description && (
-              <p className="text-sm sm:text-base leading-relaxed max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-sm sm:text-base leading-relaxed max-w-2xl" style={{ color: 'var(--body)' }}>
                 {term.description}
               </p>
             )}
@@ -55,7 +55,7 @@ export function TermOfTheDay({ terms }: TermOfTheDayProps) {
             <Link
               href="/technical-terms"
               className="inline-flex items-center justify-center text-sm font-semibold px-5 py-2.5 rounded-full"
-              style={{ backgroundColor: 'var(--glass-bg)', color: 'var(--text-secondary)', border: '1px solid var(--glass-border)' }}
+              style={{ backgroundColor: 'var(--glass-bg)', color: 'var(--body)', border: '1px solid var(--line)' }}
             >
               Browse all {terms.length} terms
             </Link>

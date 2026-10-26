@@ -31,13 +31,13 @@ interface SankeyLink {
 const SOURCE_COLORS: Record<string, string> = {
   linkedin:  'var(--chart-1)',
   twitter:   'var(--chart-2)',
-  x:         'var(--text-primary)',
+  x:         'var(--text)',
   peerlist:  'var(--chart-4)',
   reddit:    'var(--chart-3)',
   github:    'var(--chart-5)',
   google:    'var(--chart-6)',
-  direct:    'var(--text-muted)',
-  other:     'var(--text-muted)',
+  direct:    'var(--muted)',
+  other:     'var(--muted)',
 };
 
 const CONTENT_COLORS: Record<string, string> = {
@@ -49,7 +49,7 @@ const CONTENT_COLORS: Record<string, string> = {
   cheatsheets:        'var(--chart-6)',
   about:              'var(--faint)',
   now:                'var(--chart-5)',
-  other:              'var(--text-muted)',
+  other:              'var(--muted)',
 };
 
 const CONTENT_LABELS: Record<string, string> = {
@@ -224,7 +224,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
 
   if (flows.length === 0 || sourceNodes.length === 0) {
     return (
-      <div className="flex items-center justify-center h-40" style={{ color: 'var(--text-muted)' }}>
+      <div className="flex items-center justify-center h-40" style={{ color: 'var(--muted)' }}>
         <p className="text-sm">No flow data for this period.</p>
       </div>
     );
@@ -263,7 +263,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
             dominantBaseline="middle"
             fontSize={11}
             fontWeight={600}
-            fill="var(--text-secondary)"
+            fill="var(--body)"
           >
             {n.label}
           </text>
@@ -273,7 +273,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
             textAnchor="end"
             dominantBaseline="middle"
             fontSize={10}
-            fill="var(--text-muted)"
+            fill="var(--muted)"
           >
             {n.total}
           </text>
@@ -298,7 +298,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
             dominantBaseline="middle"
             fontSize={11}
             fontWeight={600}
-            fill="var(--text-secondary)"
+            fill="var(--body)"
           >
             {n.label}
           </text>
@@ -308,7 +308,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
             textAnchor="start"
             dominantBaseline="middle"
             fontSize={10}
-            fill="var(--text-muted)"
+            fill="var(--muted)"
           >
             {n.total}
           </text>

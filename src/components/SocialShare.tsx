@@ -113,7 +113,7 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
       <button
         onClick={copyToClipboard}
         className={`nb-btn text-xs font-bold ${copied ? '' : 'nb-btn-tint'}`}
-        style={copied ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' } : undefined}
+        style={copied ? { backgroundColor: 'var(--pill)', color: 'var(--on-pill)' } : undefined}
         aria-label="Copy link"
       >
         {copied ? <CheckIcon /> : <CopyIcon />}

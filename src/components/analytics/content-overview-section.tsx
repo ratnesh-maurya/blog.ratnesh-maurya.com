@@ -29,7 +29,7 @@ const TYPE_LABELS: Record<string, string> = {
 
 const TYPE_COLORS: Record<string, string> = {
   blog: 'var(--chart-1)',
-  news: 'var(--accent-450, var(--chart-1))',
+  news: 'var(--marigold, var(--chart-1))',
   'technical-terms': 'var(--chart-2)',
   'silly-questions': 'var(--chart-4)',
   cheatsheets: 'var(--chart-3)',
@@ -107,19 +107,19 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
             className="nb-card-sm p-4"
             style={{
               backgroundColor: 'var(--glass-bg)',
-              border: '1px solid var(--glass-border)',
+              border: '1px solid var(--line)',
               boxShadow: 'var(--glass-shadow-sm)',
               backdropFilter: 'blur(10px) saturate(160%)',
               WebkitBackdropFilter: 'blur(10px) saturate(160%)',
             }}
           >
-            <p className="text-[11px] font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-[11px] font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--muted)' }}>
               {d.name}
             </p>
-            <p className="text-xl font-bold tabular-nums" style={{ color: 'var(--accent-500)' }}>
+            <p className="text-xl font-bold tabular-nums" style={{ color: 'var(--accent)' }}>
               {formatNumber(d.posts)}
             </p>
-            <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-[11px] mt-0.5" style={{ color: 'var(--muted)' }}>
               {formatNumber(d.avgViews)} avg views
             </p>
           </div>
@@ -133,41 +133,41 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
           className="nb-card p-4 md:p-6"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow-sm)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
           }}
         >
-          <h3 className="text-base font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+          <h3 className="text-base font-bold mb-1" style={{ color: 'var(--text)' }}>
             Content by type
           </h3>
-          <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-xs mb-4" style={{ color: 'var(--muted)' }}>
             {formatNumber(totalPosts)} total pieces of content
           </p>
           <div className="h-52 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={summaryData} layout="vertical" margin={{ top: 0, right: 10, left: 0, bottom: 0 }}>
-                <XAxis type="number" tick={{ fill: 'var(--text-muted)', fontSize: 11 }} stroke="var(--border)" />
+                <XAxis type="number" tick={{ fill: 'var(--muted)', fontSize: 11 }} stroke="var(--line)" />
                 <YAxis
                   type="category"
                   dataKey="name"
-                  tick={{ fill: 'var(--text-muted)', fontSize: 12 }}
-                  stroke="var(--border)"
+                  tick={{ fill: 'var(--muted)', fontSize: 12 }}
+                  stroke="var(--line)"
                   width={90}
                 />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: 'var(--glass-bg)',
-                    border: '1px solid var(--glass-border)',
+                    border: '1px solid var(--line)',
                     borderRadius: '8px',
-                    color: 'var(--text-primary)',
+                    color: 'var(--text)',
                   }}
                   formatter={(value: number | undefined) => [formatNumber(value ?? 0), 'Posts']}
                 />
                 <Bar dataKey="posts" radius={[0, 4, 4, 0]}>
                   {summaryData.map((d) => (
-                    <Cell key={d.type} fill={TYPE_COLORS[d.type] ?? 'var(--accent-500)'} />
+                    <Cell key={d.type} fill={TYPE_COLORS[d.type] ?? 'var(--accent)'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -180,46 +180,46 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
           className="nb-card overflow-hidden"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow-sm)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
           }}
         >
-          <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
-            <h3 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
+          <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--line)' }}>
+            <h3 className="text-base font-bold" style={{ color: 'var(--text)' }}>
               Engagement breakdown
             </h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                  <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                <tr style={{ borderBottom: '1px solid var(--line)' }}>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
                     Type
                   </th>
-                  <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                  <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
                     Posts
                   </th>
-                  <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                  <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
                     Views
                   </th>
-                  <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                  <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
                     Upvotes
                   </th>
-                  <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>
+                  <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider hidden sm:table-cell" style={{ color: 'var(--muted)' }}>
                     Avg views
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {summaryData.map((d) => (
-                  <tr key={d.type} className="transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02]" style={{ borderBottom: '1px solid var(--border)' }}>
-                    <td className="px-4 py-2.5 font-medium" style={{ color: 'var(--text-primary)' }}>{d.name}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums" style={{ color: 'var(--text-secondary)' }}>{formatNumber(d.posts)}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums font-medium" style={{ color: 'var(--accent-500)' }}>{formatNumber(d.views)}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums" style={{ color: 'var(--text-secondary)' }}>{formatNumber(d.upvotes)}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>{formatNumber(d.avgViews)}</td>
+                  <tr key={d.type} className="transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02]" style={{ borderBottom: '1px solid var(--line)' }}>
+                    <td className="px-4 py-2.5 font-medium" style={{ color: 'var(--text)' }}>{d.name}</td>
+                    <td className="px-4 py-2.5 text-right tabular-nums" style={{ color: 'var(--body)' }}>{formatNumber(d.posts)}</td>
+                    <td className="px-4 py-2.5 text-right tabular-nums font-medium" style={{ color: 'var(--accent)' }}>{formatNumber(d.views)}</td>
+                    <td className="px-4 py-2.5 text-right tabular-nums" style={{ color: 'var(--body)' }}>{formatNumber(d.upvotes)}</td>
+                    <td className="px-4 py-2.5 text-right tabular-nums hidden sm:table-cell" style={{ color: 'var(--muted)' }}>{formatNumber(d.avgViews)}</td>
                   </tr>
                 ))}
               </tbody>

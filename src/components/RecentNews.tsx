@@ -19,8 +19,8 @@ export function RecentNews({ news, currentSlug, count = 3 }: RecentNewsProps) {
   if (recent.length === 0) return null;
 
   return (
-    <section className="mt-12 pt-8" style={{ borderTop: '1px solid var(--nb-border)' }} aria-label="Recent News">
-      <h2 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>
+    <section className="mt-12 pt-8" style={{ borderTop: '1px solid var(--line)' }} aria-label="Recent News">
+      <h2 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--muted)' }}>
         Recent News
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -34,10 +34,10 @@ export function RecentNews({ news, currentSlug, count = 3 }: RecentNewsProps) {
             <span className="nb-badge nb-badge-muted self-start">
               News Digest
             </span>
-            <span className="lg-card-title line-clamp-2 nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+            <span className="lg-card-title line-clamp-2 nb-title-hover" style={{ color: 'var(--text)' }}>
               {item.title}
             </span>
-            <span className="text-xs mt-auto pt-1 font-semibold" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-xs mt-auto pt-1 font-semibold" style={{ color: 'var(--muted)' }}>
               {new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
             </span>
           </Link>

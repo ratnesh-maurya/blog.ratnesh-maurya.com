@@ -50,14 +50,14 @@ export default async function TechnicalTermsPage() {
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
-              style={{ color: 'var(--accent-500)' }}>
+              style={{ color: 'var(--accent)' }}>
               Reference
             </p>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3"
-              style={{ color: 'var(--text-primary)' }}>
+              style={{ color: 'var(--text)' }}>
               Technical{' '}
               <span style={{
-                background: 'linear-gradient(135deg, var(--accent-400), var(--accent-600))',
+                background: 'linear-gradient(135deg, var(--marigold), var(--accent-600))',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -65,10 +65,10 @@ export default async function TechnicalTermsPage() {
                 Terms
               </span>
             </h1>
-            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'var(--muted)' }}>
               Clear definitions and explanations for indexing, databases, distributed systems, and backend concepts — with use cases and trade-offs.
             </p>
-            <div className="flex flex-wrap items-center gap-3 mt-6 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
+            <div className="flex flex-wrap items-center gap-3 mt-6 pt-6" style={{ borderTop: '1px solid var(--line)' }}>
               <span className="nb-badge nb-badge-muted">
                 {terms.length} terms
               </span>

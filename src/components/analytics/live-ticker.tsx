@@ -29,22 +29,22 @@ export function LiveTicker() {
       className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-semibold"
       style={{
         backgroundColor: 'var(--glass-bg)',
-        border: '1px solid var(--glass-border)',
+        border: '1px solid var(--line)',
         boxShadow: 'var(--glass-shadow-sm)',
-        color: 'var(--text-secondary)',
+        color: 'var(--body)',
       }}
     >
       <span className="relative flex h-2 w-2">
         <span
           className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
-          style={{ backgroundColor: 'var(--accent-400)' }}
+          style={{ backgroundColor: 'var(--marigold)' }}
         />
-        <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: 'var(--accent-500)' }} />
+        <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: 'var(--accent)' }} />
       </span>
       <span>
-        <strong style={{ color: 'var(--text-primary)' }}>{counts.today.toLocaleString()}</strong> views today
+        <strong style={{ color: 'var(--text)' }}>{counts.today.toLocaleString()}</strong> views today
       </span>
-      <span style={{ color: 'var(--text-muted)' }}>·</span>
+      <span style={{ color: 'var(--muted)' }}>·</span>
       <span>{counts.lastHour.toLocaleString()} last hour</span>
     </div>
   );

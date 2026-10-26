@@ -67,7 +67,7 @@ export function ViewCounter({
 
   if (isLoading) {
     return (
-      <span className={className} style={{ color: 'var(--text-muted)' }}>
+      <span className={className} style={{ color: 'var(--muted)' }}>
         {showLabel && '––– '}views
       </span>
     );
@@ -75,7 +75,7 @@ export function ViewCounter({
 
   const formattedViews = views !== null ? views.toLocaleString() : '–––';
   return (
-    <span className={className} style={{ color: 'var(--text-muted)' }}>
+    <span className={className} style={{ color: 'var(--muted)' }}>
       {formattedViews} {showLabel && 'views'}
     </span>
   );

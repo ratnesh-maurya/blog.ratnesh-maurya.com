@@ -16,13 +16,13 @@ interface ScData {
 function ScTable({ title, rows, keyLabel }: { title: string; rows: ScRow[]; keyLabel: string }) {
   return (
     <div className="nb-card-sm p-5 overflow-x-auto" style={{ backgroundColor: 'var(--glass-bg)' }}>
-      <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text-primary)' }}>{title}</h3>
+      <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>{title}</h3>
       {rows.length === 0 ? (
-        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>No rows returned.</p>
+        <p className="text-xs" style={{ color: 'var(--muted)' }}>No rows returned.</p>
       ) : (
-        <table className="w-full text-xs" style={{ color: 'var(--text-secondary)' }}>
+        <table className="w-full text-xs" style={{ color: 'var(--body)' }}>
           <thead>
-            <tr className="text-left" style={{ color: 'var(--text-muted)' }}>
+            <tr className="text-left" style={{ color: 'var(--muted)' }}>
               <th className="pb-2 font-semibold">{keyLabel}</th>
               <th className="pb-2 font-semibold text-right">Clicks</th>
               <th className="pb-2 font-semibold text-right">Impr.</th>
@@ -32,9 +32,9 @@ function ScTable({ title, rows, keyLabel }: { title: string; rows: ScRow[]; keyL
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.key} style={{ borderTop: '1px solid var(--glass-border)' }}>
+              <tr key={r.key} style={{ borderTop: '1px solid var(--line)' }}>
                 <td className="py-1.5 pr-3 max-w-[260px] truncate" title={r.key}>{r.key}</td>
-                <td className="py-1.5 text-right font-semibold" style={{ color: 'var(--text-primary)' }}>{r.clicks.toLocaleString()}</td>
+                <td className="py-1.5 text-right font-semibold" style={{ color: 'var(--text)' }}>{r.clicks.toLocaleString()}</td>
                 <td className="py-1.5 text-right">{r.impressions.toLocaleString()}</td>
                 <td className="py-1.5 text-right">{r.ctr}%</td>
                 <td className="py-1.5 text-right">{r.position}</td>
@@ -65,8 +65,8 @@ export function SearchConsoleSection() {
   if (!data || !data.configured) {
     return (
       <div className="nb-card-sm p-6" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>Not connected yet</p>
-        <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+        <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text)' }}>Not connected yet</p>
+        <p className="text-xs leading-relaxed" style={{ color: 'var(--muted)' }}>
           Add the indexing service account to the Search Console property (Settings → Users, Full permission) and set
           GOOGLE_INDEXING_CLIENT_EMAIL / GOOGLE_INDEXING_PRIVATE_KEY — queries, impressions, CTR, and positions will
           appear here automatically.
@@ -78,8 +78,8 @@ export function SearchConsoleSection() {
   if (data.error) {
     return (
       <div className="nb-card-sm p-6" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>Search Console error</p>
-        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{data.error}</p>
+        <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text)' }}>Search Console error</p>
+        <p className="text-xs" style={{ color: 'var(--muted)' }}>{data.error}</p>
       </div>
     );
   }
@@ -97,8 +97,8 @@ export function SearchConsoleSection() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {cards.map((c) => (
           <div key={c.label} className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-            <p className="text-[11px] font-bold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>{c.label}</p>
-            <p className="text-xl font-black" style={{ color: 'var(--text-primary)' }}>{c.value}</p>
+            <p className="text-[11px] font-bold uppercase tracking-wider mb-1" style={{ color: 'var(--muted)' }}>{c.label}</p>
+            <p className="text-xl font-black" style={{ color: 'var(--text)' }}>{c.value}</p>
           </div>
         ))}
       </div>
@@ -106,7 +106,7 @@ export function SearchConsoleSection() {
         <ScTable title="Top search queries" rows={data.queries ?? []} keyLabel="Query" />
         <ScTable title="Top pages in search" rows={data.pages ?? []} keyLabel="Page" />
       </div>
-      <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+      <p className="text-[11px]" style={{ color: 'var(--muted)' }}>
         Google Search Console · {data.startDate} → {data.endDate} (data lags ~2 days)
       </p>
     </div>

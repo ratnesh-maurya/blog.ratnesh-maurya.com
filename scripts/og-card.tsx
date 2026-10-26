@@ -64,7 +64,6 @@ const INK = '#17150F';
 const BODY = '#4A463E';
 const MUTED = '#6B675E';
 const LINE = '#E7E3DA';
-const WATER = '#F1EDE4';
 const TAG_BG = '#F4F1EA';
 const SAFFRON = 'linear-gradient(90deg, #FF7A18, #E8336D)';
 

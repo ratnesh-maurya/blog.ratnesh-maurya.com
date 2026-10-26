@@ -298,7 +298,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
           backgroundColor: 'var(--surface)',
           backdropFilter: 'blur(16px) saturate(1.3)',
           WebkitBackdropFilter: 'blur(16px) saturate(1.3)',
-          border: '1px solid var(--glass-border)',
+          border: '1px solid var(--line)',
           boxShadow: '0 18px 48px rgba(30, 20, 40, .2)',
           maxHeight: '80vh',
           display: 'flex',
@@ -307,8 +307,8 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
       >
         {/* Search input row */}
         <div className="flex items-center gap-3 px-4 py-3.5"
-          style={{ borderBottom: '1px solid var(--glass-border)' }}>
-          <svg className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          style={{ borderBottom: '1px solid var(--line)' }}>
+          <svg className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -318,13 +318,13 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
             value={query}
             onChange={e => setQuery(e.target.value)}
             className="flex-1 text-base bg-transparent outline-none border-none"
-            style={{ color: 'var(--text-primary)' }}
+            style={{ color: 'var(--text)' }}
           />
           {query && (
             <button
               onClick={() => setQuery('')}
               className="nb-btn flex-shrink-0 text-xs px-2 py-1"
-              style={{ color: 'var(--text-secondary)', backgroundColor: 'var(--surface-muted)', boxShadow: 'none' }}
+              style={{ color: 'var(--body)', backgroundColor: 'var(--surface-2)', boxShadow: 'none' }}
             >
               Clear
             </button>
@@ -332,7 +332,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
           <button
             onClick={onClose}
             className="nb-btn flex-shrink-0 text-xs px-2 py-1 font-mono"
-            style={{ color: 'var(--text-secondary)', backgroundColor: 'var(--surface-muted)', boxShadow: 'none' }}
+            style={{ color: 'var(--body)', backgroundColor: 'var(--surface-2)', boxShadow: 'none' }}
           >
             Esc
           </button>
@@ -340,7 +340,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
 
         {/* Filter + sort row */}
         <div className="flex items-center justify-between px-4 py-2 gap-2"
-          style={{ borderBottom: '1px solid var(--glass-border)', backgroundColor: 'var(--surface-muted)' }}>
+          style={{ borderBottom: '1px solid var(--line)', backgroundColor: 'var(--surface-2)' }}>
           <div className="flex items-center gap-1">
             {filterLabels.map(f => (
               <button
@@ -353,7 +353,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                     color: 'var(--on-pill)',
                     borderColor: 'var(--pill)',
                   }
-                  : { backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--text-muted)', borderColor: 'var(--glass-border)' }
+                  : { backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--muted)', borderColor: 'var(--line)' }
                 }
               >
                 {f.label}
@@ -362,15 +362,15 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Sort:</span>
+            <span className="text-xs" style={{ color: 'var(--muted)' }}>Sort:</span>
             {(['relevance', 'date', 'title'] as SortType[]).map(s => (
               <button
                 key={s}
                 onClick={() => setSortType(s)}
                 className="text-xs px-2 py-0.5 rounded transition-all"
                 style={sortType === s
-                  ? { color: 'var(--accent-500)', fontWeight: 600 }
-                  : { color: 'var(--text-muted)' }
+                  ? { color: 'var(--accent)', fontWeight: 600 }
+                  : { color: 'var(--muted)' }
                 }
               >
                 {s === 'relevance' ? 'Best' : s === 'date' ? 'Latest' : 'A–Z'}
@@ -385,7 +385,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
             <>
               {/* Result count */}
               <div className="px-4 pt-3 pb-1">
-                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                <span className="text-xs" style={{ color: 'var(--muted)' }}>
                   {results.length} result{results.length !== 1 ? 's' : ''}
                 </span>
               </div>
@@ -430,16 +430,16 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                         ? 'var(--accent-50)'
                         : isNews
                           ? 'var(--surface-tint)'
-                          : 'var(--surface-muted)';
+                          : 'var(--surface-2)';
                   const iconTextColor = isBlog
-                    ? 'var(--accent-500)'
+                    ? 'var(--accent)'
                     : isQuestion
-                      ? 'var(--coral-500)'
+                      ? 'var(--accent)'
                       : isTerm
-                        ? 'var(--accent-500)'
+                        ? 'var(--accent)'
                         : isNews
-                          ? 'var(--text-primary)'
-                          : 'var(--text-muted)';
+                          ? 'var(--text)'
+                          : 'var(--muted)';
 
                   return (
                     <Link
@@ -448,7 +448,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                       onClick={onClose}
                       className="flex items-start gap-3 px-3 py-3 rounded-xl mb-1 transition-all duration-100 group"
                       style={isSelected
-                        ? { backgroundColor: 'color-mix(in srgb, var(--accent-500) 10%, transparent)', outline: `1px solid var(--glass-border)` }
+                        ? { backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)', outline: `1px solid var(--line)` }
                         : { backgroundColor: 'transparent' }
                       }
                       onMouseEnter={() => setSelectedIndex(index)}
@@ -486,22 +486,22 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
                             {label}
                           </span>
                           {dateStr && (
-                            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                            <span className="text-xs" style={{ color: 'var(--muted)' }}>
                               {format(new Date(dateStr), 'MMM d, yyyy')}
                             </span>
                           )}
                         </div>
-                        <p className="text-sm font-semibold leading-snug line-clamp-1 mb-0.5" style={{ color: 'var(--text-primary)' }}>
+                        <p className="text-sm font-semibold leading-snug line-clamp-1 mb-0.5" style={{ color: 'var(--text)' }}>
                           {title}
                         </p>
-                        <p className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--text-muted)' }}>
+                        <p className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--muted)' }}>
                           {subtitle}
                         </p>
                       </div>
 
                       {/* Arrow */}
                       <svg className={`w-4 h-4 flex-shrink-0 mt-1 transition-transform duration-150 ${isSelected ? 'translate-x-0.5' : ''}`}
-                        style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        style={{ color: 'var(--muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </Link>
@@ -512,15 +512,15 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
           ) : query ? (
             <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
               <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4"
-                style={{ backgroundColor: 'var(--surface-muted)' }}>
-                <svg className="w-6 h-6" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                style={{ backgroundColor: 'var(--surface-2)' }}>
+                <svg className="w-6 h-6" style={{ color: 'var(--muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <p className="text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
+              <p className="text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>
                 No results for &ldquo;{query}&rdquo;
               </p>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs" style={{ color: 'var(--muted)' }}>
                 Try different keywords or browse by category below
               </p>
             </div>
@@ -529,7 +529,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
               {/* Quick suggestions */}
               <div className="mb-5">
                 <p className="text-xs font-semibold uppercase tracking-widest mb-3 px-1"
-                  style={{ color: 'var(--text-muted)' }}>Categories</p>
+                  style={{ color: 'var(--muted)' }}>Categories</p>
                 <div className="flex flex-wrap gap-2">
                   {suggestions.categories.map(cat => (
                     <button key={cat} onClick={() => setQuery(cat)}
@@ -542,14 +542,14 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest mb-3 px-1"
-                  style={{ color: 'var(--text-muted)' }}>Popular tags</p>
+                  style={{ color: 'var(--muted)' }}>Popular tags</p>
                 <div className="flex flex-wrap gap-2">
                   {suggestions.tags.map(tag => (
                     <button key={tag} onClick={() => setQuery(tag)}
                       className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-150"
-                      style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }}
-                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--neutral-200)'}
-                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-muted)'}
+                      style={{ backgroundColor: 'var(--surface-2)', color: 'var(--body)', border: '1px solid var(--line)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--line-2)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-2)'}
                     >
                       #{tag}
                     </button>
@@ -562,7 +562,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
 
         {/* Keyboard hint footer */}
         <div className="px-4 py-2.5 flex items-center gap-4"
-          style={{ borderTop: '1px solid var(--glass-border)', backgroundColor: 'var(--surface-muted)' }}>
+          style={{ borderTop: '1px solid var(--line)', backgroundColor: 'var(--surface-2)' }}>
           {[
             { keys: ['↑', '↓'], label: 'Navigate' },
             { keys: ['↵'], label: 'Open' },
@@ -572,11 +572,11 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
               {keys.map(k => (
                 <kbd key={k}
                   className="text-xs px-1.5 py-0.5 rounded font-mono"
-                  style={{ backgroundColor: 'var(--glass-bg-subtle)', border: '1px solid var(--glass-border)', color: 'var(--text-muted)' }}>
+                  style={{ backgroundColor: 'var(--glass-bg-subtle)', border: '1px solid var(--line)', color: 'var(--muted)' }}>
                   {k}
                 </kbd>
               ))}
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{label}</span>
+              <span className="text-xs" style={{ color: 'var(--muted)' }}>{label}</span>
             </div>
           ))}
         </div>

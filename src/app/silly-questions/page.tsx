@@ -80,14 +80,14 @@ export default async function SillyQuestionsPage() {
         <div className="hero-gradient-bg">
           <div className="page-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
-              style={{ color: 'var(--accent-500)' }}>
+              style={{ color: 'var(--accent)' }}>
               Debug Diary
             </p>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3"
-              style={{ color: 'var(--text-primary)' }}>
+              style={{ color: 'var(--text)' }}>
               Silly Questions &{' '}
               <span style={{
-                background: 'linear-gradient(135deg, var(--accent-400), var(--accent-600))',
+                background: 'linear-gradient(135deg, var(--marigold), var(--accent-600))',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -96,19 +96,19 @@ export default async function SillyQuestionsPage() {
               </span>
             </h1>
             <p className="text-lg leading-relaxed max-w-2xl"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               We all make silly mistakes while coding. Here are some of mine, along with the lessons
               learned — hopefully they&apos;ll save you some debugging time.
             </p>
 
             {/* Stats */}
             <div className="flex flex-wrap items-center gap-3 mt-6 pt-6"
-              style={{ borderTop: '1px solid var(--border)' }}>
+              style={{ borderTop: '1px solid var(--line)' }}>
               <span className="nb-badge nb-badge-muted">
                 {questions.length} questions & answers
               </span>
               <span className="inline-flex items-center gap-1.5 text-sm px-3 py-1 rounded-full font-medium"
-                style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)' }}>
+                style={{ backgroundColor: 'var(--surface-2)', color: 'var(--body)' }}>
                 {allCategories.length} categories
               </span>
             </div>
