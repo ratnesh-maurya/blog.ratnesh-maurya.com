@@ -11,6 +11,27 @@ Source of truth for the target look: [DESIGN.md](DESIGN.md). This file only says
 | Default theme | **Dark always.** `<html data-theme="dark">` rendered on the server. Pre-paint script only switches to light if the visitor chose it. The OS `prefers-color-scheme` is no longer read. |
 | Rollout | **Foundation first, then page groups.** One PR per phase, merged in order. |
 
+## Progress
+
+| Phase | Status | Commit |
+|---|---|---|
+| 0 Baseline | done (screenshots of 6 routes in `docs/ledger-baseline/`, counts in `docs/ledger-baseline.md`) | 520dc98 |
+| 1 Tokens, fonts, theme | done | 99913af |
+| 2 Primitives | done | 6fce5ff |
+| 3 Global chrome | done | 21060c9 |
+| 4–11 | not started | |
+
+Deviations from the spec made so far (revisit if you disagree):
+
+- **No status pill and no "hire" pill in the header.** DESIGN.md has them, but they need copy about availability that I should not invent.
+- **Breakpoints stay at Tailwind defaults** (sm 640, md 768, lg 1024). The spec's 520/720/900/1100 would shift every existing `md:`/`lg:` class. Ledger-specific CSS uses the spec widths directly in media queries.
+- **Mobile keeps the hamburger drawer** instead of a scrolling second nav row. The drawer tested better at 390px.
+- **Footer wordmark is "रत्न"** (decorative, `aria-hidden`). Change it in `Footer.tsx` if you want other text.
+- **`--radius-sm/md/lg` follow the spec (12/18/26px)**, so Tailwind `rounded-sm/md/lg` are now rounder everywhere. `rounded-xl/2xl` are unchanged.
+- **Accent-coloured buttons with white text became ink pills** (`--pill` / `--on-pill`). The old pairing fails contrast against the dark-mode accent.
+- **highlight.js now uses a token-only theme**, and `highlight.js/styles/github.css` is no longer imported.
+- Still to check: light theme visually (only dark was reviewed so far), and a Lighthouse comparison against the baseline.
+
 ## Where we are now (facts from the repo)
 
 - Next 15.5.9, React 19.1, Tailwind v4 (`@tailwindcss/postcss`), `recharts` 3.7. No `lucide-react` (icons are inline SVG today).
