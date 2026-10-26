@@ -48,7 +48,7 @@ export function BookmarksList() {
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full"
-          style={{ backgroundColor: 'var(--accent-500)', color: '#fff' }}
+          style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
         >
           Browse the blog
         </Link>

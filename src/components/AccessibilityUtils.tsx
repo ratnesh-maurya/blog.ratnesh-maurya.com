@@ -11,8 +11,8 @@ export function SkipLink({ href, children }: SkipLinkProps) {
   return (
     <a
       href={href}
-      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 px-4 py-2 rounded-lg font-medium z-50 focus:outline-none"
-      style={{ backgroundColor: 'var(--accent-500)', color: 'var(--text-inverse)' }}
+      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 px-5 py-3 rounded-full font-medium z-[100]"
+      style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
     >
       {children}
     </a>

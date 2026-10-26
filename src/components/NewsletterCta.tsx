@@ -28,7 +28,7 @@ export function NewsletterCta() {
         <Link
           href="/newsletter?utm_source=blog&utm_medium=inline-cta"
           className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full transition-transform hover:-translate-y-0.5"
-          style={{ backgroundColor: 'var(--accent-500)', color: '#fff' }}
+          style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
         >
           Subscribe
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -336,7 +336,7 @@ export function AnalyticsDashboard() {
                 }}
                 aria-current={on ? 'true' : undefined}
                 className="shrink-0 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-semibold transition-colors duration-200"
-                style={on ? { backgroundColor: 'var(--accent-500)', color: '#fff' } : { backgroundColor: 'var(--surface-tint)', color: 'var(--text-secondary)' }}
+                style={on ? { backgroundColor: 'var(--pill)', color: 'var(--on-pill)' } : { backgroundColor: 'var(--surface-tint)', color: 'var(--text-secondary)' }}
               >
                 {g.label}
               </a>

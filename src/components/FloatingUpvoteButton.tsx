@@ -106,20 +106,14 @@ export function FloatingUpvoteButton({ type, slug }: FloatingUpvoteButtonProps) 
       disabled={hasUpvoted || isUpvoting}
       style={{
         bottom: `${bottomOffset}px`,
-        backgroundColor: hasUpvoted
-          ? 'color-mix(in srgb, var(--accent-500) 90%, transparent)'
-          : 'var(--glass-bg)',
-        backdropFilter: 'blur(20px) saturate(160%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-        borderColor: hasUpvoted
-          ? 'color-mix(in srgb, var(--accent-400) 60%, rgba(255,255,255,0.4))'
-          : 'var(--glass-border)',
-        color: hasUpvoted ? '#FFFEF0' : 'var(--text-secondary)',
-        boxShadow: hasUpvoted
-          ? '0 8px 28px color-mix(in srgb, var(--accent-500) 35%, transparent), var(--glass-shadow)'
-          : 'var(--glass-shadow)',
+        backgroundColor: hasUpvoted ? 'var(--pill)' : 'var(--glass)',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
+        borderColor: hasUpvoted ? 'var(--pill)' : 'var(--line)',
+        color: hasUpvoted ? 'var(--on-pill)' : 'var(--secondary)',
+        boxShadow: '0 10px 30px rgba(30, 20, 40, .16)',
       }}
-      className="fixed right-6 z-[100] inline-flex flex-row items-center justify-center gap-2 px-4 py-3 border rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
+      className="fixed right-6 z-[60] inline-flex flex-row items-center justify-center gap-2 px-5 min-h-[44px] border rounded-full transition-colors duration-150 disabled:cursor-not-allowed"
       title={hasUpvoted ? 'Already upvoted' : 'Upvote this post'}
     >
       <svg

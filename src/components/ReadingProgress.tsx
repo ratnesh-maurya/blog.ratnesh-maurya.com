@@ -32,12 +32,12 @@ export function ReadingProgress() {
   }, []);
 
   return (
-    <div className="fixed top-16 left-0 right-0 z-40 h-0.5" style={{ backgroundColor: 'var(--border)' }}>
+    <div className="fixed top-16 left-0 right-0 z-40 h-0.5" style={{ backgroundColor: 'var(--line)' }}>
       <div
         ref={barRef}
         className="h-full will-change-transform"
         style={{
-          background: 'linear-gradient(90deg, var(--accent-400), var(--accent-500))',
+          background: 'var(--saffron)',
           transformOrigin: 'left',
           transform: 'scaleX(0)',
         }}

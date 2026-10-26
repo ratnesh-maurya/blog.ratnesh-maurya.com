@@ -297,7 +297,7 @@ export default function AdminReelsClient() {
           <button
             onClick={saveSecret}
             className="w-full rounded-xl px-4 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5"
-            style={{ backgroundColor: 'var(--accent-500)', color: 'white' }}
+            style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
           >
             Unlock
           </button>
@@ -528,7 +528,7 @@ export default function AdminReelsClient() {
               type="submit"
               disabled={loading}
               className="flex-1 rounded-xl px-4 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 disabled:opacity-50"
-              style={{ backgroundColor: 'var(--accent-500)', color: 'white' }}
+              style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
             >
               {loading ? 'Saving…' : 'Save reel'}
             </button>

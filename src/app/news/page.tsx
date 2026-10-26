@@ -141,7 +141,7 @@ export default async function NewsPage() {
                 <div className="flex items-center gap-3 mb-3">
                   <span
                     className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full"
-                    style={{ backgroundColor: 'var(--accent-500)', color: '#fff' }}
+                    style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
                   >
                     {latestIsToday ? 'Today' : 'Latest'}
                   </span>

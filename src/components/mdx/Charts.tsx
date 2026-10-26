@@ -23,7 +23,7 @@ function useAccentHex(fallback = '#0d9488') {
   useEffect(() => {
     read();
     const observer = new MutationObserver(read);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-accent', 'data-theme'] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
   }, [read]);
   return hex;

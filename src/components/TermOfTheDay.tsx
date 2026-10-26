@@ -51,7 +51,7 @@ export function TermOfTheDay({ terms }: TermOfTheDayProps) {
             <Link
               href={`/technical-terms/${term.slug}`}
               className="inline-flex items-center justify-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full transition-transform hover:-translate-y-0.5"
-              style={{ backgroundColor: 'var(--accent-500)', color: '#fff' }}
+              style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
             >
               Read the definition
             </Link>

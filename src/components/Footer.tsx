@@ -64,23 +64,11 @@ const socialLinks = [
 function FooterSection({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
     <div>
-      <h4 className="nb-section-label mb-4" style={{ color: 'var(--footer-text-muted)' }}>
-        {title}
-      </h4>
-      <ul className="space-y-2.5">
+      <h4 className="lg-foot-head">{title}</h4>
+      <ul className="lg-foot-list">
         {links.map(link => (
           <li key={link.href}>
-            <Link
-              href={link.href}
-              className="text-sm font-semibold transition-colors duration-150"
-              style={{ color: 'var(--footer-text-secondary)' }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-primary)';
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)';
-              }}
-            >
+            <Link href={link.href} className="lg-foot-link">
               {link.label}
             </Link>
           </li>
@@ -92,100 +80,62 @@ function FooterSection({ title, links }: { title: string; links: { label: string
 
 export function Footer() {
   return (
-    <footer
-      style={{
-        backgroundColor: 'var(--footer-bg)',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
-      }}
-    >
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="lg-footer">
+      <div className="wrap">
 
         {/* Main footer grid */}
-        <div className="py-14">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-10">
+        <div className="lg-foot-grid">
 
-            {/* Brand */}
-            <div className="col-span-2 sm:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <span
-                  className="inline-flex w-8 h-8 items-center justify-center rounded-lg flex-shrink-0"
-                  style={{ backgroundColor: 'var(--footer-surface)', border: '1px solid var(--footer-border)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}
+          {/* Brand */}
+          <div>
+            <p className="lg-brand lg-brand-lg">RatnLabs</p>
+            <p className="lg-foot-note">
+              Systems thinking, backend architecture, and AI engineering.
+            </p>
+
+            {/* Social icons */}
+            <div className="lg-socials">
+              {socialLinks.map(s => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="lg-icon-btn"
+                  aria-label={s.label}
                 >
-                  <span className="text-xs font-black" style={{ color: 'var(--footer-text-primary)' }}>R</span>
-                </span>
-                <h3 className="text-xl font-black" style={{ color: 'var(--footer-text-primary)' }}>
-                  Ratn<span style={{ color: 'var(--accent-500)' }}>Labs</span>
-                </h3>
-              </div>
-
-              <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--footer-text-secondary)' }}>
-                Systems thinking, backend architecture, and AI engineering.
-              </p>
-
-              {/* Social icons */}
-              <div className="flex flex-wrap gap-2">
-                {socialLinks.map(s => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-150 hover:scale-95"
-                    style={{
-                      backgroundColor: 'var(--footer-surface)',
-                      border: '1px solid var(--footer-border)',
-                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
-                      color: 'var(--footer-text-secondary)',
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface-hover)';
-                      (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent-500)';
-                      (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-primary)';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--footer-surface)';
-                      (e.currentTarget as HTMLElement).style.borderColor = 'var(--footer-border)';
-                      (e.currentTarget as HTMLElement).style.color = 'var(--footer-text-secondary)';
-                    }}
-                    aria-label={s.label}
+                  <svg
+                    width="18"
+                    height="18"
+                    fill={s.isStroke ? 'none' : 'currentColor'}
+                    stroke={s.isStroke ? 'currentColor' : undefined}
+                    strokeWidth={s.isStroke ? 1.8 : undefined}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    <svg
-                      className="w-4 h-4"
-                      fill={s.isStroke ? 'none' : 'currentColor'}
-                      stroke={s.isStroke ? 'currentColor' : undefined}
-                      strokeWidth={s.isStroke ? 2 : undefined}
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d={s.path}
-                        strokeLinecap={s.isStroke ? 'round' : undefined}
-                        strokeLinejoin={s.isStroke ? 'round' : undefined}
-                      />
-                    </svg>
-                  </a>
-                ))}
-              </div>
+                    <path
+                      d={s.path}
+                      strokeLinecap={s.isStroke ? 'round' : undefined}
+                      strokeLinejoin={s.isStroke ? 'round' : undefined}
+                    />
+                  </svg>
+                </a>
+              ))}
             </div>
-
-            <FooterSection title="Content" links={contentLinks} />
-            <FooterSection title="Reference" links={referenceLinks} />
-            <FooterSection title="Site" links={siteLinks} />
           </div>
+
+          <FooterSection title="Content" links={contentLinks} />
+          <FooterSection title="Reference" links={referenceLinks} />
+          <FooterSection title="Site" links={siteLinks} />
         </div>
 
-        {/* Bottom bar */}
-        <div
-          className="py-5 flex flex-col sm:flex-row justify-between items-center gap-3"
-          style={{ borderTop: '1px solid var(--footer-border)' }}
-        >
-          <p className="text-xs font-semibold" style={{ color: 'var(--footer-text-muted)' }}>
-            &copy; {new Date().getFullYear()} Ratnesh Maurya. All rights reserved.
-          </p>
-          <div className="flex items-center gap-4 text-xs font-semibold" style={{ color: 'var(--footer-text-muted)' }}>
-            <span>Views: <TotalViews /></span>
-            <span style={{ color: 'var(--footer-border)' }}>|</span>
-            <span>Next.js · Tailwind · TypeScript</span>
+        {/* Base row: script wordmark, note, back to top */}
+        <div className="lg-foot-base">
+          <span className="lg-wordmark" lang="hi" aria-hidden="true">रत्न</span>
+          <div className="lg-foot-meta">
+            <p>&copy; {new Date().getFullYear()} Ratnesh Maurya. All rights reserved.</p>
+            <p>Views: <TotalViews /> — Next.js · Tailwind · TypeScript</p>
+            <a href="#main-content" className="btn btn-ghost btn-sm">Back to top ↑</a>
           </div>
         </div>
       </div>

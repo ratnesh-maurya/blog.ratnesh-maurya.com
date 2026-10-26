@@ -292,14 +292,14 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
       <div
         ref={popupRef}
         data-search-popup
-        className={`w-full max-w-2xl rounded-2xl overflow-hidden transition-all duration-200 ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-97 -translate-y-3'
+        className={`w-full max-w-2xl rounded-[26px] overflow-hidden transition-all duration-200 ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-97 -translate-y-3'
           }`}
         style={{
           backgroundColor: 'var(--glass-bg)',
-          backdropFilter: 'blur(28px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+          backdropFilter: 'blur(16px) saturate(1.3)',
+          WebkitBackdropFilter: 'blur(16px) saturate(1.3)',
           border: '1px solid var(--glass-border)',
-          boxShadow: 'var(--glass-shadow-lg)',
+          boxShadow: '0 18px 48px rgba(30, 20, 40, .2)',
           maxHeight: '80vh',
           display: 'flex',
           flexDirection: 'column',
@@ -346,13 +346,12 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
               <button
                 key={f.id}
                 onClick={() => setFilterType(f.id)}
-                className="text-xs px-2.5 py-1 rounded-full font-medium transition-all duration-150 border"
+                className="text-xs px-3 py-1.5 rounded-full font-medium transition-colors duration-150 border"
                 style={filterType === f.id
                   ? {
-                    backgroundColor: 'color-mix(in srgb, var(--accent-500) 90%, transparent)',
-                    color: '#FFFEF0',
-                    borderColor: 'color-mix(in srgb, var(--accent-400) 60%, rgba(255,255,255,0.4))',
-                    boxShadow: '0 2px 8px color-mix(in srgb, var(--accent-500) 25%, transparent)',
+                    backgroundColor: 'var(--pill)',
+                    color: 'var(--on-pill)',
+                    borderColor: 'var(--pill)',
                   }
                   : { backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--text-muted)', borderColor: 'var(--glass-border)' }
                 }

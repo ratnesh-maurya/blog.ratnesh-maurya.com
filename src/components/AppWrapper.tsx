@@ -1,6 +1,5 @@
 'use client';
 
-import { AccentColorProvider } from '@/components/AccentColorProvider';
 import { FocusTrap, SkipLink, useKeyboardShortcut } from '@/components/AccessibilityUtils';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
@@ -92,8 +91,8 @@ export function AppWrapper({ children }: AppWrapperProps) {
   });
 
   return (
-    <AccentColorProvider>
-      <div className="app-shell min-h-screen flex flex-col transition-colors" style={{ color: 'var(--text-primary)' }}>
+    <>
+      <div className="app-shell min-h-screen flex flex-col transition-colors" style={{ color: 'var(--text)' }}>
         <UtmTracker />
 
         <SkipLink href="#main-content">Skip to main content</SkipLink>
@@ -134,6 +133,6 @@ export function AppWrapper({ children }: AppWrapperProps) {
           )}
         </FocusTrap>
       </div>
-    </AccentColorProvider>
+    </>
   );
 }
