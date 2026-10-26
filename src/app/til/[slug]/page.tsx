@@ -123,7 +123,7 @@ export default async function TILEntryPage({ params }: TILPageProps) {
 
           {/* Content */}
           <article
-            className="blog-content prose-sm"
+            className="prose max-w-none"
             dangerouslySetInnerHTML={{ __html: entry.content }}
           />
 

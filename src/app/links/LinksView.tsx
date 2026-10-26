@@ -6,7 +6,7 @@ import { SITE_URL, isSiteHost, isSiteUrl } from '@/lib/site';
 const PROFILE_URL = 'https://www.instagram.com/ratn_labs/';
 
 /** Instagram's brand gradient — only on the avatar ring, so the page reads as "from Instagram" without copying it. */
-const STORY_RING = 'linear-gradient(45deg, #f9ce34 0%, #ee2a7b 55%, #6228d7 100%)';
+const STORY_RING = 'var(--saffron)';
 
 const KINDS: Record<string, string> = {
   blog: 'Blog post',
@@ -107,7 +107,7 @@ function Cover({ src, title, kind }: { src: string | null; title: string; kind: 
       ) : (
         <div
           className="absolute inset-0 flex flex-col justify-between p-5 text-white"
-          style={{ background: 'linear-gradient(150deg, var(--accent-500), color-mix(in srgb, var(--accent-500) 50%, #000))' }}
+          style={{ background: 'var(--panel)' }}
         >
           <span className="text-[11px] font-bold uppercase tracking-[0.18em] opacity-80">{kind}</span>
           <span className="text-xl font-extrabold leading-tight tracking-tight line-clamp-5">{title}</span>
@@ -143,7 +143,7 @@ function Tile({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
       <div className="pointer-events-none relative">
         <Cover src={coverFor(reel)} title={reel.title} kind={kind} />
         {isLatest && (
-          <span className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm" style={{ backgroundColor: 'var(--accent-500)' }}>
+          <span className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-sm" style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}>
             Latest
           </span>
         )}
@@ -212,8 +212,8 @@ export function LinksView({ reels }: { reels: Reel[] }) {
             <div className="flex items-center gap-4 sm:contents">
               <span className="inline-flex shrink-0 rounded-full p-[3px]" style={{ background: STORY_RING }}>
                 <span
-                  className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-black text-white sm:h-24 sm:w-24 sm:text-4xl"
-                  style={{ backgroundColor: 'var(--accent-500)', border: '3px solid var(--background)' }}
+                  className="flex h-20 w-20 items-center justify-center rounded-full font-display text-4xl sm:h-24 sm:w-24 sm:text-5xl"
+                  style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)', border: '3px solid var(--bg)' }}
                   aria-hidden="true"
                 >
                   R
@@ -243,8 +243,7 @@ export function LinksView({ reels }: { reels: Reel[] }) {
                 href={PROFILE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all hover:brightness-110 sm:flex-none"
-                style={{ backgroundColor: 'var(--accent-500)' }}
+                className="btn btn-primary btn-sm flex-1 sm:flex-none"
               >
                 <InstagramGlyph />
                 Follow
