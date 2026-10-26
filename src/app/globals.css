@@ -1091,12 +1091,14 @@ html, body {
   .print-break-before { page-break-before: always; }
   .print-break-after { page-break-after: always; }
 
-  body {
-    font-size: 12pt;
-    line-height: 1.4;
-    color: black;
-    background: white;
+  /* Print on paper: light Ledger tokens whatever the screen theme is */
+  :root, :root[data-theme="dark"] {
+    --bg: #fff; --surface: #fff; --surface-2: #F6F3EC; --glass: #fff;
+    --text: #000; --body: #222; --secondary: #222; --muted: #444;
+    --line: #bbb; --rule: #000; --accent: #222; --shadow: none;
   }
+  body { font-size: 12pt; line-height: 1.4; color: #000; background: #fff; }
+  body::before, .header-nav, .lg-footer, .lg-rail, .sky { display: none !important; }
 
   .prose { max-width: none; }
   .prose h1, .prose h2, .prose h3 { page-break-after: avoid; }
