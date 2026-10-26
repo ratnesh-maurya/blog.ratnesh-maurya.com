@@ -36,10 +36,6 @@ export async function generateMetadata({ params }: TILPageProps): Promise<Metada
   });
 }
 
-const categoryEmoji: Record<string, string> = {
-  Go: '🐹', PostgreSQL: '🐘', Kubernetes: '☸️',
-  AWS: '☁️', Docker: '🐳', TypeScript: '🔷', Elixir: '💧', General: '💡',
-};
 
 export default async function TILEntryPage({ params }: TILPageProps) {
   const { slug } = await params;
@@ -81,7 +77,6 @@ export default async function TILEntryPage({ params }: TILPageProps) {
             {/* Metadata row */}
             <div className="flex flex-wrap items-center gap-2 mb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
               <span className="nb-badge nb-badge-muted inline-flex items-center gap-1.5">
-                <span className="text-sm leading-none">{categoryEmoji[entry.category] ?? '💡'}</span>
                 {entry.category}
               </span>
               <span aria-hidden="true" style={{ color: 'var(--border)' }}>·</span>

@@ -7,17 +7,6 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-const categoryEmoji: Record<string, string> = {
-  Go: '🐹',
-  PostgreSQL: '🐘',
-  Kubernetes: '☸️',
-  AWS: '☁️',
-  Docker: '🐳',
-  TypeScript: '🔷',
-  Elixir: '💧',
-  General: '💡',
-};
-
 interface TILListingClientProps {
   entries: TILEntry[];
   categories: string[];
@@ -63,7 +52,7 @@ export function TILListingClient({ entries, categories }: TILListingClientProps)
               : { color: 'var(--text-muted)' }
             }
           >
-            {categoryEmoji[cat] ?? '💡'} {cat}
+            {cat}
           </button>
         ))}
       </nav>
@@ -76,7 +65,6 @@ export function TILListingClient({ entries, categories }: TILListingClientProps)
               <article>
                 {/* Category + date line */}
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm">{categoryEmoji[entry.category] ?? '💡'}</span>
                   <span className="nb-badge nb-badge-primary">
                     {entry.category}
                   </span>
@@ -117,8 +105,7 @@ export function TILListingClient({ entries, categories }: TILListingClientProps)
 
       {filteredEntries.length === 0 && (
         <div className="text-center py-20" style={{ color: 'var(--text-muted)' }}>
-          <p className="text-4xl mb-4">📝</p>
-          <p className="text-base font-medium">
+                    <p className="text-base font-medium">
             {activeCategory ? `No entries in "${activeCategory}" yet.` : 'First TIL entry coming soon.'}
           </p>
           {activeCategory && (

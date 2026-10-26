@@ -117,7 +117,6 @@ export default async function SeriesPage() {
                   borderBottom: '1px solid var(--glass-border)',
                 }}>
                 <div className="flex items-start gap-3">
-                  <span className="text-3xl mt-0.5">{s.emoji}</span>
                   <div>
                     <h2 className="text-xl font-extrabold tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>
                       {s.title}

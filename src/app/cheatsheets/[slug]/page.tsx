@@ -81,7 +81,6 @@ export default async function CheatsheetPage({
           {/* Header */}
           <header className="mb-12">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-4xl leading-none">{data.emoji ?? '📄'}</span>
               <h1
                 className="font-extrabold text-3xl md:text-4xl tracking-tight leading-tight"
                 style={{ color: 'var(--text-primary)' }}

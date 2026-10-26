@@ -74,6 +74,11 @@
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-deva: var(--font-tiro), var(--font-instrument), serif;
 
+  /* Ledger never goes heavier than 600 (headings are serif 400) */
+  --font-weight-bold: 600;
+  --font-weight-extrabold: 600;
+  --font-weight-black: 600;
+
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 26px;
@@ -105,6 +110,9 @@
   --glow-1:rgba(255,122,24,.10); --glow-2:rgba(232,51,109,.07);
   --shadow:0 1px 2px rgba(23,21,15,.04), 0 10px 30px rgba(23,21,15,.06);
   --overlay-backdrop:rgba(10,10,16,.9);
+  /* Chart series: marigold first, then hues far enough apart to tell neighbours apart. No pink. */
+  --chart-1:var(--marigold); --chart-2:var(--ok); --chart-3:#8A6A2E; --chart-4:var(--muted);
+  --chart-5:var(--peacock); --chart-6:var(--secondary);
   --ok-text:#17794A;
 
   /* Family names; the @font-face rules live in fonts.css */
@@ -248,6 +256,7 @@
   --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.38);
   --warning: #FFB347;
   --ok-text:#5FCB92;
+  --chart-3:#C9A46A;
 }
 
 /* ─── Header / Navigation (Ledger: translucent + blur 12px + hairline) ─── */
@@ -1562,3 +1571,80 @@ html, body {
   letter-spacing: -.01em;
 }
 .lg-blog .lg\:col-span-2 h2 { font-size: clamp(30px, 3.4vw, 40px); line-height: 1.05; }
+
+
+/* ══════════════════════════════════════════════════════════
+   SITE-WIDE TYPOGRAPHY (phases 5–7)
+   Every heading in page content is the display serif at 400, like the portfolio.
+   The Tailwind type scale is re-tuned inside headings because Instrument Serif
+   reads ~25% smaller than Geist at the same size.
+   ══════════════════════════════════════════════════════════ */
+main :is(h1, h2, h3) {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -.015em;
+  line-height: 1.1;
+  text-wrap: balance;
+  --text-xs: .95rem;
+  --text-sm: 1.1rem;
+  --text-base: 1.3rem;
+  --text-lg: 1.45rem;
+  --text-xl: 1.65rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.6rem;
+  --text-4xl: 3.2rem;
+  --text-5xl: 4rem;
+  --text-6xl: 4.8rem;
+  --text-7xl: 5.6rem;
+}
+main h1 { letter-spacing: -.02em; line-height: 1.02; }
+main :is(h1, h2, h3) strong,
+main :is(h1, h2, h3) b { font-weight: 400; }
+
+/* Uppercase tracked labels are mono kickers, never serif or heavy sans */
+main .uppercase[class*="tracking"],
+main :is(h1, h2, h3, h4, p, span, div).uppercase,
+.nb-badge {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: .1em;
+}
+
+/* Old "accent-coloured half heading" spans become the italic gradient word */
+main :is(h1, h2) :is(span, em)[style*="--accent-"],
+main :is(h1, h2) .gradient-text-primary,
+main :is(h1, h2) .nb-gradient-text {
+  font-style: italic;
+  background-image: var(--saffron);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  padding-right: .06em;
+}
+
+/* Kickers are grey mono everywhere (portfolio), whatever colour the markup asks for */
+.nb-section-label { color: var(--muted) !important; }
+
+/* Tag badges: quiet 6px tags like the portfolio's .lg-pill-tag, not filled pills */
+.nb-badge-primary,
+.nb-badge-muted {
+  background: var(--tag-bg);
+  color: var(--secondary);
+  border-color: transparent;
+}
+.nb-badge {
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-size: 11.5px;
+  letter-spacing: .04em;
+}
+
+/* Small card titles (related posts, news, prev/next): serif like the portfolio's project titles */
+.lg-card-title {
+  font: 400 21px/1.15 var(--font-display);
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+/* Mono for dates and meta text inside cards */
+main time { font-family: var(--font-mono); font-size: .92em; letter-spacing: 0; }

@@ -4,12 +4,12 @@ type Tone = 'green' | 'pink' | 'yellow';
 
 function getAccent(tone: Tone = 'green') {
   if (tone === 'pink') {
-    return 'var(--pink-500)';
+    return 'var(--accent)';
   }
   if (tone === 'yellow') {
-    return 'var(--yellow-500)';
+    return 'var(--peacock)';
   }
-  return 'var(--accent-500)';
+  return 'var(--ok)';
 }
 
 export function ArchitectureColumns({

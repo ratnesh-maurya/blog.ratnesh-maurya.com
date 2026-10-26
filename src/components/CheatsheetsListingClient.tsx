@@ -44,7 +44,6 @@ export function CheatsheetsListingClient({ sheets }: CheatsheetsListingClientPro
           }}
         >
           <div className="flex items-start justify-between mb-4">
-            <span className="text-3xl">{sheet.emoji}</span>
             {statsLoaded && stats.views[sheet.slug] != null && (
               <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium"
                 style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}>

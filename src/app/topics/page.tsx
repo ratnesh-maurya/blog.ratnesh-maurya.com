@@ -112,7 +112,6 @@ export default async function TopicsPage() {
                       style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
                     >
                       <div className="flex items-start justify-between mb-3">
-                        <span className="text-2xl">{meta.emoji}</span>
                         <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
                           style={{ backgroundColor: meta.color, color: meta.textColor }}>
                           {count} {count === 1 ? 'post' : 'posts'}
@@ -160,7 +159,6 @@ export default async function TopicsPage() {
                         style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
                       >
                         <div className="flex items-start justify-between mb-3">
-                          <span className="text-2xl">{meta.emoji}</span>
                           <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
                             style={{ backgroundColor: meta.color, color: meta.textColor }}>
                             {count} {count === 1 ? 'Q&A' : 'Q&As'}

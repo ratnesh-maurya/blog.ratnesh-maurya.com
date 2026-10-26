@@ -14,10 +14,10 @@ import {
   YAxis,
 } from 'recharts';
 
-function useAccentHex(fallback = '#0d9488') {
+function useAccentHex(fallback = '#FF7A18') {
   const [hex, setHex] = useState(fallback);
   const read = useCallback(() => {
-    const v = getComputedStyle(document.documentElement).getPropertyValue('--accent-500').trim();
+    const v = getComputedStyle(document.documentElement).getPropertyValue('--chart-1').trim();
     if (v) setHex(v);
   }, []);
   useEffect(() => {
@@ -44,7 +44,7 @@ const DEMO_PIE_DATA = [
 ];
 
 // Shades of the theme accent, alternating light and dark so neighbouring slices stay distinguishable.
-const CHART_COLORS_TAIL = ['var(--accent-300)', 'var(--accent-700)', 'var(--accent-400)'];
+const CHART_COLORS_TAIL = ['var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)'];
 
 const CACHING_ADOPTION_DATA = [
   { name: 'Cache Aside', value: 65 },
@@ -55,7 +55,7 @@ const CACHING_ADOPTION_DATA = [
   { name: 'Refresh-Ahead', value: 2 },
 ];
 
-const CACHING_ADOPTION_COLORS_TAIL = ['var(--accent-300)', 'var(--accent-700)', 'var(--accent-400)', 'var(--accent-600)', 'var(--accent-200)'];
+const CACHING_ADOPTION_COLORS_TAIL = ['var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)', 'var(--chart-6)'];
 
 const CACHING_TRADEOFF_DATA = [
   { name: 'Cache Aside', consistency: 5, writeSpeed: 6 },
@@ -105,11 +105,11 @@ export function DemoBarChart() {
             <XAxis
               dataKey="name"
               tick={{ fill: 'var(--text-muted)', fontSize: 12 }}
-              stroke="var(--border)"
+              stroke="var(--line)"
             />
             <YAxis
               tick={{ fill: 'var(--text-muted)', fontSize: 12 }}
-              stroke="var(--border)"
+              stroke="var(--line)"
             />
             <Tooltip
               contentStyle={{
@@ -291,14 +291,14 @@ export function CachingTradeoffChart() {
               type="number"
               domain={[0, 11]}
               tick={{ fill: 'var(--text-muted)', fontSize: 11 }}
-              stroke="var(--border)"
+              stroke="var(--line)"
             />
             <YAxis
               type="category"
               dataKey="name"
               width={80}
               tick={{ fill: 'var(--text-muted)', fontSize: 11 }}
-              stroke="var(--border)"
+              stroke="var(--line)"
             />
             <Tooltip
               contentStyle={{
@@ -312,7 +312,7 @@ export function CachingTradeoffChart() {
             <Bar
               dataKey="consistency"
               name="Data safety (consistency)"
-              fill="var(--accent-300)"
+              fill="var(--chart-2)"
               radius={[0, 4, 4, 0]}
               barSize={10}
             />

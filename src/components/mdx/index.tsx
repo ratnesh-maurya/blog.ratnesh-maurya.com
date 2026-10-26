@@ -20,14 +20,14 @@ function Callout({
   children?: React.ReactNode;
 }) {
   const styles = {
-    info: { borderColor: 'var(--accent-500)', bg: 'color-mix(in srgb, var(--accent-500) 8%, transparent)' },
-    warning: { borderColor: '#b45309', bg: 'rgba(180, 83, 9, 0.08)' },
-    tip: { borderColor: 'var(--accent-600)', bg: 'color-mix(in srgb, var(--accent-600) 8%, transparent)' }
+    info: { borderColor: 'var(--rule)', bg: 'var(--surface-2)' },
+    warning: { borderColor: 'var(--marigold)', bg: 'var(--surface-2)' },
+    tip: { borderColor: 'var(--ok)', bg: 'var(--surface-2)' }
   };
   const s = styles[type];
   return (
     <div
-      className="my-6 rounded-xl border-l-4 p-4"
+      className="my-6 rounded-[18px] border border-[var(--line)] border-l-2 p-5"
       style={{
         borderLeftColor: s.borderColor,
         backgroundColor: s.bg,

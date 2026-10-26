@@ -235,7 +235,6 @@ export default async function AboutPage() {
             <div className="space-y-8">
               {nowSections.map(section => (
                 <div key={section.heading} className="flex gap-5">
-                  <div className="text-2xl mt-0.5 flex-shrink-0">{section.emoji}</div>
                   <div>
                     <h3 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
                       {section.heading}
@@ -370,7 +369,6 @@ export default async function AboutPage() {
               {usesSections.map(section => (
                 <div key={section.title}>
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="text-xl">{section.emoji}</span>
                     <h3 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
                       {section.title}
                     </h3>

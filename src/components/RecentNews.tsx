@@ -34,7 +34,7 @@ export function RecentNews({ news, currentSlug, count = 3 }: RecentNewsProps) {
             <span className="nb-badge nb-badge-muted self-start">
               News Digest
             </span>
-            <span className="text-sm font-bold leading-snug line-clamp-2 nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+            <span className="lg-card-title line-clamp-2 nb-title-hover" style={{ color: 'var(--text-primary)' }}>
               {item.title}
             </span>
             <span className="text-xs mt-auto pt-1 font-semibold" style={{ color: 'var(--text-muted)' }}>

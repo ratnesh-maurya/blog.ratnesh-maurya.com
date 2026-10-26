@@ -43,7 +43,7 @@ export function PostNavigation({ prev, next, accentVar = '--accent-500' }: PostN
               {prev.label}
             </span>
           )}
-          <span className="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-[var(--accent-500)] transition-colors"
+          <span className="lg-card-title line-clamp-2 group-hover:text-[var(--accent-500)] transition-colors"
             style={{ color: 'var(--text-primary)' }}>
             {prev.title}
           </span>
@@ -77,7 +77,7 @@ export function PostNavigation({ prev, next, accentVar = '--accent-500' }: PostN
               {next.label}
             </span>
           )}
-          <span className="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-[var(--accent-500)] transition-colors"
+          <span className="lg-card-title line-clamp-2 group-hover:text-[var(--accent-500)] transition-colors"
             style={{ color: 'var(--text-primary)' }}>
             {next.title}
           </span>

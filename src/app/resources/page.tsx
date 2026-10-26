@@ -113,7 +113,6 @@ export default function ResourcesPage() {
             <section key={section.category}>
               <h2 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-6"
                 style={{ color: 'var(--text-muted)' }}>
-                <span className="text-base">{section.emoji}</span>
                 {section.category}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

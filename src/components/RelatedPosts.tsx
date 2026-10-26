@@ -45,7 +45,7 @@ export function RelatedPosts({ currentSlug, currentCategory, currentTags, allPos
             <span className="nb-badge nb-badge-muted self-start">
               {post.category}
             </span>
-            <span className="text-sm font-bold leading-snug line-clamp-2 nb-title-hover"
+            <span className="lg-card-title line-clamp-2 nb-title-hover"
               style={{ color: 'var(--text-primary)' }}>
               {post.title}
             </span>

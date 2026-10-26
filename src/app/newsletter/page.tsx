@@ -104,7 +104,6 @@ export default async function NewsletterPage() {
                     backdropFilter: 'blur(10px) saturate(160%)',
                     WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
-                  <span className="text-2xl mb-3 block">{p.emoji}</span>
                   <h3 className="text-sm font-bold mb-1.5" style={{ color: 'var(--text-primary)' }}>
                     {p.title}
                   </h3>
