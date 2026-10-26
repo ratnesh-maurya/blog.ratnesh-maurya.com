@@ -20,7 +20,7 @@ The system has two layers. **Rebrand the identity layer; keep the structural lay
 | Item | Ledger value | Where it lives |
 |---|---|---|
 | Brand gradient (two stops) | marigold `#FF7A18` → kumkum `#E8336D` | `--marigold`, `--kumkum`, `--saffron` |
-| Accent text (light / dark) | `#B4381A` / `#FFA866` | `--accent` |
+| Accent text (light / dark) | `#B83A3E` / `#DD5755` | `--accent` (the coral from the middle of the gradient) |
 | Kicker colour (light / dark) | `#C21E56` / `#FF7FA6` | `--rose` |
 | Spot colours | peacock `#FFB347`, neel `#C2185B` | `--peacock`, `--neel` (dusk sky, 404) |
 | Neutral tint | warm yellow-brown ink/paper | `--bg`, `--text`, `--line`, … |
@@ -85,12 +85,12 @@ The system has two layers. **Rebrand the identity layer; keep the structural lay
 | 50 | `#FFF5EB` | (inferred) |
 | 100 | `#FFE8D1` | (inferred) |
 | 200 | `#FFD0A3` | (inferred) |
-| 300 | `#FFA866` | observed: dark `--accent` |
+| 300 | `#FFA866` | (formerly dark `--accent`) |
 | 400 | `#FF8F3D` | (inferred) |
 | **500** | **`#FF7A18`** | observed: `--marigold` |
 | 600 | `#E65F00` | (inferred) |
 | 700 | `#C24A0A` | (inferred) |
-| 800 | `#B4381A` | observed: light `--accent` |
+| 800 | `#B4381A` | (formerly light `--accent`) |
 | 900 | `#7F2610` | (inferred) |
 | 950 | `#4A1409` | (inferred) |
 
@@ -109,6 +109,8 @@ The system has two layers. **Rebrand the identity layer; keep the structural lay
 | 800 | `#9A1745` | (inferred) |
 | 900 | `#6E1032` | (inferred) |
 | 950 | `#420A1E` | (inferred) |
+
+**Coral (accent):** the colour halfway along the marigold → kumkum gradient. Dark `--accent` is `#DD5755`, sampled from the gradient heading word. Light `--accent` is `#B83A3E`, the same hue made deeper, because `#DD5755` is only 3.6:1 on the light paper.
 
 **Spot colours (single values):** peacock/amber `#FFB347`, neel/magenta `#C2185B`, ok/green `#1FA463`.
 
@@ -145,7 +147,7 @@ The system has two layers. **Rebrand the identity layer; keep the structural lay
 | `--line` | `#E7E3DA` | `#2F2B25` | hairlines |
 | `--line-2` | `#EFEBE3` | `#26231E` | inner dividers |
 | `--rule` | `#17150F` | `#F3F0E8` | section top rules, active underline |
-| `--accent` | `#B4381A` | `#FFA866` | links, focus ring |
+| `--accent` | `#B83A3E` | `#DD5755` | links, CTAs, focus ring (gradient mid-coral) |
 | `--rose` | `#C21E56` | `#FF7FA6` | kickers, section labels |
 | `--pill` | `#17150F` | `#F3F0E8` | primary button fill |
 | `--on-pill` | `#FBFAF7` | `#17150F` | text on primary button |
@@ -177,7 +179,7 @@ There are no dedicated warning / error / info tokens. Use `--rose` for error/bad
 
 - The gradient `linear-gradient(90deg, #FF7A18, #E8336D)` is allowed only on: one italic heading word, 8–10px dots, 2px top hairlines, the 2px email underline, and the blurred orb.
 - `--rose` is only for mono eyebrows and kickers.
-- `--accent` is for inline links and the focus ring. Link hover goes to `--muted`, never to a brighter colour.
+- `--accent` is for inline links, text CTAs ("Read more →"), highlighted numbers and the focus ring. It is the coral from the middle of the gradient, so links read as part of the same brand colour as the gradient words. Link hover goes to `--muted`, never to a brighter colour.
 - Marigold and kumkum are never text colour at body size and never a flat fill larger than a dot.
 - Selection: `background: #FF7A18; color: #17150F`.
 
@@ -411,7 +413,7 @@ When rebranding, keep these patterns and change the personality.
 
 ## 10. Accessibility
 
-- **Documented contrast on `--bg`** (from the CSS header): light — text 17.5, body 9.0, muted 5.4, accent 5.7, rose 5.6; dark — text 17.1, body 11.2, muted 7.3, accent 10.2, rose 8.2. All pass AA.
+- **Documented contrast on `--bg`** (from the CSS header): light — text 17.5, body 9.0, muted 5.4, accent 5.4, rose 5.6; dark — text 17.1, body 11.2, muted 7.3, accent 5.2, rose 8.2. All pass AA.
 - **Pill button:** `#FBFAF7` on `#17150F` ≈ 17:1 (dark mode inverted).
 - **Fails AA (decorative only):** `--faint` on bg (~2:1), `--num` numerals, marigold/kumkum as text. Gradient italic words are large display type, but marigold on the light bg is ≈ 2.5:1, below even the 3:1 large-text bar. Treat them as decorative or keep dark mode the default.
 - **Focus ring:** `:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px }`.
@@ -430,7 +432,7 @@ When rebranding, keep these patterns and change the personality.
   --bg:#FBFAF7; --surface:#FFFFFF; --surface-2:#F6F3EC; --glass:rgba(255,255,255,.72);
   --text:#17150F; --body:#4A463E; --secondary:#3D3A33; --muted:#6B675E; --faint:#B3AEA3;
   --line:#E7E3DA; --line-2:#EFEBE3; --rule:#17150F;
-  --accent:#B4381A; --rose:#C21E56; --pill:#17150F; --on-pill:#FBFAF7;
+  --accent:#B83A3E; --rose:#C21E56; --pill:#17150F; --on-pill:#FBFAF7;
   --marigold:#FF7A18; --kumkum:#E8336D; --peacock:#FFB347; --neel:#C2185B; --ok:#1FA463;
   --num:#D9D4C8; --water:#F1EDE4; --water-2:#ECE8DF; --hover:#F6F3EC; --tag-bg:#F4F1EA;
   --panel:#17150F; --panel-text:#F3F0E8; --panel-body:#C9C4B8; --panel-muted:#A39E92;
@@ -457,7 +459,7 @@ When rebranding, keep these patterns and change the personality.
   --bg:#0E0D0B; --surface:#17150F; --surface-2:#1F1C17; --glass:rgba(23,21,15,.72);
   --text:#F3F0E8; --body:#C9C4B8; --secondary:#D6D1C5; --muted:#A39E92; --faint:#6B675E;
   --line:#2F2B25; --line-2:#26231E; --rule:#F3F0E8;
-  --accent:#FFA866; --rose:#FF7FA6; --pill:#F3F0E8; --on-pill:#17150F;
+  --accent:#DD5755; --rose:#FF7FA6; --pill:#F3F0E8; --on-pill:#17150F;
   --num:#3A362F; --water:#16140F; --water-2:#1C1A15; --hover:#1A1814; --tag-bg:#24211C;
   --panel:#1A1814; --panel-line:#3A362F;
   --heat-0:#24211C; --sky-alpha:.35; --dot:rgba(110,105,89,.06);
@@ -575,7 +577,7 @@ Light is `$value`; dark is in `$extensions.mode.dark`.
     "line":      { "$value": "#E7E3DA", "$extensions": { "mode": { "light": "#E7E3DA", "dark": "#2F2B25" } } },
     "line-2":    { "$value": "#EFEBE3", "$extensions": { "mode": { "light": "#EFEBE3", "dark": "#26231E" } } },
     "rule":      { "$value": "#17150F", "$extensions": { "mode": { "light": "#17150F", "dark": "#F3F0E8" } } },
-    "accent":    { "$value": "#B4381A", "$extensions": { "mode": { "light": "#B4381A", "dark": "#FFA866" } } },
+    "accent":    { "$value": "#B83A3E", "$extensions": { "mode": { "light": "#B83A3E", "dark": "#DD5755" } } },
     "rose":      { "$value": "#C21E56", "$extensions": { "mode": { "light": "#C21E56", "dark": "#FF7FA6" } } },
     "pill":      { "$value": "#17150F", "$extensions": { "mode": { "light": "#17150F", "dark": "#F3F0E8" } } },
     "on-pill":   { "$value": "#FBFAF7", "$extensions": { "mode": { "light": "#FBFAF7", "dark": "#17150F" } } },
@@ -725,7 +727,7 @@ A self-contained hero + card + button built only from the tokens above (dark by 
 <style>
 :root{
   --bg:#FBFAF7;--surface:#fff;--surface-2:#F6F3EC;--text:#17150F;--body:#4A463E;--muted:#6B675E;
-  --line:#E7E3DA;--rule:#17150F;--accent:#B4381A;--rose:#C21E56;--pill:#17150F;--on-pill:#FBFAF7;
+  --line:#E7E3DA;--rule:#17150F;--accent:#B83A3E;--rose:#C21E56;--pill:#17150F;--on-pill:#FBFAF7;
   --marigold:#FF7A18;--kumkum:#E8336D;--dot:rgba(23,21,15,.085);
   --glow-1:rgba(255,122,24,.10);--glow-2:rgba(232,51,109,.07);
   --shadow:0 1px 2px rgba(23,21,15,.04),0 10px 30px rgba(23,21,15,.06);
@@ -736,7 +738,7 @@ A self-contained hero + card + button built only from the tokens above (dark by 
   --r-lg:26px;--gutter:clamp(16px,4vw,48px)}
 :root[data-theme=dark]{
   --bg:#0E0D0B;--surface:#17150F;--surface-2:#1F1C17;--text:#F3F0E8;--body:#C9C4B8;--muted:#A39E92;
-  --line:#2F2B25;--rule:#F3F0E8;--accent:#FFA866;--rose:#FF7FA6;--pill:#F3F0E8;--on-pill:#17150F;
+  --line:#2F2B25;--rule:#F3F0E8;--accent:#DD5755;--rose:#FF7FA6;--pill:#F3F0E8;--on-pill:#17150F;
   --dot:rgba(110,105,89,.06);--glow-2:rgba(232,51,109,.08);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.38)}
 *{box-sizing:border-box}
