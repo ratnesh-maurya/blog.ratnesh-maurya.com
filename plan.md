@@ -43,7 +43,8 @@ All phases done on branch `design/ledger` (not pushed).
 
 ### Deviations from DESIGN.md (revisit if you disagree)
 
-- **Kickers are grey, not `--rose`; cards are flat.** Matches the portfolio. Pink appears only inside the gradient word.
+- **Kickers are grey, not `--rose`; cards are flat.** Matches the portfolio.
+- **`--accent` is the coral from the middle of the marigold→kumkum gradient**, not orange or pink (dark `#DD5755`, 5.2:1; light `#B83A3E`, a deeper shade of the same hue for 5.4:1), at your request on 2026-10-27. Links, CTAs, highlighted numbers, the focus ring and code keywords use it. The gradient word, brand dot and charts are unchanged.
 - **No status or "hire" pill in the header.** They need availability copy I should not invent.
 - **Breakpoints stay at Tailwind defaults** (sm 640, md 768, lg 1024). Ledger CSS uses the spec widths in its own media queries.
 - **Mobile keeps the hamburger drawer** instead of a scrolling second nav row.

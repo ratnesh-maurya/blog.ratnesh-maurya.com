@@ -6,7 +6,7 @@
    Components reference ROLE tokens only (--bg, --surface, --text, --muted, --line, --rule,
    --accent, --rose, --pill). Both themes define every colour token.
    Contrast on --bg (documented in DESIGN.md §10): light text 17.5 / body 9.0 / muted 5.4 /
-   accent 5.7 / rose 5.6; dark text 17.1 / body 11.2 / muted 7.3 / accent 10.2 / rose 8.2.
+   accent (gradient mid-coral) 5.4 / rose 5.6; dark text 17.1 / body 11.2 / muted 7.3 / accent 5.2 / rose 8.2.
    ───────────────────────────────────────────────────────── */
 
 /* Tailwind utilities that read the Ledger tokens (bg-surface, text-muted, border-line, font-display…).
@@ -99,7 +99,7 @@
   --bg:#FBFAF7; --surface:#FFFFFF; --surface-2:#F6F3EC; --glass:rgba(255,255,255,.72);
   --text:#17150F; --body:#4A463E; --secondary:#3D3A33; --muted:#6B675E; --faint:#B3AEA3;
   --line:#E7E3DA; --line-2:#EFEBE3; --rule:#17150F;
-  --accent:#B4381A; --rose:#C21E56; --pill:#17150F; --on-pill:#FBFAF7;
+  --accent:#B83A3E; --rose:#C21E56; --pill:#17150F; --on-pill:#FBFAF7;
   --marigold:#FF7A18; --kumkum:#E8336D; --peacock:#FFB347; --neel:#C2185B; --ok:#1FA463;
   --num:#D9D4C8; --water:#F1EDE4; --water-2:#ECE8DF; --hover:#F6F3EC; --tag-bg:#F4F1EA;
   --panel:#17150F; --panel-text:#F3F0E8; --panel-body:#C9C4B8; --panel-muted:#A39E92;
@@ -132,7 +132,7 @@
   /* ── Compatibility tokens still referenced by components ──
      Tints of the accent and the flat "glass" roles. Everything else uses the Ledger roles above. */
 
-  --accent-50:  color-mix(in srgb, var(--marigold) 6%,  var(--bg));
+  --accent-50:  color-mix(in srgb, var(--accent) 7%,  var(--bg));
   --accent-100: color-mix(in srgb, var(--marigold) 11%, var(--bg));
   --accent-200: color-mix(in srgb, var(--marigold) 20%, var(--bg));
   --accent-600: color-mix(in srgb, var(--accent) 80%, var(--kumkum));
@@ -157,7 +157,7 @@
   --bg:#0E0D0B; --surface:#17150F; --surface-2:#1F1C17; --glass:rgba(23,21,15,.72);
   --text:#F3F0E8; --body:#C9C4B8; --secondary:#D6D1C5; --muted:#A39E92; --faint:#6B675E;
   --line:#2F2B25; --line-2:#26231E; --rule:#F3F0E8;
-  --accent:#FFA866; --rose:#FF7FA6; --pill:#F3F0E8; --on-pill:#17150F;
+  --accent:#DD5755; --rose:#FF7FA6; --pill:#F3F0E8; --on-pill:#17150F;
   --num:#3A362F; --water:#16140F; --water-2:#1C1A15; --hover:#1A1814; --tag-bg:#24211C;
   --panel:#1A1814;
   --heat-0:#24211C; --sky-alpha:.35; --dot:rgba(110,105,89,.06);
