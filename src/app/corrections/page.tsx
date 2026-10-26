@@ -38,15 +38,15 @@ export default function CorrectionsPage() {
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
       <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
-        <div style={{ borderBottom: '2px solid var(--nb-border)' }}>
+        <div style={{ borderBottom: '2px solid var(--line)' }}>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--muted)' }}>
               Transparency
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3" style={{ color: 'var(--text)' }}>
               Corrections policy
             </h1>
-            <p className="text-sm max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm max-w-2xl" style={{ color: 'var(--body)' }}>
               Engineering content can go stale. This policy explains how issues are reported, fixed, and documented.
             </p>
           </div>
@@ -54,10 +54,10 @@ export default function CorrectionsPage() {
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
           <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
-            <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text)' }}>
               What counts as a correction
             </h2>
-            <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <ul className="space-y-2 text-sm" style={{ color: 'var(--body)' }}>
               <li>Factual inaccuracies or misleading statements.</li>
               <li>Broken commands, code, links, or configuration examples.</li>
               <li>Material version drift (an approach no longer works as written).</li>
@@ -65,10 +65,10 @@ export default function CorrectionsPage() {
           </section>
 
           <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
-            <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text)' }}>
               How to report an issue
             </h2>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm" style={{ color: 'var(--body)' }}>
               Send the URL, the problematic snippet (quote or screenshot), and what you believe is correct.
             </p>
             <div className="mt-4">
@@ -79,10 +79,10 @@ export default function CorrectionsPage() {
           </section>
 
           <section className="nb-card p-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
-            <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-base font-bold mb-3" style={{ color: 'var(--text)' }}>
               How updates are shown
             </h2>
-            <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <ul className="space-y-2 text-sm" style={{ color: 'var(--body)' }}>
               <li>Small fixes (typos, broken links) may be applied silently.</li>
               <li>Material corrections should be noted in the post (e.g. an “Update” section or a short changelog line).</li>
               <li>If a post becomes fundamentally incorrect, it may be revised heavily or archived with a clear note.</li>

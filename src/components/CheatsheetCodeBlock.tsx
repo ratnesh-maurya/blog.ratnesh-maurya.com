@@ -28,8 +28,8 @@ export function CheatsheetCodeBlock({ code, title }: CheatsheetCodeBlockProps) {
         className="rounded-xl p-5 text-sm leading-relaxed overflow-x-auto"
         style={{
           backgroundColor: 'var(--surface)',
-          border: '1px solid var(--border)',
-          color: 'var(--text-secondary)',
+          border: '1px solid var(--line)',
+          color: 'var(--body)',
           fontFamily: 'var(--font-mono, monospace)',
         }}
       >
@@ -40,8 +40,8 @@ export function CheatsheetCodeBlock({ code, title }: CheatsheetCodeBlockProps) {
         className="absolute top-2 right-2 p-1.5 rounded-md border opacity-0 group-hover:opacity-100 transition-opacity"
         style={{
           backgroundColor: 'var(--surface)',
-          borderColor: 'var(--border)',
-          color: copied ? 'var(--accent-500)' : 'var(--text-muted)',
+          borderColor: 'var(--line)',
+          color: copied ? 'var(--accent)' : 'var(--muted)',
         }}
         aria-label="Copy code"
       >

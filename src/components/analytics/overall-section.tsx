@@ -47,7 +47,7 @@ export function OverallSection({ selectedType }: OverallSectionProps) {
   if (error) {
     return (
       <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-red-500 text-sm">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       </div>
     );
   }
@@ -69,22 +69,22 @@ export function OverallSection({ selectedType }: OverallSectionProps) {
           className="nb-card-sm p-5"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow-sm)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
           }}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--muted)' }}>
             {style.label}
           </p>
           <p
             className="text-2xl font-bold tabular-nums"
-            style={style.accent ? { color: 'var(--accent-500)' } : { color: 'var(--text-primary)' }}
+            style={style.accent ? { color: 'var(--accent)' } : { color: 'var(--text)' }}
           >
             {formatNumber(values[i] ?? 0)}
           </p>
-          <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
             {style.sub}
           </p>
         </div>

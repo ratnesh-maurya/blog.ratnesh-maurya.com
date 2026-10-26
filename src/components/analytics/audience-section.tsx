@@ -52,27 +52,27 @@ function BarList({ title, items, note }: {
   const max = Math.max(1, ...items.map((i) => i.count));
   return (
     <div className="nb-card-sm p-5" style={{ backgroundColor: 'var(--glass-bg)' }}>
-      <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text-primary)' }}>{title}</h3>
+      <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>{title}</h3>
       {items.length === 0 ? (
-        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>No data in this range yet.</p>
+        <p className="text-xs" style={{ color: 'var(--muted)' }}>No data in this range yet.</p>
       ) : (
         <div className="space-y-2">
           {items.map((item) => (
             <div key={item.label} className="flex items-center gap-3">
-              <span className="text-xs font-medium truncate w-36 flex-shrink-0" style={{ color: 'var(--text-secondary)' }} title={item.label}>
+              <span className="text-xs font-medium truncate w-36 flex-shrink-0" style={{ color: 'var(--body)' }} title={item.label}>
                 {item.label}
               </span>
               <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--glass-bg-subtle)' }}>
-                <div className="h-full rounded-full" style={{ width: `${(item.count / max) * 100}%`, backgroundColor: 'var(--accent-400)' }} />
+                <div className="h-full rounded-full" style={{ width: `${(item.count / max) * 100}%`, backgroundColor: 'var(--marigold)' }} />
               </div>
-              <span className="text-xs font-semibold w-12 text-right flex-shrink-0" style={{ color: 'var(--text-primary)' }}>
+              <span className="text-xs font-semibold w-12 text-right flex-shrink-0" style={{ color: 'var(--text)' }}>
                 {item.count.toLocaleString()}
               </span>
             </div>
           ))}
         </div>
       )}
-      {note && <p className="text-[11px] mt-3" style={{ color: 'var(--text-muted)' }}>{note}</p>}
+      {note && <p className="text-[11px] mt-3" style={{ color: 'var(--muted)' }}>{note}</p>}
     </div>
   );
 }
@@ -96,7 +96,7 @@ export function AudienceSection() {
   if (error) {
     return (
       <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-red-500 text-sm">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       </div>
     );
   }
@@ -141,8 +141,8 @@ export function AudienceSection() {
             className="px-3 py-1.5 rounded-full text-xs font-semibold"
             style={{
               backgroundColor: 'var(--glass-bg)',
-              color: days === r.days ? 'var(--text-primary)' : 'var(--text-secondary)',
-              border: '1px solid var(--glass-border)',
+              color: days === r.days ? 'var(--text)' : 'var(--body)',
+              border: '1px solid var(--line)',
               boxShadow: days === r.days ? 'var(--glass-shadow-sm)' : 'none',
             }}
           >

@@ -14,10 +14,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#0066CC" },
-    { media: "(prefers-color-scheme: dark)", color: "#0A0A0B" },
-  ],
+  // Dark is the default theme (Ledger); this is the dark --bg.
+  themeColor: "#0E0D0B",
 };
 
 export const metadata: Metadata = {
@@ -115,8 +113,9 @@ export const metadata: Metadata = {
 
 
 
-// Default = system preference (prefers-color-scheme); explicit user choice in localStorage wins.
-const themeScript = `(function(){try{var s=localStorage.getItem('theme');var t=s||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);var a=localStorage.getItem('accent-color')||'blue';document.documentElement.setAttribute('data-accent',a);}catch(e){}})();`;
+// Dark is the default and is rendered on the server (`data-theme="dark"` below). This script only
+// switches to light, before paint, for visitors who chose it. The OS colour scheme is not read.
+const themeScript = `try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -124,11 +123,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
         {/* The two faces used above the fold; the other subsets load on demand via unicode-range. */}
         <link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body className="antialiased">
         {/* Inline theme script — runs synchronously before paint to prevent FOUC */}

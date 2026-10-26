@@ -19,14 +19,14 @@ interface ContentBucket {
 }
 
 const CONTENT_COLORS: Record<string, string> = {
-  blog: 'var(--accent-500)',
-  news: 'var(--accent-400)',
-  'technical-terms': 'var(--accent-600)',
-  'silly-questions': 'var(--accent-300)',
-  til: 'var(--accent-700)',
-  cheatsheets: 'var(--accent-200)',
-  about: 'var(--accent-100)',
-  now: 'var(--accent-800, var(--accent-700))',
+  blog: 'var(--chart-1)',
+  news: 'var(--chart-2)',
+  'technical-terms': 'var(--chart-4)',
+  'silly-questions': 'var(--chart-3)',
+  til: 'var(--chart-5)',
+  cheatsheets: 'var(--chart-6)',
+  about: 'var(--faint)',
+  now: 'var(--chart-5)',
 };
 
 const CONTENT_LABELS: Record<string, string> = {
@@ -41,8 +41,8 @@ const CONTENT_LABELS: Record<string, string> = {
 };
 
 const SOURCE_COLORS = [
-  'var(--accent-500)', 'var(--accent-400)', 'var(--accent-600)', 'var(--accent-300)',
-  'var(--accent-700)', 'var(--accent-200)', 'var(--accent-100)', 'var(--accent-800, var(--accent-700))',
+  'var(--chart-1)', 'var(--chart-2)', 'var(--chart-4)', 'var(--chart-3)',
+  'var(--chart-5)', 'var(--chart-6)', 'var(--faint)', 'var(--chart-5)',
 ];
 
 function todayStr() {
@@ -56,14 +56,14 @@ function FunnelBar({ label, count, total, color, sublabel }: {
   return (
     <div className="flex items-center gap-3 group">
       <div className="w-28 shrink-0 text-right">
-        <span className="text-xs font-semibold truncate" style={{ color: 'var(--text-secondary)' }}>
+        <span className="text-xs font-semibold truncate" style={{ color: 'var(--body)' }}>
           {label}
         </span>
         {sublabel && (
-          <span className="block text-[10px]" style={{ color: 'var(--text-muted)' }}>{sublabel}</span>
+          <span className="block text-[10px]" style={{ color: 'var(--muted)' }}>{sublabel}</span>
         )}
       </div>
-      <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--surface-muted)' }}>
+      <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--surface-2)' }}>
         <div
           className="h-full rounded-lg flex items-center px-2 transition-all duration-500"
           style={{ width: `${pct}%`, backgroundColor: color, minWidth: count > 0 ? '28px' : '0' }}
@@ -74,7 +74,7 @@ function FunnelBar({ label, count, total, color, sublabel }: {
         </div>
       </div>
       <div className="w-10 shrink-0 text-right">
-        <span className="text-xs font-bold tabular-nums" style={{ color: 'var(--accent-500)' }}>{count}</span>
+        <span className="text-xs font-bold tabular-nums" style={{ color: 'var(--accent)' }}>{count}</span>
       </div>
     </div>
   );
@@ -85,7 +85,7 @@ function FunnelConnector() {
     <div className="flex items-center gap-3 py-1">
       <div className="w-28 shrink-0" />
       <div className="flex-1 flex justify-center">
-        <div className="h-6 w-px" style={{ backgroundColor: 'var(--glass-border)' }} />
+        <div className="h-6 w-px" style={{ backgroundColor: 'var(--line)' }} />
       </div>
       <div className="w-10 shrink-0" />
     </div>
@@ -101,18 +101,18 @@ function SectionHead({ title, count, total, unit }: {
       className="flex items-center justify-between px-4 py-2 rounded-xl mb-3"
       style={{
         backgroundColor: 'var(--glass-bg-subtle)',
-        border: '1px solid var(--glass-border)',
+        border: '1px solid var(--line)',
       }}
     >
-      <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent-500)' }}>
+      <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
         {title}
       </span>
       <div className="flex items-center gap-2">
-        <span className="text-lg font-black tabular-nums" style={{ color: 'var(--text-primary)' }}>{count}</span>
+        <span className="text-lg font-black tabular-nums" style={{ color: 'var(--text)' }}>{count}</span>
         {unit ? (
-          <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>{unit}</span>
+          <span className="text-xs font-semibold" style={{ color: 'var(--muted)' }}>{unit}</span>
         ) : total > 0 ? (
-          <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+          <span className="text-xs font-semibold" style={{ color: 'var(--muted)' }}>
             ({Math.min(pct, 100)}% of all views)
           </span>
         ) : null}
@@ -168,7 +168,7 @@ export function TrafficFunnelSection() {
         type,
         label: CONTENT_LABELS[type] ?? type,
         views,
-        color: CONTENT_COLORS[type] ?? 'var(--accent-500)',
+        color: CONTENT_COLORS[type] ?? 'var(--accent)',
       }))
       .sort((a, b) => b.views - a.views);
   }, [events]);
@@ -195,8 +195,8 @@ export function TrafficFunnelSection() {
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
-            color: 'var(--text-primary)',
+            border: '1px solid var(--line)',
+            color: 'var(--text)',
           }}
         />
         {!isToday && (
@@ -205,8 +205,8 @@ export function TrafficFunnelSection() {
             className="text-xs font-semibold px-3 py-1.5 rounded-lg"
             style={{
               backgroundColor: 'var(--glass-bg)',
-              color: 'var(--text-primary)',
-              border: '1px solid var(--glass-border)',
+              color: 'var(--text)',
+              border: '1px solid var(--line)',
               boxShadow: 'var(--glass-shadow-sm)',
               backdropFilter: 'blur(10px) saturate(160%)',
               WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -215,7 +215,7 @@ export function TrafficFunnelSection() {
             Back to today
           </button>
         )}
-        <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{displayDate}</span>
+        <span className="text-sm" style={{ color: 'var(--muted)' }}>{displayDate}</span>
       </div>
 
       {loading ? (
@@ -225,9 +225,9 @@ export function TrafficFunnelSection() {
           ))}
         </div>
       ) : error ? (
-        <p className="text-sm text-red-500">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       ) : totalViews === 0 && utmTotal === 0 ? (
-        <div className="text-center py-10" style={{ color: 'var(--text-muted)' }}>
+        <div className="text-center py-10" style={{ color: 'var(--muted)' }}>
           <p className="text-sm">No traffic recorded for this day.</p>
         </div>
       ) : (
@@ -238,7 +238,7 @@ export function TrafficFunnelSection() {
             className="nb-card p-5 mb-2"
             style={{
               backgroundColor: 'var(--glass-bg)',
-              border: '1px solid var(--glass-border)',
+              border: '1px solid var(--line)',
               boxShadow: 'var(--glass-shadow-sm)',
               backdropFilter: 'blur(10px) saturate(160%)',
               WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -246,19 +246,19 @@ export function TrafficFunnelSection() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--muted)' }}>
                   Page views that day
                 </p>
-                <p className="text-4xl font-black tabular-nums" style={{ color: 'var(--accent-500)' }}>
+                <p className="text-4xl font-black tabular-nums" style={{ color: 'var(--accent)' }}>
                   {totalViews.toLocaleString()}
                 </p>
               </div>
               {utmTotal > 0 && (
                 <div className="text-right">
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+                  <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--muted)' }}>
                     from campaign links
                   </p>
-                  <p className="text-4xl font-black tabular-nums" style={{ color: 'var(--text-primary)' }}>
+                  <p className="text-4xl font-black tabular-nums" style={{ color: 'var(--text)' }}>
                     {utmTotal.toLocaleString()}
                   </p>
                 </div>
@@ -355,19 +355,19 @@ export function TrafficFunnelSection() {
           {utmTotal > 0 && (
             <div
               className="mt-4 rounded-xl px-4 py-3 text-sm"
-              style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)' }}
+              style={{ backgroundColor: 'var(--surface-2)', color: 'var(--body)' }}
             >
-              On <strong style={{ color: 'var(--text-primary)' }}>{displayDate}</strong>,
-              {' '}<strong style={{ color: 'var(--accent-500)' }}>{totalViews}</strong> total views were recorded.
-              {' '}<strong style={{ color: 'var(--text-primary)' }}>{utmTotal}</strong> came from campaign links (links tagged with ?utm_source=…)
+              On <strong style={{ color: 'var(--text)' }}>{displayDate}</strong>,
+              {' '}<strong style={{ color: 'var(--accent)' }}>{totalViews}</strong> total views were recorded.
+              {' '}<strong style={{ color: 'var(--text)' }}>{utmTotal}</strong> came from campaign links (links tagged with ?utm_source=…)
               {sources[0] && (
-                <> — top source: <strong style={{ color: 'var(--text-primary)' }}>{sources[0].source}</strong> ({sources[0].count})</>
+                <> — top source: <strong style={{ color: 'var(--text)' }}>{sources[0].source}</strong> ({sources[0].count})</>
               )}
               {refs[0] && (
-                <>, top referral: <strong style={{ color: 'var(--text-primary)' }}>?ref={refs[0].refValue}</strong> ({refs[0].count})</>
+                <>, top referral: <strong style={{ color: 'var(--text)' }}>?ref={refs[0].refValue}</strong> ({refs[0].count})</>
               )}
               {contentBuckets[0] && (
-                <>, most viewed: <strong style={{ color: 'var(--text-primary)' }}>{contentBuckets[0].label}</strong> ({contentBuckets[0].views})</>
+                <>, most viewed: <strong style={{ color: 'var(--text)' }}>{contentBuckets[0].label}</strong> ({contentBuckets[0].views})</>
               )}.
             </div>
           )}

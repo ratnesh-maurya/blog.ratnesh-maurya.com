@@ -33,8 +33,8 @@ export function BookmarkButton({ type, slug, title, href }: BookmarkButtonProps)
       className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors cursor-pointer"
       style={{
         backgroundColor: saved ? 'var(--accent-50)' : 'var(--glass-bg)',
-        color: saved ? 'var(--accent-600)' : 'var(--text-muted)',
-        border: `1px solid ${saved ? 'var(--accent-200)' : 'var(--glass-border)'}`,
+        color: saved ? 'var(--accent-600)' : 'var(--muted)',
+        border: `1px solid ${saved ? 'var(--accent-200)' : 'var(--line)'}`,
         opacity: mounted ? 1 : 0.6,
       }}
     >

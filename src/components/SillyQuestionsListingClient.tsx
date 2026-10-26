@@ -56,13 +56,13 @@ export function SillyQuestionsListingClient({ questions }: SillyQuestionsListing
         <div>
             {/* Category filter tabs */}
             <nav className="flex items-center gap-2 overflow-x-auto pb-3 mb-8 scrollbar-hide"
-                style={{ borderBottom: '1px solid var(--border)' }}>
+                style={{ borderBottom: '1px solid var(--line)' }}>
                 <button
                     onClick={() => setActiveCategory(null)}
                     className="whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors font-medium"
                     style={!activeCategory
-                        ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
-                        : { color: 'var(--text-muted)' }
+                        ? { backgroundColor: 'var(--text)', color: 'var(--bg)' }
+                        : { color: 'var(--muted)' }
                     }
                 >
                     All
@@ -73,8 +73,8 @@ export function SillyQuestionsListingClient({ questions }: SillyQuestionsListing
                         onClick={() => setActiveCategory(activeCategory?.toLowerCase() === cat.toLowerCase() ? null : cat)}
                         className="whitespace-nowrap text-sm px-3 py-1.5 rounded-full transition-colors font-medium"
                         style={activeCategory?.toLowerCase() === cat.toLowerCase()
-                            ? { backgroundColor: 'var(--text-primary)', color: 'var(--background)' }
-                            : { color: 'var(--text-muted)' }
+                            ? { backgroundColor: 'var(--text)', color: 'var(--bg)' }
+                            : { color: 'var(--muted)' }
                         }
                     >
                         {cat}
@@ -94,19 +94,19 @@ export function SillyQuestionsListingClient({ questions }: SillyQuestionsListing
                                         {question.category}
                                     </span>
                                     <time dateTime={question.date} className="text-[13px]"
-                                        style={{ color: 'var(--text-muted)' }}>
+                                        style={{ color: 'var(--muted)' }}>
                                         {format(new Date(question.date), 'MMM d, yyyy')}
                                     </time>
                                 </div>
 
                                 {/* Question title */}
                                 <h2 className="text-[20px] md:text-[22px] font-extrabold leading-snug mb-1.5 group-hover:underline decoration-1 underline-offset-2"
-                                    style={{ color: 'var(--text-primary)' }}>
+                                    style={{ color: 'var(--text)' }}>
                                     {question.question}
                                 </h2>
 
                                 {/* Meta row */}
-                                <div className="flex items-center gap-1 text-[13px] flex-wrap" style={{ color: 'var(--text-muted)' }}>
+                                <div className="flex items-center gap-1 text-[13px] flex-wrap" style={{ color: 'var(--muted)' }}>
                                     {!isLoadingStats && stats.views[question.slug] != null && (
                                         <>
                                             <ViewCounter
@@ -134,7 +134,7 @@ export function SillyQuestionsListingClient({ questions }: SillyQuestionsListing
                                     ))}
 
                                     <span className="ml-auto text-xs font-semibold flex items-center gap-1"
-                                        style={{ color: 'var(--accent-500)' }}>
+                                        style={{ color: 'var(--accent)' }}>
                                         See answer
                                         <svg className="w-3 h-3 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -144,7 +144,7 @@ export function SillyQuestionsListingClient({ questions }: SillyQuestionsListing
                             </article>
                         </Link>
                         {index < filteredQuestions.length - 1 && (
-                            <hr className="border-0" style={{ borderTop: '1px solid var(--border)' }} />
+                            <hr className="border-0" style={{ borderTop: '1px solid var(--line)' }} />
                         )}
                     </div>
                 ))}
@@ -153,19 +153,19 @@ export function SillyQuestionsListingClient({ questions }: SillyQuestionsListing
             {/* Empty states */}
             {filteredQuestions.length === 0 && activeCategory && (
                 <div className="text-center py-20">
-                    <p className="text-base font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
+                    <p className="text-base font-medium mb-1" style={{ color: 'var(--text)' }}>
                         No questions in &ldquo;{activeCategory}&rdquo;
                     </p>
                     <button onClick={() => setActiveCategory(null)}
                         className="mt-3 text-sm font-medium"
-                        style={{ color: 'var(--accent-500)' }}>
+                        style={{ color: 'var(--accent)' }}>
                         Show all questions
                     </button>
                 </div>
             )}
 
             {questions.length === 0 && (
-                <div className="text-center py-20" style={{ color: 'var(--text-muted)' }}>
+                <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
                     <p className="text-base font-medium">
                         No silly questions yet. Check back soon!
                     </p>

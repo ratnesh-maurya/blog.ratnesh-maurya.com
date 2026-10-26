@@ -43,7 +43,7 @@ export default function SearchPageClient() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="animate-spin w-6 h-6 border-2 rounded-full"
-          style={{ borderColor: 'var(--accent-300)', borderTopColor: 'transparent' }} />
+          style={{ borderColor: 'var(--marigold)', borderTopColor: 'transparent' }} />
       </div>
     );
   }

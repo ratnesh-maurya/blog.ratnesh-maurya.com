@@ -35,8 +35,7 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
 
   return (
     <div
-      className={`md:hidden fixed inset-0 z-40 transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
+      className={`md:hidden fixed inset-0 z-40 transition-opacity duration-150 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
       aria-hidden={!isOpen}
     >
       {/* Backdrop */}
@@ -45,56 +44,19 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
         onClick={onClose}
         className="absolute inset-0"
         aria-label="Close menu"
-        style={{
-          backgroundColor: 'var(--overlay-backdrop)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
-        }}
+        style={{ backgroundColor: 'var(--overlay-backdrop)' }}
       />
 
       {/* Drawer panel */}
-      <div
-        className={`fixed top-16 left-0 right-0 overflow-y-auto transition-transform duration-200 ${isOpen ? 'translate-y-0' : '-translate-y-2 pointer-events-none'
-          }`}
-      >
-        <div className="max-w-5xl mx-auto px-3">
-          <div
-            className="rounded-2xl px-3 pt-3 pb-5 space-y-1"
-            style={{
-              backgroundColor: 'var(--glass-bg)',
-              backdropFilter: 'blur(28px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-              border: '1px solid var(--glass-border)',
-              boxShadow: 'var(--glass-shadow-lg)',
-            }}
-          >
-            {/* Main links */}
+      <div className="fixed top-16 left-0 right-0 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 4rem)' }}>
+        <div className="wrap">
+          <div className="glass lg-drawer">
             {mainLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="block px-3 py-2.5 rounded-xl text-sm font-bold transition-all duration-150"
-                style={
-                  isActive(item.href)
-                    ? {
-                      backgroundColor: 'color-mix(in srgb, var(--accent-500) 90%, transparent)',
-                      color: '#FFFEF0',
-                      boxShadow: '0 2px 10px color-mix(in srgb, var(--accent-500) 30%, transparent)',
-                    }
-                    : { color: 'var(--text-primary)' }
-                }
-                onMouseEnter={e => {
-                  if (!isActive(item.href)) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = 'color-mix(in srgb, var(--accent-500) 10%, transparent)';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--accent-600)';
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!isActive(item.href)) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = '';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                  }
-                }}
+                className="lg-drawer-link"
+                aria-current={isActive(item.href) ? 'page' : undefined}
                 onClick={() => {
                   trackNavigation(item.href, 'mobile-menu');
                   onClose();
@@ -104,43 +66,16 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
               </Link>
             ))}
 
-            {/* Divider + Explore label */}
-            <div
-              className="mx-3 pt-3 pb-2"
-              style={{ borderTop: '1px solid var(--glass-border)', marginTop: '0.5rem' }}
-            >
-              <span className="nb-section-label" style={{ color: 'var(--text-muted)' }}>
-                Explore
-              </span>
+            <div className="lg-drawer-head">
+              <span className="eyebrow is-rose">Explore</span>
             </div>
 
-            {/* Explore links */}
             {exploreLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="block px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150"
-                style={
-                  isActive(item.href)
-                    ? {
-                      backgroundColor: 'color-mix(in srgb, var(--accent-500) 90%, transparent)',
-                      color: '#FFFEF0',
-                      boxShadow: '0 2px 10px color-mix(in srgb, var(--accent-500) 30%, transparent)',
-                    }
-                    : { color: 'var(--text-secondary)' }
-                }
-                onMouseEnter={e => {
-                  if (!isActive(item.href)) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = 'color-mix(in srgb, var(--accent-500) 10%, transparent)';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--accent-600)';
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!isActive(item.href)) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = '';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
-                  }
-                }}
+                className="lg-drawer-link is-sub"
+                aria-current={isActive(item.href) ? 'page' : undefined}
                 onClick={() => {
                   trackNavigation(item.href, 'mobile-menu');
                   onClose();
@@ -150,26 +85,16 @@ export function MobileMenu({ isOpen, onClose, onSearchOpen }: MobileMenuProps) {
               </Link>
             ))}
 
-            {/* Search */}
-            <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '0.75rem', marginTop: '0.5rem' }}>
+            <div className="lg-drawer-head">
               <button
                 onClick={() => { onSearchOpen(); onClose(); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all duration-150"
-                style={{ color: 'var(--text-secondary)' }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.backgroundColor = 'color-mix(in srgb, var(--accent-500) 10%, transparent)';
-                  (e.currentTarget as HTMLElement).style.color = 'var(--accent-600)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.backgroundColor = '';
-                  (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
-                }}
+                className="lg-drawer-link is-sub lg-drawer-search"
               >
-                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 Search
-                <span className="ml-auto text-xs opacity-50">⌘K</span>
+                <span className="kicker" style={{ marginLeft: 'auto' }}>⌘K</span>
               </button>
             </div>
           </div>

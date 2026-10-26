@@ -48,7 +48,7 @@ export function CustomDropdown({
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       {label && (
-        <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+        <label className="block text-sm font-medium mb-2" style={{ color: 'var(--body)' }}>
           {label}
         </label>
       )}
@@ -61,8 +61,8 @@ export function CustomDropdown({
           backgroundColor: 'var(--glass-bg)',
             backdropFilter: 'blur(20px) saturate(160%)',
             WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-          borderColor: isOpen ? 'var(--nb-border)' : 'var(--nb-border)',
-          color: 'var(--text-primary)',
+          borderColor: isOpen ? 'var(--line)' : 'var(--line)',
+          color: 'var(--text)',
           boxShadow: isOpen ? 'var(--nb-shadow-sm)' : 'none',
         }}
         aria-haspopup="listbox"
@@ -74,7 +74,7 @@ export function CustomDropdown({
           </span>
           <svg
             className={`w-5 h-5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-            style={{ color: 'var(--text-muted)' }}
+            style={{ color: 'var(--muted)' }}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -88,10 +88,10 @@ export function CustomDropdown({
         <div
           className="absolute z-50 w-full mt-1 rounded-lg max-h-60 overflow-auto"
           style={{
-            backgroundColor: 'var(--glass-bg)',
+            backgroundColor: 'var(--surface)',
             backdropFilter: 'blur(20px) saturate(160%)',
             WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-            border: '1px solid var(--nb-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--nb-shadow)'
           }}
           role="listbox"
@@ -105,13 +105,13 @@ export function CustomDropdown({
                 }`}
               style={{
                 backgroundColor: option.value === value ? 'var(--surface)' : 'transparent',
-                color: option.value === value ? 'var(--text-primary)' : 'var(--text-primary)',
+                color: option.value === value ? 'var(--text)' : 'var(--text)',
                 fontWeight: option.value === value ? '700' : undefined,
-                outline: option.value === value ? `1px solid var(--nb-border)` : undefined
+                outline: option.value === value ? `1px solid var(--line)` : undefined
               }}
               onMouseEnter={(e) => {
                 if (option.value !== value) {
-                  e.currentTarget.style.backgroundColor = 'var(--muted)';
+                  e.currentTarget.style.backgroundColor = 'var(--hover)';
                 }
               }}
               onMouseLeave={(e) => {

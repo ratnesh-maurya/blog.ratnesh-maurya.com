@@ -15,9 +15,9 @@ export function TotalViews() {
   }, []);
 
   if (isLoading) {
-    return <span style={{ color: 'var(--text-secondary)' }}>–––</span>;
+    return <span style={{ color: 'var(--body)' }}>–––</span>;
   }
 
   const formatted = totalViews !== null ? totalViews.toLocaleString() : '–––';
-  return <span style={{ color: 'var(--text-secondary)' }}>{formatted}</span>;
+  return <span style={{ color: 'var(--body)' }}>{formatted}</span>;
 }

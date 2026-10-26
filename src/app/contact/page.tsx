@@ -61,13 +61,13 @@ export default function ContactPage() {
       <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         <div className="hero-gradient-bg">
           <div className="page-header max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent-500)' }}>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>
               Get in touch
             </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3" style={{ color: 'var(--text)' }}>
               Contact
             </h1>
-            <p className="text-base max-w-2xl leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-base max-w-2xl leading-relaxed" style={{ color: 'var(--body)' }}>
               If you spotted an issue, want to suggest a topic, or want to collaborate — these are the best ways to reach me.
             </p>
           </div>
@@ -78,7 +78,7 @@ export default function ContactPage() {
           {/* Primary channels */}
           <section>
             <h2 className="nb-section-label mb-6"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               Primary channels
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -87,16 +87,16 @@ export default function ContactPage() {
                   className="nb-card flex flex-col items-center gap-3 p-6 transition-all duration-150 hover:-translate-y-1 group"
                   style={{ backgroundColor: 'var(--surface-tint)' }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors"
-                    style={{ backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }}>
+                    style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}>
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d={ch.icon} />
                     </svg>
                   </div>
-                  <span className="text-sm font-bold group-hover:text-[var(--accent-500)] transition-colors"
-                    style={{ color: 'var(--text-primary)' }}>
+                  <span className="text-sm font-bold group-hover:text-[var(--accent)] transition-colors"
+                    style={{ color: 'var(--text)' }}>
                     {ch.label}
                   </span>
-                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  <span className="text-xs" style={{ color: 'var(--muted)' }}>
                     {ch.display}
                   </span>
                 </a>
@@ -106,12 +106,12 @@ export default function ContactPage() {
 
           {/* For corrections */}
           <section className="rounded-2xl border p-6"
-            style={{ backgroundColor: 'var(--surface-tint)', border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
+            style={{ backgroundColor: 'var(--surface-tint)', border: '2px solid var(--line)', boxShadow: 'var(--nb-shadow)' }}>
             <h2 className="nb-section-label mb-4"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               For corrections
             </h2>
-            <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--body)' }}>
               If you found an error in a post (typo, broken command, inaccurate claim), please include the URL and what you think should be changed.
               I track corrections publicly.
             </p>

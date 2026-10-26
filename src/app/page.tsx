@@ -1,7 +1,6 @@
 import { ContinueReading } from '@/components/ContinueReading';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { TermOfTheDay } from '@/components/TermOfTheDay';
-import { TodaysDigest } from '@/components/TodaysDigest';
 import { getAllBlogPostsForListing, getAllNewsPostsForListing, getAllTechnicalTermsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { Metadata } from 'next';
@@ -59,22 +58,19 @@ function formatDate(dateStr: string) {
 }
 
 const exploreItems = [
-  { label: 'Blog', href: '/blog', desc: 'Original posts and series', emoji: '✍️' },
-  { label: 'Technical Terms', href: '/technical-terms', desc: 'System design glossary', emoji: '📖' },
-  { label: 'News', href: '/news', desc: 'Curated daily digests', emoji: '🗞️' },
-  { label: 'Cheatsheets', href: '/cheatsheets', desc: 'Quick references', emoji: '⚡' },
-  { label: 'TIL', href: '/til', desc: 'Small lessons', emoji: '💡' },
-  { label: 'Questions', href: '/silly-questions', desc: 'Silly but useful', emoji: '🤔' },
-  { label: 'Resources', href: '/resources', desc: 'Books, tools and talks', emoji: '🔗' },
+  { label: 'Blog', href: '/blog', desc: 'Original posts and series' },
+  { label: 'Technical Terms', href: '/technical-terms', desc: 'System design glossary' },
+  { label: 'News', href: '/news', desc: 'Curated daily digests' },
+  { label: 'Cheatsheets', href: '/cheatsheets', desc: 'Quick references' },
+  { label: 'TIL', href: '/til', desc: 'Small lessons' },
+  { label: 'Questions', href: '/silly-questions', desc: 'Silly but useful' },
+  { label: 'Resources', href: '/resources', desc: 'Books, tools and talks' },
 ];
 
 const glassCard = {
-  backgroundColor: 'var(--glass-bg)',
-  backdropFilter: 'blur(10px) saturate(160%)',
-  WebkitBackdropFilter: 'blur(10px) saturate(160%)',
-  border: '1px solid var(--glass-border)',
-  boxShadow: 'var(--glass-shadow)',
-  borderRadius: '16px',
+  backgroundColor: 'transparent',
+  border: '1px solid var(--line)',
+  borderRadius: 'var(--r-md)',
 } as const;
 
 export default async function Home() {
@@ -130,159 +126,93 @@ export default async function Home() {
 
       <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
 
-        {/* ── Hero ── */}
-        <section className="min-h-[60vh] py-20 relative flex items-center justify-center overflow-hidden px-4 sm:px-6">
-          {/* Apple-style gradient orbs */}
-          <div aria-hidden className="pointer-events-none absolute inset-0">
-            <div style={{
-              position: 'absolute', top: '-15%', left: '50%', transform: 'translateX(-50%)',
-              width: '900px', height: '600px',
-              background: 'radial-gradient(ellipse at center, rgba(0,122,255,0.16) 0%, transparent 70%)',
-            }} />
-            <div style={{
-              position: 'absolute', bottom: '-5%', left: '-8%',
-              width: '650px', height: '650px',
-              background: 'radial-gradient(ellipse at center, rgba(88,86,214,0.11) 0%, transparent 70%)',
-            }} />
-            <div style={{
-              position: 'absolute', top: '15%', right: '-5%',
-              width: '450px', height: '450px',
-              background: 'radial-gradient(ellipse at center, rgba(90,200,250,0.08) 0%, transparent 70%)',
-            }} />
-          </div>
-
-          <div className="relative max-w-4xl w-full text-center">
-            {/* Apple-style pill badge */}
-            <span className="inline-block mb-6" style={{
-              background: 'color-mix(in srgb, var(--accent-500) 10%, transparent)',
-              border: '1px solid color-mix(in srgb, var(--accent-500) 22%, transparent)',
-              borderRadius: '100px',
-              padding: '5px 16px',
-              fontSize: '11px',
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--accent-500)',
-            }}>
-              Systems · Backend · AI Engineering
-            </span>
-
-            <h1
-              className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.94]"
-              style={{ color: 'var(--text-primary)', letterSpacing: '-0.04em' }}
-            >
-              Practical engineering
-              <br />
-              <span style={{ color: 'var(--accent-500)' }}>for real-world systems</span>
-            </h1>
-
-            <p
-              className="mt-6 text-lg sm:text-xl leading-relaxed font-medium mx-auto max-w-2xl"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              Deep dives on backend, distributed systems, and AI engineering by{' '}
-              <Link href="/about" className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                Ratnesh Maurya
-              </Link>
-              {' '}— plus curated daily digests for builders who ship.
-            </p>
-
-            {/* Author byline — entity SEO: associates "Ratnesh Maurya" with this site in Google's entity graph */}
-            <div className="mt-5 flex items-center justify-center gap-2.5">
-              <Image
-                src="https://avatars.githubusercontent.com/u/85143283?v=4"
-                alt="Ratnesh Maurya"
-                width={28}
-                height={28}
-                priority
-                className="rounded-full"
-                style={{ border: '1.5px solid var(--glass-border)' }}
-              />
-              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
-                by{' '}
-                <Link
-                  href="/about"
-                  className="font-semibold transition-colors"
-                  style={{ color: 'var(--text-secondary)', textDecoration: 'none', borderBottom: '1px solid var(--glass-border)' }}
-                >
-                  Ratnesh Maurya
-                </Link>
-                {' '}· Software Engineer at Initializ
-              </span>
+        {/* ── Hero (Ledger, mirrors ratneshmaurya.com) ── */}
+        <section className="lg-hero">
+          <span className="lg-rail" lang="hi" aria-hidden="true"><span>रत्न</span></span>
+          <div className="wrap lg-hero-in">
+            <div>
+              <p className="lg-greet"><span lang="hi">नमस्ते,</span> this is</p>
+              <h1 className="lg-h1">Ratn <em>Labs</em></h1>
+              <p className="lg-roleline">
+                Notes on backend, distributed systems and AI engineering by{' '}
+                <Link href="/about">Ratnesh Maurya</Link>
+              </p>
             </div>
 
-            {/* CTA buttons — Apple style */}
-            <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <Link
-                href="/blog"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
-                style={{ background: 'var(--accent-500)', color: '#ffffff', textDecoration: 'none', boxShadow: '0 4px 20px color-mix(in srgb, var(--accent-500) 35%, transparent), inset 0 1px 0 rgba(255,255,255,0.25)' }}
-              >
-                Read the Blog
-              </Link>
-              <Link
-                href="/news"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
-                style={{ backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', textDecoration: 'none', boxShadow: 'var(--glass-shadow-sm)' }}
-              >
-                Daily News
-              </Link>
-              <a
-                href="/feed.xml"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
-                style={{ backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', textDecoration: 'none', boxShadow: 'var(--glass-shadow-sm)' }}
-              >
-                RSS Feed
-              </a>
-            </div>
+            <dl className="lg-ledger">
+              <div>
+                <dt>Writes about</dt>
+                <dd>Backend architecture · distributed systems · AI agents in production</dd>
+              </div>
+              {posts[0] && (
+                <div>
+                  <dt>Latest post</dt>
+                  <dd><Link href={`/blog/${posts[0].slug}`}>{posts[0].title}</Link></dd>
+                </div>
+              )}
+              {newsPosts[0] && (
+                <div>
+                  <dt>Daily digest · {formatDate(newsPosts[0].date)}</dt>
+                  <dd><Link href={`/news/${newsPosts[0].slug}`}>{newsPosts[0].title}</Link></dd>
+                </div>
+              )}
+              <div>
+                <dt>By</dt>
+                <dd className="lg-by">
+                  <Image
+                    src="https://avatars.githubusercontent.com/u/85143283?v=4"
+                    alt="Ratnesh Maurya"
+                    width={28}
+                    height={28}
+                    priority
+                  />
+                  <span><Link href="/about">Ratnesh Maurya</Link> · SDE at Initializ</span>
+                </dd>
+              </div>
+            </dl>
 
-            {/* Stats — glass pills */}
-            <div className="mt-8 flex flex-wrap justify-center gap-2">
-              {[
-                { value: posts.length.toString(), label: 'Posts' },
-                { value: technicalTerms.length.toString(), label: 'Technical Terms' },
-                { value: newsPosts.length.toString(), label: 'News Digests' },
-              ].map((item) => (
-                <span
-                  key={item.label}
-                  className="inline-block px-4 py-1.5 text-sm font-semibold"
-                  style={{
-                    backgroundColor: 'var(--glass-bg)',
-                    backdropFilter: 'blur(8px)',
-                    WebkitBackdropFilter: 'blur(8px)',
-                    border: '1px solid var(--glass-border)',
-                    borderRadius: '100px',
-                    boxShadow: 'var(--glass-shadow-sm)',
-                    color: 'var(--text-primary)',
-                  }}
-                >
-                  <span style={{ color: 'var(--accent-500)', fontWeight: 800 }}>{item.value}</span>{' '}{item.label}
-                </span>
-              ))}
+            <div className="lg-hero-foot">
+              <div className="lg-hero-lead">
+                <p className="lg-lead">
+                  Deep dives written from building and debugging real systems — Go and Elixir services,
+                  Postgres, Kafka, Kubernetes — plus a curated daily digest for builders who ship.
+                </p>
+                <div className="lg-ctas">
+                  <Link className="btn btn-primary btn-lg" href="/blog">Read the blog →</Link>
+                  <Link className="btn btn-secondary btn-lg" href="/news">Daily news</Link>
+                  <div className="lg-socials-text">
+                    <a href="/feed.xml">RSS ↗</a>
+                    <Link href="/newsletter">Newsletter ↗</Link>
+                    <a href="https://ratneshmaurya.com" target="_blank" rel="noopener">Portfolio ↗</a>
+                  </div>
+                </div>
+              </div>
+              <dl className="lg-stats">
+                <div><dt>long-form posts</dt><dd>{posts.length}</dd></div>
+                <div><dt>technical terms explained</dt><dd>{technicalTerms.length}</dd></div>
+                <div><dt>daily news digests</dt><dd>{newsPosts.length}</dd></div>
+                <div><dt>topics, from Go to Kubernetes</dt><dd>{new Set(posts.map((p) => p.category)).size}</dd></div>
+              </dl>
             </div>
           </div>
         </section>
 
-        <TodaysDigest post={newsPosts[0]} />
-
         <ContinueReading />
 
-        <hr className="nb-separator" />
-
+        
         {/* ── Featured Posts ── */}
-        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="lg-sec">
+          <div className="wrap">
             <div className="flex items-end justify-between gap-4 mb-8">
               <div>
-                <p className="nb-section-label mb-1">Featured</p>
-                <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
-                  Start here if you are new.
+                <p className="eyebrow">§ 01 — Featured</p>
+                <h2 className="lg-h2">Start <em>here</em> if you are new.
                 </h2>
               </div>
               <Link
                 href="/blog"
                 className="text-sm font-bold pb-px"
-                style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--glass-border)', textDecoration: 'none' }}
+                style={{ color: 'var(--text)', borderBottom: '1px solid var(--line)', textDecoration: 'none' }}
               >
                 Browse all →
               </Link>
@@ -300,7 +230,7 @@ export default async function Home() {
                         {post.image && (
                           <div
                             className="relative w-full aspect-[16/9] rounded-lg overflow-hidden"
-                            style={{ border: '1px solid var(--glass-border)' }}
+                            style={{ border: '1px solid var(--line)' }}
                           >
                             <Image src={post.image} alt={post.title} fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover" />
                           </div>
@@ -309,10 +239,10 @@ export default async function Home() {
                           <span className="nb-badge nb-badge-primary mb-2 inline-block" style={{ fontSize: '0.6rem' }}>
                             {post.category}
                           </span>
-                          <h3 className="font-extrabold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                          <h3 className="font-semibold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text)' }}>
                             {post.title}
                           </h3>
-                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
+                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--muted)' }}>
                             {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                           </p>
                         </div>
@@ -330,20 +260,20 @@ export default async function Home() {
                           backgroundColor: 'var(--glass-bg)',
                           backdropFilter: 'blur(12px) saturate(160%)',
                           WebkitBackdropFilter: 'blur(12px) saturate(160%)',
-                          border: '1px solid var(--glass-border)',
+                          border: '1px solid var(--line)',
                           boxShadow: 'var(--glass-shadow)',
                           borderRadius: '20px',
                         }}
                       >
                         <div
                           className="relative w-full aspect-[16/9] rounded-xl overflow-hidden"
-                          style={{ border: '1px solid var(--glass-border)', backgroundColor: 'var(--surface-muted)' }}
+                          style={{ border: '1px solid var(--line)', backgroundColor: 'var(--surface-2)' }}
                         >
                           {post.image ? (
                             <Image src={post.image} alt={post.title} fill sizes="50vw" className="object-cover" priority />
                           ) : (
                             <div className="absolute inset-0 flex items-center justify-center">
-                              <span className="text-5xl font-black" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                              <span className="text-5xl font-semibold" style={{ color: 'var(--muted)', opacity: 0.3 }}>
                                 {post.title.charAt(0)}
                               </span>
                             </div>
@@ -351,15 +281,15 @@ export default async function Home() {
                         </div>
                         <div className="flex-1">
                           <span className="nb-badge nb-badge-primary mb-3 inline-block">{post.category}</span>
-                          <h3 className="font-black text-xl md:text-2xl leading-snug nb-title-hover mt-2" style={{ color: 'var(--text-primary)' }}>
+                          <h3 className="font-semibold text-xl md:text-2xl leading-snug nb-title-hover mt-2" style={{ color: 'var(--text)' }}>
                             {post.title}
                           </h3>
                           {post.description && (
-                            <p className="mt-2 text-sm font-medium leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
+                            <p className="mt-2 text-sm font-medium leading-relaxed line-clamp-2" style={{ color: 'var(--body)' }}>
                               {post.description}
                             </p>
                           )}
-                          <p className="text-xs font-semibold mt-4" style={{ color: 'var(--text-muted)' }}>
+                          <p className="text-xs font-semibold mt-4" style={{ color: 'var(--muted)' }}>
                             {post.author} · {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                           </p>
                         </div>
@@ -378,7 +308,7 @@ export default async function Home() {
                         {post.image && (
                           <div
                             className="relative w-full aspect-[16/9] rounded-lg overflow-hidden"
-                            style={{ border: '1px solid var(--glass-border)' }}
+                            style={{ border: '1px solid var(--line)' }}
                           >
                             <Image src={post.image} alt={post.title} fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover" />
                           </div>
@@ -387,10 +317,10 @@ export default async function Home() {
                           <span className="nb-badge nb-badge-primary mb-2 inline-block" style={{ fontSize: '0.6rem' }}>
                             {post.category}
                           </span>
-                          <h3 className="font-extrabold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                          <h3 className="font-semibold text-[14px] leading-snug nb-title-hover" style={{ color: 'var(--text)' }}>
                             {post.title}
                           </h3>
-                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
+                          <p className="text-[11px] font-semibold mt-2" style={{ color: 'var(--muted)' }}>
                             {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                           </p>
                         </div>
@@ -409,13 +339,13 @@ export default async function Home() {
                     >
                       <div
                         className="relative w-full aspect-[16/10] rounded-t-2xl overflow-hidden"
-                        style={{ borderBottom: '1px solid var(--glass-border)' }}
+                        style={{ borderBottom: '1px solid var(--line)' }}
                       >
                         {post.image ? (
                           <Image src={post.image} alt={post.title} fill sizes="33vw" className="object-cover" />
                         ) : (
-                          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'var(--surface-muted)' }}>
-                            <span className="text-4xl font-black" style={{ color: 'var(--text-muted)', opacity: 0.3 }}>
+                          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'var(--surface-2)' }}>
+                            <span className="text-4xl font-semibold" style={{ color: 'var(--muted)', opacity: 0.3 }}>
                               {post.title.charAt(0)}
                             </span>
                           </div>
@@ -423,10 +353,10 @@ export default async function Home() {
                       </div>
                       <div className="p-5">
                         <span className="nb-badge nb-badge-primary mb-3 inline-block">{post.category}</span>
-                        <h3 className="font-extrabold text-base nb-title-hover" style={{ color: 'var(--text-primary)' }}>
+                        <h3 className="font-semibold text-base nb-title-hover" style={{ color: 'var(--text)' }}>
                           {post.title}
                         </h3>
-                        <p className="text-xs font-semibold mt-2" style={{ color: 'var(--text-muted)' }}>
+                        <p className="text-xs font-semibold mt-2" style={{ color: 'var(--muted)' }}>
                           {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                         </p>
                       </div>
@@ -438,22 +368,20 @@ export default async function Home() {
           </div>
         </section>
 
-        <hr className="nb-separator" />
-
+        
         {/* ── Latest Writing ── */}
-        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="lg-sec">
+          <div className="wrap">
             <div className="flex items-end justify-between gap-4 mb-8">
               <div>
-                <p className="nb-section-label mb-1">Latest Writing</p>
-                <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
-                  Fresh from the lab.
+                <p className="eyebrow">§ 02 — Latest writing</p>
+                <h2 className="lg-h2">Fresh from the <em>lab</em>.
                 </h2>
               </div>
               <Link
                 href="/blog"
                 className="text-sm font-bold pb-px"
-                style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--glass-border)', textDecoration: 'none' }}
+                style={{ color: 'var(--text)', borderBottom: '1px solid var(--line)', textDecoration: 'none' }}
               >
                 All posts →
               </Link>
@@ -469,7 +397,7 @@ export default async function Home() {
                     {post.image && (
                       <div
                         className="relative w-full aspect-[16/10] overflow-hidden rounded-t-2xl"
-                        style={{ borderBottom: '1px solid var(--glass-border)' }}
+                        style={{ borderBottom: '1px solid var(--line)' }}
                       >
                         <Image
                           src={post.image}
@@ -483,8 +411,8 @@ export default async function Home() {
                     <div className="p-5 flex flex-col gap-3 flex-1">
                       <span className="nb-badge nb-badge-primary self-start">{post.category}</span>
                       <h3
-                        className="text-base font-extrabold leading-snug nb-title-hover line-clamp-2"
-                        style={{ color: 'var(--text-primary)' }}
+                        className="text-base font-semibold leading-snug nb-title-hover line-clamp-2"
+                        style={{ color: 'var(--text)' }}
                       >
                         {post.title}
                       </h3>
@@ -492,13 +420,13 @@ export default async function Home() {
                         <span
                           className="inline-flex w-6 h-6 rounded-full items-center justify-center flex-shrink-0"
                           style={{
-                            background: 'color-mix(in srgb, var(--accent-500) 12%, transparent)',
-                            border: '1px solid color-mix(in srgb, var(--accent-500) 25%, transparent)',
+                            background: 'color-mix(in srgb, var(--accent) 12%, transparent)',
+                            border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
                           }}
                         >
-                          <span className="text-[8px] font-black" style={{ color: 'var(--accent-500)' }}>RM</span>
+                          <span className="text-[8px] font-semibold" style={{ color: 'var(--accent)' }}>RM</span>
                         </span>
-                        <p className="text-[11px] font-semibold" style={{ color: 'var(--text-muted)' }}>
+                        <p className="text-[11px] font-semibold" style={{ color: 'var(--muted)' }}>
                           {formatDate(post.date)}{post.readingTime ? ` · ${post.readingTime}` : ''}
                         </p>
                       </div>
@@ -510,33 +438,25 @@ export default async function Home() {
           </div>
         </section>
 
-        <hr className="nb-separator" />
-
+        
         {/* ── Explore Library ── */}
-        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="lg-sec">
+          <div className="wrap">
             <div className="mb-8">
-              <p className="nb-section-label mb-1">Explore the Library</p>
-              <h2 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
-                Pick a format, dive deep.
+              <p className="eyebrow">§ 03 — Explore the library</p>
+              <h2 className="lg-h2">Pick a format, dive <em>deep</em>.
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {exploreItems.map((item) => (
-                <Link key={item.href} href={item.href} className="group block">
-                  <div
-                    className="p-5 h-full transition-all duration-200 group-hover:-translate-y-0.5"
-                    style={glassCard}
-                  >
-                    <span className="text-2xl block mb-3">{item.emoji}</span>
-                    <p className="text-sm font-black nb-title-hover" style={{ color: 'var(--text-primary)' }}>
-                      {item.label}
-                    </p>
-                    <p className="text-xs font-semibold mt-1" style={{ color: 'var(--text-muted)' }}>
-                      {item.desc}
-                    </p>
-                  </div>
+            <div className="rows">
+              {exploreItems.map((item, i) => (
+                <Link key={item.href} href={item.href} className="row">
+                  <span className="row-kind">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="row-main">
+                    <h3>{item.label}</h3>
+                    <p>{item.desc}</p>
+                  </span>
+                  <span className="row-side">Open →</span>
                 </Link>
               ))}
             </div>
@@ -545,22 +465,20 @@ export default async function Home() {
 
         <TermOfTheDay terms={technicalTerms} />
 
-        <hr className="nb-separator" />
-
+        
         {/* ── FAQ + Newsletter ── */}
-        <section className="py-16" style={{ backgroundColor: 'transparent' }}>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="lg-sec">
+          <div className="wrap">
             <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-8 items-start">
               <div>
-                <p className="nb-section-label mb-1">FAQ</p>
-                <h2 className="text-2xl font-black mb-6" style={{ color: 'var(--text-primary)' }}>
-                  Frequently asked.
+                <p className="eyebrow">§ 04 — FAQ</p>
+                <h2 className="lg-h2 mb-6">Frequently <em>asked</em>.
                 </h2>
                 <div className="space-y-3">
                   {faqs.map((f) => (
                     <div key={f.q} className="p-5" style={{ ...glassCard, borderRadius: '14px' }}>
-                      <p className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>{f.q}</p>
-                      <p className="text-sm mt-2 leading-relaxed font-medium" style={{ color: 'var(--text-secondary)' }}>
+                      <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{f.q}</p>
+                      <p className="text-sm mt-2 leading-relaxed font-medium" style={{ color: 'var(--body)' }}>
                         {f.a}
                       </p>
                     </div>
@@ -571,31 +489,30 @@ export default async function Home() {
               <div className="sticky top-24">
                 <div className="p-6" style={{ ...glassCard, borderRadius: '20px' }}>
                   <span className="nb-badge nb-badge-primary mb-4 inline-block">Newsletter</span>
-                  <h3 className="text-xl font-black mt-3" style={{ color: 'var(--text-primary)' }}>
+                  <h3 className="text-xl font-semibold mt-3" style={{ color: 'var(--text)' }}>
                     Updates without noise.
                   </h3>
-                  <p className="text-sm font-medium mt-2 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  <p className="text-sm font-medium mt-2 leading-relaxed" style={{ color: 'var(--body)' }}>
                     New posts, cheatsheets, and technical terms delivered occasionally.
                   </p>
                   <div className="mt-5 flex flex-col gap-3">
                     <Link
                       href="/newsletter"
-                      className="w-full inline-flex justify-center items-center rounded-xl py-3 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
-                      style={{ background: 'var(--accent-500)', color: '#ffffff', textDecoration: 'none', boxShadow: '0 2px 12px color-mix(in srgb, var(--accent-500) 30%, transparent), inset 0 1px 0 rgba(255,255,255,0.25)' }}
+                      className="btn btn-primary w-full"
                     >
                       Subscribe →
                     </Link>
                     <Link
                       href="/about"
                       className="w-full inline-flex justify-center items-center rounded-xl py-3 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
-                      style={{ backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--text-primary)', textDecoration: 'none', border: '1px solid var(--glass-border)' }}
+                      style={{ backgroundColor: 'var(--glass-bg-subtle)', color: 'var(--text)', textDecoration: 'none', border: '1px solid var(--line)' }}
                     >
                       About Ratnesh
                     </Link>
                   </div>
-                  <p className="mt-5 text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+                  <p className="mt-5 text-xs font-semibold" style={{ color: 'var(--muted)' }}>
                     Prefer RSS?{' '}
-                    <a href="/feed.xml" className="font-bold underline decoration-1" style={{ color: 'var(--text-secondary)' }}>
+                    <a href="/feed.xml" className="font-bold underline decoration-1" style={{ color: 'var(--body)' }}>
                       feed.xml
                     </a>
                   </p>

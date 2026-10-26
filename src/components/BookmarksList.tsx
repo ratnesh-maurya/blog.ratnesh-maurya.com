@@ -35,20 +35,20 @@ export function BookmarksList() {
         className="rounded-2xl p-10 text-center"
         style={{
           backgroundColor: 'var(--glass-bg)',
-          border: '1px solid var(--glass-border)',
+          border: '1px solid var(--line)',
           boxShadow: 'var(--glass-shadow-sm)',
         }}
       >
-        <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>
+        <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text)' }}>
           Nothing saved yet
         </p>
-        <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm mb-6" style={{ color: 'var(--body)' }}>
           Tap “Save” on any post and it will show up here.
         </p>
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full"
-          style={{ backgroundColor: 'var(--accent-500)', color: '#fff' }}
+          style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
         >
           Browse the blog
         </Link>
@@ -64,18 +64,18 @@ export function BookmarksList() {
           className="flex items-center justify-between gap-4 rounded-2xl px-5 py-4"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow-sm)',
           }}
         >
           <div className="min-w-0">
             <span
               className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md mb-1.5"
-              style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-700)' }}
+              style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent)' }}
             >
               {TYPE_LABEL[b.type] ?? b.type}
             </span>
-            <Link href={b.href} className="block text-sm font-semibold leading-snug hover:underline truncate" style={{ color: 'var(--text-primary)' }}>
+            <Link href={b.href} className="block text-sm font-semibold leading-snug hover:underline truncate" style={{ color: 'var(--text)' }}>
               {b.title}
             </Link>
           </div>
@@ -83,7 +83,7 @@ export function BookmarksList() {
             onClick={() => remove(b.type, b.slug)}
             aria-label={`Remove ${b.title} from bookmarks`}
             className="flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors cursor-pointer hover:brightness-95"
-            style={{ backgroundColor: 'var(--surface)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
+            style={{ backgroundColor: 'var(--surface)', color: 'var(--muted)', border: '1px solid var(--line)' }}
           >
             Remove
           </button>

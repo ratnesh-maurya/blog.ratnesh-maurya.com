@@ -42,17 +42,17 @@ export default function PrivacyPolicyPage() {
 
       <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
         {/* Header */}
-        <div style={{ borderBottom: '1px solid var(--glass-border)' }}>
+        <div style={{ borderBottom: '1px solid var(--line)' }}>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
             <p className="text-xs font-semibold uppercase tracking-widest mb-3"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               Legal
             </p>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3"
-              style={{ color: 'var(--text-primary)' }}>
+              style={{ color: 'var(--text)' }}>
               Privacy Policy
             </h1>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-sm" style={{ color: 'var(--muted)' }}>
               Applies to {SITE_HOST} · Last revised: {lastRevised}
             </p>
           </div>
@@ -64,7 +64,7 @@ export default function PrivacyPolicyPage() {
           <div className="nb-card p-5 mb-10"
             style={{
               backgroundColor: 'var(--glass-bg)',
-              border: '1px solid var(--glass-border)',
+              border: '1px solid var(--line)',
               boxShadow: 'var(--glass-shadow-sm)',
               backdropFilter: 'blur(10px) saturate(160%)',
               WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
             <p className="text-sm font-semibold mb-1" style={{ color: 'var(--accent-600)' }}>
               TL;DR
             </p>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm" style={{ color: 'var(--body)' }}>
               {tldr}
             </p>
           </div>
@@ -85,16 +85,16 @@ export default function PrivacyPolicyPage() {
                 className="nb-card p-6"
                 style={{
                   backgroundColor: 'var(--glass-bg)',
-                  border: '1px solid var(--glass-border)',
+                  border: '1px solid var(--line)',
                   boxShadow: 'var(--glass-shadow-sm)',
                   backdropFilter: 'blur(10px) saturate(160%)',
                   WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                 }}
               >
                 <h2 className="text-base font-bold mb-4 flex items-center gap-2"
-                  style={{ color: 'var(--text-primary)' }}>
+                  style={{ color: 'var(--text)' }}>
                   <span className="text-xs font-mono w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' }}>
+                    style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}>
                     {i + 1}
                   </span>
                   {section.title}
@@ -102,7 +102,7 @@ export default function PrivacyPolicyPage() {
                 <div className="space-y-3">
                   {section.body.map((para, j) => (
                     <p key={j} className="text-sm leading-relaxed"
-                      style={{ color: 'var(--text-secondary)' }}>
+                      style={{ color: 'var(--body)' }}>
                       {para}
                     </p>
                   ))}
@@ -113,15 +113,15 @@ export default function PrivacyPolicyPage() {
 
           {/* Bottom nav */}
           <div className="mt-12 pt-8 flex flex-wrap gap-4"
-            style={{ borderTop: '1px solid var(--glass-border)' }}>
+            style={{ borderTop: '1px solid var(--line)' }}>
             <Link
               href="/"
               className="nb-btn text-sm"
               style={{
                 backgroundColor: 'var(--glass-bg)',
-                border: '1px solid var(--glass-border)',
+                border: '1px solid var(--line)',
                 boxShadow: 'var(--glass-shadow-sm)',
-                color: 'var(--text-primary)',
+                color: 'var(--text)',
                 backdropFilter: 'blur(10px) saturate(160%)',
                 WebkitBackdropFilter: 'blur(10px) saturate(160%)',
               }}

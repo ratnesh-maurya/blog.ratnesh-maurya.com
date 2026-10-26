@@ -4,8 +4,8 @@
   "description": "Systems thinking, backend architecture, and AI engineering. Building scalable systems and sharing technical insights.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#0066CC",
+  "background_color": "#0E0D0B",
+  "theme_color": "#0E0D0B",
   "orientation": "portrait-primary",
   "icons": [
     {

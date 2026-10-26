@@ -15,8 +15,8 @@ import {
 
 // Shades of the current theme accent, alternating light and dark so neighbouring slices stay distinguishable.
 const UTM_CHART_COLORS = [
-  'var(--accent-500)', 'var(--accent-300)', 'var(--accent-700)', 'var(--accent-400)', 'var(--accent-600)',
-  'var(--accent-200)', 'var(--accent-800, var(--accent-700))', 'var(--accent-300)', 'var(--accent-500)', 'var(--accent-700)',
+  'var(--chart-1)', 'var(--chart-3)', 'var(--chart-5)', 'var(--chart-2)', 'var(--chart-4)',
+  'var(--chart-6)', 'var(--chart-5)', 'var(--chart-3)', 'var(--chart-1)', 'var(--chart-5)',
 ];
 
 export interface UtmAnalyticsData {
@@ -88,7 +88,7 @@ export function UtmAnalyticsCharts() {
 
   if (loading && !data) {
     return (
-      <div className="text-center py-12" style={{ color: 'var(--text-muted)' }}>
+      <div className="text-center py-12" style={{ color: 'var(--muted)' }}>
         Loading UTM analytics…
       </div>
     );
@@ -98,28 +98,28 @@ export function UtmAnalyticsCharts() {
     <div className="space-y-10">
       <section>
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-          <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+          <h2 className="text-lg font-bold" style={{ color: 'var(--text)' }}>
             UTM traffic (by source, medium, campaign)
           </h2>
           <div className="flex flex-wrap items-center gap-3">
-            <label className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+            <label className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
               From
               <input
                 type="date"
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
                 className="rounded-lg px-3 py-1.5 text-sm"
-                style={{ border: '1px solid var(--nb-border)', backgroundColor: 'var(--nb-surface-card)', color: 'var(--text-primary)' }}
+                style={{ border: '1px solid var(--line)', backgroundColor: 'var(--surface)', color: 'var(--text)' }}
               />
             </label>
-            <label className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+            <label className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
               To
               <input
                 type="date"
                 value={to}
                 onChange={(e) => setTo(e.target.value)}
                 className="rounded-lg px-3 py-1.5 text-sm"
-                style={{ border: '1px solid var(--nb-border)', backgroundColor: 'var(--nb-surface-card)', color: 'var(--text-primary)' }}
+                style={{ border: '1px solid var(--line)', backgroundColor: 'var(--surface)', color: 'var(--text)' }}
               />
             </label>
             <button
@@ -133,41 +133,41 @@ export function UtmAnalyticsCharts() {
         </div>
 
         {error && (
-          <div className="nb-card-sm p-4 mb-6" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
-            <p className="text-red-500">{error}</p>
+          <div className="nb-card-sm p-4 mb-6" style={{ backgroundColor: 'var(--surface)' }}>
+            <p className="" style={{ color: 'var(--bad)' }}>{error}</p>
           </div>
         )}
 
         {data && (
           <>
             <div className="nb-card p-5 mb-6" style={{ backgroundColor: 'var(--surface-tint)' }}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--muted)' }}>
                 Total UTM visits (date range)
               </p>
-              <p className="text-3xl font-bold" style={{ color: 'var(--accent-500)' }}>
+              <p className="text-3xl font-bold" style={{ color: 'var(--accent)' }}>
                 {formatNumber(data.total)}
               </p>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
                 {data.from} → {data.to}
               </p>
             </div>
 
             {data.bySource.length > 0 && (
               <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
-                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
                   By UTM Source
                 </h3>
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.bySource} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="source" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
-                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <XAxis dataKey="source" tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
+                      <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '1px solid var(--nb-border)',
+                          border: '1px solid var(--line)',
                           borderRadius: '8px',
-                          color: 'var(--text-primary)',
+                          color: 'var(--text)',
                         }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Source: ${label}`}
@@ -185,20 +185,20 @@ export function UtmAnalyticsCharts() {
 
             {data.byMedium.length > 0 && (
               <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
-                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
                   By UTM Medium
                 </h3>
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.byMedium} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="medium" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
-                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <XAxis dataKey="medium" tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
+                      <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '1px solid var(--nb-border)',
+                          border: '1px solid var(--line)',
                           borderRadius: '8px',
-                          color: 'var(--text-primary)',
+                          color: 'var(--text)',
                         }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Medium: ${label}`}
@@ -216,20 +216,20 @@ export function UtmAnalyticsCharts() {
 
             {data.byCampaign.length > 0 && (
               <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
-                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
                   By UTM Campaign
                 </h3>
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.byCampaign} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="campaign" tick={{ fill: 'var(--text-muted)', fontSize: 11 }} stroke="var(--border)" />
-                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <XAxis dataKey="campaign" tick={{ fill: 'var(--muted)', fontSize: 11 }} stroke="var(--line)" />
+                      <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '1px solid var(--nb-border)',
+                          border: '1px solid var(--line)',
                           borderRadius: '8px',
-                          color: 'var(--text-primary)',
+                          color: 'var(--text)',
                         }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Campaign: ${label}`}
@@ -247,16 +247,16 @@ export function UtmAnalyticsCharts() {
 
             {data.byRef.length > 0 && (
               <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
-                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
                   By Referral (<code>?ref=</code>)
                 </h3>
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.byRef} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="refValue" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
-                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <XAxis dataKey="refValue" tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
+                      <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                       <Tooltip
-                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--nb-border)', borderRadius: '10px', color: 'var(--text-primary)' }}
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--line)', borderRadius: '10px', color: 'var(--text)' }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Ref: ${label}`}
                       />
@@ -273,16 +273,16 @@ export function UtmAnalyticsCharts() {
 
             {data.byContent.length > 0 && (
               <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
-                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
                   By UTM Content
                 </h3>
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.byContent} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="content" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
-                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <XAxis dataKey="content" tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
+                      <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                       <Tooltip
-                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--nb-border)', borderRadius: '10px', color: 'var(--text-primary)' }}
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--line)', borderRadius: '10px', color: 'var(--text)' }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Content: ${label}`}
                       />
@@ -299,16 +299,16 @@ export function UtmAnalyticsCharts() {
 
             {data.byTerm.length > 0 && (
               <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
-                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
                   By UTM Term
                 </h3>
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.byTerm} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="term" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
-                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <XAxis dataKey="term" tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
+                      <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                       <Tooltip
-                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--nb-border)', borderRadius: '10px', color: 'var(--text-primary)' }}
+                        contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--line)', borderRadius: '10px', color: 'var(--text)' }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(label) => `Term: ${label}`}
                       />
@@ -324,27 +324,27 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.byPath.length > 0 && (
-              <div className="nb-card overflow-hidden mb-8" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
-                <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
-                  <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+              <div className="nb-card overflow-hidden mb-8" style={{ backgroundColor: 'var(--surface)' }}>
+                <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--line)' }}>
+                  <h3 className="font-semibold" style={{ color: 'var(--text)' }}>
                     Top landing pages (by referred traffic)
                   </h3>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ backgroundColor: 'var(--surface-muted)' }}>
-                        <th className="text-left px-4 py-2.5 font-semibold" style={{ color: 'var(--text-primary)' }}>Page</th>
-                        <th className="text-right px-4 py-2.5 font-semibold" style={{ color: 'var(--text-primary)' }}>Visits</th>
+                      <tr style={{ backgroundColor: 'var(--surface-2)' }}>
+                        <th className="text-left px-4 py-2.5 font-semibold" style={{ color: 'var(--text)' }}>Page</th>
+                        <th className="text-right px-4 py-2.5 font-semibold" style={{ color: 'var(--text)' }}>Visits</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.byPath.map((row) => (
-                        <tr key={row.path} className="border-t" style={{ borderColor: 'var(--border)' }}>
-                          <td className="px-4 py-2.5 font-mono text-xs" style={{ color: 'var(--text-secondary)' }}>
+                        <tr key={row.path} className="border-t" style={{ borderColor: 'var(--line)' }}>
+                          <td className="px-4 py-2.5 font-mono text-xs" style={{ color: 'var(--body)' }}>
                             {row.path}
                           </td>
-                          <td className="px-4 py-2.5 text-right font-medium tabular-nums" style={{ color: 'var(--accent-500)' }}>
+                          <td className="px-4 py-2.5 text-right font-medium tabular-nums" style={{ color: 'var(--accent)' }}>
                             {formatNumber(row.count)}
                           </td>
                         </tr>
@@ -357,7 +357,7 @@ export function UtmAnalyticsCharts() {
 
             {data.daily.length > 0 && (
               <div className="nb-card p-4 md:p-6 mb-8" style={{ backgroundColor: 'var(--surface-tint)' }}>
-                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
                   Visits per day
                 </h3>
                 <div className="h-80 w-full">
@@ -365,17 +365,17 @@ export function UtmAnalyticsCharts() {
                     <LineChart data={data.daily} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                       <XAxis
                         dataKey="day"
-                        tick={{ fill: 'var(--text-muted)', fontSize: 11 }}
-                        stroke="var(--border)"
+                        tick={{ fill: 'var(--muted)', fontSize: 11 }}
+                        stroke="var(--line)"
                         tickFormatter={(d) => new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                       />
-                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                      <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                       <Tooltip
                         contentStyle={{
                           backgroundColor: 'var(--surface)',
-                          border: '1px solid var(--nb-border)',
+                          border: '1px solid var(--line)',
                           borderRadius: '8px',
-                          color: 'var(--text-primary)',
+                          color: 'var(--text)',
                         }}
                         formatter={(value: number | undefined) => [value != null ? formatNumber(value) : '—', 'Visits']}
                         labelFormatter={(d) => new Date(d).toLocaleDateString()}
@@ -384,9 +384,9 @@ export function UtmAnalyticsCharts() {
                         type="monotone"
                         dataKey="count"
                         name="Visits"
-                        stroke="var(--accent-500)"
+                        stroke="var(--accent)"
                         strokeWidth={2}
-                        dot={{ fill: 'var(--accent-500)', r: 2 }}
+                        dot={{ fill: 'var(--accent)', r: 2 }}
                         activeDot={{ r: 4 }}
                       />
                     </LineChart>
@@ -396,27 +396,27 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.daily.length > 0 && (
-              <div className="nb-card overflow-hidden" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
-                <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
-                  <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+              <div className="nb-card overflow-hidden" style={{ backgroundColor: 'var(--surface)' }}>
+                <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--line)' }}>
+                  <h3 className="font-semibold" style={{ color: 'var(--text)' }}>
                     Daily breakdown
                   </h3>
                 </div>
                 <div className="overflow-x-auto max-h-96 overflow-y-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-muted)' }}>
-                        <th className="text-left px-4 py-2.5 font-semibold" style={{ color: 'var(--text-primary)' }}>Date</th>
-                        <th className="text-right px-4 py-2.5 font-semibold" style={{ color: 'var(--text-primary)' }}>Visits</th>
+                      <tr style={{ borderColor: 'var(--line)', backgroundColor: 'var(--surface-2)' }}>
+                        <th className="text-left px-4 py-2.5 font-semibold" style={{ color: 'var(--text)' }}>Date</th>
+                        <th className="text-right px-4 py-2.5 font-semibold" style={{ color: 'var(--text)' }}>Visits</th>
                       </tr>
                     </thead>
                     <tbody>
                       {[...data.daily].reverse().map((row) => (
-                        <tr key={row.day} className="border-t" style={{ borderColor: 'var(--border)' }}>
-                          <td className="px-4 py-2.5" style={{ color: 'var(--text-secondary)' }}>
+                        <tr key={row.day} className="border-t" style={{ borderColor: 'var(--line)' }}>
+                          <td className="px-4 py-2.5" style={{ color: 'var(--body)' }}>
                             {new Date(row.day).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
                           </td>
-                          <td className="px-4 py-2.5 text-right font-medium tabular-nums" style={{ color: 'var(--accent-500)' }}>
+                          <td className="px-4 py-2.5 text-right font-medium tabular-nums" style={{ color: 'var(--accent)' }}>
                             {formatNumber(row.count)}
                           </td>
                         </tr>
@@ -428,8 +428,8 @@ export function UtmAnalyticsCharts() {
             )}
 
             {data.total === 0 && !loading && (
-              <div className="nb-card-sm p-8 text-center" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              <div className="nb-card-sm p-8 text-center" style={{ backgroundColor: 'var(--surface)' }}>
+                <p className="text-sm" style={{ color: 'var(--muted)' }}>
                   No UTM traffic in this date range. Share links with UTM params (e.g. ?utm_source=twitter&utm_medium=social&utm_campaign=share) to see data here.
                 </p>
               </div>

@@ -144,7 +144,7 @@ function CustomDropdown({
         aria-expanded={open}
       >
         <span className="truncate text-left">
-          {value ? value : <span style={{ color: 'var(--text-muted)' }}>{placeholder || 'Select…'}</span>}
+          {value ? value : <span style={{ color: 'var(--muted)' }}>{placeholder || 'Select…'}</span>}
         </span>
         <ChevronDownIcon />
       </button>
@@ -152,15 +152,15 @@ function CustomDropdown({
       {open && (
         <div
           className="absolute z-50 mt-2 w-full rounded-xl border shadow-lg overflow-hidden"
-          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
+          style={{ borderColor: 'var(--line)', backgroundColor: 'var(--surface)' }}
         >
-          <div className="p-2" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="p-2" style={{ borderBottom: '1px solid var(--line)' }}>
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={`Search ${label.toLowerCase()}…`}
               className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
-              style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
+              style={{ borderColor: 'var(--line)', backgroundColor: 'transparent', color: 'var(--text)' }}
               autoFocus
             />
           </div>
@@ -170,7 +170,7 @@ function CustomDropdown({
               <button
                 type="button"
                 className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 hover:opacity-90"
-                style={{ color: 'var(--accent-500)' }}
+                style={{ color: 'var(--accent)' }}
                 onClick={() => {
                   onCreateOption(normalizedQ);
                   onChange(normalizedQ);
@@ -183,7 +183,7 @@ function CustomDropdown({
             )}
 
             {filtered.length === 0 ? (
-              <div className="px-3 py-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+              <div className="px-3 py-2 text-sm" style={{ color: 'var(--muted)' }}>
                 No matches
               </div>
             ) : (
@@ -196,7 +196,7 @@ function CustomDropdown({
                     role="option"
                     aria-selected={selected}
                     className="w-full px-3 py-2 text-left text-sm flex items-center justify-between hover:opacity-90"
-                    style={{ color: selected ? 'var(--text-primary)' : 'var(--text-secondary)' }}
+                    style={{ color: selected ? 'var(--text)' : 'var(--body)' }}
                     onClick={() => {
                       onChange(o);
                       setOpen(false);
@@ -284,12 +284,12 @@ export default function UtmBuilderPage() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'transparent' }}>
-      <div style={{ borderBottom: '1px solid var(--border)' }}>
+      <div style={{ borderBottom: '1px solid var(--line)' }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
-            style={{ color: 'var(--text-muted)' }}
+            style={{ color: 'var(--muted)' }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -311,28 +311,28 @@ export default function UtmBuilderPage() {
             <div>
               <h1
                 className="text-2xl sm:text-3xl font-bold tracking-tight"
-                style={{ color: 'var(--text-primary)' }}
+                style={{ color: 'var(--text)' }}
               >
                 Build a tracked link
               </h1>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
                 Paste a URL (or a site path), pick UTM values, copy the final link.
               </p>
             </div>
           </div>
 
           {(initialTitle || initialDescription) && (
-            <div className="mb-6 rounded-xl p-4" style={{ backgroundColor: 'var(--surface-tint)', border: '2px solid var(--nb-border)' }}>
-              <div className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>
+            <div className="mb-6 rounded-xl p-4" style={{ backgroundColor: 'var(--surface-tint)', border: '2px solid var(--line)' }}>
+              <div className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--muted)' }}>
                 Context
               </div>
               {initialTitle && (
-                <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                <div className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
                   {initialTitle}
                 </div>
               )}
               {initialDescription && (
-                <div className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-xs mt-1" style={{ color: 'var(--body)' }}>
                   {initialDescription}
                 </div>
               )}
@@ -341,7 +341,7 @@ export default function UtmBuilderPage() {
 
           <div className="space-y-5">
             <div>
-              <div className={labelBase} style={{ color: 'var(--text-muted)' }}>
+              <div className={labelBase} style={{ color: 'var(--muted)' }}>
                 URL / Path
               </div>
               <input
@@ -349,13 +349,13 @@ export default function UtmBuilderPage() {
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="/blog/my-post or https://..."
                 className={fieldBase}
-                style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
+                style={{ borderColor: 'var(--line)', backgroundColor: 'transparent', color: 'var(--text)' }}
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <div className={labelBase} style={{ color: 'var(--text-muted)' }}>
+                <div className={labelBase} style={{ color: 'var(--muted)' }}>
                   UTM Source
                 </div>
                 <CustomDropdown
@@ -366,12 +366,12 @@ export default function UtmBuilderPage() {
                   onChange={setUtmSource}
                   onCreateOption={(v) => addOption('sources', v)}
                   inputClassName={fieldBase}
-                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
+                  inputStyle={{ borderColor: 'var(--line)', backgroundColor: 'transparent', color: 'var(--text)' }}
                 />
               </div>
 
               <div>
-                <div className={labelBase} style={{ color: 'var(--text-muted)' }}>
+                <div className={labelBase} style={{ color: 'var(--muted)' }}>
                   UTM Medium
                 </div>
                 <CustomDropdown
@@ -382,12 +382,12 @@ export default function UtmBuilderPage() {
                   onChange={setUtmMedium}
                   onCreateOption={(v) => addOption('mediums', v)}
                   inputClassName={fieldBase}
-                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
+                  inputStyle={{ borderColor: 'var(--line)', backgroundColor: 'transparent', color: 'var(--text)' }}
                 />
               </div>
 
               <div>
-                <div className={labelBase} style={{ color: 'var(--text-muted)' }}>
+                <div className={labelBase} style={{ color: 'var(--muted)' }}>
                   UTM Campaign
                 </div>
                 <CustomDropdown
@@ -398,14 +398,14 @@ export default function UtmBuilderPage() {
                   onChange={setUtmCampaign}
                   onCreateOption={(v) => addOption('campaigns', v)}
                   inputClassName={fieldBase}
-                  inputStyle={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
+                  inputStyle={{ borderColor: 'var(--line)', backgroundColor: 'transparent', color: 'var(--text)' }}
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <div className={labelBase} style={{ color: 'var(--text-muted)' }}>
+                <div className={labelBase} style={{ color: 'var(--muted)' }}>
                   UTM Content (optional)
                 </div>
                 <input
@@ -413,11 +413,11 @@ export default function UtmBuilderPage() {
                   onChange={(e) => setUtmContent(e.target.value)}
                   placeholder="e.g. footer_share_button"
                   className={fieldBase}
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
+                  style={{ borderColor: 'var(--line)', backgroundColor: 'transparent', color: 'var(--text)' }}
                 />
               </div>
               <div>
-                <div className={labelBase} style={{ color: 'var(--text-muted)' }}>
+                <div className={labelBase} style={{ color: 'var(--muted)' }}>
                   UTM Term (optional)
                 </div>
                 <input
@@ -425,13 +425,13 @@ export default function UtmBuilderPage() {
                   onChange={(e) => setUtmTerm(e.target.value)}
                   placeholder="e.g. systems_design"
                   className={fieldBase}
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
+                  style={{ borderColor: 'var(--line)', backgroundColor: 'transparent', color: 'var(--text)' }}
                 />
               </div>
             </div>
 
             <div className="pt-2">
-              <div className={labelBase} style={{ color: 'var(--text-muted)' }}>
+              <div className={labelBase} style={{ color: 'var(--muted)' }}>
                 Final URL
               </div>
               <div className="flex gap-2 mt-2">
@@ -439,7 +439,7 @@ export default function UtmBuilderPage() {
                   value={builtUrl}
                   readOnly
                   className={fieldBase}
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'transparent', color: 'var(--text-primary)' }}
+                  style={{ borderColor: 'var(--line)', backgroundColor: 'transparent', color: 'var(--text)' }}
                 />
                 <button
                   type="button"
@@ -447,16 +447,16 @@ export default function UtmBuilderPage() {
                   disabled={!builtUrl}
                   className="inline-flex items-center gap-2 px-4 rounded-xl border text-sm font-semibold transition-all disabled:opacity-60"
                   style={{
-                    borderColor: copied ? 'var(--nb-border)' : 'var(--border)',
-                    backgroundColor: copied ? 'var(--nb-badge-bg)' : 'var(--surface)',
-                    color: copied ? 'var(--nb-badge-text)' : 'var(--text-secondary)',
+                    borderColor: copied ? 'var(--line)' : 'var(--line)',
+                    backgroundColor: copied ? 'var(--pill)' : 'var(--surface)',
+                    color: copied ? 'var(--on-pill)' : 'var(--body)',
                   }}
                 >
                   {copied ? <CheckIcon /> : <CopyIcon />}
                   {copied ? 'Copied' : 'Copy'}
                 </button>
               </div>
-              <div className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-xs mt-2" style={{ color: 'var(--muted)' }}>
                 Tip: if you pass just a path (like <code>/blog/slug</code>), it will be expanded to <code>{BASE}</code>.
               </div>
             </div>

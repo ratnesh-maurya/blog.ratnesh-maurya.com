@@ -101,24 +101,24 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
             backgroundColor: 'var(--glass-bg)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow)',
           }}
         >
-          <header className="mb-8 pb-6" style={{ borderBottom: '1px solid var(--nb-border)' }}>
+          <header className="mb-8 pb-6" style={{ borderBottom: '1px solid var(--line)' }}>
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <span className="nb-badge nb-badge-primary">News Digest</span>
-              <time className="text-sm font-semibold" style={{ color: 'var(--text-muted)' }}>
+              <time className="text-sm font-semibold" style={{ color: 'var(--muted)' }}>
                 {fmtDate(post.date)}
               </time>
             </div>
 
-            <h1 className="text-3xl md:text-4xl font-black leading-tight tracking-tight" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-3xl md:text-4xl font-black leading-tight tracking-tight" style={{ color: 'var(--text)' }}>
               {post.title}
             </h1>
 
             {post.description && (
-              <p className="mt-4 text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <p className="mt-4 text-lg leading-relaxed" style={{ color: 'var(--body)' }}>
                 {post.description}
               </p>
             )}
@@ -128,7 +128,7 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
                 <span
                   key={tag}
                   className="text-xs font-semibold px-2 py-1 rounded-full"
-                  style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}
+                  style={{ backgroundColor: 'var(--surface-2)', color: 'var(--muted)' }}
                 >
                   {tag}
                 </span>
@@ -140,9 +140,9 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
           <NewsContent html={post.content} />
 
           {/* Share section */}
-          <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--nb-border)' }}>
+          <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--line)' }}>
             <div className="flex items-center justify-between gap-3 mb-4">
-              <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+              <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
                 Share this digest
               </h3>
               <div className="flex items-center gap-2">
@@ -186,24 +186,24 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
             backgroundColor: 'var(--glass-bg)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow)',
           }}
         >
-          <h2 className="text-sm uppercase tracking-widest font-bold mb-3" style={{ color: 'var(--text-muted)' }}>
+          <h2 className="text-sm uppercase tracking-widest font-bold mb-3" style={{ color: 'var(--muted)' }}>
             Keep Exploring
           </h2>
           <div className="flex flex-wrap gap-2">
-            <Link href="/blog" className="nb-btn text-sm" style={{ backgroundColor: 'transparent', color: 'var(--text-primary)' }}>
+            <Link href="/blog" className="nb-btn text-sm" style={{ backgroundColor: 'transparent', color: 'var(--text)' }}>
               Blog
             </Link>
-            <Link href="/technical-terms" className="nb-btn text-sm" style={{ backgroundColor: 'transparent', color: 'var(--text-primary)' }}>
+            <Link href="/technical-terms" className="nb-btn text-sm" style={{ backgroundColor: 'transparent', color: 'var(--text)' }}>
               Technical Terms
             </Link>
-            <Link href="/topics" className="nb-btn text-sm" style={{ backgroundColor: 'transparent', color: 'var(--text-primary)' }}>
+            <Link href="/topics" className="nb-btn text-sm" style={{ backgroundColor: 'transparent', color: 'var(--text)' }}>
               Topics
             </Link>
-            <Link href="/resources" className="nb-btn text-sm" style={{ backgroundColor: 'transparent', color: 'var(--text-primary)' }}>
+            <Link href="/resources" className="nb-btn text-sm" style={{ backgroundColor: 'transparent', color: 'var(--text)' }}>
               Resources
             </Link>
           </div>
@@ -219,12 +219,12 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
                   backgroundColor: 'var(--glass-bg)',
                   backdropFilter: 'blur(10px) saturate(160%)',
                   WebkitBackdropFilter: 'blur(10px) saturate(160%)',
-                  border: '1px solid var(--glass-border)',
+                  border: '1px solid var(--line)',
                   boxShadow: 'var(--glass-shadow-sm)',
                 }}
               >
-                <p className="text-xs font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>Newer digest</p>
-                <p className="font-bold leading-snug" style={{ color: 'var(--text-primary)' }}>{newerPost.title}</p>
+                <p className="text-xs font-semibold mb-1" style={{ color: 'var(--muted)' }}>Newer digest</p>
+                <p className="font-bold leading-snug" style={{ color: 'var(--text)' }}>{newerPost.title}</p>
               </Link>
             ) : (
               <div />
@@ -237,12 +237,12 @@ export default async function NewsPostPage({ params }: NewsPostPageProps) {
                   backgroundColor: 'var(--glass-bg)',
                   backdropFilter: 'blur(10px) saturate(160%)',
                   WebkitBackdropFilter: 'blur(10px) saturate(160%)',
-                  border: '1px solid var(--glass-border)',
+                  border: '1px solid var(--line)',
                   boxShadow: 'var(--glass-shadow-sm)',
                 }}
               >
-                <p className="text-xs font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>Older digest</p>
-                <p className="font-bold leading-snug" style={{ color: 'var(--text-primary)' }}>{olderPost.title}</p>
+                <p className="text-xs font-semibold mb-1" style={{ color: 'var(--muted)' }}>Older digest</p>
+                <p className="font-bold leading-snug" style={{ color: 'var(--text)' }}>{olderPost.title}</p>
               </Link>
             ) : (
               <div />

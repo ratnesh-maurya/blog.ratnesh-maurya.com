@@ -103,8 +103,8 @@ export default async function TechnicalTermPage({
           {/* Back navigation */}
           <Link
             href="/technical-terms"
-            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent-500)]"
-            style={{ color: 'var(--text-muted)' }}
+            className="group inline-flex items-center gap-1.5 text-xs font-medium mb-10 transition-colors hover:text-[var(--accent)]"
+            style={{ color: 'var(--muted)' }}
           >
             <svg className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -113,7 +113,7 @@ export default async function TechnicalTermPage({
           </Link>
 
           {/* OG Image */}
-          <div className="rounded-2xl overflow-hidden mb-10 w-full" style={{ border: '2px solid var(--nb-border)', boxShadow: 'var(--nb-shadow)' }}>
+          <div className="rounded-2xl overflow-hidden mb-10 w-full" style={{ border: '2px solid var(--line)', boxShadow: 'var(--nb-shadow)' }}>
             <Image
               src={ogImagePath}
               alt={term.title}
@@ -128,12 +128,12 @@ export default async function TechnicalTermPage({
           <header className="mb-10">
             <h1
               className="font-extrabold text-3xl md:text-4xl tracking-tight leading-tight mb-4"
-              style={{ color: 'var(--text-primary)' }}
+              style={{ color: 'var(--text)' }}
             >
               {term.title}
             </h1>
             {term.description && (
-              <p className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-base leading-relaxed" style={{ color: 'var(--body)' }}>
                 {term.description}
               </p>
             )}
@@ -158,10 +158,10 @@ export default async function TechnicalTermPage({
           />
 
           {/* Share footer */}
-          <div className="pt-8 mt-12" style={{ borderTop: '2px solid var(--nb-border)' }}>
+          <div className="pt-8 mt-12" style={{ borderTop: '2px solid var(--line)' }}>
             <h3
               className="text-xs font-semibold uppercase tracking-widest mb-4"
-              style={{ color: 'var(--text-muted)' }}
+              style={{ color: 'var(--muted)' }}
             >
               Share this definition
             </h3>

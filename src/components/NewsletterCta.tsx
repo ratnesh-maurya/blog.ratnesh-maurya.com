@@ -10,17 +10,17 @@ export function NewsletterCta() {
       className="rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
       style={{
         background: 'linear-gradient(135deg, var(--glass-bg) 0%, color-mix(in srgb, var(--accent-50) 55%, var(--glass-bg)) 100%)',
-        border: '1px solid var(--glass-border)',
+        border: '1px solid var(--line)',
         boxShadow: 'var(--glass-shadow-sm)',
         backdropFilter: 'blur(10px) saturate(160%)',
         WebkitBackdropFilter: 'blur(10px) saturate(160%)',
       }}
     >
       <div>
-        <p className="text-base font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+        <p className="text-base font-bold mb-1" style={{ color: 'var(--text)' }}>
           Enjoyed this one?
         </p>
-        <p className="text-sm leading-relaxed max-w-md" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm leading-relaxed max-w-md" style={{ color: 'var(--body)' }}>
           Get new deep dives on backend, distributed systems, and AI engineering — no noise, unsubscribe anytime.
         </p>
       </div>
@@ -28,7 +28,7 @@ export function NewsletterCta() {
         <Link
           href="/newsletter?utm_source=blog&utm_medium=inline-cta"
           className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full transition-transform hover:-translate-y-0.5"
-          style={{ backgroundColor: 'var(--accent-500)', color: '#fff' }}
+          style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}
         >
           Subscribe
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,7 @@ export function NewsletterCta() {
         <Link
           href="/feed.xml"
           className="text-sm font-semibold px-4 py-2.5 rounded-full"
-          style={{ backgroundColor: 'var(--glass-bg)', color: 'var(--text-secondary)', border: '1px solid var(--glass-border)' }}
+          style={{ backgroundColor: 'var(--glass-bg)', color: 'var(--body)', border: '1px solid var(--line)' }}
         >
           RSS
         </Link>

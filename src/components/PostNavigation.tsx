@@ -21,14 +21,14 @@ export function PostNavigation({ prev, next, accentVar = '--accent-500' }: PostN
     <nav
       aria-label="Post navigation"
       className="mt-12 pt-8 grid grid-cols-1 sm:grid-cols-2 gap-3"
-      style={{ borderTop: '1px solid var(--border)' }}
+      style={{ borderTop: '1px solid var(--line)' }}
     >
       {/* Previous */}
       {prev ? (
         <Link
           href={prev.href}
           className="group flex flex-col gap-1.5 p-4 rounded-xl border transition-all duration-200"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--line)' }}
           rel="prev"
         >
           <span className="flex items-center gap-1.5 text-xs font-semibold"
@@ -39,16 +39,16 @@ export function PostNavigation({ prev, next, accentVar = '--accent-500' }: PostN
             Previous
           </span>
           {prev.label && (
-            <span className="text-xs uppercase tracking-wider font-medium" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-xs uppercase tracking-wider font-medium" style={{ color: 'var(--muted)' }}>
               {prev.label}
             </span>
           )}
-          <span className="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-[var(--accent-500)] transition-colors"
-            style={{ color: 'var(--text-primary)' }}>
+          <span className="lg-card-title line-clamp-2 group-hover:text-[var(--accent)] transition-colors"
+            style={{ color: 'var(--text)' }}>
             {prev.title}
           </span>
           {prev.description && (
-            <span className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--muted)' }}>
               {prev.description}
             </span>
           )}
@@ -62,7 +62,7 @@ export function PostNavigation({ prev, next, accentVar = '--accent-500' }: PostN
         <Link
           href={next.href}
           className="group flex flex-col gap-1.5 p-4 rounded-xl border transition-all duration-200 sm:text-right sm:items-end"
-          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--line)' }}
           rel="next"
         >
           <span className="flex items-center gap-1.5 text-xs font-semibold sm:flex-row-reverse"
@@ -73,16 +73,16 @@ export function PostNavigation({ prev, next, accentVar = '--accent-500' }: PostN
             Next
           </span>
           {next.label && (
-            <span className="text-xs uppercase tracking-wider font-medium" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-xs uppercase tracking-wider font-medium" style={{ color: 'var(--muted)' }}>
               {next.label}
             </span>
           )}
-          <span className="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-[var(--accent-500)] transition-colors"
-            style={{ color: 'var(--text-primary)' }}>
+          <span className="lg-card-title line-clamp-2 group-hover:text-[var(--accent)] transition-colors"
+            style={{ color: 'var(--text)' }}>
             {next.title}
           </span>
           {next.description && (
-            <span className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--muted)' }}>
               {next.description}
             </span>
           )}

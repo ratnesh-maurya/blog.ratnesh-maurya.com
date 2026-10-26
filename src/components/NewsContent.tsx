@@ -61,14 +61,14 @@ export function NewsContent({ html }: { html: string }) {
   return (
     <div
       ref={ref}
-      className="prose prose-lg !max-w-none w-full prose-headings:font-bold prose-h2:mt-12 prose-h2:border-b prose-h2:pb-4 prose-h2:border-[var(--nb-border)] prose-a:font-semibold prose-img:rounded-xl prose-img:border prose-img:border-[var(--nb-border)] prose-img:shadow-sm prose-hr:border-[var(--nb-border)] prose-hr:my-12 prose-hr:border-t-2 prose-blockquote:border-l-4 prose-blockquote:border-[var(--accent-500)] prose-blockquote:bg-[var(--surface-muted)] prose-blockquote:py-2 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:font-medium prose-blockquote:text-[var(--text-primary)] prose-blockquote:not-italic"
+      className="prose prose-lg !max-w-none w-full prose-headings:font-bold prose-h2:mt-12 prose-h2:border-b prose-h2:pb-4 prose-h2:border-[var(--line)] prose-a:font-semibold prose-img:rounded-xl prose-img:border prose-img:border-[var(--line)] prose-img:shadow-sm prose-hr:border-[var(--line)] prose-hr:my-12 prose-hr:border-t-2 prose-blockquote:border-l-4 prose-blockquote:border-[var(--accent)] prose-blockquote:bg-[var(--surface-2)] prose-blockquote:py-2 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:font-medium prose-blockquote:text-[var(--text)] prose-blockquote:not-italic"
       style={{
-        '--tw-prose-body': 'var(--text-secondary)',
-        '--tw-prose-headings': 'var(--text-primary)',
+        '--tw-prose-body': 'var(--body)',
+        '--tw-prose-headings': 'var(--text)',
         '--tw-prose-links': 'var(--accent-600)',
-        '--tw-prose-bold': 'var(--text-primary)',
-        '--tw-prose-code': 'var(--text-primary)',
-        '--tw-prose-hr': 'var(--nb-border)',
+        '--tw-prose-bold': 'var(--text)',
+        '--tw-prose-code': 'var(--text)',
+        '--tw-prose-hr': 'var(--line)',
       } as CSSProperties}
       dangerouslySetInnerHTML={{ __html: html }}
     />

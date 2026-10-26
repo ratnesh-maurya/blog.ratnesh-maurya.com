@@ -81,16 +81,16 @@ export function SankeySection() {
               preset === p.days
                 ? {
                   backgroundColor: 'var(--glass-bg)',
-                  color: 'var(--text-primary)',
-                  border: '1px solid var(--glass-border)',
+                  color: 'var(--text)',
+                  border: '1px solid var(--line)',
                   boxShadow: 'var(--glass-shadow-sm)',
                   backdropFilter: 'blur(10px) saturate(160%)',
                   WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                 }
                 : {
                   backgroundColor: 'var(--glass-bg)',
-                  color: 'var(--text-secondary)',
-                  border: '1px solid var(--glass-border)',
+                  color: 'var(--body)',
+                  border: '1px solid var(--line)',
                 }
             }
           >
@@ -98,7 +98,7 @@ export function SankeySection() {
           </button>
         ))}
         {total > 0 && (
-          <span className="text-xs ml-auto" style={{ color: 'var(--text-muted)' }}>
+          <span className="text-xs ml-auto" style={{ color: 'var(--muted)' }}>
             {total.toLocaleString()} visits in this range
           </span>
         )}
@@ -111,15 +111,15 @@ export function SankeySection() {
           ))}
         </div>
       ) : error ? (
-        <p className="text-sm text-red-500">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       ) : flows.length === 0 ? (
-        <div className="text-center py-10" style={{ color: 'var(--text-muted)' }}>
+        <div className="text-center py-10" style={{ color: 'var(--muted)' }}>
           <p className="text-sm">No tracked link data for this period.</p>
           <p className="text-xs mt-1">Visits via UTM or ?ref= links will appear here.</p>
         </div>
       ) : (
         <div ref={containerRef} className="w-full px-8 sm:px-16">
-          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>
+          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--muted)' }}>
             <span>Source</span>
             <span>Content</span>
           </div>
@@ -129,7 +129,7 @@ export function SankeySection() {
 
       {/* Legend */}
       {flows.length > 0 && !loading && (
-        <p className="text-[11px] mt-4 text-center" style={{ color: 'var(--text-muted)' }}>
+        <p className="text-[11px] mt-4 text-center" style={{ color: 'var(--muted)' }}>
           Ribbon width is proportional to visit count. Hover a ribbon for exact numbers.
         </p>
       )}

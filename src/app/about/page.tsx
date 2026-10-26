@@ -122,27 +122,27 @@ export default async function AboutPage() {
                   />
                 </div>
                 <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 bg-green-400"
-                  style={{ borderColor: 'var(--background)' }}
+                  style={{ borderColor: 'var(--bg)' }}
                   title="Currently at Initializ.ai"
                 />
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest mb-2"
-                  style={{ color: 'var(--accent-500)' }}>
+                  style={{ color: 'var(--accent)' }}>
                   About me
                 </p>
                 <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2"
-                  style={{ color: 'var(--text-primary)' }}>
+                  style={{ color: 'var(--text)' }}>
                   Ratnesh Maurya
                 </h1>
-                <p className="text-base font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-base font-medium mb-4" style={{ color: 'var(--body)' }}>
                   Software Engineer &middot; Go &amp; Elixir &middot; Cloud-Native
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {socials.map(s => (
                     <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-200 hover:shadow-sm"
-                      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}>
+                      style={{ borderColor: 'var(--line)', backgroundColor: 'var(--surface)', color: 'var(--body)' }}>
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                         <path d={s.icon} />
                       </svg>
@@ -162,7 +162,7 @@ export default async function AboutPage() {
               {['Background', 'Now', 'Skills', 'Projects', 'Journey', 'Uses', 'Writing'].map(s => (
                 <a key={s} href={`#${s.toLowerCase()}`}
                   className="text-xs font-medium px-3 py-1.5 rounded-full border transition-colors hover:shadow-sm"
-                  style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
+                  style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}>
                   {s}
                 </a>
               ))}
@@ -175,7 +175,7 @@ export default async function AboutPage() {
           {/* Bio */}
           <section id="background">
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               Background
             </h2>
             <div className="space-y-4 max-w-3xl">
@@ -184,7 +184,7 @@ export default async function AboutPage() {
                 "My expertise lies in backend development with Go, Elixir, PostgreSQL, Redis, Kubernetes and AWS — focusing on distributed systems, microservices architectures, and secure APIs.",
                 "I write about things I learn while building: system design tradeoffs, Go internals, AWS infrastructure, and the occasional silly bug that cost me three hours. The goal is to capture genuine insights from real engineering work, not textbook theory.",
               ].map((p, i) => (
-                <p key={i} className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                <p key={i} className="text-base leading-relaxed" style={{ color: 'var(--body)' }}>
                   {p}
                 </p>
               ))}
@@ -203,15 +203,15 @@ export default async function AboutPage() {
                 <div key={stat.label} className="rounded-2xl p-6 text-center transition-all duration-150 hover:-translate-y-0.5"
                   style={{
                     backgroundColor: 'var(--glass-bg)',
-                    border: '1px solid var(--glass-border)',
+                    border: '1px solid var(--line)',
                     boxShadow: 'var(--glass-shadow-sm)',
                     backdropFilter: 'blur(10px) saturate(160%)',
                     WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
-                  <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--text-primary)' }}>
+                  <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--text)' }}>
                     {stat.value}
                   </div>
-                  <div className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+                  <div className="text-xs font-medium" style={{ color: 'var(--body)' }}>
                     {stat.label}
                   </div>
                 </div>
@@ -223,11 +223,11 @@ export default async function AboutPage() {
           <section id="now">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: 'var(--text-muted)' }}>
+                style={{ color: 'var(--muted)' }}>
                 What I&apos;m doing now
               </h2>
               <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full"
-                style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}>
+                style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--line)', color: 'var(--muted)' }}>
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
                 Updated {lastUpdated}
               </span>
@@ -235,17 +235,16 @@ export default async function AboutPage() {
             <div className="space-y-8">
               {nowSections.map(section => (
                 <div key={section.heading} className="flex gap-5">
-                  <div className="text-2xl mt-0.5 flex-shrink-0">{section.emoji}</div>
                   <div>
-                    <h3 className="text-base font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+                    <h3 className="text-base font-bold mb-3" style={{ color: 'var(--text)' }}>
                       {section.heading}
                     </h3>
                     <ul className="space-y-2">
                       {section.content.map((line, i) => (
                         <li key={i} className="text-sm leading-relaxed flex gap-2"
-                          style={{ color: 'var(--text-secondary)' }}>
+                          style={{ color: 'var(--body)' }}>
                           <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0"
-                            style={{ backgroundColor: 'var(--accent-400)' }} />
+                            style={{ backgroundColor: 'var(--marigold)' }} />
                           {line}
                         </li>
                       ))}
@@ -259,7 +258,7 @@ export default async function AboutPage() {
           {/* Skills */}
           <section id="skills">
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               Skills & Technologies
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -267,19 +266,19 @@ export default async function AboutPage() {
                 <div key={group.group} className="rounded-2xl p-5 transition-shadow duration-200 hover:shadow-md"
                   style={{
                     backgroundColor: 'var(--glass-bg)',
-                    border: '1px solid var(--glass-border)',
+                    border: '1px solid var(--line)',
                     boxShadow: 'var(--glass-shadow-sm)',
                     backdropFilter: 'blur(10px) saturate(160%)',
                     WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
                   <h3 className="text-xs font-semibold uppercase tracking-wider mb-3"
-                    style={{ color: 'var(--accent-500)' }}>
+                    style={{ color: 'var(--accent)' }}>
                     {group.group}
                   </h3>
                   <div className="flex flex-wrap gap-1.5">
                     {group.items.map(item => (
                       <span key={item} className="text-xs px-2.5 py-1 rounded-md font-medium"
-                        style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)' }}>
+                        style={{ backgroundColor: 'var(--surface-2)', color: 'var(--body)' }}>
                         {item}
                       </span>
                     ))}
@@ -293,12 +292,12 @@ export default async function AboutPage() {
           <section id="projects">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: 'var(--text-muted)' }}>
+                style={{ color: 'var(--muted)' }}>
                 Projects
               </h2>
               <a href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer"
                 className="text-xs font-semibold"
-                style={{ color: 'var(--accent-500)' }}>
+                style={{ color: 'var(--accent)' }}>
                 See all &#8599;
               </a>
             </div>
@@ -307,17 +306,17 @@ export default async function AboutPage() {
                 <a key={proj.name} href={proj.href} target="_blank" rel="noopener noreferrer"
                   className="project-card flex flex-col gap-1.5 p-5 rounded-2xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg group"
                   style={{
-                    borderColor: 'var(--glass-border)',
+                    borderColor: 'var(--line)',
                     backgroundColor: 'var(--glass-bg)',
                     boxShadow: 'var(--glass-shadow-sm)',
                     backdropFilter: 'blur(10px) saturate(160%)',
                     WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
-                  <span className="text-sm font-semibold transition-colors group-hover:text-[var(--accent-500)]"
-                    style={{ color: 'var(--text-primary)' }}>
+                  <span className="text-sm font-semibold transition-colors group-hover:text-[var(--accent)]"
+                    style={{ color: 'var(--text)' }}>
                     {proj.name}
                   </span>
-                  <span className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  <span className="text-xs leading-relaxed" style={{ color: 'var(--muted)' }}>
                     {proj.desc}
                   </span>
                 </a>
@@ -328,7 +327,7 @@ export default async function AboutPage() {
           {/* Timeline */}
           <section id="journey">
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               Journey
             </h2>
             <div className="space-y-0">
@@ -336,22 +335,22 @@ export default async function AboutPage() {
                 <div key={i} className="flex gap-6">
                   <div className="flex flex-col items-center">
                     <div className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
-                      style={{ backgroundColor: 'var(--accent-400)' }} />
+                      style={{ backgroundColor: 'var(--marigold)' }} />
                     {i < timeline.length - 1 && (
                       <div className="w-px flex-1 mt-1" style={{ backgroundColor: 'var(--accent-200)' }} />
                     )}
                   </div>
                   <div className="pb-10">
-                    <p className="text-xs font-mono font-semibold mb-1" style={{ color: 'var(--accent-500)' }}>
+                    <p className="text-xs font-mono font-semibold mb-1" style={{ color: 'var(--accent)' }}>
                       {item.year}
                     </p>
-                    <h3 className="text-base font-semibold mb-0.5" style={{ color: 'var(--text-primary)' }}>
+                    <h3 className="text-base font-semibold mb-0.5" style={{ color: 'var(--text)' }}>
                       {item.title}
                     </h3>
-                    <p className="text-xs font-medium mb-2" style={{ color: 'var(--text-muted)' }}>
+                    <p className="text-xs font-medium mb-2" style={{ color: 'var(--muted)' }}>
                       {item.org}
                     </p>
-                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--body)' }}>
                       {item.desc}
                     </p>
                   </div>
@@ -363,15 +362,14 @@ export default async function AboutPage() {
           {/* Uses */}
           <section id="uses">
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               Tools & Setup
             </h2>
             <div className="space-y-10">
               {usesSections.map(section => (
                 <div key={section.title}>
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="text-xl">{section.emoji}</span>
-                    <h3 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
+                    <h3 className="text-base font-bold" style={{ color: 'var(--text)' }}>
                       {section.title}
                     </h3>
                   </div>
@@ -381,7 +379,7 @@ export default async function AboutPage() {
                         className="flex items-start gap-4 p-4 rounded-2xl border transition-shadow duration-200 hover:shadow-sm"
                         style={{
                           backgroundColor: 'var(--glass-bg)',
-                          borderColor: 'var(--glass-border)',
+                          borderColor: 'var(--line)',
                           boxShadow: 'var(--glass-shadow-sm)',
                           backdropFilter: 'blur(10px) saturate(160%)',
                           WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -390,12 +388,12 @@ export default async function AboutPage() {
                           <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                             {item.href ? (
                               <a href={item.href} target="_blank" rel="noopener noreferrer"
-                                className="text-sm font-semibold transition-colors hover:text-[var(--accent-500)]"
-                                style={{ color: 'var(--text-primary)' }}>
+                                className="text-sm font-semibold transition-colors hover:text-[var(--accent)]"
+                                style={{ color: 'var(--text)' }}>
                                 {item.name} &#8599;
                               </a>
                             ) : (
-                              <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                              <span className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
                                 {item.name}
                               </span>
                             )}
@@ -405,7 +403,7 @@ export default async function AboutPage() {
                               </span>
                             )}
                           </div>
-                          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                          <p className="text-sm leading-relaxed" style={{ color: 'var(--body)' }}>
                             {item.desc}
                           </p>
                         </div>
@@ -421,11 +419,11 @@ export default async function AboutPage() {
           <section id="writing">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: 'var(--text-muted)' }}>
+                style={{ color: 'var(--muted)' }}>
                 Recent Writing
               </h2>
               <Link href="/blog" className="text-xs font-semibold"
-                style={{ color: 'var(--accent-500)' }}>
+                style={{ color: 'var(--accent)' }}>
                 All posts &rarr;
               </Link>
             </div>
@@ -434,7 +432,7 @@ export default async function AboutPage() {
                 <Link key={post.slug} href={`/blog/${post.slug}`}
                   className="flex items-start gap-4 p-4 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md group"
                   style={{
-                    borderColor: 'var(--glass-border)',
+                    borderColor: 'var(--line)',
                     backgroundColor: 'var(--glass-bg)',
                     boxShadow: 'var(--glass-shadow-sm)',
                     backdropFilter: 'blur(10px) saturate(160%)',
@@ -442,16 +440,16 @@ export default async function AboutPage() {
                   }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-1"
-                      style={{ color: 'var(--accent-500)' }}>
+                      style={{ color: 'var(--accent)' }}>
                       {post.category}
                     </p>
-                    <h3 className="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-[var(--accent-500)] transition-colors"
-                      style={{ color: 'var(--text-primary)' }}>
+                    <h3 className="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-[var(--accent)] transition-colors"
+                      style={{ color: 'var(--text)' }}>
                       {post.title}
                     </h3>
                   </div>
                   <svg className="w-4 h-4 flex-shrink-0 mt-0.5 transition-transform duration-200 group-hover:translate-x-0.5"
-                    style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    style={{ color: 'var(--muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>
@@ -463,7 +461,7 @@ export default async function AboutPage() {
           <section id="faq">
             <FAQStructuredData questions={aboutFAQ} />
             <h2 className="text-xs font-semibold uppercase tracking-widest mb-6"
-              style={{ color: 'var(--text-muted)' }}>
+              style={{ color: 'var(--muted)' }}>
               Frequently Asked
             </h2>
             <dl className="space-y-5 max-w-3xl">
@@ -471,14 +469,14 @@ export default async function AboutPage() {
                 <div key={item.slug} className="rounded-xl p-5"
                   style={{
                     backgroundColor: 'var(--glass-bg)',
-                    border: '1px solid var(--glass-border)',
+                    border: '1px solid var(--line)',
                     backdropFilter: 'blur(10px) saturate(160%)',
                     WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                   }}>
-                  <dt className="font-semibold text-sm mb-2" style={{ color: 'var(--text-primary)' }}>
+                  <dt className="font-semibold text-sm mb-2" style={{ color: 'var(--text)' }}>
                     {item.question}
                   </dt>
-                  <dd className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  <dd className="text-sm leading-relaxed" style={{ color: 'var(--body)' }}>
                     {item.answer}
                   </dd>
                 </div>
@@ -490,15 +488,15 @@ export default async function AboutPage() {
           <section className="rounded-2xl p-8 text-center"
             style={{
               backgroundColor: 'var(--glass-bg)',
-              border: '1px solid var(--glass-border)',
+              border: '1px solid var(--line)',
               boxShadow: 'var(--glass-shadow)',
               backdropFilter: 'blur(12px) saturate(160%)',
               WebkitBackdropFilter: 'blur(12px) saturate(160%)',
             }}>
-            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text)' }}>
               Let&apos;s connect
             </h2>
-            <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: 'var(--body)' }}>
               I&apos;m always happy to talk about system design, backend engineering, or interesting engineering problems.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
@@ -507,7 +505,7 @@ export default async function AboutPage() {
                 Connect on LinkedIn
               </a>
               <a href="https://x.com/_ratneshmaurya" target="_blank" rel="noopener noreferrer"
-                className="nb-btn inline-flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                className="nb-btn inline-flex items-center gap-2" style={{ color: 'var(--text)' }}>
                 Follow on X
               </a>
             </div>

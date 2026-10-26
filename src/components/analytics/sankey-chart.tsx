@@ -29,27 +29,27 @@ interface SankeyLink {
 }
 
 const SOURCE_COLORS: Record<string, string> = {
-  linkedin:  'var(--accent-500)',
-  twitter:   'var(--accent-400)',
-  x:         'var(--text-primary)',
-  peerlist:  'var(--accent-600)',
-  reddit:    'var(--accent-300)',
-  github:    'var(--accent-700)',
-  google:    'var(--accent-200)',
-  direct:    'var(--text-muted)',
-  other:     'var(--text-muted)',
+  linkedin:  'var(--chart-1)',
+  twitter:   'var(--chart-2)',
+  x:         'var(--text)',
+  peerlist:  'var(--chart-4)',
+  reddit:    'var(--chart-3)',
+  github:    'var(--chart-5)',
+  google:    'var(--chart-6)',
+  direct:    'var(--muted)',
+  other:     'var(--muted)',
 };
 
 const CONTENT_COLORS: Record<string, string> = {
-  blog:               'var(--accent-500)',
-  news:               'var(--accent-400)',
-  'technical-terms':  'var(--accent-600)',
-  'silly-questions':  'var(--accent-300)',
-  til:                'var(--accent-700)',
-  cheatsheets:        'var(--accent-200)',
-  about:              'var(--accent-100)',
-  now:                'var(--accent-800, var(--accent-700))',
-  other:              'var(--text-muted)',
+  blog:               'var(--chart-1)',
+  news:               'var(--chart-2)',
+  'technical-terms':  'var(--chart-4)',
+  'silly-questions':  'var(--chart-3)',
+  til:                'var(--chart-5)',
+  cheatsheets:        'var(--chart-6)',
+  about:              'var(--faint)',
+  now:                'var(--chart-5)',
+  other:              'var(--muted)',
 };
 
 const CONTENT_LABELS: Record<string, string> = {
@@ -224,7 +224,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
 
   if (flows.length === 0 || sourceNodes.length === 0) {
     return (
-      <div className="flex items-center justify-center h-40" style={{ color: 'var(--text-muted)' }}>
+      <div className="flex items-center justify-center h-40" style={{ color: 'var(--muted)' }}>
         <p className="text-sm">No flow data for this period.</p>
       </div>
     );
@@ -263,7 +263,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
             dominantBaseline="middle"
             fontSize={11}
             fontWeight={600}
-            fill="var(--text-secondary)"
+            fill="var(--body)"
           >
             {n.label}
           </text>
@@ -273,7 +273,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
             textAnchor="end"
             dominantBaseline="middle"
             fontSize={10}
-            fill="var(--text-muted)"
+            fill="var(--muted)"
           >
             {n.total}
           </text>
@@ -298,7 +298,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
             dominantBaseline="middle"
             fontSize={11}
             fontWeight={600}
-            fill="var(--text-secondary)"
+            fill="var(--body)"
           >
             {n.label}
           </text>
@@ -308,7 +308,7 @@ export function SankeyChart({ flows, width = 600, height = 380 }: Props) {
             textAnchor="start"
             dominantBaseline="middle"
             fontSize={10}
-            fill="var(--text-muted)"
+            fill="var(--muted)"
           >
             {n.total}
           </text>

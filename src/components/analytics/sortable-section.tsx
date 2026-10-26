@@ -34,7 +34,7 @@ export function SortableSection({ id, title, children, rightSlot, subtitle, defa
       style={{
         transform: CSS.Transform.toString(transform),
         backgroundColor: 'var(--glass-bg)',
-        borderColor: isDragging ? 'var(--accent-500)' : 'var(--glass-border)',
+        borderColor: isDragging ? 'var(--accent)' : 'var(--line)',
         opacity: isDragging ? 0.95 : 1,
         boxShadow: isDragging ? 'var(--glass-shadow-lg)' : 'var(--glass-shadow-sm)',
         backdropFilter: 'blur(10px) saturate(160%)',
@@ -43,19 +43,19 @@ export function SortableSection({ id, title, children, rightSlot, subtitle, defa
     >
       <div
         className="flex items-center justify-between gap-3 px-4 py-3 flex-wrap"
-        style={{ backgroundColor: 'var(--glass-bg-subtle)', borderBottom: open ? '1px solid var(--glass-border)' : '1px solid transparent' }}
+        style={{ backgroundColor: 'var(--glass-bg-subtle)', borderBottom: open ? '1px solid var(--line)' : '1px solid transparent' }}
       >
         <div className="flex items-center gap-3 min-w-0 flex-1">
           <button
             type="button"
             className="touch-none cursor-grab active:cursor-grabbing p-1.5 rounded-md transition-colors hover:bg-[var(--surface-tint)] shrink-0"
-            style={{ border: '1px solid var(--glass-border)', backgroundColor: 'transparent' }}
+            style={{ border: '1px solid var(--line)', backgroundColor: 'transparent' }}
             aria-label={`Drag to reorder: ${title}`}
             title="Drag to reorder"
             {...attributes}
             {...listeners}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted)' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--muted)' }}>
               <circle cx="9" cy="5" r="1.5" />
               <circle cx="15" cy="5" r="1.5" />
               <circle cx="9" cy="12" r="1.5" />
@@ -72,14 +72,14 @@ export function SortableSection({ id, title, children, rightSlot, subtitle, defa
             aria-expanded={open}
             aria-controls={bodyId}
             className="flex flex-1 min-w-0 items-center justify-between gap-3 text-left rounded-lg py-1 focus-visible:outline-2 focus-visible:outline-offset-2"
-            style={{ outlineColor: 'var(--accent-500)' }}
+            style={{ outlineColor: 'var(--accent)' }}
           >
             <span className="flex flex-col min-w-0">
-              <span className="text-base sm:text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+              <span className="text-base sm:text-lg font-bold" style={{ color: 'var(--text)' }}>
                 {title}
               </span>
               {subtitle && (
-                <span className="text-xs mt-0.5 max-w-xl" style={{ color: 'var(--text-muted)' }}>
+                <span className="text-xs mt-0.5 max-w-xl" style={{ color: 'var(--muted)' }}>
                   {subtitle}
                 </span>
               )}
@@ -89,7 +89,7 @@ export function SortableSection({ id, title, children, rightSlot, subtitle, defa
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              style={{ color: 'var(--text-muted)' }}
+              style={{ color: 'var(--muted)' }}
               aria-hidden="true"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

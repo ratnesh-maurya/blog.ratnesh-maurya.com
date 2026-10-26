@@ -133,7 +133,7 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
 
   const glassCard = {
     backgroundColor: 'var(--glass-bg)',
-    border: '1px solid var(--glass-border)',
+    border: '1px solid var(--line)',
     boxShadow: 'var(--glass-shadow-sm)',
     backdropFilter: 'blur(10px) saturate(160%)',
     WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -150,8 +150,8 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
-            color: 'var(--text-primary)',
+            border: '1px solid var(--line)',
+            color: 'var(--text)',
           }}
         />
         {!isToday && (
@@ -164,7 +164,7 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
             Back to today
           </button>
         )}
-        <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
+        <span className="text-sm" style={{ color: 'var(--muted)' }}>
           {dateLabel} · {selectedType === 'all' ? 'all content' : typeLabel(selectedType)}
         </span>
       </div>
@@ -181,35 +181,35 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
         </div>
       ) : error ? (
         <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-          <p className="text-red-500 text-sm">{error}</p>
+          <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
         </div>
       ) : (
         <div className="space-y-6">
           {/* Summary cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="nb-card-sm p-5" style={glassCard}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--muted)' }}>
                 {isToday ? "Today's views" : 'Views'}
               </p>
-              <p className="text-2xl font-bold tabular-nums" style={{ color: 'var(--accent-500)' }}>
+              <p className="text-2xl font-bold tabular-nums" style={{ color: 'var(--accent)' }}>
                 {formatNumber(todayViews)}
               </p>
             </div>
 
             <div className="nb-card-sm p-5" style={glassCard}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--muted)' }}>
                 {isToday ? "Today's upvotes" : 'Upvotes'}
               </p>
-              <p className="text-2xl font-bold tabular-nums" style={{ color: 'var(--text-primary)' }}>
+              <p className="text-2xl font-bold tabular-nums" style={{ color: 'var(--text)' }}>
                 {formatNumber(todayUpvotes)}
               </p>
             </div>
 
             <div className="nb-card-sm p-5" style={glassCard}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--muted)' }}>
                 {isToday ? "Today's UTM visits" : 'UTM visits'}
               </p>
-              <p className="text-2xl font-bold tabular-nums" style={{ color: 'var(--text-primary)' }}>
+              <p className="text-2xl font-bold tabular-nums" style={{ color: 'var(--text)' }}>
                 {formatNumber(utmTotal ?? 0)}
               </p>
             </div>
@@ -218,7 +218,7 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
           {/* Views by content type */}
           {selectedType === 'all' && viewsByType.length > 0 && (
             <div className="nb-card-sm p-5" style={glassCard}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--muted)' }}>
                 Views by content type
               </p>
               <div className="space-y-2">
@@ -226,20 +226,20 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
                   const pct = todayViews > 0 ? Math.max(2, Math.round((item.count / todayViews) * 100)) : 0;
                   return (
                     <div key={item.type} className="flex items-center gap-3">
-                      <span className="text-xs font-medium w-20 shrink-0 text-right" style={{ color: 'var(--text-secondary)' }}>
+                      <span className="text-xs font-medium w-20 shrink-0 text-right" style={{ color: 'var(--body)' }}>
                         {item.label}
                       </span>
-                      <div className="flex-1 h-5 rounded-md overflow-hidden" style={{ backgroundColor: 'var(--surface-muted)' }}>
+                      <div className="flex-1 h-5 rounded-md overflow-hidden" style={{ backgroundColor: 'var(--surface-2)' }}>
                         <div
                           className="h-full rounded-md flex items-center px-2"
-                          style={{ width: `${pct}%`, backgroundColor: 'var(--accent-500)', minWidth: item.count > 0 ? '24px' : '0' }}
+                          style={{ width: `${pct}%`, backgroundColor: 'var(--accent)', minWidth: item.count > 0 ? '24px' : '0' }}
                         >
                           {pct > 15 && (
                             <span className="text-[10px] font-bold text-white">{item.count}</span>
                           )}
                         </div>
                       </div>
-                      <span className="text-xs font-bold tabular-nums w-8 shrink-0 text-right" style={{ color: 'var(--accent-500)' }}>
+                      <span className="text-xs font-bold tabular-nums w-8 shrink-0 text-right" style={{ color: 'var(--accent)' }}>
                         {item.count}
                       </span>
                     </div>
@@ -252,27 +252,27 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
           {/* Page-level access: UTM paths for selected day */}
           {utmPaths.length > 0 && (
             <div className="nb-card-sm overflow-hidden" style={glassCard}>
-              <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--glass-border)' }}>
-                <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+              <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--line)' }}>
+                <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
                   Where today&apos;s visits started
                 </p>
               </div>
-              <ul className="divide-y" style={{ borderColor: 'var(--glass-border)' }}>
+              <ul className="divide-y" style={{ borderColor: 'var(--line)' }}>
                 {utmPaths.slice(0, 15).map((p, i) => (
-                  <li key={p.path} className="flex items-center gap-3 px-4 py-2.5 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  <li key={p.path} className="flex items-center gap-3 px-4 py-2.5 text-sm" style={{ color: 'var(--body)' }}>
                     <span
                       className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
                       style={{
                         backgroundColor: i < 3 ? 'var(--glass-bg-subtle)' : 'transparent',
-                        color: i < 3 ? 'var(--accent-600)' : 'var(--text-muted)',
+                        color: i < 3 ? 'var(--accent-600)' : 'var(--muted)',
                       }}
                     >
                       {i + 1}
                     </span>
-                    <span className="truncate flex-1 min-w-0 text-xs" style={{ color: 'var(--text-secondary)' }}>
+                    <span className="truncate flex-1 min-w-0 text-xs" style={{ color: 'var(--body)' }}>
                       {p.path}
                     </span>
-                    <span className="font-bold tabular-nums shrink-0 text-xs" style={{ color: 'var(--accent-500)' }}>
+                    <span className="font-bold tabular-nums shrink-0 text-xs" style={{ color: 'var(--accent)' }}>
                       {p.count}
                     </span>
                   </li>
@@ -284,19 +284,19 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
           {/* Top pages (all-time) for context */}
           {topPages.length > 0 && (
             <div className="nb-card-sm overflow-hidden" style={glassCard}>
-              <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--glass-border)' }}>
-                <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+              <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--line)' }}>
+                <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>
                   Top pages (all-time) · {selectedType === 'all' ? 'all types' : typeLabel(selectedType)}
                 </p>
               </div>
-              <ul className="divide-y" style={{ borderColor: 'var(--glass-border)' }}>
+              <ul className="divide-y" style={{ borderColor: 'var(--line)' }}>
                 {topPages.slice(0, 10).map((p, i) => (
-                  <li key={`${p.type}-${p.slug}`} className="flex items-center gap-3 px-4 py-2.5 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  <li key={`${p.type}-${p.slug}`} className="flex items-center gap-3 px-4 py-2.5 text-sm" style={{ color: 'var(--body)' }}>
                     <span
                       className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
                       style={{
                         backgroundColor: i < 3 ? 'var(--glass-bg-subtle)' : 'transparent',
-                        color: i < 3 ? 'var(--accent-600)' : 'var(--text-muted)',
+                        color: i < 3 ? 'var(--accent-600)' : 'var(--muted)',
                       }}
                     >
                       {i + 1}
@@ -305,11 +305,11 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
                       {formatSlug(p.slug)}
                     </span>
                     {selectedType === 'all' && (
-                      <span className="text-[10px] px-1.5 py-0.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-muted)' }}>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--surface-2)', color: 'var(--muted)' }}>
                         {TYPE_LABELS[p.type] ?? p.type}
                       </span>
                     )}
-                    <span className="font-bold tabular-nums shrink-0 text-xs" style={{ color: 'var(--accent-500)' }}>
+                    <span className="font-bold tabular-nums shrink-0 text-xs" style={{ color: 'var(--accent)' }}>
                       {formatNumber(p.views)}
                     </span>
                   </li>

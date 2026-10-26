@@ -79,7 +79,7 @@ export function CopyMarkdownButton({ rawContent, title, slug, image }: CopyMarkd
     <button
       onClick={handleCopy}
       className={`nb-btn inline-flex items-center gap-2 text-xs ${copied ? '' : 'nb-btn-tint'}`}
-      style={copied ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)' } : undefined}
+      style={copied ? { backgroundColor: 'var(--pill)', color: 'var(--on-pill)' } : undefined}
       aria-label="Copy post as Markdown"
     >
       {copied ? (

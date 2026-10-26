@@ -186,7 +186,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <span
                         key={tag}
                         className="inline-block text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md"
-                        style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-700)' }}
+                        style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent)' }}
                       >
                         {tag}
                       </span>
@@ -196,31 +196,31 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 {/* Title */}
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.15] tracking-tight mb-6"
-                  style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
+                  style={{ color: 'var(--text)', letterSpacing: '-0.03em' }}>
                   {post.title}
                 </h1>
 
                 {/* Description / lede */}
                 {post.description && (
                   <p className="text-xl leading-relaxed mb-8 font-medium"
-                    style={{ color: 'var(--text-secondary)' }}>
+                    style={{ color: 'var(--body)' }}>
                     {post.description}
                   </p>
                 )}
 
                 {/* Author strip + metadata */}
                 <div className="flex flex-wrap items-center gap-3 text-sm pb-8 border-b"
-                  style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
+                  style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}>
                   <Image
                     src="https://avatars.githubusercontent.com/u/85143283?v=4"
                     alt="Ratnesh Maurya"
                     width={40}
                     height={40}
                     className="w-10 h-10 rounded-full flex-shrink-0 object-cover border"
-                    style={{ borderColor: 'var(--border)' }}
+                    style={{ borderColor: 'var(--line)' }}
                   />
                   <div className="flex flex-col leading-tight">
-                    <span className="font-bold border-b border-transparent hover:border-current transition-colors cursor-pointer" style={{ color: 'var(--text-primary)' }}>
+                    <span className="font-bold border-b border-transparent hover:border-current transition-colors cursor-pointer" style={{ color: 'var(--text)' }}>
                       {post.author}
                     </span>
                     <span className="flex items-center gap-1.5 mt-0.5" style={{ fontSize: '13px' }}>
@@ -236,9 +236,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <span
                       className="text-xs font-semibold px-2.5 py-1 rounded-full"
                       style={{
-                        backgroundColor: 'color-mix(in srgb, var(--accent-500) 10%, transparent)',
+                        backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)',
                         color: 'var(--accent-600)',
-                        border: '1px solid color-mix(in srgb, var(--accent-500) 20%, transparent)',
+                        border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
                       }}
                     >
                       Updated <time dateTime={post.updated}>{format(new Date(post.updated), 'MMM d, yyyy')}</time>
@@ -250,7 +250,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {post.image && (
                   <div
                     className="mt-10 overflow-hidden rounded-xl shadow-sm border"
-                    style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+                    style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--line)' }}
                   >
                     <BlogImage
                       src={post.image}
@@ -271,15 +271,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <div
                 className="prose prose-lg max-w-none prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:font-medium prose-img:rounded-xl"
                 style={{
-                  '--tw-prose-body': 'var(--text-secondary)',
-                  '--tw-prose-headings': 'var(--text-primary)',
+                  '--tw-prose-body': 'var(--body)',
+                  '--tw-prose-headings': 'var(--text)',
                   '--tw-prose-links': 'var(--accent-600)',
-                  '--tw-prose-bold': 'var(--text-primary)',
-                  '--tw-prose-code': 'var(--text-primary)',
-                  '--tw-prose-quotes': 'var(--text-secondary)',
-                  '--tw-prose-hr': 'var(--border)',
-                  '--tw-prose-th-borders': 'var(--border)',
-                  '--tw-prose-td-borders': 'var(--border)',
+                  '--tw-prose-bold': 'var(--text)',
+                  '--tw-prose-code': 'var(--text)',
+                  '--tw-prose-quotes': 'var(--body)',
+                  '--tw-prose-hr': 'var(--line)',
+                  '--tw-prose-th-borders': 'var(--line)',
+                  '--tw-prose-td-borders': 'var(--line)',
                 } as React.CSSProperties}
               >
                 {post.format === 'mdx' ? (
@@ -302,9 +302,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {/* Footer — Tags & Share */}
               <div className="mt-20 space-y-10">
                 {post.tags.length > 0 && (
-                  <div className="pt-10" style={{ borderTop: '1px solid var(--border)' }}>
+                  <div className="pt-10" style={{ borderTop: '1px solid var(--line)' }}>
                     <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
-                      style={{ color: 'var(--text-muted)' }}>
+                      style={{ color: 'var(--muted)' }}>
                       Tags
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -322,10 +322,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </div>
                 )}
 
-                <div className="pt-10" style={{ borderTop: '1px solid var(--border)' }}>
+                <div className="pt-10" style={{ borderTop: '1px solid var(--line)' }}>
                   <div className="flex items-center justify-between gap-3 mb-4">
                     <h3 className="text-xs font-semibold uppercase tracking-widest"
-                      style={{ color: 'var(--text-muted)' }}>
+                      style={{ color: 'var(--muted)' }}>
                       Share this post
                     </h3>
                     <div className="flex items-center gap-2">
@@ -365,7 +365,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div className="mt-14 flex flex-col sm:flex-row items-start gap-5 rounded-2xl p-6"
                   style={{
                     background: 'linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--accent-50) 40%, var(--surface)) 100%)',
-                    border: '1px solid var(--border)',
+                    border: '1px solid var(--line)',
                   }}>
                   <Image
                     src="https://avatars.githubusercontent.com/u/85143283?v=4"
@@ -377,30 +377,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   />
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                      <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Ratnesh Maurya</span>
+                      <span className="text-sm font-bold" style={{ color: 'var(--text)' }}>Ratnesh Maurya</span>
                       <span className="text-xs px-2 py-0.5 rounded-full"
                         style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
                         Software Engineer
                       </span>
                     </div>
-                    <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
+                    <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--body)' }}>
                       Backend engineer at Initializ.ai — building scalable systems with Go, Elixir, and Kubernetes.
                       Writing about distributed systems, AWS, and the bugs that cost me hours.
                     </p>
                     <div className="flex flex-wrap gap-3">
                       <a href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer author"
-                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--accent-500)' }}>
+                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--accent)' }}>
                         Portfolio ↗
                       </a>
                       <a href="https://github.com/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
-                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--muted)' }}>
                         GitHub
                       </a>
                       <a href="https://linkedin.com/in/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
-                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--muted)' }}>
                         LinkedIn
                       </a>
-                      <a href="/about" className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-muted)' }}>
+                      <a href="/about" className="text-xs font-semibold transition-colors" style={{ color: 'var(--muted)' }}>
                         About
                       </a>
                     </div>

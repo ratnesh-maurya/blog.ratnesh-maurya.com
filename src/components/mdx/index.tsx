@@ -20,22 +20,22 @@ function Callout({
   children?: React.ReactNode;
 }) {
   const styles = {
-    info: { borderColor: 'var(--accent-500)', bg: 'color-mix(in srgb, var(--accent-500) 8%, transparent)' },
-    warning: { borderColor: '#b45309', bg: 'rgba(180, 83, 9, 0.08)' },
-    tip: { borderColor: 'var(--accent-600)', bg: 'color-mix(in srgb, var(--accent-600) 8%, transparent)' }
+    info: { borderColor: 'var(--rule)', bg: 'var(--surface-2)' },
+    warning: { borderColor: 'var(--marigold)', bg: 'var(--surface-2)' },
+    tip: { borderColor: 'var(--ok)', bg: 'var(--surface-2)' }
   };
   const s = styles[type];
   return (
     <div
-      className="my-6 rounded-xl border-l-4 p-4"
+      className="my-6 rounded-[18px] border border-[var(--line)] border-l-2 p-5"
       style={{
         borderLeftColor: s.borderColor,
         backgroundColor: s.bg,
-        color: 'var(--text-primary)'
+        color: 'var(--text)'
       }}
     >
       {title && (
-        <p className="mb-2 font-semibold" style={{ color: 'var(--text-primary)' }}>
+        <p className="mb-2 font-semibold" style={{ color: 'var(--text)' }}>
           {title}
         </p>
       )}
@@ -53,9 +53,9 @@ function Badge({
     <span
       className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
       style={{
-        backgroundColor: 'color-mix(in srgb, var(--accent-500) 12%, transparent)',
-        color: 'var(--text-primary)',
-        border: '1px solid color-mix(in srgb, var(--accent-500) 35%, transparent)'
+        backgroundColor: 'color-mix(in srgb, var(--accent) 12%, transparent)',
+        color: 'var(--text)',
+        border: '1px solid color-mix(in srgb, var(--accent) 35%, transparent)'
       }}
     >
       {children}
@@ -75,13 +75,13 @@ function Steps({
       className="my-8 rounded-2xl p-5"
       style={{
         backgroundColor: 'var(--surface)',
-        border: '1px solid var(--border)'
+        border: '1px solid var(--line)'
       }}
     >
       {title && (
         <p
           className="mb-4 text-sm font-semibold uppercase tracking-widest"
-          style={{ color: 'var(--text-muted)' }}
+          style={{ color: 'var(--muted)' }}
         >
           {title}
         </p>
@@ -103,19 +103,19 @@ function Step({
       <div
         className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
         style={{
-          backgroundColor: 'color-mix(in srgb, var(--accent-500) 15%, transparent)',
-          color: 'var(--accent-500)'
+          backgroundColor: 'color-mix(in srgb, var(--accent) 15%, transparent)',
+          color: 'var(--accent)'
         }}
       >
         ●
       </div>
       <div>
         {title && (
-          <p className="mb-1 font-semibold" style={{ color: 'var(--text-primary)' }}>
+          <p className="mb-1 font-semibold" style={{ color: 'var(--text)' }}>
             {title}
           </p>
         )}
-        <div className="prose prose-sm max-w-none" style={{ color: 'var(--text-secondary)' }}>
+        <div className="prose prose-sm max-w-none" style={{ color: 'var(--body)' }}>
           {children}
         </div>
       </div>
@@ -148,17 +148,17 @@ function ResourceCard({
         className="flex flex-col gap-2 rounded-xl p-4"
         style={{
           backgroundColor: 'var(--surface)',
-          border: '1px solid var(--border)'
+          border: '1px solid var(--line)'
         }}
       >
         <div className="flex items-center justify-between gap-3">
-          <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+          <p className="font-semibold" style={{ color: 'var(--text)' }}>
             {title}
           </p>
           {label && <Badge>{label}</Badge>}
         </div>
         {children && (
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm" style={{ color: 'var(--body)' }}>
             {children}
           </p>
         )}
@@ -176,8 +176,8 @@ function Highlight({
     <span
       className="rounded px-1"
       style={{
-        backgroundColor: 'color-mix(in srgb, var(--accent-500) 15%, transparent)',
-        color: 'var(--text-primary)'
+        backgroundColor: 'color-mix(in srgb, var(--accent) 15%, transparent)',
+        color: 'var(--text)'
       }}
     >
       {children}

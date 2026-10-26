@@ -6,7 +6,7 @@ import { SITE_URL, isSiteHost, isSiteUrl } from '@/lib/site';
 const PROFILE_URL = 'https://www.instagram.com/ratn_labs/';
 
 /** Instagram's brand gradient — only on the avatar ring, so the page reads as "from Instagram" without copying it. */
-const STORY_RING = 'linear-gradient(45deg, #f9ce34 0%, #ee2a7b 55%, #6228d7 100%)';
+const STORY_RING = 'var(--saffron)';
 
 const KINDS: Record<string, string> = {
   blog: 'Blog post',
@@ -91,7 +91,7 @@ function coverFor(reel: Reel): string | null {
  */
 function Cover({ src, title, kind }: { src: string | null; title: string; kind: string }) {
   return (
-    <div className="relative aspect-[3/4] w-full overflow-hidden" style={{ backgroundColor: 'var(--surface-muted)' }}>
+    <div className="relative aspect-[3/4] w-full overflow-hidden" style={{ backgroundColor: 'var(--surface-2)' }}>
       {src ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -107,7 +107,7 @@ function Cover({ src, title, kind }: { src: string | null; title: string; kind: 
       ) : (
         <div
           className="absolute inset-0 flex flex-col justify-between p-5 text-white"
-          style={{ background: 'linear-gradient(150deg, var(--accent-500), color-mix(in srgb, var(--accent-500) 50%, #000))' }}
+          style={{ background: 'var(--panel)' }}
         >
           <span className="text-[11px] font-bold uppercase tracking-[0.18em] opacity-80">{kind}</span>
           <span className="text-xl font-extrabold leading-tight tracking-tight line-clamp-5">{title}</span>
@@ -128,22 +128,22 @@ function Tile({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
   return (
     <article
       id={reel.slug}
-      className="group relative flex scroll-mt-24 flex-col overflow-hidden rounded-2xl transition-all duration-200 hover:-translate-y-1 target:ring-2 target:ring-[var(--accent-500)]"
-      style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', boxShadow: 'var(--glass-shadow-sm)' }}
+      className="group relative flex scroll-mt-24 flex-col overflow-hidden rounded-2xl transition-all duration-200 hover:-translate-y-1 target:ring-2 target:ring-[var(--accent)]"
+      style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--line)', boxShadow: 'var(--glass-shadow-sm)' }}
     >
       {/* One big target: the whole card opens the post. Secondary links sit above it (z-10). */}
       <a
         href={readHref}
         {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         className="absolute inset-0 z-0 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2"
-        style={{ outlineColor: 'var(--accent-500)' }}
+        style={{ outlineColor: 'var(--accent)' }}
         aria-label={blogLink ? `Read: ${reel.title}` : `Watch on Instagram: ${reel.title}`}
       />
 
       <div className="pointer-events-none relative">
         <Cover src={coverFor(reel)} title={reel.title} kind={kind} />
         {isLatest && (
-          <span className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm" style={{ backgroundColor: 'var(--accent-500)' }}>
+          <span className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-sm" style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)' }}>
             Latest
           </span>
         )}
@@ -158,14 +158,14 @@ function Tile({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
       </div>
 
       <div className="pointer-events-none relative flex flex-1 flex-col gap-1.5 p-3.5 sm:p-4">
-        <span className="text-[10.5px] font-bold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-500)' }}>
+        <span className="text-[10.5px] font-bold uppercase tracking-[0.12em]" style={{ color: 'var(--accent)' }}>
           {kind}
         </span>
-        <h2 className="text-sm font-semibold leading-snug line-clamp-2 sm:text-[15px]" style={{ color: 'var(--text-primary)' }}>
+        <h2 className="text-sm font-semibold leading-snug line-clamp-2 sm:text-[15px]" style={{ color: 'var(--text)' }}>
           {reel.title}
         </h2>
         <div className="mt-auto flex items-center gap-2 pt-2">
-          <time dateTime={reel.posted_at} className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>
+          <time dateTime={reel.posted_at} className="text-[11px] font-medium" style={{ color: 'var(--muted)' }}>
             {shortDate(reel.posted_at)}
           </time>
           <div className="pointer-events-auto relative z-10 ml-auto flex items-center gap-1">
@@ -178,7 +178,7 @@ function Tile({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
                 title={l.label}
                 aria-label={`${l.label} (opens in a new tab)`}
                 className="inline-flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:brightness-95"
-                style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)' }}
+                style={{ backgroundColor: 'var(--surface-2)', color: 'var(--body)' }}
               >
                 {l.url.includes('github.com') ? <GitHubGlyph /> : <Arrow className="w-3.5 h-3.5 -rotate-45" />}
               </a>
@@ -191,7 +191,7 @@ function Tile({ reel, isLatest }: { reel: Reel; isLatest: boolean }) {
                 title="View on Instagram"
                 aria-label={`View "${reel.title}" on Instagram (opens in a new tab)`}
                 className="inline-flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:brightness-95"
-                style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-secondary)' }}
+                style={{ backgroundColor: 'var(--surface-2)', color: 'var(--body)' }}
               >
                 <InstagramGlyph className="w-3.5 h-3.5" />
               </a>
@@ -212,28 +212,28 @@ export function LinksView({ reels }: { reels: Reel[] }) {
             <div className="flex items-center gap-4 sm:contents">
               <span className="inline-flex shrink-0 rounded-full p-[3px]" style={{ background: STORY_RING }}>
                 <span
-                  className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-black text-white sm:h-24 sm:w-24 sm:text-4xl"
-                  style={{ backgroundColor: 'var(--accent-500)', border: '3px solid var(--background)' }}
+                  className="flex h-20 w-20 items-center justify-center rounded-full font-display text-4xl sm:h-24 sm:w-24 sm:text-5xl"
+                  style={{ backgroundColor: 'var(--pill)', color: 'var(--on-pill)', border: '3px solid var(--bg)' }}
                   aria-hidden="true"
                 >
                   R
                 </span>
               </span>
               <div className="sm:hidden">
-                <h1 className="text-xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>Ratn Labs</h1>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>@ratn_labs</p>
+                <h1 className="text-xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>Ratn Labs</h1>
+                <p className="text-sm" style={{ color: 'var(--muted)' }}>@ratn_labs</p>
               </div>
             </div>
 
             <div className="min-w-0 flex-1">
               <div className="hidden items-baseline gap-3 sm:flex">
-                <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>Ratn Labs</h1>
-                <span className="text-sm" style={{ color: 'var(--text-muted)' }}>@ratn_labs</span>
+                <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>Ratn Labs</h1>
+                <span className="text-sm" style={{ color: 'var(--muted)' }}>@ratn_labs</span>
               </div>
-              <p className="mt-1 max-w-2xl text-sm leading-relaxed sm:text-[15px]" style={{ color: 'var(--text-secondary)' }}>
+              <p className="mt-1 max-w-2xl text-sm leading-relaxed sm:text-[15px]" style={{ color: 'var(--body)' }}>
                 Systems, backend &amp; AI engineering. Tap any post to read the full write-up behind it.
               </p>
-              <p className="mt-1 text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+              <p className="mt-1 text-xs font-medium" style={{ color: 'var(--muted)' }}>
                 {`${reels.length} post${reels.length === 1 ? '' : 's'} · latest first`}
               </p>
             </div>
@@ -243,8 +243,7 @@ export function LinksView({ reels }: { reels: Reel[] }) {
                 href={PROFILE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all hover:brightness-110 sm:flex-none"
-                style={{ backgroundColor: 'var(--accent-500)' }}
+                className="btn btn-primary btn-sm flex-1 sm:flex-none"
               >
                 <InstagramGlyph />
                 Follow
@@ -252,7 +251,7 @@ export function LinksView({ reels }: { reels: Reel[] }) {
               <a
                 href={`${SITE_URL}/blog/`}
                 className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all hover:brightness-95 sm:flex-none"
-                style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
+                style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--line)', color: 'var(--text)' }}
               >
                 All articles
                 <Arrow className="w-3.5 h-3.5" />
@@ -264,7 +263,7 @@ export function LinksView({ reels }: { reels: Reel[] }) {
 
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
         {reels.length === 0 ? (
-          <p className="py-10 text-center text-sm" style={{ color: 'var(--text-muted)' }}>
+          <p className="py-10 text-center text-sm" style={{ color: 'var(--muted)' }}>
             No posts yet. Check back soon.
           </p>
         ) : (

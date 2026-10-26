@@ -36,7 +36,7 @@ function SearchFallback() {
     <div className="min-h-screen flex items-center justify-center"
       style={{ backgroundColor: 'transparent' }}>
       <div className="inline-block w-8 h-8 rounded-full border-2 border-t-transparent animate-spin"
-        style={{ borderColor: 'var(--accent-300)', borderTopColor: 'transparent' }} />
+        style={{ borderColor: 'var(--marigold)', borderTopColor: 'transparent' }} />
     </div>
   );
 }
@@ -51,6 +51,7 @@ export default function SearchPage() {
     <>
       <OgImageInBody src={getStoredOgImageUrl('search')} alt="Search — Ratn Labs" />
       <BreadcrumbStructuredData items={breadcrumbItems} />
+      <h1 className="sr-only">Search Ratn Labs</h1>
       <Suspense fallback={<SearchFallback />}>
         <SearchPageClient />
       </Suspense>

@@ -122,7 +122,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
 
   if (loading && viewsByDay.length === 0 && byType.length === 0) {
     return (
-      <div className="text-center py-12" style={{ color: 'var(--text-muted)' }}>
+      <div className="text-center py-12" style={{ color: 'var(--muted)' }}>
         Loading…
       </div>
     );
@@ -131,7 +131,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
   if (error) {
     return (
       <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-red-500 text-sm">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       </div>
     );
   }
@@ -140,16 +140,16 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
     <div className="space-y-8">
       {/* Date range picker */}
       <div className="flex flex-wrap items-center gap-3">
-        <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>From</label>
+        <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>From</label>
         <input
           type="date"
           value={fromDate}
           max={toDate}
           onChange={(e) => setFromDate(e.target.value)}
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
-          style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
+          style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--line)', color: 'var(--text)' }}
         />
-        <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>To</label>
+        <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--muted)' }}>To</label>
         <input
           type="date"
           value={toDate}
@@ -157,15 +157,15 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
           max={todayStr()}
           onChange={(e) => setToDate(e.target.value)}
           className="rounded-lg px-3 py-1.5 text-sm focus:outline-none"
-          style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
+          style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--line)', color: 'var(--text)' }}
         />
         <button
           onClick={() => { setFromDate(getDefaultRange().from); setToDate(getDefaultRange().to); }}
           className="text-xs font-semibold px-3 py-1.5 rounded-lg"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            color: 'var(--text-primary)',
-            border: '1px solid var(--glass-border)',
+            color: 'var(--text)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow-sm)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
@@ -180,13 +180,13 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
           className="nb-card p-4 md:p-6"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow-sm)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
           }}
         >
-          <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
             Views over time
           </h3>
           <div className="h-72 w-full">
@@ -194,17 +194,17 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
               <LineChart data={viewsByDay} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <XAxis
                   dataKey="day"
-                  tick={{ fill: 'var(--text-muted)', fontSize: 11 }}
-                  stroke="var(--border)"
+                  tick={{ fill: 'var(--muted)', fontSize: 11 }}
+                  stroke="var(--line)"
                   tickFormatter={(d) => new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                 />
-                <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                  contentStyle={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--line)', borderRadius: '8px', color: 'var(--text)' }}
                   formatter={(value: number | undefined) => [formatNumber(value ?? 0), 'Views']}
                   labelFormatter={(d) => new Date(d).toLocaleDateString()}
                 />
-                <Line type="monotone" dataKey="views" name="Views" stroke="var(--accent-500)" strokeWidth={2} dot={{ fill: 'var(--accent-500)', r: 2 }} activeDot={{ r: 4 }} />
+                <Line type="monotone" dataKey="views" name="Views" stroke="var(--accent)" strokeWidth={2} dot={{ fill: 'var(--accent)', r: 2 }} activeDot={{ r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -216,27 +216,27 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
           className="nb-card p-4 md:p-6"
           style={{
             backgroundColor: 'var(--glass-bg)',
-            border: '1px solid var(--glass-border)',
+            border: '1px solid var(--line)',
             boxShadow: 'var(--glass-shadow-sm)',
             backdropFilter: 'blur(10px) saturate(160%)',
             WebkitBackdropFilter: 'blur(10px) saturate(160%)',
           }}
         >
-          <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
             Views & upvotes by type (range)
           </h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={byType} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <XAxis dataKey="name" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
-                <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 12 }} stroke="var(--border)" />
+                <XAxis dataKey="name" tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
+                <YAxis tick={{ fill: 'var(--muted)', fontSize: 12 }} stroke="var(--line)" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                  contentStyle={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--line)', borderRadius: '8px', color: 'var(--text)' }}
                   formatter={(value: number | undefined) => [formatNumber(value ?? 0)]}
                 />
                 <Legend />
-                <Bar dataKey="views" name="Views" fill="var(--accent-500)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="upvotes" name="Upvotes" fill="var(--accent-400)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="views" name="Views" fill="var(--accent)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="upvotes" name="Upvotes" fill="var(--marigold)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -245,7 +245,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
 
       {stats && (
         <div>
-          <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          <h3 className="text-base font-bold mb-4" style={{ color: 'var(--text)' }}>
             Top content by views (all time)
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -254,28 +254,28 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
               if (top.length === 0) return null;
               return (
                 <div key={type} className="nb-card-sm overflow-hidden" style={{ backgroundColor: 'var(--glass-bg)' }}>
-                  <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: 'var(--glass-border)' }}>
-                    <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{TYPE_LABELS[type] ?? type}</span>
-                    <span className="text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>{stats.byType[type].slugs.length} items</span>
+                  <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: 'var(--line)' }}>
+                    <span className="font-semibold" style={{ color: 'var(--text)' }}>{TYPE_LABELS[type] ?? type}</span>
+                    <span className="text-xs tabular-nums" style={{ color: 'var(--muted)' }}>{stats.byType[type].slugs.length} items</span>
                   </div>
-                  <ul className="divide-y" style={{ borderColor: 'var(--glass-border)' }}>
+                  <ul className="divide-y" style={{ borderColor: 'var(--line)' }}>
                     {top.map((row, i) => (
-                      <li key={row.slug} className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02]" style={{ color: 'var(--text-secondary)' }}>
+                      <li key={row.slug} className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02]" style={{ color: 'var(--body)' }}>
                         <span
                           className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
                           style={{
                             backgroundColor: i < 3 ? 'var(--glass-bg-subtle)' : 'transparent',
-                            color: i < 3 ? 'var(--accent-600)' : 'var(--text-muted)',
+                            color: i < 3 ? 'var(--accent-600)' : 'var(--muted)',
                           }}
                         >
                           {i + 1}
                         </span>
                         <span className="truncate flex-1 min-w-0">{formatSlug(row.slug)}</span>
-                        <span className="font-medium tabular-nums shrink-0 text-xs" style={{ color: 'var(--accent-500)' }}>
+                        <span className="font-medium tabular-nums shrink-0 text-xs" style={{ color: 'var(--accent)' }}>
                           {formatNumber(row.views)}
                         </span>
                         {row.upvotes > 0 && (
-                          <span className="tabular-nums shrink-0 text-xs flex items-center gap-0.5" style={{ color: 'var(--text-muted)' }}>
+                          <span className="tabular-nums shrink-0 text-xs flex items-center gap-0.5" style={{ color: 'var(--muted)' }}>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" transform="rotate(-90 12 12)" /></svg>
                             {formatNumber(row.upvotes)}
                           </span>
@@ -292,7 +292,7 @@ export function PostViewsRangeSection({ selectedType }: PostViewsRangeSectionPro
 
       {viewsByDay.length === 0 && byType.length === 0 && !loading && (
         <div className="nb-card-sm p-8 text-center" style={{ backgroundColor: 'var(--glass-bg)' }}>
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>No view events in this date range.</p>
+          <p className="text-sm" style={{ color: 'var(--muted)' }}>No view events in this date range.</p>
         </div>
       )}
     </div>
