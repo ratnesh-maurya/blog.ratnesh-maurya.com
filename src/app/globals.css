@@ -105,6 +105,7 @@
   --glow-1:rgba(255,122,24,.10); --glow-2:rgba(232,51,109,.07);
   --shadow:0 1px 2px rgba(23,21,15,.04), 0 10px 30px rgba(23,21,15,.06);
   --overlay-backdrop:rgba(10,10,16,.9);
+  --ok-text:#17794A;
 
   /* Family names; the @font-face rules live in fonts.css */
   --font-instrument:'Instrument Serif';
@@ -143,13 +144,13 @@
   --accent-800: var(--accent);
   --accent-900: var(--accent);
 
-  --coral-50:  color-mix(in srgb, var(--kumkum) 7%,  var(--bg));
-  --coral-100: color-mix(in srgb, var(--kumkum) 12%, var(--bg));
-  --coral-200: color-mix(in srgb, var(--kumkum) 22%, var(--bg));
-  --coral-300: var(--kumkum);
-  --coral-400: var(--rose);
-  --coral-500: var(--rose);
-  --coral-600: var(--rose);
+  --coral-50:  var(--accent-50);
+  --coral-100: var(--accent-100);
+  --coral-200: var(--accent-200);
+  --coral-300: var(--marigold);
+  --coral-400: var(--accent);
+  --coral-500: var(--accent);
+  --coral-600: var(--accent);
   --gold-50:  color-mix(in srgb, var(--peacock) 10%, var(--bg));
   --gold-100: color-mix(in srgb, var(--peacock) 18%, var(--bg));
   --gold-200: color-mix(in srgb, var(--peacock) 30%, var(--bg));
@@ -221,15 +222,17 @@
   --glass-blur-sm:      8px;
   --glass-blur-lg:      24px;
   --glass-saturate:     130%;
-  --glass-bg:           var(--glass);
-  --glass-bg-hover:     var(--surface);
-  --glass-bg-subtle:    color-mix(in srgb, var(--glass) 55%, transparent);
-  --glass-border:       color-mix(in srgb, var(--line) 80%, transparent);
+  /* Flat by default, like ratneshmaurya.com: no fill, no shadow, hairline only.
+     Overlays (search, menus, drawer) set --surface explicitly. */
+  --glass-bg:           transparent;
+  --glass-bg-hover:     var(--hover);
+  --glass-bg-subtle:    transparent;
+  --glass-border:       var(--line);
   --glass-border-outer: var(--line);
-  --glass-shadow-sm:    var(--shadow);
-  --glass-shadow:       var(--shadow);
-  --glass-shadow-hover: 0 0 0 1px var(--line), var(--shadow);
-  --glass-shadow-lg:    var(--shadow);
+  --glass-shadow-sm:    none;
+  --glass-shadow:       none;
+  --glass-shadow-hover: none;
+  --glass-shadow-lg:    0 18px 48px rgba(30, 20, 40, .2);
 }
 
 :root[data-theme="dark"] {
@@ -244,6 +247,7 @@
   --glow-1:rgba(255,122,24,.10); --glow-2:rgba(232,51,109,.08);
   --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.38);
   --warning: #FFB347;
+  --ok-text:#5FCB92;
 }
 
 /* ─── Header / Navigation (Ledger: translucent + blur 12px + hairline) ─── */
@@ -363,7 +367,7 @@ body::before {
   letter-spacing: .08em;
   color: var(--muted);
 }
-.eyebrow.is-rose, .kicker.is-rose { color: var(--rose); }
+.eyebrow.is-rose, .kicker.is-rose { color: var(--muted); }
 
 /* Display headings: serif, weight 400, tight tracking; one <em> carries the gradient */
 .display {
@@ -505,11 +509,11 @@ body::before {
 /* ─── Cards ─── */
 .card,
 .card-ledger {
-  background: var(--surface);
+  background: transparent;
   color: var(--text);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  box-shadow: var(--shadow);
+  box-shadow: none;
   transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
 .card:hover,
@@ -521,7 +525,7 @@ body::before {
 .glass,
 .blog-card-glass {
   position: relative;
-  background: var(--glass);
+  background: var(--surface);
   border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow);
@@ -553,10 +557,9 @@ body::before {
 
 .magazine-card {
   overflow: hidden;
-  background: var(--surface);
+  background: transparent;
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  box-shadow: var(--shadow);
   transition: border-color var(--dur-fast) var(--ease);
 }
 .magazine-card:hover { border-color: var(--muted); }
@@ -607,10 +610,10 @@ h2.sec-title {
   text-wrap: balance;
 }
 .nb-section-label {
-  font: 500 12px/1.3 var(--font-mono);
+  font: 400 12px/1.3 var(--font-mono);
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--muted);
 }
 
 /* ─── Page header: buti ornament, display H1 ─── */
@@ -736,13 +739,13 @@ textarea.nb-input { border-radius: var(--r-md); line-height: 1.5; }
 .hljs-keyword, .hljs-doctag, .hljs-template-tag, .hljs-type, .hljs-selector-tag,
 .hljs-name, .hljs-variable.language_ { color: var(--accent); }
 .hljs-string, .hljs-regexp, .hljs-meta .hljs-string, .hljs-addition,
-.hljs-symbol, .hljs-bullet { color: var(--rose); }
+.hljs-symbol, .hljs-bullet { color: var(--ok-text); }
 .hljs-title, .hljs-title.class_, .hljs-title.function_, .hljs-section { color: var(--text); font-weight: 500; }
 .hljs-number, .hljs-literal, .hljs-attr, .hljs-attribute, .hljs-built_in, .hljs-variable,
 .hljs-template-variable, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id,
 .hljs-meta, .hljs-operator, .hljs-params { color: var(--secondary); }
 .hljs-comment, .hljs-quote, .hljs-code, .hljs-formula { color: var(--muted); font-style: italic; }
-.hljs-deletion { color: var(--rose); text-decoration: line-through; }
+.hljs-deletion { color: var(--muted); text-decoration: line-through; }
 .hljs-emphasis { font-style: italic; }
 .hljs-strong { font-weight: 600; }
 
@@ -1095,32 +1098,32 @@ html, body {
 :root {
   --nb-border:     var(--line);
   --nb-border-w:   1px;
-  --nb-shadow:     var(--shadow);
-  --nb-shadow-sm:  var(--shadow);
-  --nb-shadow-lg:  var(--shadow);
+  --nb-shadow:     none;
+  --nb-shadow-sm:  none;
+  --nb-shadow-lg:  none;
   /* Former accent-tinted card fills: now neutral paper */
-  --surface-tint:        var(--surface-2);
+  --surface-tint:        transparent;
   --surface-tint-strong: var(--hover);
   --surface-tint-border: var(--line);
   --nb-badge-bg:   var(--pill);
   --nb-badge-text: var(--on-pill);
-  --nb-surface-card: var(--surface);
+  --nb-surface-card: transparent;
 }
 
 .nb-card {
-  background: var(--surface);
+  background: transparent;
   border: var(--nb-border-w) solid var(--nb-border);
   border-radius: var(--r-lg);
-  box-shadow: var(--shadow);
-  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+  box-shadow: none;
+  transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
 }
 .nb-card:hover { border-color: var(--muted); }
 .nb-card-sm {
-  background: var(--surface);
+  background: transparent;
   border: var(--nb-border-w) solid var(--nb-border);
   border-radius: var(--r-md);
-  box-shadow: var(--shadow);
-  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+  box-shadow: none;
+  transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
 }
 .nb-card-sm:hover { border-color: var(--muted); }
 
@@ -1411,3 +1414,151 @@ html, body {
 @media (max-width: 720px) {
   .lg-foot-meta { justify-items: start; text-align: left; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   HERO + SECTIONS, matching ratneshmaurya.com
+   ══════════════════════════════════════════════════════════ */
+.lg-hero { position: relative; overflow: hidden; }
+
+/* Devanagari word set vertically on the right edge, ~23% of the hero height */
+.lg-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  container-type: size;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.lg-rail span {
+  position: absolute;
+  top: 50%;
+  right: -.227em;
+  font: 400 23cqh/1 var(--font-deva);
+  white-space: nowrap;
+  color: var(--water);
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+}
+@media (max-width: 1100px) { .lg-rail { display: none; } }
+
+.lg-hero-in {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-block: 48px 56px;
+}
+.lg-greet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font: 400 13px/1 var(--font-mono);
+  color: var(--muted);
+}
+.lg-greet span { font-size: 18px; color: var(--text); }
+.lg-h1 {
+  margin: 0;
+  padding-top: .04em;
+  font: 400 clamp(72px, 13vw, 196px)/.88 var(--font-display);
+  letter-spacing: -.04em;
+  color: var(--text);
+}
+.lg-h2 {
+  margin: 0;
+  font: 400 clamp(40px, 5.4vw, 72px)/1 var(--font-display);
+  letter-spacing: -.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.lg-h1 em,
+.lg-h2 em {
+  font-style: italic;
+  background-image: var(--saffron);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: .06em;
+}
+.lg-roleline { margin: 18px 0 0; font-size: 17px; font-weight: 500; color: var(--text); }
+.lg-roleline a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.lg-roleline a:hover { color: var(--muted); }
+
+.lg-ledger {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  margin: 0;
+  border-block: 1px solid var(--line);
+}
+.lg-ledger div { display: flex; flex-direction: column; gap: 6px; padding: 20px 20px 20px 0; }
+.lg-ledger dt { font: 400 11px/1.3 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lg-ledger dd { margin: 0; font-size: 15px; line-height: 1.45; color: var(--text); }
+.lg-ledger a { color: var(--text); text-decoration: none; }
+.lg-ledger a:hover { color: var(--muted); }
+.lg-by { display: flex; align-items: center; gap: 10px; }
+.lg-by img { border-radius: 50%; border: 1px solid var(--line); background: #fff; flex: none; }
+
+.lg-hero-foot {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  align-items: end;
+  gap: 48px;
+}
+.lg-hero-lead { display: flex; flex-direction: column; gap: 22px; }
+.lg-lead { margin: 0; font: 400 clamp(26px, 2.6vw, 32px)/1.2 var(--font-display); color: var(--text); text-wrap: pretty; }
+.lg-ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.lg-socials-text { display: flex; flex-wrap: wrap; gap: 18px; padding-left: 8px; font: 400 12px/1.4 var(--font-mono); }
+.lg-socials-text a { color: var(--muted); text-decoration: none; }
+.lg-socials-text a:hover { color: var(--text); }
+
+.lg-stats { display: grid; grid-template-columns: 1fr 1fr; margin: 0; border-left: 1px solid var(--line); }
+.lg-stats div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 14px 0 14px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.lg-stats dd { margin: 0; font: 400 40px/1 var(--font-display); color: var(--text); }
+.lg-stats dt { font-size: 12.5px; line-height: 1.35; color: var(--muted); }
+
+/* Numbered sections: 1px rule above the head, like "§ 02 — Selected work" */
+.lg-sec { padding-block: 96px 24px; }
+.lg-sec > .wrap > :first-child { padding-top: 16px; border-top: 1px solid var(--rule); }
+.lg-sec .eyebrow { display: block; margin-bottom: 14px; font-weight: 400; }
+
+@media (max-width: 700px) {
+  .lg-hero-in { gap: 32px; padding-block: 32px 40px; }
+  .lg-sec { padding-top: 72px; }
+  .lg-stats { border-left: 0; }
+  .lg-stats div { padding-left: 0; padding-right: 12px; }
+  .lg-socials-text { padding-left: 0; }
+}
+
+/* Card titles inside home sections: display serif, like the portfolio's project titles */
+.lg-sec article h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.12;
+  letter-spacing: -.01em;
+}
+.lg-sec .lg\:col-span-2 article h3 { font-size: clamp(30px, 3.4vw, 40px); line-height: 1.05; }
+.lg-sec .row-main h3 { font-size: 30px; }
+
+/* ─── Listing pages (blog): page head + serif card titles ─── */
+.lg-page-head { display: flex; flex-direction: column; gap: 18px; margin-bottom: 40px; }
+.lg-h1-page { font-size: clamp(56px, 9vw, 128px); padding-bottom: .12em; }
+.lg-blog main h2,
+.lg-blog h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.12;
+  letter-spacing: -.01em;
+}
+.lg-blog .lg\:col-span-2 h2 { font-size: clamp(30px, 3.4vw, 40px); line-height: 1.05; }

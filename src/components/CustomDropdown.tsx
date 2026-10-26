@@ -88,7 +88,7 @@ export function CustomDropdown({
         <div
           className="absolute z-50 w-full mt-1 rounded-lg max-h-60 overflow-auto"
           style={{
-            backgroundColor: 'var(--glass-bg)',
+            backgroundColor: 'var(--surface)',
             backdropFilter: 'blur(20px) saturate(160%)',
             WebkitBackdropFilter: 'blur(20px) saturate(160%)',
             border: '1px solid var(--nb-border)',

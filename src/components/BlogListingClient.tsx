@@ -131,7 +131,7 @@ function SmallCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
         </div>
         <div>
           <h2
-            className="font-extrabold text-[15px] leading-snug mb-1 nb-title-hover"
+            className="font-semibold text-[15px] leading-snug mb-1 nb-title-hover"
             style={{ color: 'var(--text-primary)' }}
           >
             {post.title}
@@ -177,7 +177,7 @@ function HeroCard({ post, stats, isLoadingStats }: {
         <div className="flex flex-col gap-2">
           <span className="nb-badge nb-badge-primary self-start">{post.category}</span>
           <h2
-            className="font-extrabold text-xl md:text-2xl lg:text-3xl leading-snug nb-title-hover"
+            className="font-semibold text-xl md:text-2xl lg:text-3xl leading-snug nb-title-hover"
             style={{ color: 'var(--text-primary)' }}
           >
             {post.title}
@@ -228,7 +228,7 @@ function GridCard({ post, stats, isLoadingStats, colorIdx = 0 }: {
         <div className="px-4 pb-4 flex flex-col gap-2">
           <span className="nb-badge nb-badge-primary self-start">{post.category}</span>
           <h2
-            className="font-extrabold text-base leading-snug nb-title-hover"
+            className="font-semibold text-base leading-snug nb-title-hover"
             style={{ color: 'var(--text-primary)' }}
           >
             {post.title}
@@ -326,7 +326,6 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
   const topTags = useMemo(() => getTopTags(blogPosts), [blogPosts]);
 
   const baseDescription = 'Explore all my thoughts on web development, programming, and technology. Learn from real-world experiences and practical insights.';
-  const resolvedTitle = pageTitle ?? (selectedTag ? `Posts tagged "${selectedTag}"` : 'All Blog Posts');
   const resolvedDescription = pageDescription ?? (selectedTag
     ? `Browse all blog posts tagged "${selectedTag}" from Ratn Labs.`
     : baseDescription);
@@ -345,34 +344,29 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
   const cardProps = { stats, isLoadingStats, onTagClick: handleTagClick };
 
   return (
-    <div className="min-h-screen" style={{ color: 'var(--text-primary)', background: 'transparent' }}>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+    <div className="min-h-screen lg-blog" style={{ color: 'var(--text)', background: 'transparent' }}>
+      <div className="wrap" style={{ paddingBlock: 'clamp(48px, 8vw, 96px) 24px' }}>
 
         {/* ━━━ Header ━━━ */}
-        <header className="mb-8 pt-4">
-          <p className="nb-section-label mb-2">Blog</p>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>
-            {resolvedTitle}
+        <header className="lg-page-head">
+          <p className="lg-greet"><span lang="hi">लेख,</span> {filteredAndSortedPosts.length} posts</p>
+          <h1 className="lg-h1 lg-h1-page">
+            {pageTitle ?? (selectedTag ? <>Tagged <em>{selectedTag}</em></> : <>The <em>blog</em></>)}
           </h1>
           {resolvedDescription && (
-            <p className="mt-2 text-base leading-relaxed max-w-2xl font-medium" style={{ color: 'var(--text-muted)' }}>
-              {resolvedDescription}
-            </p>
+            <p className="lede" style={{ margin: 0 }}>{resolvedDescription}</p>
           )}
         </header>
 
         {/* ━━━ Topic Navigation ━━━ */}
         <nav
-          className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0"
-          style={{ borderBottom: '1px solid var(--nb-border)', WebkitOverflowScrolling: 'touch' }}
+          className="flex flex-nowrap items-center gap-2 overflow-x-auto py-5 mb-10 scrollbar-hide"
+          style={{ borderBlock: '1px solid var(--line)', WebkitOverflowScrolling: 'touch' }}
         >
           <button
             onClick={() => { setSelectedTag(null); updateUrl(null); }}
-            className="nb-badge flex-shrink-0 whitespace-nowrap transition-all duration-150"
-            style={!selectedTag
-              ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)', borderColor: 'var(--nb-badge-bg)' }
-              : { backgroundColor: 'transparent', color: 'var(--text-muted)', borderColor: 'var(--nb-border)' }
-            }
+            className="chip flex-shrink-0 whitespace-nowrap"
+            aria-pressed={!selectedTag}
           >
             All posts
           </button>
@@ -380,11 +374,8 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
             <button
               key={tag}
               onClick={(e) => handleTagClick(e, tag)}
-              className="nb-badge flex-shrink-0 whitespace-nowrap transition-all duration-150"
-              style={selectedTag === tag
-                ? { backgroundColor: 'var(--nb-badge-bg)', color: 'var(--nb-badge-text)', borderColor: 'var(--nb-badge-bg)' }
-                : { backgroundColor: 'transparent', color: 'var(--text-muted)', borderColor: 'var(--nb-border)' }
-              }
+              className="chip flex-shrink-0 whitespace-nowrap"
+              aria-pressed={selectedTag === tag}
             >
               {tag}
             </button>
@@ -445,13 +436,7 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
                   <div className="flex justify-center pt-2">
                     <button
                       onClick={() => setVisibleCount(c => c + 24)}
-                      className="text-sm font-semibold px-6 py-2.5 rounded-full transition-transform hover:-translate-y-0.5"
-                      style={{
-                        backgroundColor: 'var(--glass-bg)',
-                        color: 'var(--text-primary)',
-                        border: '1px solid var(--glass-border)',
-                        boxShadow: 'var(--glass-shadow-sm)',
-                      }}
+                      className="btn btn-secondary"
                     >
                       Load more posts ({allRemainingPosts.length - visibleCount} left)
                     </button>
@@ -472,8 +457,7 @@ export function BlogListingClient({ blogPosts, initialTag: propTag = null, pageT
             {selectedTag && (
               <button
                 onClick={() => { setSelectedTag(null); updateUrl(null); }}
-                className="text-sm font-medium px-4 py-2 rounded-full transition-colors"
-                style={{ backgroundColor: 'var(--text-primary)', color: 'var(--background)' }}
+                className="btn btn-primary"
               >
                 Browse all stories
               </button>

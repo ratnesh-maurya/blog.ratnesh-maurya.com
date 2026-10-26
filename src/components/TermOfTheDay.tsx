@@ -18,24 +18,21 @@ export function TermOfTheDay({ terms }: TermOfTheDayProps) {
 
   return (
     <section className="py-16" style={{ backgroundColor: 'transparent' }}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="wrap">
         <div
-          className="rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          className="rounded-[26px] p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
           style={{
-            background: 'linear-gradient(135deg, var(--glass-bg) 0%, color-mix(in srgb, var(--accent-50) 60%, var(--glass-bg)) 100%)',
-            border: '1px solid var(--glass-border)',
-            boxShadow: 'var(--glass-shadow-sm)',
-            backdropFilter: 'blur(10px) saturate(160%)',
-            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
+            background: 'transparent',
+            border: '1px solid var(--line)',
           }}
         >
           <div className="min-w-0">
-            <p className="nb-section-label mb-2" style={{ color: 'var(--accent-500)' }}>
+            <p className="nb-section-label mb-2">
               Term of the day
             </p>
             <Link href={`/technical-terms/${term.slug}`} className="group">
               <h2
-                className="text-2xl sm:text-3xl font-black tracking-tight mb-2 group-hover:underline"
+                className="font-display text-4xl sm:text-5xl mb-2 group-hover:underline"
                 style={{ color: 'var(--text-primary)' }}
               >
                 {term.title}

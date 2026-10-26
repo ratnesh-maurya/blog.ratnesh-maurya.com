@@ -295,7 +295,7 @@ export function SearchPopup({ isOpen, onClose, blogPosts, sillyQuestions, techni
         className={`w-full max-w-2xl rounded-[26px] overflow-hidden transition-all duration-200 ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-97 -translate-y-3'
           }`}
         style={{
-          backgroundColor: 'var(--glass-bg)',
+          backgroundColor: 'var(--surface)',
           backdropFilter: 'blur(16px) saturate(1.3)',
           WebkitBackdropFilter: 'blur(16px) saturate(1.3)',
           border: '1px solid var(--glass-border)',
