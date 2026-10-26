@@ -33,7 +33,7 @@ function DeltaBadge({ row }: { row: Row }) {
   const isNew = row.previous === 0 && row.recent > 0;
   const up = m > 0.05;
   const down = m < -0.05;
-  const color = isNew || up ? 'var(--success, #059669)' : down ? '#DC2626' : 'var(--text-muted)';
+  const color = isNew || up ? 'var(--ok-text)' : down ? 'var(--bad)' : 'var(--text-muted)';
   const label = isNew ? 'NEW' : `${m >= 0 ? '+' : ''}${Math.round(m * 100)}%`;
   return (
     <span
@@ -62,7 +62,7 @@ export function TrendingSection({ selectedType }: TrendingSectionProps) {
   if (error) {
     return (
       <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-red-500 text-sm">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       </div>
     );
   }

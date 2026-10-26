@@ -164,7 +164,7 @@ export function TopInsightsStrip({ selectedType }: TopInsightsStripProps) {
         </div>
       ) : error ? (
         <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-          <p className="text-sm text-red-500">{error}</p>
+          <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
           <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
             Try widening the range from the “Post views” section if data is sparse.
           </p>

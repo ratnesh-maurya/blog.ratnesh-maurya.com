@@ -19,14 +19,14 @@ interface ContentBucket {
 }
 
 const CONTENT_COLORS: Record<string, string> = {
-  blog: 'var(--accent-500)',
-  news: 'var(--accent-400)',
-  'technical-terms': 'var(--accent-600)',
-  'silly-questions': 'var(--accent-300)',
-  til: 'var(--accent-700)',
-  cheatsheets: 'var(--accent-200)',
-  about: 'var(--accent-100)',
-  now: 'var(--accent-800, var(--accent-700))',
+  blog: 'var(--chart-1)',
+  news: 'var(--chart-2)',
+  'technical-terms': 'var(--chart-4)',
+  'silly-questions': 'var(--chart-3)',
+  til: 'var(--chart-5)',
+  cheatsheets: 'var(--chart-6)',
+  about: 'var(--faint)',
+  now: 'var(--chart-5)',
 };
 
 const CONTENT_LABELS: Record<string, string> = {
@@ -41,8 +41,8 @@ const CONTENT_LABELS: Record<string, string> = {
 };
 
 const SOURCE_COLORS = [
-  'var(--accent-500)', 'var(--accent-400)', 'var(--accent-600)', 'var(--accent-300)',
-  'var(--accent-700)', 'var(--accent-200)', 'var(--accent-100)', 'var(--accent-800, var(--accent-700))',
+  'var(--chart-1)', 'var(--chart-2)', 'var(--chart-4)', 'var(--chart-3)',
+  'var(--chart-5)', 'var(--chart-6)', 'var(--faint)', 'var(--chart-5)',
 ];
 
 function todayStr() {
@@ -225,7 +225,7 @@ export function TrafficFunnelSection() {
           ))}
         </div>
       ) : error ? (
-        <p className="text-sm text-red-500">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       ) : totalViews === 0 && utmTotal === 0 ? (
         <div className="text-center py-10" style={{ color: 'var(--text-muted)' }}>
           <p className="text-sm">No traffic recorded for this day.</p>

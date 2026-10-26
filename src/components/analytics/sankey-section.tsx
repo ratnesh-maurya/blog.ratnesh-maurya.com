@@ -111,7 +111,7 @@ export function SankeySection() {
           ))}
         </div>
       ) : error ? (
-        <p className="text-sm text-red-500">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       ) : flows.length === 0 ? (
         <div className="text-center py-10" style={{ color: 'var(--text-muted)' }}>
           <p className="text-sm">No tracked link data for this period.</p>

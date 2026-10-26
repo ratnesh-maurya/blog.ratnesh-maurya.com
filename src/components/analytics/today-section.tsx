@@ -181,7 +181,7 @@ export function TodaySection({ selectedType }: TodaySectionProps) {
         </div>
       ) : error ? (
         <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-          <p className="text-red-500 text-sm">{error}</p>
+          <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
         </div>
       ) : (
         <div className="space-y-6">

@@ -17,9 +17,9 @@ const THRESHOLDS: Record<string, { good: number; poor: number; unit: string }> =
 function ratingColor(metric: string, p75: number): string {
   const t = THRESHOLDS[metric];
   if (!t) return 'var(--text-primary)';
-  if (p75 <= t.good) return '#059669';
-  if (p75 <= t.poor) return '#D97706';
-  return '#DC2626';
+  if (p75 <= t.good) return 'var(--ok-text)';
+  if (p75 <= t.poor) return 'var(--warning)';
+  return 'var(--bad)';
 }
 
 function formatValue(metric: string, value: number): string {
@@ -45,7 +45,7 @@ export function WebVitalsSection() {
   if (error) {
     return (
       <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-red-500 text-sm">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       </div>
     );
   }

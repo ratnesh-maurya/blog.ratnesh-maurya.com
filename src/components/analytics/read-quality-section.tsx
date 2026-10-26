@@ -27,7 +27,7 @@ export function ReadQualitySection({ selectedType }: ReadQualitySectionProps) {
   if (error) {
     return (
       <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-red-500 text-sm">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       </div>
     );
   }

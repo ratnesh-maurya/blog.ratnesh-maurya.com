@@ -28,14 +28,14 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 const TYPE_COLORS: Record<string, string> = {
-  blog: 'var(--accent-500)',
-  news: 'var(--accent-450, var(--accent-500))',
-  'technical-terms': 'var(--accent-400)',
-  'silly-questions': 'var(--accent-600)',
-  cheatsheets: 'var(--accent-300)',
-  til: 'var(--accent-700)',
-  now: 'var(--accent-200)',
-  about: 'var(--accent-100)',
+  blog: 'var(--chart-1)',
+  news: 'var(--accent-450, var(--chart-1))',
+  'technical-terms': 'var(--chart-2)',
+  'silly-questions': 'var(--chart-4)',
+  cheatsheets: 'var(--chart-3)',
+  til: 'var(--chart-5)',
+  now: 'var(--chart-6)',
+  about: 'var(--faint)',
 };
 
 interface ContentOverviewSectionProps {
@@ -71,7 +71,7 @@ export function ContentOverviewSection({ selectedType }: ContentOverviewSectionP
   if (error) {
     return (
       <div className="nb-card-sm p-4" style={{ backgroundColor: 'var(--glass-bg)' }}>
-        <p className="text-red-500 text-sm">{error}</p>
+        <p className="text-sm" style={{ color: 'var(--bad)' }}>{error}</p>
       </div>
     );
   }

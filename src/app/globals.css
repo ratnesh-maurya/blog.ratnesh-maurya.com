@@ -114,6 +114,8 @@
   --chart-1:var(--marigold); --chart-2:var(--ok); --chart-3:#8A6A2E; --chart-4:var(--muted);
   --chart-5:var(--peacock); --chart-6:var(--secondary);
   --ok-text:#17794A;
+  /* Error / poor: a brick red, distinct from the brand gradient and from pink */
+  --bad:#B42318;
 
   /* Family names; the @font-face rules live in fonts.css */
   --font-instrument:'Instrument Serif';
@@ -189,7 +191,7 @@
 
   --success: var(--ok);
   --warning: #E65F00;
-  --error:   var(--rose);
+  --error:   var(--bad);
   --info:    var(--muted);
 
   --shadow-sm: var(--shadow);
@@ -213,7 +215,7 @@
   --primary-foreground:   var(--on-pill);
   --muted-foreground:     var(--muted);
   --accent-foreground:    var(--on-pill);
-  --destructive:          var(--rose);
+  --destructive:          var(--bad);
   --destructive-foreground: var(--on-pill);
   --input:                var(--line);
   --ring:                 var(--accent);
@@ -256,6 +258,7 @@
   --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.38);
   --warning: #FFB347;
   --ok-text:#5FCB92;
+  --bad:#FF8A7A;
   --chart-3:#C9A46A;
 }
 
@@ -675,7 +678,7 @@ textarea.nb-input { border-radius: var(--r-md); line-height: 1.5; }
 .input:focus,
 .nb-input:focus { border-color: var(--rule); outline-offset: 3px; }
 .input[aria-invalid="true"],
-.nb-input[aria-invalid="true"] { border-color: var(--rose); }
+.nb-input[aria-invalid="true"] { border-color: var(--bad); }
 
 /* ─── Popover / toast / status / stats ─── */
 .popover {
@@ -1733,3 +1736,6 @@ main time { font-family: var(--font-mono); font-size: .92em; letter-spacing: 0; 
 /* Page kickers that were coloured with the accent are grey mono, like the portfolio */
 main :is(p, span, div, h2, h3).uppercase[style*="--accent-"] { color: var(--muted) !important; }
 main :is(h2, h3, p)[style*="uppercase"] { font-family: var(--font-mono); font-weight: 400; letter-spacing: .12em; }
+
+/* Tailwind red utilities used for error text resolve to the --bad token */
+.text-red-500, .text-red-600 { color: var(--bad); }

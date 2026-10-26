@@ -15,8 +15,8 @@ import {
 
 // Shades of the current theme accent, alternating light and dark so neighbouring slices stay distinguishable.
 const UTM_CHART_COLORS = [
-  'var(--accent-500)', 'var(--accent-300)', 'var(--accent-700)', 'var(--accent-400)', 'var(--accent-600)',
-  'var(--accent-200)', 'var(--accent-800, var(--accent-700))', 'var(--accent-300)', 'var(--accent-500)', 'var(--accent-700)',
+  'var(--chart-1)', 'var(--chart-3)', 'var(--chart-5)', 'var(--chart-2)', 'var(--chart-4)',
+  'var(--chart-6)', 'var(--chart-5)', 'var(--chart-3)', 'var(--chart-1)', 'var(--chart-5)',
 ];
 
 export interface UtmAnalyticsData {
@@ -134,7 +134,7 @@ export function UtmAnalyticsCharts() {
 
         {error && (
           <div className="nb-card-sm p-4 mb-6" style={{ backgroundColor: 'var(--nb-surface-card)' }}>
-            <p className="text-red-500">{error}</p>
+            <p className="" style={{ color: 'var(--bad)' }}>{error}</p>
           </div>
         )}
 

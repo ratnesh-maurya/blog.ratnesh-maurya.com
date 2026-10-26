@@ -331,8 +331,8 @@ export default function AdminReelsClient() {
           <div
             className="rounded-xl px-4 py-3 text-sm font-medium"
             style={{
-              backgroundColor: msg.type === 'ok' ? 'var(--accent-50)' : '#fee',
-              color: msg.type === 'ok' ? 'var(--accent-700)' : '#900',
+              backgroundColor: 'var(--surface-2)',
+              color: msg.type === 'ok' ? 'var(--ok-text)' : 'var(--bad)',
               border: '1px solid var(--glass-border)',
             }}
           >
@@ -598,7 +598,7 @@ export default function AdminReelsClient() {
                   <button
                     onClick={() => deleteReel(r.slug)}
                     className="text-xs font-semibold rounded-lg px-3 py-1.5"
-                    style={{ ...inputStyle, color: '#c00' }}
+                    style={{ ...inputStyle, color: 'var(--bad)' }}
                   >
                     Delete
                   </button>
