@@ -3,6 +3,7 @@ import { statSync } from 'fs';
 import path from 'path';
 import { getAllBlogPosts, getAllNewsPosts, getAllSillyQuestions, getAllTILEntries, getTechnicalTermSlugs } from '@/lib/content';
 import { getStoredOgImageUrl } from '@/lib/og';
+import { getCategories } from '@/lib/taxonomy';
 import { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/site';
 
@@ -87,6 +88,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: [getStoredOgImageUrl('blog-tag', undefined, tag)],
   }));
 
+  const categoryUrls = getCategories(blogPosts).map((c) => ({
+    url: `${baseUrl}/blog/category/${encodeURIComponent(c.slug)}/`,
+    lastModified: new Date(c.latestDate),
+    changeFrequency: 'weekly' as const,
+    images: [getStoredOgImageUrl('blog')],
+  }));
+
   const latestBlog = maxDate(blogPosts.map(p => p.updated || p.date));
   const latestNews = maxDate(newsPosts.map(p => p.date));
   const latestSilly = maxDate(sillyQuestions.map(p => p.date));
@@ -130,5 +138,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: [getStoredOgImageUrl('technical-term', slug)],
   }));
 
-  return [...staticWithOg, ...newsUrls, ...tilUrls, ...technicalTermUrls, ...tagUrls, ...blogUrls, ...questionUrls];
+  return [...staticWithOg, ...newsUrls, ...tilUrls, ...technicalTermUrls, ...tagUrls, ...categoryUrls, ...blogUrls, ...questionUrls];
 }

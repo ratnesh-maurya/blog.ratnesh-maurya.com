@@ -1,6 +1,9 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { getAllBlogPostsForListing } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { BlogListingFallback } from '@/components/BlogListingFallback';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
 import { OgImageInBody } from '@/components/OgImageInBody';
@@ -93,14 +96,30 @@ export default async function BlogTagPage({ params }: TagPageProps) {
   return (
     <div className="relative overflow-hidden">
       <OgImageInBody src={getStoredOgImageUrl('blog-tag', undefined, tag)} alt={`Posts tagged "${tagLabel}"`} />
-      <BlogListStructuredData posts={filtered} />
+      <BlogListStructuredData
+        posts={filtered}
+        name={`Posts tagged "${tagLabel}" — Ratn Labs`}
+        description={`Articles tagged "${tagLabel}" on Ratn Labs.`}
+        path={`/blog/tag/${tag}`}
+      />
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      <BlogListingClient
+      <div className="wrap pt-8 relative">
+        <Breadcrumbs
+          items={[
+            { name: 'Home', href: '/' },
+            { name: 'Blog', href: '/blog' },
+            { name: `Tag: ${tagLabel}`, href: `/blog/tag/${tag}/` },
+          ]}
+        />
+      </div>
+      <Suspense fallback={<BlogListingFallback posts={filtered} title={`Posts tagged "${tagLabel}"`} />}>
+        <BlogListingClient
         blogPosts={filtered}
         initialTag={tagLabel}
         pageTitle={`Posts tagged "${tagLabel}"`}
         pageDescription={`Articles, deep dives, and write-ups related to "${tagLabel}".`}
-      />
+        />
+      </Suspense>
 
       {/* Moving bottom background text: blog blog blog ... */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 select-none hidden sm:block">

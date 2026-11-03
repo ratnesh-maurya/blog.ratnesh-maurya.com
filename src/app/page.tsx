@@ -1,4 +1,5 @@
 import { ContinueReading } from '@/components/ContinueReading';
+import { PreferredSourceButton } from '@/components/PreferredSourceButton';
 import { BreadcrumbStructuredData } from '@/components/StructuredData';
 import { TermOfTheDay } from '@/components/TermOfTheDay';
 import { getAllBlogPostsForListing, getAllNewsPostsForListing, getAllTechnicalTermsForListing } from '@/lib/content';
@@ -516,6 +517,7 @@ export default async function Home() {
                       feed.xml
                     </a>
                   </p>
+                  <PreferredSourceButton className="mt-6 pt-6 border-t" />
                 </div>
               </div>
             </div>

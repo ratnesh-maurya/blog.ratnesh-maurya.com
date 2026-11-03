@@ -84,7 +84,7 @@ export function personNode() {
       width: 400,
       height: 400,
     },
-    jobTitle: 'Software Development Engineer',
+    jobTitle: 'Software Engineer',
     worksFor: {
       '@type': 'Organization',
       name: 'Initializ',

@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { BlogListingFallback } from '@/components/BlogListingFallback';
 import { BlogListingClient } from '@/components/BlogListingClient';
 import { OgImageInBody } from '@/components/OgImageInBody';
 import { BlogListStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
@@ -62,7 +64,9 @@ export default async function BlogPage() {
       <OgImageInBody src={getStoredOgImagePath('blog')} alt="All Blog Posts" />
       <BlogListStructuredData posts={blogPosts} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
-      <BlogListingClient blogPosts={blogPosts} />
+      <Suspense fallback={<BlogListingFallback posts={blogPosts} title="Blog" />}>
+        <BlogListingClient blogPosts={blogPosts} />
+      </Suspense>
     </div>
   );
 }

@@ -1,3 +1,8 @@
+export interface ArticleReference {
+  title: string;
+  url: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -14,6 +19,19 @@ export interface BlogPost {
   image?: string;
   socialImage?: string; // Custom social sharing image
   questions?: string[]; // SEO questions for FAQ structured data (not displayed on page)
+  /** Optional technical-article details. All are shown only when present. */
+  /** Main programming language, e.g. "Go". */
+  language?: string;
+  /** Framework or library the article is about, e.g. "Next.js". */
+  framework?: string;
+  /** Version the examples were written against, e.g. "Go 1.23". */
+  softwareVersion?: string;
+  /** Where the examples were actually run, e.g. "macOS 15, Postgres 16". Only fill in what was really tested. */
+  testedEnvironment?: string;
+  /** http(s) URL of a repository with the article's code. */
+  repo?: string;
+  /** Official docs and other sources the article relies on. */
+  references?: ArticleReference[];
   content: string;
   /** Raw markdown/MDX source before HTML processing. Used for "Copy as Markdown". */
   rawContent?: string;
@@ -64,6 +82,19 @@ export interface BlogMetadata {
   featured?: boolean;
   image?: string;
   socialImage?: string;
+  /** Optional technical-article details. All are shown only when present. */
+  /** Main programming language, e.g. "Go". */
+  language?: string;
+  /** Framework or library the article is about, e.g. "Next.js". */
+  framework?: string;
+  /** Version the examples were written against, e.g. "Go 1.23". */
+  softwareVersion?: string;
+  /** Where the examples were actually run, e.g. "macOS 15, Postgres 16". Only fill in what was really tested. */
+  testedEnvironment?: string;
+  /** http(s) URL of a repository with the article's code. */
+  repo?: string;
+  /** Official docs and other sources the article relies on. */
+  references?: ArticleReference[];
 }
 
 export interface SillyQuestionMetadata {

@@ -8,7 +8,9 @@ import {
   WEBSITE_ID,
 } from '@/lib/seo/person';
 import { BlogPost, NewsPost, SillyQuestion, TILEntry } from '@/types/blog';
+import { toIsoDate } from '@/lib/seo/jsonld';
 import { getSocialImageUrl } from './BlogImage';
+import { JsonLd } from './JsonLd';
 import { PORTFOLIO_URL, SITE_URL } from '@/lib/site';
 
 const BLOG_BASE = SITE_URL;
@@ -35,31 +37,30 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
   const socialImageUrl = getSocialImageUrl({ post, type: 'og' });
   const fullImageUrl = absoluteOgImageUrl(socialImageUrl);
 
-  // Convert date to ISO 8601 format with timezone
-  const datePublished = new Date(post.date).toISOString();
-  const dateModified = post.updated
-    ? new Date(post.updated).toISOString()
-    : datePublished;
-
+  const datePublished = toIsoDate(post.date);
+  // `updated` is only trusted when it is a valid date; otherwise fall back to the publish date.
+  const dateModified = toIsoDate(post.updated) ?? datePublished;
+  const postUrl = withTrailingSlash(`${SITE_URL}/blog/${post.slug}`);
   // Headline must be ≤ 110 chars per Google guidelines.
   const headline =
     post.title.length > 110 ? `${post.title.slice(0, 107)}…` : post.title;
-
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': ['BlogPosting', 'Article'],
     headline,
     description: post.description,
     image: [fullImageUrl],
-    author: articleAuthor(post.author),
+    // The author's profile on this site is the About page; the Person @id (and the
+    // portfolio in sameAs) still ties it to the canonical entity.
+    author: { ...articleAuthor(post.author), url: `${SITE_URL}/about/` },
     publisher: publisherOrg(),
     datePublished,
     dateModified,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': withTrailingSlash(`${SITE_URL}/blog/${post.slug}`),
+      '@id': postUrl,
     },
-    url: withTrailingSlash(`${SITE_URL}/blog/${post.slug}`),
+    url: postUrl,
     keywords: post.tags.join(', '),
     articleSection: post.category,
     wordCount: post.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0).length,
@@ -67,18 +68,17 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
     inLanguage: 'en-US',
     isAccessibleForFree: true,
     copyrightHolder: { '@id': PERSON_ID },
-    copyrightYear: new Date(post.date).getFullYear(),
-    genre: ['Technology', 'Programming', 'Web Development'],
+    copyrightYear: post.date ? new Date(post.date).getFullYear() || undefined : undefined,
     about: post.tags.map(tag => ({
       '@type': 'Thing',
-      name: tag
+      name: tag,
     })),
-    commentCount: 0,
-    interactionStatistic: {
-      '@type': 'InteractionCounter',
-      interactionType: 'https://schema.org/ReadAction',
-      userInteractionCount: 0
-    },
+    // Only the references the article visibly lists (frontmatter `references`).
+    citation: post.references?.map(ref => ({
+      '@type': 'CreativeWork',
+      name: ref.title,
+      url: ref.url,
+    })),
     // speakable — highlights key passage for AI assistants and voice search
     speakable: {
       '@type': 'SpeakableSpecification',
@@ -93,10 +93,7 @@ export function BlogStructuredData({ post }: BlogStructuredDataProps) {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -173,10 +170,7 @@ export function SillyQuestionStructuredData({ question }: SillyQuestionStructure
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -204,10 +198,7 @@ export function WebsiteStructuredData() {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -218,10 +209,7 @@ export function PersonStructuredData() {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -240,10 +228,7 @@ export function OrganizationStructuredData() {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -290,10 +275,7 @@ export function SiteEntitiesStructuredData() {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
-    />
+    <JsonLd data={graph} />
   );
 }
 
@@ -317,10 +299,7 @@ export function BreadcrumbStructuredData({ items }: BreadcrumbStructuredDataProp
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -347,10 +326,7 @@ export function FAQStructuredData({ questions }: FAQStructuredDataProps) {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -364,15 +340,24 @@ interface BlogListStructuredDataProps {
     category?: string;
     tags?: string[];
   }>;
+  /** Overrides for tag/category pages; default to the main /blog listing. */
+  name?: string;
+  description?: string;
+  path?: string;
 }
 
-export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
+export function BlogListStructuredData({
+  posts,
+  name = 'All Blog Posts — Ratn Labs',
+  description = 'Explore articles on web development, backend engineering, system design, and more.',
+  path = '/blog',
+}: BlogListStructuredDataProps) {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'All Blog Posts — Ratn Labs',
-    description: 'Explore articles on web development, backend engineering, system design, and more.',
-    url: withTrailingSlash(`${SITE_URL}/blog`),
+    name,
+    description,
+    url: withTrailingSlash(`${SITE_URL}${path}`),
     inLanguage: 'en-US',
     author: { '@id': PERSON_ID },
     publisher: { '@id': ORG_ID },
@@ -389,10 +374,7 @@ export function BlogListStructuredData({ posts }: BlogListStructuredDataProps) {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -426,10 +408,7 @@ export function NewsListStructuredData({ posts }: NewsListStructuredDataProps) {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -462,10 +441,7 @@ export function NewsArticleStructuredData({ post }: NewsArticleStructuredDataPro
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -474,15 +450,11 @@ export function ProfilePageStructuredData() {
     '@context': 'https://schema.org',
     '@type': 'ProfilePage',
     dateCreated: '2023-01-01T00:00:00Z',
-    dateModified: new Date().toISOString(),
     mainEntity: personNode(),
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -501,10 +473,7 @@ export function AboutPageStructuredData() {
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -533,8 +502,7 @@ export function GlossaryStructuredData({ terms }: GlossaryStructuredDataProps) {
     ),
   };
   return (
-    <script type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -576,10 +544,7 @@ export function TechnicalTermStructuredData({ title, description, slug, ogImageU
     },
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -612,10 +577,7 @@ export function TechnicalTermFAQStructuredData({
     url: termUrl,
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -641,10 +603,7 @@ export function TechnicalTermsStructuredData({ terms }: TechnicalTermsStructured
     })),
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -684,8 +643,7 @@ export function CheatsheetStructuredData({ title, description, slug, keywords }:
     },
   };
   return (
-    <script type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -728,8 +686,7 @@ export function TILStructuredData({ entry }: TILStructuredDataProps) {
     },
   };
   return (
-    <script type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -753,8 +710,7 @@ export function TILListStructuredData({ entries }: TILListStructuredDataProps) {
     })),
   };
   return (
-    <script type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -785,8 +741,7 @@ export function CheatsheetsListStructuredData({ sheets }: CheatsheetsListStructu
     },
   };
   return (
-    <script type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -817,8 +772,7 @@ export function SeriesListStructuredData({ series }: SeriesListStructuredDataPro
     },
   };
   return (
-    <script type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -850,8 +804,7 @@ export function ResourcesListStructuredData({ sections }: ResourcesListStructure
     },
   };
   return (
-    <script type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <JsonLd data={structuredData} />
   );
 }
 
@@ -886,7 +839,6 @@ export function HowToStructuredData({ name, description, steps, totalTime, image
     })),
   };
   return (
-    <script type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <JsonLd data={structuredData} />
   );
 }

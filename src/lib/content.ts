@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 import path from 'path';
 import readingTime from 'reading-time';
 import { renderMarkdown } from './markdown';
+import { parseTechnicalMeta } from './technicalMeta';
 import { addIdsToHeadings } from './toc';
 
 export interface TechnicalTermQuestion {
@@ -202,6 +203,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       image: data.image || '',
       socialImage: data.socialImage || '',
       questions: data.questions || [],
+      ...parseTechnicalMeta(data),
     };
 
     if (resolved.format === 'mdx') {

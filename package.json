@@ -8,6 +8,7 @@
     "build": "next build --turbopack",
     "postbuild": "tsx scripts/generate-search-data.ts && tsx scripts/generate-feeds.ts && tsx scripts/build-og-all.tsx",
     "seo-lint": "tsx scripts/seo-lint.ts",
+    "seo:test": "tsx scripts/seo-selftest.ts",
     "indexnow": "tsx scripts/indexnow-ping.ts",
     "start": "next start",
     "lint": "eslint",

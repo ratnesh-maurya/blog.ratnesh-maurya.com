@@ -1,4 +1,7 @@
+import { ArticleMetadata } from '@/components/ArticleMetadata';
+import { AuthorCard } from '@/components/AuthorCard';
 import { BlogImage } from '@/components/BlogImage';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BookmarkButton } from '@/components/BookmarkButton';
 import { CodeCopyButton } from '@/components/CodeCopyButton';
 import { Comments } from '@/components/Comments';
@@ -9,6 +12,7 @@ import { ReadingHistoryTracker } from '@/components/ReadingHistoryTracker';
 import { mdxComponents } from '@/components/mdx';
 import { MobileToc } from '@/components/MobileToc';
 import { OgImageInBody } from '@/components/OgImageInBody';
+import { PreferredSourceButton } from '@/components/PreferredSourceButton';
 import { PostNavigation } from '@/components/PostNavigation';
 import { ReadingProgress } from '@/components/ReadingProgress';
 import { RecentNews } from '@/components/RecentNews';
@@ -16,20 +20,20 @@ import { RelatedPosts } from '@/components/RelatedPosts';
 import { RelatedTerms } from '@/components/RelatedTerms';
 import { SocialShare } from '@/components/SocialShare';
 import { BlogStructuredData, BreadcrumbStructuredData } from '@/components/StructuredData';
+import { ArticleReferences, TechnicalDetails } from '@/components/TechnicalDetails';
 import { TableOfContents } from '@/components/TableOfContents';
 import { ViewIncrementer } from '@/components/ViewIncrementer';
 import { getAllBlogPosts, getAllNewsPosts, getAllTechnicalTermsForListing, getBlogPost, getBlogPostSlugs } from '@/lib/content';
 import { oembedAlternate } from '@/lib/oembed';
 import { getStoredOgImageUrl } from '@/lib/og';
-import { format } from 'date-fns';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { PORTFOLIO_URL, SITE_URL } from '@/lib/site';
+import { tagPath } from '@/lib/taxonomy';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -61,7 +65,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     title: post.title,
     description: post.description,
     keywords: post.tags,
-    authors: [{ name: post.author, url: PORTFOLIO_URL }],
+    authors: [{ name: post.author, url: `${SITE_URL}/about/` }],
     category: post.category,
     referrer: 'origin-when-cross-origin',
     formatDetection: {
@@ -179,6 +183,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <article className="min-w-0">
               {/* Article Header */}
               <header className="mb-10 lg:mb-14">
+                <Breadcrumbs
+                  className="mb-5"
+                  items={[
+                    { name: 'Home', href: '/' },
+                    { name: 'Blog', href: '/blog' },
+                    { name: post.title, href: `/blog/${post.slug}/` },
+                  ]}
+                />
                 {/* Tags */}
                 {post.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-6">
@@ -208,43 +220,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </p>
                 )}
 
-                {/* Author strip + metadata */}
-                <div className="flex flex-wrap items-center gap-3 text-sm pb-8 border-b"
-                  style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}>
-                  <Image
-                    src="https://avatars.githubusercontent.com/u/85143283?v=4"
-                    alt="Ratnesh Maurya"
-                    width={40}
-                    height={40}
-                    className="w-10 h-10 rounded-full flex-shrink-0 object-cover border"
-                    style={{ borderColor: 'var(--line)' }}
-                  />
-                  <div className="flex flex-col leading-tight">
-                    <span className="font-bold border-b border-transparent hover:border-current transition-colors cursor-pointer" style={{ color: 'var(--text)' }}>
-                      {post.author}
-                    </span>
-                    <span className="flex items-center gap-1.5 mt-0.5" style={{ fontSize: '13px' }}>
-                      <time dateTime={post.date}>{format(new Date(post.date), 'MMMM d, yyyy')}</time>
-                      <span>·</span>
-                      <span>{post.readingTime}</span>
-                    </span>
-                  </div>
-                  <span className="ml-auto">
-                    <BookmarkButton type="blog" slug={post.slug} title={post.title} href={`/blog/${post.slug}`} />
-                  </span>
-                  {post.updated && post.updated !== post.date && (
-                    <span
-                      className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                      style={{
-                        backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)',
-                        color: 'var(--accent-600)',
-                        border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
-                      }}
-                    >
-                      Updated <time dateTime={post.updated}>{format(new Date(post.updated), 'MMM d, yyyy')}</time>
-                    </span>
-                  )}
-                </div>
+                <ArticleMetadata
+                  author={post.author}
+                  date={post.date}
+                  updated={post.updated}
+                  readingTime={post.readingTime}
+                  category={post.category}
+                  actions={<BookmarkButton type="blog" slug={post.slug} title={post.title} href={`/blog/${post.slug}`} />}
+                />
 
                 {/* Hero image */}
                 {post.image && (
@@ -263,6 +246,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </div>
                 )}
               </header>
+
+              <TechnicalDetails
+                language={post.language}
+                framework={post.framework}
+                softwareVersion={post.softwareVersion}
+                testedEnvironment={post.testedEnvironment}
+                repo={post.repo}
+              />
 
               {/* Mobile table of contents (sidebar TOC is lg+ only) */}
               <MobileToc />
@@ -301,6 +292,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
               {/* Footer — Tags & Share */}
               <div className="mt-20 space-y-10">
+                <ArticleReferences references={post.references} />
+
                 {post.tags.length > 0 && (
                   <div className="pt-10" style={{ borderTop: '1px solid var(--line)' }}>
                     <h3 className="text-xs font-semibold uppercase tracking-widest mb-4"
@@ -311,7 +304,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       {post.tags.map((tag) => (
                         <Link
                           key={tag}
-                          href={`/blog?tag=${tag}`}
+                          href={tagPath(tag)}
                           className="inline-block text-sm font-medium px-3 py-1.5 rounded-full transition-colors duration-200 hover:brightness-95"
                           style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}
                         >
@@ -362,50 +355,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <NewsletterCta />
 
                 {/* Author box — E-E-A-T signal */}
-                <div className="mt-14 flex flex-col sm:flex-row items-start gap-5 rounded-2xl p-6"
-                  style={{
-                    background: 'linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--accent-50) 40%, var(--surface)) 100%)',
-                    border: '1px solid var(--line)',
-                  }}>
-                  <Image
-                    src="https://avatars.githubusercontent.com/u/85143283?v=4"
-                    alt="Ratnesh Maurya"
-                    width={64}
-                    height={64}
-                    className="w-16 h-16 rounded-2xl flex-shrink-0 object-cover"
-                    style={{ outline: '2px solid var(--accent-200)' }}
-                  />
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                      <span className="text-sm font-bold" style={{ color: 'var(--text)' }}>Ratnesh Maurya</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full"
-                        style={{ backgroundColor: 'var(--accent-50)', color: 'var(--accent-600)' }}>
-                        Software Engineer
-                      </span>
-                    </div>
-                    <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--body)' }}>
-                      Backend engineer at Initializ.ai — building scalable systems with Go, Elixir, and Kubernetes.
-                      Writing about distributed systems, AWS, and the bugs that cost me hours.
-                    </p>
-                    <div className="flex flex-wrap gap-3">
-                      <a href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer author"
-                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--accent)' }}>
-                        Portfolio ↗
-                      </a>
-                      <a href="https://github.com/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
-                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--muted)' }}>
-                        GitHub
-                      </a>
-                      <a href="https://linkedin.com/in/ratnesh-maurya" target="_blank" rel="noopener noreferrer"
-                        className="text-xs font-semibold transition-colors" style={{ color: 'var(--muted)' }}>
-                        LinkedIn
-                      </a>
-                      <a href="/about" className="text-xs font-semibold transition-colors" style={{ color: 'var(--muted)' }}>
-                        About
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                <AuthorCard name={post.author} />
+
+                <PreferredSourceButton />
 
                 {/* Related posts — internal linking for SEO */}
                 <RelatedPosts

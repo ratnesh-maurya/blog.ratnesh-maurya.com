@@ -1,5 +1,6 @@
 'use client';
 
+import { PreferredSourceButton } from '@/components/PreferredSourceButton';
 import { TotalViews } from '@/components/TotalViews';
 import Link from 'next/link';
 import { PORTFOLIO_URL } from '@/lib/site';
@@ -122,6 +123,7 @@ export function Footer() {
                 </a>
               ))}
             </div>
+            <PreferredSourceButton variant="footer" className="mt-6 max-w-xs" />
           </div>
 
           <FooterSection title="Content" links={contentLinks} />
